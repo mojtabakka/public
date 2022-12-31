@@ -1,0 +1,23 @@
+.container {
+    box-sizing: border-box;
+}
+
+.img_zoom_container {
+    position: relative;
+}
+
+.img_zoom_lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    /*set the size of the lens:*/
+    width: 40px;
+    height: 40px;
+}
+
+.img_zoom_result {
+    border: 1px solid #d4d4d4;
+    /*set the size of the result div:*/
+    width: 300px;
+    height: 300px;
+    position: absolute
+}

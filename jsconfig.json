@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "baseUrl": "public-app"
+  },
+  "include": ["src", "public/firebase-messaging-sw.js", "src/page/Authentication/StartAuthentication/components/RulesSheet/.page.js"]
+}
