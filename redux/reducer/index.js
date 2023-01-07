@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
 import { APP_SET_RESET } from "redux/types";
 import UserReducer from "./user.reducer";
+import generalReducer from "./general.reducer";
 
 const appReducer = combineReducers({
   user: UserReducer,
+  general: generalReducer,
 });
 
 const rootReducer = (state, action) => {
