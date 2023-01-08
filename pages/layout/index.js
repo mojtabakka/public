@@ -1,12 +1,50 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { CgProfile } from "react-icons/Cg";
 import { HiOutlineLogin } from "react-icons/hi";
-
+import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { BsPersonCircle } from "react-icons/bs";
+import { BsFillBasket3Fill } from "react-icons/bs";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import { Dropdown } from "components";
 import logo from "public/images/logo.jpeg";
 import Image from "next/image";
+
 function Layout({ children }) {
+  const [token, setToken] = useState();
+  const [DropdownOpen, setDropdownOpen] = useState(false);
+  const [dropDownItems, setDropDownItems] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+    initDropDown();
+  }, []);
+
+  const initDropDown = () => {
+    const items = [
+      {
+        title: localStorage.getItem("phoneNumber"),
+        bgColor: "white",
+        border: true,
+        subTitle: "hello",
+        icon: <BsPersonCircle className=" text-xl inline-block" />,
+        secondIcon: <MdOutlineKeyboardArrowLeft className="" />,
+      },
+
+      {
+        title: "سفارش ها",
+        bgColor: "white",
+        icon: <BsFillBasket3Fill />,
+      },
+    ];
+    setDropDownItems(items);
+  };
+
+  const changeStatusDropDown = () => {
+    setDropdownOpen(!DropdownOpen);
+  };
   return (
     <div>
       <header>
@@ -54,21 +92,43 @@ function Layout({ children }) {
             <span href={""} className=" px-6">
               <SlBasket className="inline-block    lg:text-2xl  md:text-xl sm:text-lg" />
             </span>
-            <Link
-              href="/login"
-              className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
-            >
-              <HiOutlineLogin className="  inline-block  lg:text-2xl  md:text-xl sm:text-lg" />
-              <span
-                href="login"
-                className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
+            {!token ? (
+              <Link
+                href="/login"
+                className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
               >
-                <span className=" hidden lg:inline-block md:hidden sm:hidden text">
-                  ثبت نام |
+                <HiOutlineLogin className="  inline-block  lg:text-2xl  md:text-xl sm:text-lg" />
+                <span
+                  href="login"
+                  className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
+                >
+                  <span className=" hidden lg:inline-block md:hidden sm:hidden text">
+                    ثبت نام |
+                  </span>
+                  <span> ورود </span>
                 </span>
-                <span> ورود </span>
+              </Link>
+            ) : (
+              <span
+                className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x  "
+                onClick={changeStatusDropDown}
+              >
+                <CgProfile className="  inline-block  lg:text-2xl  md:text-xl sm:text-lg" />
+                <span
+                  href="login"
+                  className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
+                >
+                  <span className="  lg:inline-block text">
+                    <IoMdArrowDropdown className=" inline-block" />
+                    <Dropdown
+                      className="left-8 lg:left-24 top-12 lg:top-16 border"
+                      open={DropdownOpen}
+                      items={dropDownItems}
+                    />
+                  </span>
+                </span>
               </span>
-            </Link>
+            )}
           </div>
         </div>
       </header>

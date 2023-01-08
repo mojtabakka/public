@@ -6,3 +6,4 @@ export { OrderButton } from "./OrderButton";
 export { ProductFeatures } from "./ProductFeatures";
 export { ProductImages } from "./ProductImages";
 export { ProductPrice } from "./ProductPrice";
+export { Dropdown } from "./Dropdown";

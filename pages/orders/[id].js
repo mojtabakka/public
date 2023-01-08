@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../layout";
 
 const Orders = () => {
-return <Layout></Layout>;
+  return <Layout></Layout>;
 };
 
 export async function getServerSideProps(context) {

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Input, Button } from "components";
 import logo from "public/images/logo.jpeg";
 import { sendOtp, verification } from "api";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const INPUT_NAMES = {
   phoneNumber: "phoneNumber",
@@ -11,6 +13,8 @@ const INPUT_NAMES = {
 function Login(props) {
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [showVerification, setShowVerification] = useState(false);
+  const router = useRouter();
+  const state = useSelector((state) => state.general);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
@@ -18,19 +22,20 @@ function Login(props) {
     setPhoneNumber(data[INPUT_NAMES.phoneNumber]);
     const result = await sendOtp(data);
     result.data.sent && setShowVerification(true);
-  };
 
+  };
+``
   const handleVerification = async (e) => {
     e.preventDefault();
-
     const form = new FormData(e.target);
     const data = Object.fromEntries(form);
     data.phoneNumber = phoneNumber;
-
     try {
       const result = await verification(data);
       result.data.token && localStorage.setItem("token", result.data.token);
       result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
+      console.log(state);
+      router.push(state.back_url);
     } catch (error) {
       console.log("error", error);
     }
