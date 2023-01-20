@@ -45,6 +45,8 @@ function Layout({ children }) {
   const changeStatusDropDown = () => {
     setDropdownOpen(!DropdownOpen);
   };
+
+  const handleClickDropdown = () => {};
   return (
     <div>
       <header>
@@ -124,6 +126,7 @@ function Layout({ children }) {
                       className="left-8 lg:left-24 top-12 lg:top-16 border"
                       open={DropdownOpen}
                       items={dropDownItems}
+                      onClick={handleClickDropdown}
                     />
                   </span>
                 </span>

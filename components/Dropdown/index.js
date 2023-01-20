@@ -11,7 +11,7 @@ import React from "react";
 //     secondIcon: ... ,
 
 // },
-const Dropdown = ({ className, open, items }) => {
+const Dropdown = ({ className, open, items, onClick }) => {
   return (
     <>
       <div
@@ -29,6 +29,7 @@ const Dropdown = ({ className, open, items }) => {
             items.map((item, index) => (
               <>
                 <li
+                  onClick={onClick}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
                   className=" rounded  w-100 bg-red-50 w-full "
                 >

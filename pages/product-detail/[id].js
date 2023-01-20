@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { getProduct } from "api";
+import { getProduct, addOrder } from "api";
 import { ProductFeatures, ProductImages, ProductPrice } from "components";
 import Layout from "../layout";
 import { PATHS } from "config/routes.config";
@@ -9,18 +9,30 @@ import { BACK_URL } from "redux/types.js";
 
 const DetailProduct = ({ product }) => {
   const [numberOfOrder, setNumberOfOrder] = useState(0);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const handleClickPlus = () => {
-    dispatch(setBackUrl(window.location.pathname));
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push(PATHS.login);
-      return;
+  const handleClickPlus = async () => {
+    setLoading(true);
+    try {
+      // data = {
+
+      // }
+      await addOrder();
+      dispatch(setBackUrl(window.location.pathname));
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.push(PATHS.login);
+        return;
+      }
+      const userId = setNumberOfOrder((value) => {
+        return value + 1;
+      });
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setLoading(false);
     }
-    const userId = setNumberOfOrder((value) => {
-      return value + 1;
-    });
   };
   const handleClickBin = () => {
     if (numberOfOrder > 0)

@@ -22,9 +22,8 @@ function Login(props) {
     setPhoneNumber(data[INPUT_NAMES.phoneNumber]);
     const result = await sendOtp(data);
     result.data.sent && setShowVerification(true);
-
   };
-``
+  ``;
   const handleVerification = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
@@ -63,7 +62,11 @@ function Login(props) {
               </span>
               <form onSubmit={handleSubmit}>
                 <div className=" mt-1 ">
-                  <Input type="number" name={INPUT_NAMES.phoneNumber} />
+                  <Input
+                    type="number"
+                    max={11}
+                    name={INPUT_NAMES.phoneNumber}
+                  />
                 </div>
                 <div className="py-4 text-center ">
                   <Button className=" !px-10 w-full" type="submit">
