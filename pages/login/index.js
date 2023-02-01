@@ -31,9 +31,9 @@ function Login(props) {
     data.phoneNumber = phoneNumber;
     try {
       const result = await verification(data);
-      result.data.token && localStorage.setItem("token", result.data.token);
-      result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
-      console.log(state);
+      // result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
+      // document.cookie = `token=${result.data.token} Doe; path=/`;
+      let x = document.cookie;
       router.push(state.back_url);
     } catch (error) {
       console.log("error", error);
@@ -43,7 +43,7 @@ function Login(props) {
     <div className=" grid place-items-center h-screen  ">
       {!showVerification ? (
         <span className="border bg-white  rounded lg:w-1/4 md:2/4 sm:w-3/5 w-11/12 h-1/2 ">
-          <div class="md:flex md:items-center mb-6">
+          <div className="md:flex md:items-center mb-6">
             <div className="w-full px-4">
               <div className="text-center">
                 <Image
@@ -79,7 +79,7 @@ function Login(props) {
         </span>
       ) : (
         <span className="border bg-white  rounded lg:w-1/4 md:2/4 sm:w-3/5 w-11/12 h-1/2 ">
-          <div class="md:flex md:items-center mb-6">
+          <div className="md:flex md:items-center mb-6">
             <div className="w-full px-4">
               <div className="text-center">
                 <Image
@@ -99,6 +99,7 @@ function Login(props) {
                     type="number"
                     name={INPUT_NAMES.otp}
                     defaultValue={null}
+                    max={4}
                   />
                 </div>
                 <div className="py-4 text-center ">

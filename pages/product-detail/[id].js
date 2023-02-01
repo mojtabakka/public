@@ -15,16 +15,14 @@ const DetailProduct = ({ product }) => {
   const handleClickPlus = async () => {
     setLoading(true);
     try {
-      // data = {
-
-      // }
-      await addOrder();
       dispatch(setBackUrl(window.location.pathname));
       const token = localStorage.getItem("token");
       if (!token) {
         router.push(PATHS.login);
         return;
       }
+      const data = { id: product._id };
+      await addOrder(data);
       const userId = setNumberOfOrder((value) => {
         return value + 1;
       });
@@ -66,7 +64,7 @@ const DetailProduct = ({ product }) => {
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
-  const result = await getProduct(id);
+  const result = await getProduct(context, id);
   const product = result.data;
   return { props: { product } };
 }

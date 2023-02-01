@@ -1,6 +1,6 @@
 import { PATHS } from "./routes.config";
 
-export const NEEDED_URLS_FOR_AUTHENTICATION = () => [
+export const DONT_NEEDED_URLS_FOR_AUTHENTICATION = () => [
   { url: "/auth" + PATHS.login },
   { url: "/auth" + PATHS.register },
 ];

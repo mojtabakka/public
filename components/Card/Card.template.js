@@ -4,9 +4,9 @@ import camera from "public/images/ camra2.jpeg";
 import Link from "next/link";
 import { Badge } from "components";
 
-function CardTemplate({ items }) {
+function CardTemplate({ items, key }) {
   return (
-    <Link href={`/product-detail/${items._id}`}>
+    <Link href={`/product-detail/${items._id}`} key={key}>
       <div className=" shadow-sm bg-white p-2 inline-block  hover:shadow-lg border">
         <div className="">
           <figure>

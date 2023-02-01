@@ -25,6 +25,7 @@ function Layout({ children }) {
   const initDropDown = () => {
     const items = [
       {
+        id: 1,
         title: localStorage.getItem("phoneNumber"),
         bgColor: "white",
         border: true,
@@ -34,6 +35,7 @@ function Layout({ children }) {
       },
 
       {
+        id: 2,
         title: "سفارش ها",
         bgColor: "white",
         icon: <BsFillBasket3Fill />,
@@ -62,7 +64,7 @@ function Layout({ children }) {
           </div>
           <div className="flex-1  text-right w-full ">
             <form>
-              <div class="relative">
+              <div className="relative">
                 <input
                   type="search"
                   id="default-search"
@@ -70,10 +72,10 @@ function Layout({ children }) {
                   placeholder="جستوجو"
                   required
                 />
-                <div class="absolute inset-y-0 right-4 flex items-center pl-3 pointer-events-none  ">
+                <div className="absolute inset-y-0 right-4 flex items-center pl-3 pointer-events-none  ">
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5 "
+                    className="w-5 h-5 "
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

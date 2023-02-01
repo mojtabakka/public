@@ -112,7 +112,25 @@ const ProductPriceTemplate = ({
         <div className=" fixed w-full   right-0  bottom-0  bg-white shadow-lg border p-2">
           <div className="w-full text-center mb-0  items-center flex  align-middle lg:hidden">
             <div className="w-full text-right  ">
-              <Button>افزودن به سبد</Button>
+              {numberOfOrder === 0 ? (
+                <Button className="w-full" onClick={onClickPlus}>
+                  افزودن به سبد
+                </Button>
+              ) : (
+                <>
+                  <OrderButton
+                    onClickPlus={onClickPlus}
+                    onClickBin={onClickBin}
+                    value={numberOfOrder}
+                  />
+                  <span
+                    className="text-xs p-2 text-blue-300 cursor-pointer"
+                    onClick={showOrders}
+                  >
+                    مشاهده سبد خرید
+                  </span>
+                </>
+              )}
             </div>
             <div className="w-full text-left  ">
               <span className=" text-gray-400 text-xs p-2  line-through ">

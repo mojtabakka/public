@@ -1,13 +1,13 @@
 import { Card } from "components";
 import Layout from "./layout";
-import Link from "next/link";
-import { connect } from "react-redux";
 import { getProducts } from "api";
-import { useEffect } from "react";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   try {
-    const result = await getProducts();
+    const data = {
+      context,
+    };
+    const result = await getProducts(data);
     const products = result.data;
     return {
       props: {
@@ -26,10 +26,10 @@ export async function getServerSideProps() {
 function Home({ products }) {
   return (
     <Layout>
-      <div class="grid lg:grid-cols-6  md:grid-cols-4 sm:grid-cols-4 grid-cols-2  h-100">
+      <div className="grid lg:grid-cols-6  md:grid-cols-4 sm:grid-cols-4 grid-cols-2  h-100">
         {products &&
           products.length > 0 &&
-          products.map((item) => <Card items={item} />)}
+          products.map((item) => <Card items={item} key={item._id} />)}
       </div>
     </Layout>
   );

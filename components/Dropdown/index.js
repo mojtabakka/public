@@ -11,7 +11,7 @@ import React from "react";
 //     secondIcon: ... ,
 
 // },
-const Dropdown = ({ className, open, items, onClick }) => {
+const Dropdown = ({ className, open, items, onClick, key }) => {
   return (
     <>
       <div
@@ -22,8 +22,9 @@ const Dropdown = ({ className, open, items, onClick }) => {
         }  z-10   bg-white divide-y divide-gray-100 rounded shadow w-52 dark:bg-gray-700 ${className}`}
       >
         <ul
-          class=" text-sm text-gray-700 dark:text-gray-200  w-full "
+          className=" text-sm text-gray-700 dark:text-gray-200  w-full "
           aria-labelledby="dropdownDefaultButton"
+          key={key}
         >
           {items?.length > 0 &&
             items.map((item, index) => (
@@ -32,11 +33,12 @@ const Dropdown = ({ className, open, items, onClick }) => {
                   onClick={onClick}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
                   className=" rounded  w-100 bg-red-50 w-full "
+                  key={item.id}
                 >
-                  <div className="w-full">
+                  <div className="w-full" key={item.id}>
                     <a
                       href="#"
-                      class="block  rounded  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-right"
+                      className="block  rounded  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-right"
                     >
                       <div className="flex items-center w-full  py-4 justify-between ">
                         <div className="flex items-center">
