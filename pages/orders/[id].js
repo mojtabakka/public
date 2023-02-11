@@ -1,13 +1,9 @@
 import React from "react";
-import Layout from "../layout";
+import Layout from "../../components/layout";
 
 const Orders = () => {
   return <Layout></Layout>;
 };
-
-export async function getServerSideProps(context) {
-  return { props: { product: [] } };
-}
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
@@ -19,4 +15,8 @@ export async function getServerSideProps(context) {
   const product = result.data;
   return { props: { product } };
 }
+
+Orders.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 export default Orders;

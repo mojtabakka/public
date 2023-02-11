@@ -11,13 +11,14 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { Dropdown } from "components";
 import logo from "public/images/logo.jpeg";
 import Image from "next/image";
+import { getCookie } from "lib/function.utils.js";
 
-function Layout({ children }) {
+const Layout = ({ children }) => {
   const [token, setToken] = useState();
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownItems, setDropDownItems] = useState([]);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     setToken(token);
     initDropDown();
   }, []);
@@ -140,6 +141,6 @@ function Layout({ children }) {
       <div className="p-5">{children}</div>
     </div>
   );
-}
+};
 
 export default Layout;

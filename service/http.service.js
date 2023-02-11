@@ -1,7 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BASE_URL, AXIOS_TIMEdOUT } from "config/variables.config";
-import { DONT_NEEDED_URLS_FOR_AUTHENTICATION } from "config/url.config";
+import { NEEDED_URLS_FOR_AUTHENTICATION } from "config/url.config";
+import { getCookie } from "../lib/function.utils";
 
 class httpService {
   BearerToken = null;
@@ -11,21 +12,17 @@ class httpService {
     axios.defaults.timeout = AXIOS_TIMEdOUT;
     axios.interceptors.request.use(
       (config) => {
-        const checkExist = DONT_NEEDED_URLS_FOR_AUTHENTICATION().filter(
-          (item) => {
-            return item.url.trim() === config.url.trim();
+        const checkExist = NEEDED_URLS_FOR_AUTHENTICATION().filter((item) => {
+          return item.url.trim() === config.url.trim();
+        });
+        if (checkExist.length > 0 && (this.BearerToken || getCookie("token"))) {
+          if (getCookie("token")) {
+            config.headers.Authorization = "Bearer " + getCookie("token");
+            console.log("Bearer " + getCookie("token"));
+          } else {
+            config.headers.Authorization = this.BearerToken;
           }
-        );
-
-        if (this.BearerToken) {
-          config.headers.Authorization = this.BearerToken;
         }
-        // if (checkExist.length === 0) {
-        // const token = `Bearer ${JSON.parse(user)?.token}`;
-        // const BearerToken = `Bearer ${token}`;
-        // config.headers.Authorization = BearerToken;
-
-        // }
         return config;
       },
       function (error) {
@@ -34,7 +31,7 @@ class httpService {
     );
   }
 
-  get(addres, item) {
+  get(addres, item = {}) {
     const { data, context } = item;
     if (context && context?.req?.cookies?.token) {
       const BearerToken = `Bearer ${context?.req?.cookies?.token}`;

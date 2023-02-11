@@ -1,13 +1,10 @@
+import Layout from "components/layout";
 import { Card } from "components";
-import Layout from "./layout";
 import { getProducts } from "api";
 
 export async function getServerSideProps(context) {
   try {
-    const data = {
-      context,
-    };
-    const result = await getProducts(data);
+    const result = await getProducts();
     const products = result.data;
     return {
       props: {
@@ -25,21 +22,16 @@ export async function getServerSideProps(context) {
 }
 function Home({ products }) {
   return (
-    <Layout>
-      <div className="grid lg:grid-cols-6  md:grid-cols-4 sm:grid-cols-4 grid-cols-2  h-100">
-        {products &&
-          products.length > 0 &&
-          products.map((item) => <Card items={item} key={item._id} />)}
-      </div>
-    </Layout>
+    <div className="grid lg:grid-cols-6  md:grid-cols-4 sm:grid-cols-4 grid-cols-2  h-100">
+      {products &&
+        products.length > 0 &&
+        products.map((item) => <Card items={item} key={item._id} />)}
+    </div>
   );
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getProducts: (data) => {
-//     dispatch(getProducts(data));
-//   },
-// });
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
 
-// const Home = connect(undefined, mapDispatchToProps)(HomePage);
 export default Home;

@@ -1,9 +1,4 @@
-import { PATHS } from "./routes.config";
-
-export const DONT_NEEDED_URLS_FOR_AUTHENTICATION = () => [
-  { url: "/auth" + PATHS.login },
-  { url: "/auth" + PATHS.register },
-];
+// import { PATHS } from "./routes.config";
 
 //products
 export const PRODUCT = "/product/product";
@@ -15,3 +10,8 @@ export const POST_VERIFICATION = "/auth-public/verification";
 
 //orders
 export const ORDER = "/order";
+
+//user
+export const USER = "/public-user/user";
+
+export const NEEDED_URLS_FOR_AUTHENTICATION = () => [{ url: USER }];
