@@ -1,6 +1,8 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-// import { CgProfile } from "react-icons/Cg";
+import { useRouter } from "next/router";
+import logo from "public/images/logo.jpeg";
+import Image from "next/image";
+import Link from "next/link";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
@@ -9,20 +11,25 @@ import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { Dropdown } from "components";
-import logo from "public/images/logo.jpeg";
-import Image from "next/image";
 import { getCookie } from "lib/function.utils.js";
-
 const Layout = ({ children }) => {
   const [token, setToken] = useState();
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownItems, setDropDownItems] = useState([]);
+  const { query, push } = useRouter();
+  const router = useRouter();
+
   useEffect(() => {
     const token = getCookie("token");
     setToken(token);
     initDropDown();
   }, []);
 
+  const handleClicklogin = () => {
+    const url = document.URL.split(window.location.origin)[1];
+    localStorage.setItem("back_url", url);
+    router.push("/login");
+  };
   const initDropDown = () => {
     const items = [
       {
@@ -33,6 +40,7 @@ const Layout = ({ children }) => {
         subTitle: "hello",
         icon: <BsPersonCircle className=" text-xl inline-block" />,
         secondIcon: <MdOutlineKeyboardArrowLeft className="" />,
+        url: "/profile",
       },
 
       {
@@ -44,12 +52,13 @@ const Layout = ({ children }) => {
     ];
     setDropDownItems(items);
   };
-
   const changeStatusDropDown = () => {
     setDropdownOpen(!DropdownOpen);
   };
 
-  const handleClickDropdown = () => {};
+  const handleClickDropdown = (item) => {
+    push(item.url);
+  };
   return (
     <div>
       <header>
@@ -94,12 +103,12 @@ const Layout = ({ children }) => {
             </form>
           </div>
           <div className="flex-1 lg:mx-20 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
-            <span href={""} className=" px-6">
+            <Link href={"/orders"} className=" px-6">
               <SlBasket className="inline-block    lg:text-2xl  md:text-xl sm:text-lg" />
-            </span>
+            </Link>
             {!token ? (
-              <Link
-                href="/login"
+              <span
+                onClick={handleClicklogin}
                 className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
               >
                 <HiOutlineLogin className="  inline-block  lg:text-2xl  md:text-xl sm:text-lg" />
@@ -112,7 +121,7 @@ const Layout = ({ children }) => {
                   </span>
                   <span> ورود </span>
                 </span>
-              </Link>
+              </span>
             ) : (
               <span
                 className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x  "

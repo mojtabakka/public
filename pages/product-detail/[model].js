@@ -1,42 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { getProduct, addOrder } from "api";
+import { getProduct, addOrder, getNumberOfProduct, removeOrder } from "api";
 import { ProductFeatures, ProductImages, ProductPrice } from "components";
-import Layout from "components/layout";
+import Layout from "components/layout/mainLayout";
 import { PATHS } from "config/routes.config";
 import { BACK_URL } from "redux/types.js";
+import { getCookie } from "lib/function.utils.js";
 
 const DetailProduct = ({ product }) => {
   const [numberOfOrder, setNumberOfOrder] = useState(0);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch();
+  useEffect(() => {
+    getNumberOfProductFunc();
+  });
+
+  const getNumberOfProductFunc = async () => {
+    const order = await getNumberOfProduct(product.model);
+    setNumberOfOrder(order.data.number);
+  };
+
   const handleClickPlus = async () => {
     setLoading(true);
     try {
-      dispatch(setBackUrl(window.location.pathname));
-      const token = localStorage.getItem("token");
+      // dispatch(setBackUrl(window.location.pathname));
+      const token = getCookie("token");
       if (!token) {
         router.push(PATHS.login);
         return;
       }
-      const data = { id: product._id };
+      const data = { model: product.model };
       await addOrder(data);
       const userId = setNumberOfOrder((value) => {
         return value + 1;
       });
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
     } finally {
       setLoading(false);
     }
   };
-  const handleClickBin = () => {
-    if (numberOfOrder > 0)
-      setNumberOfOrder((value) => {
-        return value - 1;
-      });
+  const handleClickBin = async () => {
+    try {
+      if (numberOfOrder > 0) {
+        await removeOrder(product.model);
+        setNumberOfOrder((value) => {
+          return value - 1;
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const setBackUrl = (back_url = null) => ({
@@ -61,8 +76,8 @@ const DetailProduct = ({ product }) => {
 };
 
 export async function getServerSideProps(context) {
-  const { id } = context.query;
-  const result = await getProduct({ context, id });
+  const { model } = context.query;
+  const result = await getProduct({ context, model });
   const product = result.data;
   return { props: { product } };
 }

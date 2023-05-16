@@ -32,16 +32,16 @@ const ProductPriceTemplate = ({
               <div className="border"></div>
             </>
           )}
-          {product.exist && (
+          {product.numberOfExist > 0 && (
             <>
-              {exist && (
+              {/* {exist && (
                 <div className="px-2 pt-2 text-sm ">
                   <span className="pl-2">
                     <GrFormCheckmark className=" inline-block text-xl" />
                   </span>
                   موجود در انبار
                 </div>
-              )}
+              )} */}
               {numberOfExist && (
                 <div className="px-3 pt-2  text-xs text-gray-500">
                   <span className="pl-2">
@@ -64,13 +64,6 @@ const ProductPriceTemplate = ({
           <div className="text-left p-2 pt-5 hidden  lg:block   ">
             <div className=" flex justify-between">
               <div className="hidden lg:block">
-                {/* <span
-                  className="border rounded-full m-2  bg-gray-50  w-7"
-                  style={{ borderRadius: "500px" }}
-                >
-                  <BsExclamation className=" inline-block" />
-                </span> */}
-
                 <span>
                   <span className="pl-2">
                     <MdOutlinePriceCheck className=" inline-block text-xl " />

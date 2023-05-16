@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Button } from "components";
 import logo from "public/images/logo.jpeg";
 import { sendOtp, verification } from "api";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { isEmptyObject } from "/utils/function.util";
 
 const INPUT_NAMES = {
   phoneNumber: "phoneNumber",
@@ -23,7 +24,6 @@ function Login(props) {
     const result = await sendOtp(data);
     result.data.sent && setShowVerification(true);
   };
-  ``;
   const handleVerification = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
@@ -31,10 +31,11 @@ function Login(props) {
     data.phoneNumber = phoneNumber;
     try {
       const result = await verification(data);
-      // result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
-      // document.cookie = `token=${result.data.token} Doe; path=/`;
-      let x = document.cookie;
-      router.push(state.back_url);
+      result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
+      (!localStorage.getItem("back_url") || localStorage.getItem("back_url")) ==
+      "/login"
+        ? router.push("/")
+        : router.push(localStorage.getItem("back_url"));
     } catch (error) {
       console.log("error", error);
     }
@@ -66,6 +67,8 @@ function Login(props) {
                     type="number"
                     max={11}
                     name={INPUT_NAMES.phoneNumber}
+                    mask={true}
+                    maskpattern="99999999999"
                   />
                 </div>
                 <div className="py-4 text-center ">
@@ -100,6 +103,7 @@ function Login(props) {
                     name={INPUT_NAMES.otp}
                     defaultValue={null}
                     max={4}
+                    mask={false}
                   />
                 </div>
                 <div className="py-4 text-center ">

@@ -6,7 +6,7 @@ import { Badge } from "components";
 
 function CardTemplate({ items, key }) {
   return (
-    <Link href={`/product-detail/${items._id}`} key={key}>
+    <Link href={`/product-detail/${items.model}`} key={key}>
       <div className=" shadow-sm bg-white p-2 inline-block  hover:shadow-lg border">
         <div className="">
           <figure>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 // items config :
 
 // {
@@ -12,6 +12,7 @@ import React from "react";
 
 // },
 const Dropdown = ({ className, open, items, onClick, key }) => {
+  const hello = () => {};
   return (
     <>
       <div
@@ -30,7 +31,7 @@ const Dropdown = ({ className, open, items, onClick, key }) => {
             items.map((item, index) => (
               <>
                 <li
-                  onClick={onClick}
+                  onClick={() => onClick(item)}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
                   className=" rounded  w-100 bg-red-50 w-full "
                   key={item.id}

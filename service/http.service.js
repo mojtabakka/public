@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { BASE_URL, AXIOS_TIMEdOUT } from "config/variables.config";
 import { NEEDED_URLS_FOR_AUTHENTICATION } from "config/url.config";
 import { getCookie } from "../lib/function.utils";
+// import { getCookie } from "cookie-parser";
 
 class httpService {
   BearerToken = null;
@@ -10,18 +11,17 @@ class httpService {
     axios.defaults.withCredentials = true;
     axios.defaults.baseURL = BASE_URL + "api";
     axios.defaults.timeout = AXIOS_TIMEdOUT;
+
     axios.interceptors.request.use(
       (config) => {
         const checkExist = NEEDED_URLS_FOR_AUTHENTICATION().filter((item) => {
           return item.url.trim() === config.url.trim();
         });
-        if (checkExist.length > 0 && (this.BearerToken || getCookie("token"))) {
-          if (getCookie("token")) {
-            config.headers.Authorization = "Bearer " + getCookie("token");
-            console.log("Bearer " + getCookie("token"));
-          } else {
-            config.headers.Authorization = this.BearerToken;
-          }
+
+        if (this.BearerToken) {
+          config.headers.Authorization = this.BearerToken;
+        } else {
+          config.headers.Authorization = "Bearer " + getCookie("token");
         }
         return config;
       },
@@ -42,6 +42,7 @@ class httpService {
 
   post(address, data = {}, config = null) {
     config = { headers: { "Content-Type": " application/json" } };
+
     return axios.post(address, data, config);
   }
 

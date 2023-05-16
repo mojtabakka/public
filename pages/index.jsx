@@ -1,10 +1,11 @@
-import Layout from "components/layout";
+import Layout from "components/layout/mainLayout";
 import { Card } from "components";
 import { getProducts } from "api";
 
 export async function getServerSideProps(context) {
   try {
     const result = await getProducts();
+    console.log(result);
     const products = result.data;
     return {
       props: {
@@ -25,7 +26,7 @@ function Home({ products }) {
     <div className="grid lg:grid-cols-6  md:grid-cols-4 sm:grid-cols-4 grid-cols-2  h-100">
       {products &&
         products.length > 0 &&
-        products.map((item) => <Card items={item} key={item._id} />)}
+        products.map((item) => <Card items={item} key={item.id} />)}
     </div>
   );
 }

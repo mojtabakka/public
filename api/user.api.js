@@ -9,3 +9,12 @@ export function getUser() {
       .catch((error) => reject(error));
   });
 }
+
+export function editUser(data) {
+  return new Promise((resolve, reject) => {
+    http
+      .patch(USER, data)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}

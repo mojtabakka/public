@@ -11,10 +11,10 @@ export function getProducts() {
 }
 
 export function getProduct(item) {
-  const { id } = item;
+  const { model } = item;
   return new Promise((resolve, reject) => {
     http
-      .get(GET_PRODUCT.replace(":id", id))
+      .get(GET_PRODUCT.replace(":model", model))
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });
