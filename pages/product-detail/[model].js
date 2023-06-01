@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { getProduct, addOrder, getNumberOfProduct, removeOrder } from "api";
+import {
+  getProduct,
+  getNumberOfProductInBasket,
+  removeProductFromBasket,
+  addToBasket,
+} from "api";
 import { ProductFeatures, ProductImages, ProductPrice } from "components";
 import Layout from "components/layout/mainLayout";
 import { PATHS } from "config/routes.config";
 import { BACK_URL } from "redux/types.js";
 import { getCookie } from "lib/function.utils.js";
 
-const DetailProduct = ({ product }) => {
+const DetailProduct = (props) => {
+  const { product } = props;
   const [numberOfOrder, setNumberOfOrder] = useState(0);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -17,7 +23,7 @@ const DetailProduct = ({ product }) => {
   });
 
   const getNumberOfProductFunc = async () => {
-    const order = await getNumberOfProduct(product.model);
+    const order = await getNumberOfProductInBasket(product.model);
     setNumberOfOrder(order.data.number);
   };
 
@@ -31,7 +37,7 @@ const DetailProduct = ({ product }) => {
         return;
       }
       const data = { model: product.model };
-      await addOrder(data);
+      await addToBasket(data);
       const userId = setNumberOfOrder((value) => {
         return value + 1;
       });
@@ -42,9 +48,11 @@ const DetailProduct = ({ product }) => {
     }
   };
   const handleClickBin = async () => {
+    console.log(numberOfOrder);
     try {
       if (numberOfOrder > 0) {
-        await removeOrder(product.model);
+        console.log(numberOfOrder);
+        await removeProductFromBasket(product.model);
         setNumberOfOrder((value) => {
           return value - 1;
         });
@@ -64,6 +72,9 @@ const DetailProduct = ({ product }) => {
     <div className=" lg:flex">
       <ProductImages product={product} />
       <ProductFeatures product={product} />
+      <div style={{}}>
+        <div></div>
+      </div>
       <ProductPrice
         product={product}
         onClickPlus={handleClickPlus}

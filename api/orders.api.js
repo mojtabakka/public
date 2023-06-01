@@ -1,5 +1,12 @@
 import http from "service/http.service";
-import { ORDER, ORDER_GET_ORDER, REMOVE_ORDER } from "config/url.config";
+import {
+  ADD_TO_BASKET,
+  CURRENT_ORDERS_GET,
+  GET_NUMBER_OF_PRODUCT_IN_BASKET,
+  ORDER,
+  REMOVE_PRODUCT_FROM_BASKET,
+  GET_CURRENT_BASKET,
+} from "config/url.config";
 
 export function addOrder(data) {
   return new Promise((resolve, reject) => {
@@ -10,19 +17,46 @@ export function addOrder(data) {
   });
 }
 
-export function removeOrder(model) {
+export function removeProductFromBasket(model) {
   return new Promise((resolve, reject) => {
     http
-      .delete(REMOVE_ORDER.replace(":model", model))
+      .delete(REMOVE_PRODUCT_FROM_BASKET.replace(":model", model))
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });
 }
 
-export function getNumberOfProduct(data) {
+export function getNumberOfProductInBasket(data) {
   return new Promise((resolve, reject) => {
     http
-      .get(ORDER_GET_ORDER.replace(":model", data), data)
+      .get(GET_NUMBER_OF_PRODUCT_IN_BASKET.replace(":model", data), data)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getCurrentOrders() {
+  return new Promise((resolve, reject) => {
+    http
+      .get(CURRENT_ORDERS_GET)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function addToBasket(data) {
+  return new Promise((resolve, reject) => {
+    http
+      .post(ADD_TO_BASKET, data)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getCurrentBasket() {
+  return new Promise((resolve, reject) => {
+    http
+      .get(GET_CURRENT_BASKET)
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

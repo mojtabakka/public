@@ -16,8 +16,8 @@ const ProfileLayout = ({ children }) => {
     await getUser();
   };
   return (
-    <div className="flex h-screen ">
-      <div className="w-1/3 bg-white rounded shadow-sm  h-4/5 ">
+    <div className="flex h-screen  ">
+      <div className="w-1/3 bg-white rounded shadow-sm  h-4/5  hidden lg:block md:block sm:block">
         <div className="flex p-3 items-center justify-between">
           <div>
             <div className="flex p-3 items-center">
@@ -28,19 +28,21 @@ const ProfileLayout = ({ children }) => {
             </div>
           </div>
           <div className="p-3">
-            <FiEdit2 className="text-blue-400  text-2xl cursor-pointer" />
-            <span className="text-blue-400  text-xs">ویرایش</span>
+            <Link href="/profile">
+              <FiEdit2 className="text-blue-400  text-2xl cursor-pointer" />
+              <span className="text-blue-400  text-xs">ویرایش</span>
+            </Link>
           </div>
         </div>
         <hr />
-        <div className="p-3 cursor-pointer">
-          <Link href="/orders">
+        <Link href="/orders">
+          <div className="p-3 cursor-pointer">
             <span className="p-3">
               <HiOutlineShoppingBag className=" inline-block text-xl" />
             </span>
             <span>سفارش ها </span>
-          </Link>
-        </div>
+          </div>
+        </Link>
         <hr />
         <div className="p-3 cursor-pointer">
           <span className="p-3">

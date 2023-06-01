@@ -1,12 +1,9 @@
 import React from "react";
 import { Badge, Button, OrderButton } from "components";
-import { BsExclamation } from "react-icons/bs";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { FaClipboardList } from "react-icons/fa";
-import { GrFormCheckmark } from "react-icons/gr";
 import { MdOutlineDeliveryDining, MdOutlinePriceCheck } from "react-icons/md";
-
-// import { AiFillTrademarkCircle } from "react-icons/ai";
+import Link from "next/link";
 
 const ProductPriceTemplate = ({
   product,
@@ -15,7 +12,7 @@ const ProductPriceTemplate = ({
   numberOfOrder,
   showOrders,
 }) => {
-  const { warranty, priceForUser, exist, numberOfExist, deliveryMethod } =
+  const { warranty, priceForUser, exist, numberOfExist, deliveryMethod, off } =
     product;
   return (
     <div className=" bg-white p-2 rounded lg:w-1/4 m-1 w-full     mb-20 flex-1">
@@ -64,17 +61,36 @@ const ProductPriceTemplate = ({
           <div className="text-left p-2 pt-5 hidden  lg:block   ">
             <div className=" flex justify-between">
               <div className="hidden lg:block">
-                <span>
-                  <span className="pl-2">
-                    <MdOutlinePriceCheck className=" inline-block text-xl " />
-                  </span>
-                  قیمت فروشنده
-                </span>
+                <div className="flex ">
+                  <div className="px-2">
+                    <span className="pl-2">
+                      <MdOutlinePriceCheck className=" inline-block text-xl " />
+                    </span>
+                    قیمت فروشنده
+                  </div>
+                  {/* <div className="text-right">
+                    <div className="font-black  text-red-400 underline text-xs">
+                      {off} %
+                    </div>
+                    <div className="text-gray-400" style={{ fontSize: "10px" }}>
+                      تخفیف
+                    </div>
+                  </div> */}
+                </div>
               </div>
               <div>
-                <span className="line-through"> {priceForUser} </span>
-                <span>تومان </span>
-                <Badge value="200">30%</Badge>
+                <div>
+                  <span> {off ? priceForUser * (off / 10) : priceForUser}</span>
+                  <span>تومان </span>
+                </div>
+                {off && (
+                  <div
+                    className=" text-right line-through text-gray-400"
+                    style={{ fontSize: "12px" }}
+                  >
+                    {priceForUser}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -92,19 +108,20 @@ const ProductPriceTemplate = ({
                 onClickBin={onClickBin}
                 value={numberOfOrder}
               />
-              <span
+              <Link
+                href={"/cart"}
                 className="text-xs p-2 text-blue-300 cursor-pointer"
                 onClick={showOrders}
               >
                 مشاهده سبد خرید
-              </span>
+              </Link>
             </>
           )}
         </div>
 
         <div className=" fixed w-full   right-0  bottom-0  bg-white shadow-lg border p-2">
-          <div className="w-full text-center mb-0  items-center flex  align-middle lg:hidden">
-            <div className="w-full text-right  ">
+          <div className="w-full text-center my-3 items-center flex  align-middle lg:hidden">
+            <div className="w-full text-right   ">
               {numberOfOrder === 0 ? (
                 <Button className="w-full" onClick={onClickPlus}>
                   افزودن به سبد
@@ -116,21 +133,26 @@ const ProductPriceTemplate = ({
                     onClickBin={onClickBin}
                     value={numberOfOrder}
                   />
-                  <span
-                    className="text-xs p-2 text-blue-300 cursor-pointer"
+                  <Link
+                    href="/cart"
+                    className=" p-2 text-blue-300 cursor-pointer"
                     onClick={showOrders}
                   >
                     مشاهده سبد خرید
-                  </span>
+                  </Link>
                 </>
               )}
             </div>
-            <div className="w-full text-left  ">
-              <span className=" text-gray-400 text-xs p-2  line-through ">
-                10000000
-              </span>
-              <Badge className=" inline-block  text-xs">30%</Badge>
-              <div>۱۲۶۰۰۰۰ تومان</div>
+            <div className=" w-9/12 flex justify-end  items-center  ">
+              <div className="flex">
+                <div>
+                  <div className=" text-gray-400 text-xs px-2  ">
+                    {off ? priceForUser * (off / 10) : priceForUser}
+                  </div>
+                  {off && <div className="line-through ">{priceForUser}</div>}
+                </div>
+              </div>
+              <Badge className=" inline-block  text-xs p-1">30%</Badge>
             </div>
           </div>
         </div>

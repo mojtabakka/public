@@ -10,12 +10,18 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import { Dropdown } from "components";
+import { Dropdown, BasketModal } from "components";
+import { getCurrentBasket } from "api";
 import { getCookie } from "lib/function.utils.js";
+import { isEmptyArray } from "utils/function.util.js";
 const Layout = ({ children }) => {
   const [token, setToken] = useState();
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownItems, setDropDownItems] = useState([]);
+  const [basketData, setBasketData] = useState([]);
+  const [displayBaskModal, setDisplayBaskModal] = useState(false);
+  const [leaveBasketFlag, setLeaveBasketFlag] = useState(false);
+  const [leaveBaketKadrFlag, setLeaveBaketKadrFlag] = useState(false);
   const { query, push } = useRouter();
   const router = useRouter();
 
@@ -47,6 +53,7 @@ const Layout = ({ children }) => {
         id: 2,
         title: "سفارش ها",
         bgColor: "white",
+        url: "/orders",
         icon: <BsFillBasket3Fill />,
       },
     ];
@@ -55,9 +62,28 @@ const Layout = ({ children }) => {
   const changeStatusDropDown = () => {
     setDropdownOpen(!DropdownOpen);
   };
-
   const handleClickDropdown = (item) => {
     push(item.url);
+  };
+
+  const handleBasketIconMoouseOver = () => {
+    getBasket();
+    setDisplayBaskModal(true);
+  };
+
+  const hanelMouseLeaveBasketkadr = () => {
+    setLeaveBasketFlag(false);
+    if (!leaveBasketFlag) setDisplayBaskModal(false);
+  };
+
+  const hanleMouseLeaveBasketIcon = () => {
+    setLeaveBasketFlag(false);
+    if (!leaveBaketKadrFlag) setDisplayBaskModal(false);
+  };
+
+  const getBasket = async () => {
+    // const data = await getCurrentBasket();
+    // setBasketData(data.data);
   };
   return (
     <div>
@@ -102,9 +128,14 @@ const Layout = ({ children }) => {
               </div>
             </form>
           </div>
-          <div className="flex-1 lg:mx-20 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
-            <Link href={"/orders"} className=" px-6">
-              <SlBasket className="inline-block    lg:text-2xl  md:text-xl sm:text-lg" />
+          <div className="flexƒ-1 lg:mx-20 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
+            <Link
+              href={"/cart"}
+              className=" px-6 py-3"
+              onMouseLeave={hanleMouseLeaveBasketIcon}
+              onMouseOver={handleBasketIconMoouseOver}
+            >
+              <SlBasket className="inline-block relative  lg:text-2xl  md:text-xl sm:text-lg" />
             </Link>
             {!token ? (
               <span
@@ -147,7 +178,20 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </header>
-      <div className="p-5">{children}</div>
+      <div>
+        <div className=" hidden  md:block">
+          <div className={`${!displayBaskModal ? "hidden" : ""}`}>
+            {isEmptyArray(basketData) && basketData.length > 0 && (
+              <BasketModal
+                items={basketData}
+                onMouseLeave={hanelMouseLeaveBasketkadr}
+                onMouseOver={() => setDisplayBaskModal(true)}
+              />
+            )}
+          </div>
+        </div>
+        <div className="mt-5" >{children}</div>
+      </div>
     </div>
   );
 };
