@@ -5,6 +5,7 @@ import { MdOutlinePriceCheck } from "react-icons/md";
 import { GiProfit } from "react-icons/gi";
 import MainLayout from "components/Layout/mainLayout";
 import { Button } from "components";
+import { addCommasSeprator } from "utils/function.util.js";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState();
@@ -52,7 +53,7 @@ const Cart = () => {
                 <MdOutlinePriceCheck className=" inline-block text-xl " />
                 <span className="px-2">قیمت کالاها</span>
               </div>
-              <div>{sumPrice}</div>
+              <div>{addCommasSeprator(sumPrice)} تومان</div>
             </div>
             <hr className="my-5" />
             <div className=" flex justify-between">
@@ -60,7 +61,7 @@ const Cart = () => {
                 <MdOutlinePriceCheck className=" inline-block text-xl " />
                 <span className="px-2">جمع سبد خرید</span>
               </div>
-              <div>{sumFinalPrice}</div>
+              <div>{addCommasSeprator(sumFinalPrice)} تومان</div>
             </div>
             <hr className="my-5" />
             <div className=" flex justify-between text-red-500">
@@ -68,7 +69,7 @@ const Cart = () => {
                 <GiProfit className=" inline-block text-xl " />
                 <span className="px-2">سود شما از خرید</span>
               </div>
-              <div className="">{benefit}</div>
+              <div className="">{addCommasSeprator(benefit)} تومان</div>
             </div>
             <div className="w-full mt-14 mb-3 text-center">
               <Button className="w-full"> ثبت سفارش</Button>

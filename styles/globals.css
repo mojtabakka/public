@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "react-alice-carousel/lib/alice-carousel.css";
+@import "~react-image-gallery/styles/css/image-gallery.css";
 @font-face {
     font-family: shabnam;
     src: url(../public//fonts//Shabnam.woff2);

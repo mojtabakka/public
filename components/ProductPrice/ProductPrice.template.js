@@ -12,8 +12,10 @@ const ProductPriceTemplate = ({
   numberOfOrder,
   showOrders,
 }) => {
+  console.log(product);
   const { warranty, priceForUser, exist, numberOfExist, deliveryMethod, off } =
     product;
+  console.log();
   return (
     <div className=" bg-white p-2 rounded lg:w-1/4 m-1 w-full     mb-20 flex-1">
       <div className=" flex-col h-full">
@@ -29,34 +31,6 @@ const ProductPriceTemplate = ({
               <div className="border"></div>
             </>
           )}
-          {product.numberOfExist > 0 && (
-            <>
-              {/* {exist && (
-                <div className="px-2 pt-2 text-sm ">
-                  <span className="pl-2">
-                    <GrFormCheckmark className=" inline-block text-xl" />
-                  </span>
-                  موجود در انبار
-                </div>
-              )} */}
-              {numberOfExist && (
-                <div className="px-3 pt-2  text-xs text-gray-500">
-                  <span className="pl-2">
-                    <FaClipboardList className=" inline-block text-sm text-gray-500" />
-                  </span>
-                  تعداد {numberOfExist} عدد در انبار موجود است
-                </div>
-              )}
-
-              <div className="text-xs p-2  text-gray-500">
-                <span className="pl-2">
-                  <MdOutlineDeliveryDining className=" inline-block text-xl" />
-                </span>
-                {deliveryMethod}
-              </div>
-              <div className="border"></div>
-            </>
-          )}
 
           <div className="text-left p-2 pt-5 hidden  lg:block   ">
             <div className=" flex justify-between">
@@ -68,14 +42,7 @@ const ProductPriceTemplate = ({
                     </span>
                     قیمت فروشنده
                   </div>
-                  {/* <div className="text-right">
-                    <div className="font-black  text-red-400 underline text-xs">
-                      {off} %
-                    </div>
-                    <div className="text-gray-400" style={{ fontSize: "10px" }}>
-                      تخفیف
-                    </div>
-                  </div> */}
+                  {off && <Badge className="p-1">{off} %</Badge>}
                 </div>
               </div>
               <div>
@@ -95,7 +62,6 @@ const ProductPriceTemplate = ({
             </div>
           </div>
         </div>
-
         <div className="w-full text-right mb-0  flex-1 hidden lg:inline-block">
           {numberOfOrder === 0 ? (
             <Button className="w-full" onClick={onClickPlus}>
