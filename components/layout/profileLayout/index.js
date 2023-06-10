@@ -16,8 +16,8 @@ const ProfileLayout = ({ children }) => {
     await getUser();
   };
   return (
-    <div className=" h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-2 gap-1 ">
-      <div className=" h-screen bg-white rounded shadow-sm     hidden lg:block md:block sm:block">
+    <div className=" h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-4 gap-1 ">
+      <div className=" h-screen bg-white rounded shadow-sm     hidden lg:block md:inline-block sm:hidden ">
         <div className="flex p-3 items-center justify-between">
           <div>
             <div className="flex p-3 items-center">
@@ -58,7 +58,7 @@ const ProfileLayout = ({ children }) => {
           خروج
         </div>
       </div>
-      <div className="   mx-2  p-3  col-span-3 rounded">{children}</div>
+      <div className="   mx-2    col-span-3 rounded">{children}</div>
     </div>
   );
 };

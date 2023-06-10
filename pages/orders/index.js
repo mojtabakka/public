@@ -44,14 +44,10 @@ const Orders = () => {
 
       switch (item.action) {
         case ACTIONS.CURRENT_ORDERS:
-          console.log(item.action);
-          console.log(tabAction);
           orders = item.action !== tabAction && (await getCurrentOrders());
           setTabAction(item.action);
           break;
         case ACTIONS.COMPLETED_ORDERS:
-          console.log(item.action);
-          console.log(tabAction);
           orders = item.action !== tabAction && (await getPreviousOrders());
           setTabAction(item.action);
           break;
