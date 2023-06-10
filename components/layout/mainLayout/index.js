@@ -11,10 +11,11 @@ import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { Dropdown, BasketModal } from "components";
-import { getCurrentBasket } from "api";
 import { getCookie } from "lib/function.utils.js";
 import { isEmptyArray } from "utils/function.util.js";
+import { Loading } from "components";
 const Layout = ({ children }) => {
+  const [loading, setLoading] = useState(false);
   const [token, setToken] = useState();
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownItems, setDropDownItems] = useState([]);
@@ -30,7 +31,15 @@ const Layout = ({ children }) => {
     setToken(token);
     initDropDown();
   }, []);
-
+  const handleClickBasket = () => {
+    if (router.pathname !== "/cart") {
+      setLoading(true);
+      router.push({
+        pathname: "/cart",
+      });
+      setLoading(true);
+    }
+  };
   const handleClicklogin = () => {
     const url = document.URL.split(window.location.origin)[1];
     localStorage.setItem("back_url", url);
@@ -85,17 +94,26 @@ const Layout = ({ children }) => {
     // const data = await getCurrentBasket();
     // setBasketData(data.data);
   };
+
+  const handleClickLogo = () => {
+    if (router.pathname !== "/") {
+      setLoading(true);
+      router.push({ pathname: "/" });
+    }
+  };
+
   return (
     <div>
       <header>
         <div className=" flex shadow-md bg-white py-3 sm:text-xm p-2 place-items-center">
           <div className="flex-1 text-right mx-20 md:block lg:block hidden ">
             <Image
+              onClick={handleClickLogo}
               src={logo}
               alt="Picture of the author"
               width={60}
               height={60}
-              className=" inline-block"
+              className=" inline-block cursor-pointer"
             />
           </div>
           <div className="flex-1  text-right w-full ">
@@ -118,9 +136,9 @@ const Layout = ({ children }) => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     ></path>
                   </svg>
@@ -128,21 +146,21 @@ const Layout = ({ children }) => {
               </div>
             </form>
           </div>
-          <div className="flexƒ-1 lg:mx-20 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
-            <Link
-              href={"/cart"}
-              className=" px-6 py-3"
+          <div className="flex-1 lg:mx-20 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
+            <div
+              className=" inline-block px-6 py-3"
               onMouseLeave={hanleMouseLeaveBasketIcon}
               onMouseOver={handleBasketIconMoouseOver}
+              onClick={handleClickBasket}
             >
-              <SlBasket className="inline-block relative  lg:text-2xl  md:text-xl sm:text-lg" />
-            </Link>
+              <SlBasket className="inline-block relative  lg:text-2xl  md:text-xl sm:text-lg text-lg" />
+            </div>
             {!token ? (
               <span
                 onClick={handleClicklogin}
                 className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
               >
-                <HiOutlineLogin className="  inline-block  lg:text-2xl  md:text-xl sm:text-lg" />
+                <HiOutlineLogin className="  inline-block  text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
                 <span
                   href="login"
                   className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
@@ -158,7 +176,7 @@ const Layout = ({ children }) => {
                 className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x  "
                 onClick={changeStatusDropDown}
               >
-                <CgProfile className="  inline-block  lg:text-2xl  md:text-xl sm:text-lg" />
+                <CgProfile className="  inline-block text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
                 <span
                   href="login"
                   className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
@@ -190,8 +208,9 @@ const Layout = ({ children }) => {
             )}
           </div>
         </div>
-        <div className="mt-5" >{children}</div>
+        <div className="mt-5">{children}</div>
       </div>
+      <Loading show={loading} />
     </div>
   );
 };

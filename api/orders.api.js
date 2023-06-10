@@ -2,10 +2,12 @@ import http from "service/http.service";
 import {
   ADD_TO_BASKET,
   CURRENT_ORDERS_GET,
+  GET_CURRENT_BASKET,
+  GET_CURRENT_ORDER,
   GET_NUMBER_OF_PRODUCT_IN_BASKET,
   ORDER,
+  PREVIOUS_ORDERS_GET,
   REMOVE_PRODUCT_FROM_BASKET,
-  GET_CURRENT_BASKET,
 } from "config/url.config";
 
 export function addOrder(data) {
@@ -57,6 +59,24 @@ export function getCurrentBasket() {
   return new Promise((resolve, reject) => {
     http
       .get(GET_CURRENT_BASKET)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getCurrentOrder() {
+  return new Promise((resolve, reject) => {
+    http
+      .get(GET_CURRENT_ORDER)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getPreviousOrders() {
+  return new Promise((resolve, reject) => {
+    http
+      .get(PREVIOUS_ORDERS_GET)
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import {
   getProduct,
@@ -42,16 +41,14 @@ const DetailProduct = (props) => {
         return value + 1;
       });
     } catch (error) {
-      // console.log("error", error);
+      console.log("error", error);
     } finally {
       setLoading(false);
     }
   };
   const handleClickBin = async () => {
-    console.log(numberOfOrder);
     try {
       if (numberOfOrder > 0) {
-        console.log(numberOfOrder);
         await removeProductFromBasket(product.model);
         setNumberOfOrder((value) => {
           return value - 1;

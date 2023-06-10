@@ -29,7 +29,7 @@ const Dropdown = ({ className, open, items, onClick, key }) => {
         >
           {items?.length > 0 &&
             items.map((item, index) => (
-              <>
+              <span key={index}>
                 <li
                   onClick={() => onClick(item)}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
@@ -59,7 +59,7 @@ const Dropdown = ({ className, open, items, onClick, key }) => {
                   </div>
                 </li>
                 {item?.border && <div className="border"></div>}
-              </>
+              </span>
             ))}
         </ul>
       </div>

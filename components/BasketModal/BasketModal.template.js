@@ -17,9 +17,9 @@ function BasketModalTemplate({
       className=" bg-white p-4 rounded-lg shadow-lg z-50 absolute  top-16  left-16 border overflow-scroll "
       style={{ width: "500px", height: "500px" }}
     >
-      {items.map((item) => (
+      {items.map((item, index) => (
         <>
-          <div className="mt-4">
+          <div className="mt-4" key={index}>
             <div className="flex justify-between text-right ">
               <div className=" w-full h-48 bg-red-200">hello</div>
               <div className="p-2 text-right  w-full">

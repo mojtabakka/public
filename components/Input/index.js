@@ -1,8 +1,9 @@
 import React from "react";
 import InputTemplate from "./Input.template";
+import { isFunction } from "utils/function.util";
 
 const Input = (props) => {
-  const handleOnKeyDown = (e) => {
+  const handleKeyDown = (e) => {
     if (
       e.target?.maxLength &&
       e.target?.maxLength !== -1 &&
@@ -10,7 +11,22 @@ const Input = (props) => {
     )
       e.target.value = e.target.value.slice(0, e.target.maxLength);
   };
-  return <InputTemplate {...props} onKeyDown={handleOnKeyDown} />;
+
+  const handleClick = (e) => {
+    isFunction(props?.onClick) && props.onClick(e);
+  };
+  const handleChange = (e) => {
+    isFunction(props?.onChange) && props.onChange(e);
+  };
+
+  return (
+    <InputTemplate
+      {...props}
+      onKeyDown={handleKeyDown}
+      onClick={handleClick}
+      onChange={handleChange}
+    />
+  );
 };
 
 export { Input };

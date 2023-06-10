@@ -1,10 +1,9 @@
 import React from "react";
 import { Loading } from "components";
-import { addCommasSeprator } from "utils/function.util.js";
+import { getToman } from "utils/function.util";
 
 const ProductCardTemplate = ({ items, key, onClick }) => {
   const src = `${items.src}`;
-  console.log(items.src);
   return (
     <div onClick={onClick} key={key} className=" cursor-pointer w-full  ">
       <div className=" shadow-sm bg-white py-2 inline-block  hover:shadow-lg border w-full">
@@ -43,10 +42,11 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
                     <div className="flex justify-end bg-red items-center ">
                       <div className=" text-right">
                         <div className="p-1 text-sm flex items-center">
-                          {addCommasSeprator(
+                          {getToman(
                             items.off
                               ? Math.round(
-                                  items.priceForUser * (items.off / 100)
+                                  items.priceForUser -
+                                    items.priceForUser * (items.off / 100)
                                 )
                               : items.priceForUser
                           )}
@@ -57,7 +57,7 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
                             className="text-xs text-gray-400 px-1 line-through"
                             style={{ fontSize: "10px" }}
                           >
-                            {addCommasSeprator(items.priceForUser)}
+                            {getToman(items.priceForUser)}
                           </div>
                         )}
                       </div>

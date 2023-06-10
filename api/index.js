@@ -7,5 +7,13 @@ export {
   getCurrentOrders,
   addToBasket,
   getCurrentBasket,
+  getCurrentOrder,
+  getPreviousOrders,
 } from "./orders.api";
 export { getUser, editUser } from "./user.api";
+export {
+  getAddresses,
+  addAddresses,
+  getActiveAddress,
+  changeActiveAddress,
+} from "./address.api";

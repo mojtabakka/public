@@ -4,10 +4,12 @@ import { getCurrentBasket } from "api";
 import { MdOutlinePriceCheck } from "react-icons/md";
 import { GiProfit } from "react-icons/gi";
 import MainLayout from "components/Layout/mainLayout";
-import { Button } from "components";
-import { addCommasSeprator } from "utils/function.util.js";
+import { Button, Loading } from "components";
+import Link from "next/link";
+import { getToman } from "../../utils/function.util";
 
 const Cart = () => {
+  const [loading, setLoading] = useState(false);
   const [cartItems, setCartItems] = useState();
   const [benefit, setBenefit] = useState();
   const [sumFinalPrice, setSumFinalPrice] = useState();
@@ -17,28 +19,21 @@ const Cart = () => {
   }, []);
 
   const calculatePrices = (data) => {
-    let mySumPrice = 0;
-    let mySumFinalPrice = 0;
-    let myBefefit = 0;
-    data.map((item) => {
-      const benefitOfPrice =
-        +item.products_priceForUser * (+item.products_off / 100);
-      myBefefit +=
-        +item.products_priceForUser * (+item.products_off / 100) * item.number;
-      setBenefit(myBefefit);
-      mySumPrice += +item.products_priceForUser * item.number;
-      mySumFinalPrice +=
-        +(item.products_priceForUser - benefitOfPrice) * item.number;
-    });
-    setBenefit(myBefefit);
-    setSumFinalPrice(mySumFinalPrice);
-    setSumPrice(mySumPrice);
+    console.log(data);
+    // console.log(data);
+    // efit(myBefefit);
+    setBenefit(data[0].basket_benefit);
+    setSumFinalPrice(data[0].basket_finalPrice);
+    setSumPrice(data[0].basket_purePrice);
   };
   const getBasekt = async () => {
     const data = await getCurrentBasket();
-    console.log(data);
     calculatePrices(data.data);
     setCartItems(data.data);
+  };
+
+  const handleClickOrder = () => {
+    setLoading(true);
   };
   return (
     <div className="p-2 w-full md:flex  lg:flex">
@@ -53,7 +48,7 @@ const Cart = () => {
                 <MdOutlinePriceCheck className=" inline-block text-xl " />
                 <span className="px-2">قیمت کالاها</span>
               </div>
-              <div>{addCommasSeprator(sumPrice)} تومان</div>
+              <div>{getToman(sumPrice)} تومان</div>
             </div>
             <hr className="my-5" />
             <div className=" flex justify-between">
@@ -61,7 +56,7 @@ const Cart = () => {
                 <MdOutlinePriceCheck className=" inline-block text-xl " />
                 <span className="px-2">جمع سبد خرید</span>
               </div>
-              <div>{addCommasSeprator(sumFinalPrice)} تومان</div>
+              <div>{getToman(sumFinalPrice)} تومان</div>
             </div>
             <hr className="my-5" />
             <div className=" flex justify-between text-red-500">
@@ -69,14 +64,17 @@ const Cart = () => {
                 <GiProfit className=" inline-block text-xl " />
                 <span className="px-2">سود شما از خرید</span>
               </div>
-              <div className="">{addCommasSeprator(benefit)} تومان</div>
+              <div className="">{getToman(benefit)} تومان</div>
             </div>
-            <div className="w-full mt-14 mb-3 text-center">
-              <Button className="w-full"> ثبت سفارش</Button>
+            <div className="w-full mt-10  mb-3 text-center">
+              <Link href={"shipping"} onClick={handleClickOrder}>
+                <Button className="w-full"> ثبت سفارش</Button>
+              </Link>
             </div>
           </div>
         </Card>
       </div>
+      <Loading show={loading} />
     </div>
   );
 };

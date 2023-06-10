@@ -3,6 +3,7 @@ import { Badge, Button, OrderButton } from "components";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { FaClipboardList } from "react-icons/fa";
 import { MdOutlineDeliveryDining, MdOutlinePriceCheck } from "react-icons/md";
+import { addCommasSeprator } from "utils/function.util.js";
 import Link from "next/link";
 
 const ProductPriceTemplate = ({
@@ -12,10 +13,8 @@ const ProductPriceTemplate = ({
   numberOfOrder,
   showOrders,
 }) => {
-  console.log(product);
   const { warranty, priceForUser, exist, numberOfExist, deliveryMethod, off } =
     product;
-  console.log();
   return (
     <div className=" bg-white p-2 rounded lg:w-1/4 m-1 w-full     mb-20 flex-1">
       <div className=" flex-col h-full">
@@ -32,6 +31,16 @@ const ProductPriceTemplate = ({
             </>
           )}
 
+          {deliveryMethod && (
+            <div className="px-3 py-2 text-gray-500 ">
+              <span className="pl-2">
+                <MdOutlineDeliveryDining className=" inline-block  text-lg" />
+              </span>
+              <span> ارسال با </span>
+              <span>{deliveryMethod}</span>
+            </div>
+          )}
+
           <div className="text-left p-2 pt-5 hidden  lg:block   ">
             <div className=" flex justify-between">
               <div className="hidden lg:block">
@@ -42,13 +51,19 @@ const ProductPriceTemplate = ({
                     </span>
                     قیمت فروشنده
                   </div>
-                  {off && <Badge className="p-1">{off} %</Badge>}
+                  {off && <Badge className="p-1">{Math.round(off)} %</Badge>}
                 </div>
               </div>
               <div>
                 <div>
-                  <span> {off ? priceForUser * (off / 10) : priceForUser}</span>
-                  <span>تومان </span>
+                  <span>
+                    {off
+                      ? addCommasSeprator(
+                          Math.round(priceForUser - priceForUser * (off / 10))
+                        )
+                      : addCommasSeprator(Math.round(priceForUser))}
+                  </span>
+                  <span className="px-1">تومان </span>
                 </div>
                 {off && (
                   <div
@@ -111,11 +126,21 @@ const ProductPriceTemplate = ({
             </div>
             <div className=" w-9/12 flex justify-end  items-center  ">
               <div className="flex">
-                <div>
-                  <div className=" text-gray-400 text-xs px-2  ">
-                    {off ? priceForUser * (off / 10) : priceForUser}
+                <div className=" text-right">
+                  <div className=" text-gray-400 text-xs   ">
+                    {off
+                      ? addCommasSeprator(
+                          Math.round(priceForUser - priceForUser * (off / 10))
+                        )
+                      : addCommasSeprator(priceForUser)}
+
+                    <span className="px-1">تومان</span>
                   </div>
-                  {off && <div className="line-through ">{priceForUser}</div>}
+                  {off && (
+                    <div className="line-through ">
+                      {addCommasSeprator(priceForUser)}
+                    </div>
+                  )}
                 </div>
               </div>
               <Badge className=" inline-block  text-xs p-1">30%</Badge>

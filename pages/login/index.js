@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Input, Button } from "components";
 import logo from "public/images/logo.jpeg";
 import { sendOtp, verification } from "api";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { isEmptyObject } from "/utils/function.util";
 
 const INPUT_NAMES = {
   phoneNumber: "phoneNumber",
