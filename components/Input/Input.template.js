@@ -24,7 +24,7 @@ const InputTemplate = ({
       <div>
         {label && (
           <label
-            className={`block text-gray-500 font-bold md:text-right mb-1 md:mb-0  py-20 ${className}`}
+            className={`block text-gray-500 font-bold md:text-right mb-1 md:mb-0  py-3 ${className}`}
             for="inline-full-name"
           >
             {label}

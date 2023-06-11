@@ -19,6 +19,7 @@ export const CURRENT_ORDERS_GET = "orders/current-orders";
 export const PREVIOUS_ORDERS_GET = "orders/previous-orders";
 export const ADD_TO_BASKET = "orders/addToBasket";
 export const GET_CURRENT_BASKET = "orders/getCurrentBasket";
+export const GET_ORDER = "/orders/:id";
 
 //user
 export const USER = "/users/public-user/user";

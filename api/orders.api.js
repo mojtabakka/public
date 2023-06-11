@@ -8,6 +8,7 @@ import {
   ORDER,
   PREVIOUS_ORDERS_GET,
   REMOVE_PRODUCT_FROM_BASKET,
+  GET_ORDER,
 } from "config/url.config";
 
 export function addOrder(data) {
@@ -77,6 +78,18 @@ export function getPreviousOrders() {
   return new Promise((resolve, reject) => {
     http
       .get(PREVIOUS_ORDERS_GET)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getOrder(id) {
+  const finlaData = {
+    id,
+  };
+  return new Promise((resolve, reject) => {
+    http
+      .get(GET_ORDER.replace(":id", id))
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

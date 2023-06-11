@@ -25,13 +25,13 @@ const Profile = () => {
     const user = await editUser(data);
   };
   return (
-    <form className=" bg-gray-100 w-full h-full p-5" onSubmit={onSubmit}>
+    <form className="  bg-white rounded w-full h-full p-5" onSubmit={onSubmit}>
       <div className=" lg:flex  lg:justify-center md:flex  md:justify-center w-full">
         <div className="w-full px-3 ">
           <div className="py-1">
             <Input label="نام" value={user.name} name={INPUT_NAMES.name} />
           </div>
-          <div className="p-1">
+          <div className="py-1">
             <Input
               label="شماره تلفن همراه"
               value={user?.phoneNumber}

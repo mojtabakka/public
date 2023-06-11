@@ -208,7 +208,7 @@ const Layout = ({ children }) => {
             )}
           </div>
         </div>
-        <div className="mt-5">{children}</div>
+        <div className=" lg:text-base  text-small">{children}</div>
       </div>
       <Loading show={loading} />
     </div>

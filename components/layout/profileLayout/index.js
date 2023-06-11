@@ -17,48 +17,49 @@ const ProfileLayout = ({ children }) => {
   };
   return (
     <div className=" h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-4 gap-1 ">
-      <div className=" h-screen bg-white rounded shadow-sm     hidden lg:block md:inline-block sm:hidden ">
-        <div className="flex p-3 items-center justify-between">
-          <div>
-            <div className="flex p-3 items-center">
-              <div className="p-2">
-                <BsPersonCircle className=" text-6xl text-gray-500" />
+      <div className=" h-screen hidden lg:block md:inline-block sm:hidden">
+        <div className=" h-5/6 bg-white rounded shadow-sm      mt-5 mr-3 ">
+          <div className="flex p-3 items-center justify-between">
+            <div>
+              <div className="flex p-3 items-center">
+                <div className="p-2">
+                  <BsPersonCircle className=" text-6xl text-gray-500" />
+                </div>
               </div>
-              {/* <div>{localStorage && <div>{phoneNumber}</div>}</div> */}
+            </div>
+            <div className="p-3">
+              <Link href="/profile">
+                <FiEdit2 className="text-blue-400  text-2xl cursor-pointer" />
+                <span className="text-blue-400  text-xs">ویرایش</span>
+              </Link>
             </div>
           </div>
-          <div className="p-3">
-            <Link href="/profile">
-              <FiEdit2 className="text-blue-400  text-2xl cursor-pointer" />
-              <span className="text-blue-400  text-xs">ویرایش</span>
-            </Link>
-          </div>
-        </div>
-        <hr />
-        <Link href="/orders">
+          <hr />
+          <Link href="/orders">
+            <div className="p-3 cursor-pointer">
+              <span className="p-3">
+                <HiOutlineShoppingBag className=" inline-block text-xl" />
+              </span>
+              <span>سفارش ها </span>
+            </div>
+          </Link>
+          <hr />
           <div className="p-3 cursor-pointer">
             <span className="p-3">
-              <HiOutlineShoppingBag className=" inline-block text-xl" />
+              <FaRegAddressCard className=" inline-block text-xl" />
             </span>
-            <span>سفارش ها </span>
+            آدرس ها
           </div>
-        </Link>
-        <hr />
-        <div className="p-3 cursor-pointer">
-          <span className="p-3">
-            <FaRegAddressCard className=" inline-block text-xl" />
-          </span>
-          آدرس ها
-        </div>
-        <hr />
-        <div className="p-3 cursor-pointer ">
-          <span className="p-3">
-            <RxExit className=" inline-block text-xl" />
-          </span>
-          خروج
+          <hr />
+          <div className="p-3 cursor-pointer ">
+            <span className="p-3">
+              <RxExit className=" inline-block text-xl" />
+            </span>
+            خروج
+          </div>
         </div>
       </div>
-      <div className="   mx-2    col-span-3 rounded">{children}</div>
+      <div className="   mx-2  col-span-3 rounded">{children}</div>
     </div>
   );
 };

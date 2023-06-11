@@ -5,8 +5,11 @@ import { Tab } from "components";
 import { MdArrowBackIos } from "react-icons/md";
 import { CgTrashEmpty } from "react-icons/cg";
 import { getCurrentOrders, getPreviousOrders } from "api";
-import moment from "moment-jalaali";
-import { groupBy, isEmptyArray } from "utils/function.util";
+import {
+  groupBy,
+  isEmptyArray,
+  getCompleteDateToPersian,
+} from "utils/function.util";
 import { ModalAddress, Loading } from "components";
 import { useRouter } from "next/router";
 
@@ -63,10 +66,13 @@ const Orders = () => {
   };
 
   const handleClickOrder = (orderId) => {
-    router.push(`order/${orderId}`);
+    router.push({
+      pathname: "orders/order-details",
+      query: { id: orderId },
+    });
   };
   return (
-    <div className="  bg-white p-3 rounded">
+    <div className="  bg-white mt-5 p-3 rounded">
       <Tab items={TAB_ITEMS} onClick={handleClickTabItem} />
       {!isEmptyArray(orders) && !isLoading ? (
         <div>
@@ -90,9 +96,7 @@ const Orders = () => {
                       </div>
                       <div className=" w-full">
                         <div className="p-1">
-                          {moment(order.created_at).format(
-                            "dddd jD jMMMM jYYYY"
-                          )}
+                          {getCompleteDateToPersian(order.created_at)}
                         </div>
                         <div className="p-1">{order.id}</div>
                         <div className="p-1">{order.priceForUser} تومان</div>

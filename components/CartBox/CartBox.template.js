@@ -2,9 +2,8 @@ import React from "react";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { BiMemoryCard } from "react-icons/bi";
-import { isEmptyArray } from "utils/function.util";
 import { AiOutlineNumber } from "react-icons/ai";
-import { getToman } from "utils/function.util";
+import { isEmptyArray, getToman } from "utils/function.util";
 
 const CartBoxTemplate = ({ items }) => {
   return (
