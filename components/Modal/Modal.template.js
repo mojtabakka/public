@@ -1,11 +1,20 @@
 import React from "react";
+import Sheet from "react-modal-sheet";
 
-function ModalTemplate({ title, children, footer, onClickClose, show }) {
+function ModalTemplate({
+  title,
+  children,
+  footer,
+  onClickClose,
+  show,
+  sheetSubtitle,
+  sheetTitle,
+}) {
   return (
     <>
       <div
         className={` fixed h-full top-0  left-0 right-0  z-50  flex w-full items-center justify-center ${
-          !show ? " hidden" : ""
+          !show ? " hidden" : "lg:flex md:flex hidden"
         }`}
       >
         <div class="   w-full max-w-2xl">
@@ -49,9 +58,33 @@ function ModalTemplate({ title, children, footer, onClickClose, show }) {
         tabindex="-1"
         aria-hidden="true"
         class={`fixed top-0 left-0 right-0 z-10  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-400 opacity-50           ${
-          !show ? " hidden" : ""
+          !show ? " hidden" : "lg:flex md:flex hidden"
         }`}
       ></div>
+
+      <Sheet
+        className=" inline-block lg:hidden md:hidden"
+        isOpen={show}
+        onClose={onClickClose}
+        detent="content-height"
+      >
+        <Sheet.Container>
+          <Sheet.Header>
+            <div className="p-3  rounded-lg">
+              <div>{title} </div>
+              <span className=" text-small text-gray-400 text-xs">
+                {sheetSubtitle}
+              </span>
+            </div>
+            <hr />
+          </Sheet.Header>
+          <Sheet.Content className=" bg-gray-100">
+            <div className="p-5">{children}</div>
+          </Sheet.Content>
+        </Sheet.Container>
+
+        <Sheet.Backdrop />
+      </Sheet>
     </>
   );
 }

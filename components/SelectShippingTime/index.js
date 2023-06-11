@@ -28,17 +28,17 @@ function SelectShippingTime(props) {
     myDays.push({
       value: today.format("jYYYY/jM/jD"),
       dayNumber: today.jDate(),
-      dayName: today.format("dddd"),
+      dayName: today.format("dddd jD jMMMM  "),
       checked: today.format("jYYYY/jM/jD") === shippingTime ? true : false,
     });
 
-    [1, 1, 1, 1, 1, 1, 1].forEach(() => {
+    [1, 1, 1, 1].forEach(() => {
       today.add(1, "day");
       today.format("ddddd") !== "جمعه" &&
         myDays.push({
           value: today.format("jYYYY/jM/jD"),
           dayNumber: today.jDate(),
-          dayName: today.format("dddd"),
+          dayName: today.format("dddd jD jMMMM  "),
           checked: today.format("jYYYY/jM/jD") === shippingTime ? true : false,
         });
     });
@@ -53,17 +53,17 @@ function SelectShippingTime(props) {
     myDays.push({
       value: today.format("jYYYY/jM/jD"),
       dayNumber: today.jDate(),
-      dayName: today.format("dddd"),
+      dayName: today.format("dddd jD jMMMM  "),
       checked: today.format("jYYYY/jM/jD") === e.target.value,
     });
 
-    [1, 1, 1, 1, 1, 1, 1].forEach(() => {
+    [1, 1, 1, 1].forEach(() => {
       today.add(1, "day");
       today.format("ddddd") !== "جمعه" &&
         myDays.push({
           value: today.format("jYYYY/jM/jD"),
           dayNumber: today.jDate(),
-          dayName: today.format("dddd"),
+          dayName: today.format("dddd jD jMMMM  "),
           checked: today.format("jYYYY/jM/jD") === e.target.value,
         });
     });

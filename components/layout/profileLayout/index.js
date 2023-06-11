@@ -44,12 +44,14 @@ const ProfileLayout = ({ children }) => {
             </div>
           </Link>
           <hr />
-          <div className="p-3 cursor-pointer">
-            <span className="p-3">
-              <FaRegAddressCard className=" inline-block text-xl" />
-            </span>
-            آدرس ها
-          </div>
+          <Link href="/address">
+            <div className="p-3 cursor-pointer">
+              <span className="p-3">
+                <FaRegAddressCard className=" inline-block text-xl" />
+              </span>
+              آدرس ها
+            </div>
+          </Link>
           <hr />
           <div className="p-3 cursor-pointer ">
             <span className="p-3">

@@ -5,6 +5,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { CiMobile1 } from "react-icons/ci";
 import { BsPerson } from "react-icons/bs";
 import { BiLocationPlus } from "react-icons/bi";
+import { RxPerson } from "react-icons/rx";
 import { Input } from "components";
 import { Loading } from "../Loading";
 
@@ -37,7 +38,7 @@ function ModalAddressTemplate({
           addresses.map((item, index) => {
             return (
               <div
-                className="border mt-2  rounded-lg p-3 flex items-center "
+                className="border mt-2  rounded-lg p-3 flex items-center bg-white "
                 key={index}
               >
                 <div className="mx-5">

@@ -4,11 +4,14 @@ import { isEmptyArray } from "../../utils/function.util";
 
 function SelectShippingTimeTemplate({ days, onChange }) {
   return (
-    <div className="flex text-xs ">
+    <div className="  text-xs overflow-y-scroll ">
       {!isEmptyArray(days) &&
         days.map((item, index) => {
           return (
-            <div className="px-5 flex items-center" key={item.value + index}>
+            <span
+              className="px-5 flex  bsg-gray-100 mx-2  my-2 rounded items-center bg-gray-100"
+              key={item.value + index}
+            >
               <div className="mt-2">
                 <Input
                   type="radio"
@@ -19,7 +22,7 @@ function SelectShippingTimeTemplate({ days, onChange }) {
                 />
               </div>
               <div className="px-2 bg-red"> {item?.dayName} </div>
-            </div>
+            </span>
           );
         })}
     </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import logo from "public/images/logo.jpeg";
 import Image from "next/image";
-import Link from "next/link";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
@@ -101,7 +100,6 @@ const Layout = ({ children }) => {
       router.push({ pathname: "/" });
     }
   };
-
   return (
     <div>
       <header>
@@ -146,53 +144,45 @@ const Layout = ({ children }) => {
               </div>
             </form>
           </div>
-          <div className="flex-1 lg:mx-20 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
-            <div
-              className=" inline-block px-6 py-3"
-              onMouseLeave={hanleMouseLeaveBasketIcon}
-              onMouseOver={handleBasketIconMoouseOver}
-              onClick={handleClickBasket}
-            >
-              <SlBasket className="inline-block relative  lg:text-2xl  md:text-xl sm:text-lg text-lg" />
+          <div className="flex-1 lg:mx-10 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
+            <div className="flex  items-center justify-end mx-3 lg:mx-0">
+              <div
+                className=" inline-block px-6 py-3 "
+                onMouseLeave={hanleMouseLeaveBasketIcon}
+                onMouseOver={handleBasketIconMoouseOver}
+                onClick={handleClickBasket}
+              >
+                <SlBasket className="inline-block relative  lg:text-2xl  md:text-xl sm:text-lg text-lg" />
+              </div>
+              {!token ? (
+                <span
+                  onClick={handleClicklogin}
+                  className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
+                >
+                  <HiOutlineLogin className="  inline-block  text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
+                  <span
+                    href="login"
+                    className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
+                  >
+                    <span className=" hidden lg:inline-block md:hidden sm:hidden text">
+                      ثبت نام |
+                    </span>
+                    <span> ورود </span>
+                  </span>
+                </span>
+              ) : (
+                <div>
+                  <Dropdown
+                    title={
+                      <CgProfile className="  inline-block text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
+                    }
+                    open={true}
+                    items={dropDownItems}
+                    //   onClick={handleClickDropdown}
+                  />
+                </div>
+              )}
             </div>
-            {!token ? (
-              <span
-                onClick={handleClicklogin}
-                className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
-              >
-                <HiOutlineLogin className="  inline-block  text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
-                <span
-                  href="login"
-                  className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
-                >
-                  <span className=" hidden lg:inline-block md:hidden sm:hidden text">
-                    ثبت نام |
-                  </span>
-                  <span> ورود </span>
-                </span>
-              </span>
-            ) : (
-              <span
-                className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x  "
-                onClick={changeStatusDropDown}
-              >
-                <CgProfile className="  inline-block text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
-                <span
-                  href="login"
-                  className=" px-1 text-xs lg:text-base md:text-base  sm:text-sm text"
-                >
-                  <span className="  lg:inline-block text">
-                    <IoMdArrowDropdown className=" inline-block" />
-                    <Dropdown
-                      className="left-8 lg:left-24 top-12 lg:top-16 border"
-                      open={DropdownOpen}
-                      items={dropDownItems}
-                      onClick={handleClickDropdown}
-                    />
-                  </span>
-                </span>
-              </span>
-            )}
           </div>
         </div>
       </header>
@@ -208,7 +198,7 @@ const Layout = ({ children }) => {
             )}
           </div>
         </div>
-        <div className=" lg:text-base  text-small">{children}</div>
+        <div className=" lg:text-base  text-small mb-24">{children}</div>
       </div>
       <Loading show={loading} />
     </div>

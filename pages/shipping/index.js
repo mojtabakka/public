@@ -6,7 +6,6 @@ import { getActiveAddress, addOrder } from "api";
 import { isEmptyArray, isEmptyObject } from "utils/function.util";
 import MainLayout from "components/Layout/mainLayout";
 import {
-  Button,
   Card,
   ModalAddAddress,
   ModalAddress,
@@ -60,9 +59,9 @@ const shipping = () => {
     setCart(item);
   };
   return (
-    <div className="mx-5">
-      <div className="flex justify-between">
-        <Card className="w-full mx-2">
+    <div className="mt-5">
+      <div className=" lg:flex md:flex justify-between">
+        <Card className="w-full ">
           <div className="border p-3 rounded-lg">
             <div className="text-medium  text-gray-400">آدرس تحویل سفارش</div>
             {isEmptyObject(address) && (
@@ -117,7 +116,12 @@ const shipping = () => {
                 ))}
             </div>
           </div>
+          <div className="border mt-3  rounded-lg">
+            <div className="px-2 py-2">انتخاب زمان ارسال</div>
+            <SelectShippingTime onSelectTime={handleSelectTime} />
+          </div>
         </Card>
+
         <ShippingPrice
           shippingPermision={shippingTime ? true : false}
           onCartItem={handleCartItem}
@@ -125,11 +129,11 @@ const shipping = () => {
         />
       </div>
       <div className="flex justify-between">
-        <Card className="mx-2 mt-2 w-full text-base">
-          <div className="mb-5">انتخاب زمان ارسال</div>
-          <SelectShippingTime onSelectTime={handleSelectTime} />
-        </Card>
-        <div className="w-1/4 mx-1"></div>
+        {/* <Card className="mt-2 w-full text-base">
+      
+          
+        </Card> */}
+        <div className="w-full mx-1"></div>
       </div>
       <ModalAddAddress
         show={showAddModal}

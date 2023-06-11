@@ -37,8 +37,8 @@ const payment = () => {
 
   return (
     <>
-      <div className="px-5 flex">
-        <Card className="w-full mx-2">
+      <div className=" lg:px-2 md:px-2 pt-5 lg:flex md:flex ">
+        <Card className="w-full lg:mx-2 md:mx-2 mx-0">
           <div className="border w-full h-full p-3 rounded-lg  ">
             <span className="text-base text-gray-400">پرداخت از طریق </span>
             <div className="flex mt-10 text-lg items-center   ">
@@ -56,7 +56,7 @@ const payment = () => {
               </div>
               <span className="px-2">پرداخت اینترتی</span>
             </div>
-            <div className="flex mt-10 text-lg items-center   ">
+            <div className="flex mt-7 text-lg items-center   ">
               <div className="mt-1">
                 <Input
                   type="radio"
@@ -77,11 +77,11 @@ const payment = () => {
               </div>
               <span className="px-2">پرداخت در محل</span>
             </div>
-            <div className="mt-32 py-5 px-2 text-base">
+            <div className=" md:mt-32 lg:mt-32  mt-16 py-5 px-2 text-base">
               <span className="text-gray-400 text-sm">زمان ارسال :</span>{" "}
               {shippingTime}
             </div>
-            <div className="border p-3 rounded-lg ">
+            <div className="border p-3 rounded-lg  ">
               {isEmptyArray(cart) && (
                 <div className="flex justify-center p-20">
                   <CgTrashEmpty className=" text-8xl" />

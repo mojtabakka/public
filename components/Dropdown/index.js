@@ -1,25 +1,41 @@
-import React, { Component } from "react";
-// items config :
+import React, { useRef, useState } from "react";
+import Sheet from "react-modal-sheet";
+import { isFunction } from "../../utils/function.util";
+import useOutsideClick from "hooks/useOutsideClick";
 
-// {
-//     title: ... ,
-//     bgColor: ... ,
-//     color: ... ,
-//     border: ... ,
-//     subTitle: ... ,
-//     icon: ... ,
-//     secondIcon: ... ,
+const Dropdown = ({
+  className,
+  items,
+  onClick,
+  key,
+  title,
+  sheetTitle,
+  sheetSubtitle,
+}) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef();
 
-// },
-const Dropdown = ({ className, open, items, onClick, key }) => {
-  const hello = () => {};
+  useOutsideClick(ref, () => {});
+  const onClickItem = (item) => {
+    setOpen(!open);
+    isFunction(onClick) && props.onClick(item);
+  };
+  const onClickTitle = () => {
+    setOpen(!open);
+  };
   return (
-    <>
+    <div className=" relative" dir="ltr">
+      <div onClick={onClickTitle} className=" cursor-pointer">
+        {title}
+      </div>
       <div
+        ref={ref}
         dir="rtl"
         id="dropdown"
-        className={` absolute w-full ${
-          !open ? "hidden" : "inline-block"
+        className={` absolute w-full  ${
+          !open
+            ? "hidden"
+            : "hidden sm:inline-block  lg:inline-block md:inline-block"
         }  z-10   bg-white divide-y divide-gray-100 rounded shadow w-52 dark:bg-gray-700 ${className}`}
       >
         <ul
@@ -31,7 +47,7 @@ const Dropdown = ({ className, open, items, onClick, key }) => {
             items.map((item, index) => (
               <span key={index}>
                 <li
-                  onClick={() => onClick(item)}
+                  onClick={() => onClickItem(item)}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
                   className=" rounded  w-100 bg-red-50 w-full "
                   key={item.id}
@@ -63,7 +79,46 @@ const Dropdown = ({ className, open, items, onClick, key }) => {
             ))}
         </ul>
       </div>
-    </>
+      <div>
+        <Sheet
+          className=" inline-block lg:hidden md:hidden"
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          detent="content-height"
+        >
+          <Sheet.Container>
+            <Sheet.Header>
+              <div className=" p-3">
+                <div>{sheetTitle} </div>
+                <span className=" text-small text-gray-400 text-xs">
+                  {sheetSubtitle}
+                </span>
+              </div>
+            </Sheet.Header>
+            <Sheet.Content>
+              <div className="p-5">
+                {items.map((item) => (
+                  <div
+                    className={`flex w-full mt-3 rounded  p-4 items-center border ${item.className}`}
+                    onClick={() => onClickItem(item)}
+                  >
+                    <div className={`   rounded  text-sm w-full `}>
+                      <div className="text-sm">{item.title}</div>
+                      <span className="text-gray-400 text-xs">
+                        {item.subTitle}
+                      </span>
+                    </div>
+                    <div>{item.icon}</div>
+                  </div>
+                ))}
+              </div>
+            </Sheet.Content>
+          </Sheet.Container>
+
+          <Sheet.Backdrop />
+        </Sheet>
+      </div>
+    </div>
   );
 };
 
