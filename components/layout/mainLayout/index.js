@@ -178,7 +178,7 @@ const Layout = ({ children }) => {
                     }
                     open={true}
                     items={dropDownItems}
-                    //   onClick={handleClickDropdown}
+                      onClick={handleClickDropdown}
                   />
                 </div>
               )}

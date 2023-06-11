@@ -18,7 +18,7 @@ const Dropdown = ({
   useOutsideClick(ref, () => {});
   const onClickItem = (item) => {
     setOpen(!open);
-    isFunction(onClick) && props.onClick(item);
+    isFunction(onClick) && onClick(item);
   };
   const onClickTitle = () => {
     setOpen(!open);

@@ -36,7 +36,7 @@ const Cart = () => {
     setLoading(true);
   };
   return (
-    <div className="p-2 w-full md:flex  lg:flex">
+    <div className="p-2 w-full md:flex  lg:flex text-xs">
       <Card className="m-2 w-full rounded-lg ">
         <CartBox items={cartItems} />
       </Card>

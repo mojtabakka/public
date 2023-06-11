@@ -25,7 +25,7 @@ const Profile = () => {
     const user = await editUser(data);
   };
   return (
-    <form className="  bg-white rounded w-full h-full p-5" onSubmit={onSubmit}>
+    <form className="  bg-white rounded w-full h-full p-5 mt-5" onSubmit={onSubmit}>
       <div className=" lg:flex  lg:justify-center md:flex  md:justify-center w-full">
         <div className="w-full px-3 ">
           <div className="py-1">

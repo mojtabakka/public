@@ -118,14 +118,14 @@ const orderDetails = () => {
             </div>
           )}
 
-          <div className="flex overflow-x-scroll my-5 rounded-lg">
+          <div className=" overflow-x-scroll my-5 rounded-lg">
             {!isEmptyArray(products) &&
               products.map((item, index) => {
                 const key = Object.keys(item)[0];
                 const data = item[key][0];
                 const number = item[key].length;
                 return (
-                  <div className="flex border rounded-lg p-5 mx-2 w-full">
+                  <div className="flex border rounded-lg p-5 mx-2 w-full mt-2">
                     <div className="w-full">
                       <div className="mb-5">
                         <span className="text-gray-400  px-2">
@@ -146,7 +146,7 @@ const orderDetails = () => {
                           سود شما از این خرید
                         </span>
                         <span className="">
-                          {getToman(data?.priceForUser * data.off)}
+                          {getToman(data?.priceForUser * (data.off / 100))}
                           <span className="mx-1">تومان</span>
                         </span>
                       </div>
