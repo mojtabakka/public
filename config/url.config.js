@@ -3,6 +3,7 @@
 //products
 export const PRODUCT = "/product/public";
 export const GET_PRODUCT = "/product/public/:model";
+export const PRODUCT_SERCH = "/product/public/product-search/product-search";
 
 //auth
 export const LOGIN = "/auth/send-otp";
@@ -27,6 +28,9 @@ export const USER = "/users/public-user/user";
 export const ADDRESS = "/address";
 export const GET_ACTIVE_ADDRESS = "/address/get-active-address";
 export const CHANGE_ACTIVE_ADDRESS = "/address/change-active-address/:id";
+
+//catertory
+export const GET_CAT = "type/get-cat";
 
 export const NEEDED_URLS_FOR_AUTHENTICATION = () => [
   { url: USER },

@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import "react-alice-carousel/lib/alice-carousel.css";
 @import "~react-image-gallery/styles/css/image-gallery.css";
+
 @font-face {
     font-family: shabnam;
     src: url(../public//fonts//Shabnam.woff2);
@@ -23,6 +24,7 @@ body {
     min-width: 0;
 }
 
+
 .react-slick .slick-prev,
 .react-slick .slick-next {
     background-color: rgb(187, 184, 184);
@@ -37,6 +39,7 @@ body {
     .react-slick .fluid__image-container {
         margin: 40px;
     }
+
     .react-slick .fluid__instructions {
         margin: 0 20px;
         padding-top: 20px;

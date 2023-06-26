@@ -69,9 +69,6 @@ const DetailProduct = (props) => {
     <div className=" lg:flex">
       <ProductImages product={product} />
       <ProductFeatures product={product} />
-      <div style={{}}>
-        <div></div>
-      </div>
       <ProductPrice
         product={product}
         onClickPlus={handleClickPlus}

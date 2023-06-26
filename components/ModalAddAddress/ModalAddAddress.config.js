@@ -6,4 +6,7 @@ export const INPUT_NAMES = {
   city: "city",
   postalCode: "postalCode",
   address: "address",
+  receivername: "receivername",
+  receiverlastname: "receiverlastname",
+  recivermobile: "recivermobile",
 };

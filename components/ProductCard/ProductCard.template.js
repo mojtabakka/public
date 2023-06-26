@@ -1,15 +1,26 @@
 import React from "react";
 import { Loading } from "components";
 import { getToman } from "utils/function.util";
+import { isEmptyArray } from "../../utils/function.util";
+import { IoCamera } from "react-icons/io5";
 
 const ProductCardTemplate = ({ items, key, onClick }) => {
-  const src = `${items.src}`;
+  const src = `${items?.photos[0]?.src}`;
   return (
-    <div onClick={onClick} key={key} className=" cursor-pointer w-full  ">
-      <div className=" shadow-sm bg-white py-2 inline-block  hover:shadow-lg border w-full">
+    <div
+      onClick={onClick}
+      key={key}
+      className=" cursor-pointer w-full mt-1 rounded "
+    >
+      <div className=" shadow-sm bg-white py-2 inline-block  hover:shadow-lg border rounded-lg w-full">
         <div className="  w-full bg-red flex md:block sm:block lg:block justify-between ">
           <figure className=" px-5 pt-3 flex justify-center w-full ">
-            <img src={src} className="  h-40 w-40" />
+            {console.log(items.photos)}
+            {!isEmptyArray(items?.photos) ? (
+              <img src={src} className="  h-40 w-40" />
+            ) : (
+              <IoCamera className=" h-40 w-40 text-gray-600" />
+            )}
           </figure>
           <div className="w-full px-2 relative ">
             <h1 className="text-right pt-5  text-sm">{items.model}</h1>

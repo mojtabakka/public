@@ -74,7 +74,7 @@ const Cart = () => {
           </div>
         </Card>
       </div>
-      <Loading show={loading} />
+      {/* <Loading show={loading} /> */}
     </div>
   );
 };

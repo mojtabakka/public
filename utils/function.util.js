@@ -82,3 +82,4 @@ export function getCompleteDateToPersian(date, jalaali = false) {
   date = jalaali ? moment(date, "jYYYY/jM/jD").format("YYYY/M/D") : date;
   return moment(date).format("dddd jD jMMMM jYYYY");
 }
+

@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import logo from "public/images/logo.jpeg";
 import Image from "next/image";
+import logo from "public/images/logo.jpeg";
+import { searchProduct } from "api";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import { Dropdown, BasketModal } from "components";
+import { GrMapLocation } from "react-icons/gr";
+import { IoFilter } from "react-icons/io5";
+import { Dropdown, BasketModal, Modal } from "components";
 import { getCookie } from "lib/function.utils.js";
 import { isEmptyArray } from "utils/function.util.js";
-import { Loading } from "components";
-const Layout = ({ children }) => {
+import { Sidebar } from "components";
+import { isFunction } from "utils/function.util";
+
+const Layout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState();
   const [DropdownOpen, setDropdownOpen] = useState(false);
@@ -22,7 +26,9 @@ const Layout = ({ children }) => {
   const [displayBaskModal, setDisplayBaskModal] = useState(false);
   const [leaveBasketFlag, setLeaveBasketFlag] = useState(false);
   const [leaveBaketKadrFlag, setLeaveBaketKadrFlag] = useState(false);
-  const { query, push } = useRouter();
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [search, setSearch] = useState();
+  const { push } = useRouter();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,6 +36,20 @@ const Layout = ({ children }) => {
     setToken(token);
     initDropDown();
   }, []);
+
+  useEffect(() => {
+    if (search) {
+      const getData = setTimeout(async () => {
+        const data = {
+          search,
+        };
+        const result = await searchProduct(data);
+        console.log(result);
+      }, 1000);
+
+      return () => clearTimeout(getData);
+    }
+  }, [search]);
   const handleClickBasket = () => {
     if (router.pathname !== "/cart") {
       setLoading(true);
@@ -51,7 +71,6 @@ const Layout = ({ children }) => {
         title: localStorage.getItem("phoneNumber"),
         bgColor: "white",
         border: true,
-        subTitle: "hello",
         icon: <BsPersonCircle className=" text-xl inline-block" />,
         secondIcon: <MdOutlineKeyboardArrowLeft className="" />,
         url: "/profile",
@@ -63,6 +82,14 @@ const Layout = ({ children }) => {
         bgColor: "white",
         url: "/orders",
         icon: <BsFillBasket3Fill />,
+      },
+
+      {
+        id: 2,
+        title: "آدرس ها",
+        bgColor: "white",
+        url: "/addresses",
+        icon: <GrMapLocation />,
       },
     ];
     setDropDownItems(items);
@@ -100,10 +127,35 @@ const Layout = ({ children }) => {
       router.push({ pathname: "/" });
     }
   };
+
+  const handleChangeFilter = (item) => {
+    isFunction(props.onChangeFilter) && props.onChangeFilter(item);
+  };
+
+  const handleClickFilterIcon = () => {
+    setShowFilterModal(true);
+  };
+
   return (
-    <div>
-      <header>
-        <div className=" flex shadow-md bg-white py-3 sm:text-xm p-2 place-items-center">
+    <div className="">
+      <header className=" shadow-md bg-white  sm:text-xm p-2  lg:sticky lg:top-0 md:sticky md:top-0 w-full  z-50 ">
+        <div className="text-center lg:hidden md:hidden flex justify-between items-center">
+          <div className="w-full text-right ">
+            <Image
+              onClick={handleClickLogo}
+              src={logo}
+              alt="Picture of the author"
+              width={50}
+              height={50}
+              className=" inline-block cursor-pointer"
+            />
+          </div>
+          <div className="text-left w-full text-blue-400  text-medium">
+            فروشگاه بزرگ دوربین ایرانیان
+          </div>
+        </div>
+        <hr className="lg:hidden md:hidden " />
+        <div className=" flex place-items-center mt-3">
           <div className="flex-1 text-right mx-20 md:block lg:block hidden ">
             <Image
               onClick={handleClickLogo}
@@ -123,6 +175,7 @@ const Layout = ({ children }) => {
                   className=" bg-gray-100 rounded-lg text-right w-full p-2 pr-10 text-sm text-gray-900 outline-0"
                   placeholder="جستوجو"
                   required
+                  onChange={(e) => setSearch(e.target.value)}
                 />
                 <div className="absolute inset-y-0 right-4 flex items-center pl-3 pointer-events-none  ">
                   <svg
@@ -173,12 +226,32 @@ const Layout = ({ children }) => {
               ) : (
                 <div>
                   <Dropdown
+                    sheetTitle={
+                      <>
+                        <div
+                          className="text-center"
+                          style={{ marginTop: "-20px" }}
+                        >
+                          <span className="border border-white bg-white p-5 rounded-full">
+                            <span className=" ">
+                              <CgProfile className=" inline-block  text-2xl  lg:text-2xl  md:text-xl sm:text-lg" />
+                            </span>
+                          </span>
+                        </div>
+                        <div className="text-center mt-3 text-gray-400">
+                          مجتبی کریمی
+                        </div>
+                        <div className="text-center mt-3 text-gray-400">
+                          {localStorage.getItem("phoneNumber")}
+                        </div>
+                      </>
+                    }
                     title={
                       <CgProfile className="  inline-block text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
                     }
                     open={true}
                     items={dropDownItems}
-                      onClick={handleClickDropdown}
+                    onClick={handleClickDropdown}
                   />
                 </div>
               )}
@@ -186,21 +259,57 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </header>
-      <div>
-        <div className=" hidden  md:block">
-          <div className={`${!displayBaskModal ? "hidden" : ""}`}>
-            {isEmptyArray(basketData) && basketData.length > 0 && (
-              <BasketModal
-                items={basketData}
-                onMouseLeave={hanelMouseLeaveBasketkadr}
-                onMouseOver={() => setDisplayBaskModal(true)}
-              />
-            )}
+      <div
+        className={`p-3 flex items-center shadow-lg bg-white border md:hidden lg:hidden ${
+          !showFilters && "hidden"
+        }`}
+      >
+        <div
+          className={`cursor-pointer text-blue-400 ${!showFilters && "hidden"}`}
+          onClick={handleClickFilterIcon}
+        >
+          <span className="pl-1 text-base">فیلترها</span>
+          <IoFilter className=" inline-block text-base" />
+        </div>
+      </div>
+      {/* <div className="border border-white "></div> */}
+      <div className="flex">
+        <Sidebar
+          onChangeFilter={handleChangeFilter}
+          className={` ${!showFilters ? "hidden" : "hidden md:block lg:block"}`}
+        />
+        {/* <div className="bg-white mt-5 mr-3 p-5 rounded w-1/6">
+
+        </div> */}
+        <div className="w-full">
+          <div className=" hidden  md:block">
+            <div className={`${!displayBaskModal ? "hidden" : ""}`}>
+              {isEmptyArray(basketData) && basketData.length > 0 && (
+                <BasketModal
+                  items={basketData}
+                  onMouseLeave={hanelMouseLeaveBasketkadr}
+                  onMouseOver={() => setDisplayBaskModal(true)}
+                />
+              )}
+            </div>
+          </div>
+          <div className=" lg:text-base  text-small mb-24 overflow-y-scroll">
+            {children}
           </div>
         </div>
-        <div className=" lg:text-base  text-small mb-24">{children}</div>
+        <Modal
+          title="فیلتر ها"
+          show={showFilterModal}
+          className="bg-white"
+          onClickClose={() => setShowFilterModal(false)}
+          onClickBackdrop={() => setShowFilterModal(false)}
+        >
+          <Sidebar
+            onChangeFilter={handleChangeFilter}
+            className=" !w-full !p-0  !shadow-none"
+          />
+        </Modal>
       </div>
-      <Loading show={loading} />
     </div>
   );
 };

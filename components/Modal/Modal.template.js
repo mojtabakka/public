@@ -8,7 +8,9 @@ function ModalTemplate({
   onClickClose,
   show,
   sheetSubtitle,
+  className,
   sheetTitle,
+  onClickBackdrop,
 }) {
   return (
     <>
@@ -17,22 +19,22 @@ function ModalTemplate({
           !show ? " hidden" : "lg:flex md:flex hidden"
         }`}
       >
-        <div class="   w-full max-w-2xl">
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+        <div className="   w-full max-w-2xl">
+          <div className="relative bg-white rounded-lg lg:shadow md:shadow dark:bg-gray-700">
+            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 {title}
               </h3>
               <div>
                 <button
                   onClick={onClickClose}
                   type="button"
-                  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                   data-modal-hide="defaultModal"
                 >
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5"
+                    className="w-5 h-5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +48,8 @@ function ModalTemplate({
                 </button>
               </div>
             </div>
-            <div class="p-6">{children}</div>
-            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600 text-left  justify-end">
+            <div className={`p-6 ${className}`}>{children}</div>
+            <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600 text-left  justify-end">
               {footer}
             </div>
           </div>
@@ -57,7 +59,7 @@ function ModalTemplate({
         id="defaultModal"
         tabindex="-1"
         aria-hidden="true"
-        class={`fixed top-0 left-0 right-0 z-10  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-400 opacity-50           ${
+        className={`fixed top-0 left-0 right-0 z-10  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-400 opacity-50           ${
           !show ? " hidden" : "lg:flex md:flex hidden"
         }`}
       ></div>
@@ -79,11 +81,11 @@ function ModalTemplate({
             <hr />
           </Sheet.Header>
           <Sheet.Content className=" bg-gray-100">
-            <div className="p-5">{children}</div>
+            <div className={`p-5 ${className}`}>{children}</div>
           </Sheet.Content>
         </Sheet.Container>
 
-        <Sheet.Backdrop />
+        <Sheet.Backdrop onClick={onClickBackdrop} />
       </Sheet>
     </>
   );

@@ -11,7 +11,7 @@ const ProductImagesTemplate = ({ product }) => {
   });
   return (
     <div
-      className={` bg-white  m-1 rounded lg:w-2/5 p-10  text-center  flex justify-center overflow-scrolld  `}
+      className={` bg-white  m-1 rounded lg:w-2/5 p-10  text-center  flex justify-center overflow-scrolld  mt-3 `}
     >
       <ImageGallery
         items={images}

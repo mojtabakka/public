@@ -16,7 +16,7 @@ const ProductPriceTemplate = ({
   const { warranty, priceForUser, exist, numberOfExist, deliveryMethod, off } =
     product;
   return (
-    <div className=" bg-white p-2 rounded lg:w-1/4 m-1 w-full     mb-20 flex-1">
+    <div className="bg-white m-1 rounded lg:w-1/4 px-3 pb-14 pt-3  w-full text-right mt-3">
       <div className=" flex-col h-full">
         <div className="  text-sm flex-1   h-5/6">
           {warranty && (
@@ -77,7 +77,7 @@ const ProductPriceTemplate = ({
             </div>
           </div>
         </div>
-        <div className="w-full text-right mb-0  flex-1 hidden lg:inline-block">
+        <div className="w-full text-right  mb-0  flex-1 hidden lg:inline-block">
           {numberOfOrder === 0 ? (
             <Button className="w-full" onClick={onClickPlus}>
               افزودن به سبد

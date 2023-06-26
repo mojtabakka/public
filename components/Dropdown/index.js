@@ -35,7 +35,7 @@ const Dropdown = ({
         className={` absolute w-full  ${
           !open
             ? "hidden"
-            : "hidden sm:inline-block  lg:inline-block md:inline-block"
+            : "hidden  lg:inline-block md:inline-block"
         }  z-10   bg-white divide-y divide-gray-100 rounded shadow w-52 dark:bg-gray-700 ${className}`}
       >
         <ul
@@ -85,6 +85,7 @@ const Dropdown = ({
           isOpen={open}
           onClose={() => setOpen(false)}
           detent="content-height"
+          onSnap={() => console.log("hello")}
         >
           <Sheet.Container>
             <Sheet.Header>
@@ -115,7 +116,7 @@ const Dropdown = ({
             </Sheet.Content>
           </Sheet.Container>
 
-          <Sheet.Backdrop />
+          <Sheet.Backdrop onClick={() => setOpen(false)} />
         </Sheet>
       </div>
     </div>

@@ -9,3 +9,4 @@ export const USER_SET_PERMISSIONS = "USER_SET_PERMISSIONS";
 export const USER_SET_USER = "USER_SET_USER";
 
 export const BACK_URL = "USER_SET_USER";
+  

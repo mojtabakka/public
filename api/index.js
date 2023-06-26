@@ -1,4 +1,4 @@
-export { getProducts, getProduct } from "./product.api";
+export { getProducts, getProduct, searchProduct } from "./product.api";
 export { sendOtp, verification } from "./auth.api";
 export {
   addOrder,
@@ -18,3 +18,4 @@ export {
   getActiveAddress,
   getAddresses,
 } from "./address.api";
+export { getCat } from "./category.api";

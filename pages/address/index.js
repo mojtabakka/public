@@ -10,11 +10,12 @@ import { MdOutlineAddLocationAlt } from "react-icons/md";
 
 import { BsPerson } from "react-icons/bs";
 import { getAddresses } from "api";
-import { isEmptyArray } from "../../utils/function.util";
-import { Dropdown } from "../../components";
+import { isEmptyArray } from "utils/function.util";
+import { Dropdown, ModalAddAddress } from "components";
 
 const address = () => {
   const [addresses, setAddresses] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [dropDownItems, setDropDownItems] = useState([]);
   useEffect(() => {
     getAddressItems();
@@ -48,6 +49,11 @@ const address = () => {
       },
     ];
     setDropDownItems(items);
+  };
+
+  const handleResult = (result) => {
+    result && getAllAddresses();
+    setShowAddModal(false);
   };
   return (
     <div className=" bg-white mt-5 p-3  rounded">
@@ -85,12 +91,20 @@ const address = () => {
               </div>
             </div>
           ))}
-
-        <div className="border rounded p-2 text-center text-red-700 bg-gray-200 cursor-pointer font-black">
+        <div
+          className="border rounded p-2 text-center text-blue-400 bg-gray-200 cursor-pointer font-black"
+          onClick={() => setShowAddModal(true)}
+        >
           <MdOutlineAddLocationAlt className=" inline-block text-base" />
           <span className="px-2">افزودن آدرس جدید</span>
         </div>
       </div>
+
+      <ModalAddAddress
+        show={showAddModal}
+        onClickClose={() => setShowAddModal(false)}
+        onResult={handleResult}
+      />
     </div>
   );
 };
