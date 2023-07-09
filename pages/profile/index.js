@@ -2,11 +2,19 @@ import React, { useEffect, useState } from "react";
 import { getUser } from "api";
 import ProfileLayout from "components/Layout/profileLayout";
 import MainLayout from "components/Layout/mainLayout";
-import { INPUT_NAMES } from "./config";
 import { editUser } from "api";
 // import { DatePicker } from "react-persian-datepicker
 
 import { Input, Button } from "components";
+
+const INPUT_NAMES = {
+  name: "name",
+  lastName: "lastname",
+  nationalCode: "nationalCode",
+  email: "nationalCode",
+  phoneNumber: "phoneNumber",
+  password: "password",
+};
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -25,7 +33,10 @@ const Profile = () => {
     const user = await editUser(data);
   };
   return (
-    <form className="  bg-white rounded w-full h-full p-5 mt-5" onSubmit={onSubmit}>
+    <form
+      className="  bg-white rounded w-full h-full p-5 mt-5"
+      onSubmit={onSubmit}
+    >
       <div className=" lg:flex  lg:justify-center md:flex  md:justify-center w-full">
         <div className="w-full px-3 ">
           <div className="py-1">

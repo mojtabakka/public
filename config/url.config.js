@@ -30,7 +30,8 @@ export const GET_ACTIVE_ADDRESS = "/address/get-active-address";
 export const CHANGE_ACTIVE_ADDRESS = "/address/change-active-address/:id";
 
 //catertory
-export const GET_CAT = "type/get-cat";
+export const GET_CAT = "/category/get-cat";
+export const GET_CATS = "/category";
 
 export const NEEDED_URLS_FOR_AUTHENTICATION = () => [
   { url: USER },

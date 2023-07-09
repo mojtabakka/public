@@ -15,7 +15,6 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
       <div className=" shadow-sm bg-white py-2 inline-block  hover:shadow-lg border rounded-lg w-full">
         <div className="  w-full bg-red flex md:block sm:block lg:block justify-between ">
           <figure className=" px-5 pt-3 flex justify-center w-full ">
-            {console.log(items.photos)}
             {!isEmptyArray(items?.photos) ? (
               <img src={src} className="  h-40 w-40" />
             ) : (
@@ -42,10 +41,6 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
                         تخفیف
                       </div>
                     </div>
-
-                    // <Badge className="  p-1 rounded-3xl text-sm">
-                    //   {items.off}
-                    // </Badge>
                   )}
                 </div>
                 <div className=" flex-1  text-bold w-full text-left text-base mb-0  ">

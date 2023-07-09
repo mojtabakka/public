@@ -1,97 +1,50 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "components/layout/mainLayout";
-import { getProducts } from "api";
-import { ProductCard, Loading, SearchKader } from "components";
+import { getProducts, getCats } from "api";
+import { ProductCard, Loading, SearchKader, Card } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import { isEmptyArray } from "../utils/function.util";
+import Link from "next/link";
 
 export async function getServerSideProps(context) {
   try {
-    const data = {
-      properties: context.query.properties,
-    };
-    const result = await getProducts(data);
-    const products = result.data;
-    const paginations = result.meta;
+    const result = await getCats();
     return {
       props: {
-        products,
-        paginations,
+        cats: result.data,
       },
     };
   } catch (error) {
-    console.log(error);
+    console.log("error", error);
+    return {
+      props: {
+        cats: null,
+      },
+    };
   } finally {
   }
 }
 
-function Home({ products, paginations }) {
-  const [allProducts, setAllProducts] = useState([]);
-  const [paginationsnotssr, setPaginationsnotssr] = useState({});
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setAllProducts([...products]);
-    setPaginationsnotssr({ ...paginations });
-  }, []);
-  const handleChangeFilter = (item) => {
-    router.push({
-      query: {
-        properties: item,
-      },
-    });
-  };
-  const handleClick = (model) => {
-    setLoading(true);
-    router.push({
-      pathname: `/product-detail/${model}`,
-    });
-  };
-
-  const handleNest = async (item) => {
-    const result = await getProducts({ page: page + 1 });
-    setAllProducts([...allProducts, ...result.data]);
-    setPaginationsnotssr({ ...result.meta });
-    setPage(page + 1);
-  };
-
+function Home({ cats }) {
   return (
-    <Layout onChangeFilter={handleChangeFilter} showFilters={true}>
-      <SearchKader />
-      <div className=" ">
-        <InfiniteScroll
-          dataLength={10}
-          next={handleNest}
-          className="md:mx-5  sm:mx-5 lg:mx-5 mx-5"
-          // hasMore={paginations.hasNextPage}
-          hasMore={paginationsnotssr.hasNextPage}
-          // loader={
-          //   <div className="text-center flex justify-center text-sm">
-          //     <FadeLoader className=" inline-block !text-sm" />
-          //   </div>
-          // }
-          scrollableTarget="scrollableDiv"
-        >
-          <div className="  mt-5 w-full md:mt-1 lg:mt-1  grid lg:grid-cols-4 mx-0   md:grid-cols-3 sm:grid-cols-2 grid-cols-1  h-full">
-            {allProducts &&
-              // !isEmptyArray(allProducts) &&
-              allProducts.map((item, index) => (
-                <span key={index + item.id}>
-                  <ProductCard
-                    onClick={handleClick}
-                    items={item}
-                    key={item.id}
-                  />
-                </span>
-              ))}
-          </div>
-        </InfiniteScroll>
+    <Layout showFilters={false}>
+      <Card className="text-center mx-2 mt-5 border-rounded ">
+        <span className="text-center text-lg ">دسته بندی ها</span>
+        <div className="flex justify-center mt-10">
+          {!isEmptyArray(cats) &&
+            cats.map((item) => (
+              <Link href={item.id.toString()}>
+                <h1 className=" p-20     rounded-full shadow-lg mx-40 border">
+                  {/* <div className="p-20 bg-blue-100 rounded-full text-right"> */}
 
-        <Loading show={loading} />
-      </div>
+                  {/* </div> */}
+                </h1>
+                <h1 className="pt-3  text-sm">{item.title}</h1>
+              </Link>
+            ))}
+        </div>
+      </Card>
     </Layout>
   );
 }

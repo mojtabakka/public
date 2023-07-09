@@ -1,11 +1,19 @@
 import http from "service/http.service";
-import { GET_CAT } from "config/url.config";
+import { GET_CAT, GET_CATS } from "config/url.config";
 
-export function getCat() {
-  console.log("heo");
+export function getCat(data) {
   return new Promise((resolve, reject) => {
     http
-      .get(GET_CAT, {data:{id:6}})
+      .get(GET_CAT, { data  })
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getCats() {
+  return new Promise((resolve, reject) => {
+    http
+      .get(GET_CATS)
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

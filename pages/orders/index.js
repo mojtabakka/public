@@ -145,7 +145,7 @@ const Orders = () => {
           </span>
         </div>
       )}
-      <ModalAddress />
+
       <Loading show={isLoading} />
     </div>
   );

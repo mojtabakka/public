@@ -115,7 +115,6 @@ const Dropdown = ({
               </div>
             </Sheet.Content>
           </Sheet.Container>
-
           <Sheet.Backdrop onClick={() => setOpen(false)} />
         </Sheet>
       </div>

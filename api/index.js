@@ -18,4 +18,4 @@ export {
   getActiveAddress,
   getAddresses,
 } from "./address.api";
-export { getCat } from "./category.api";
+export { getCat,getCats } from "./category.api";

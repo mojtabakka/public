@@ -10,15 +10,15 @@ import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { GrMapLocation } from "react-icons/gr";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { IoFilter } from "react-icons/io5";
-import { Dropdown, BasketModal, Modal } from "components";
+import { Dropdown, BasketModal, Modal, Sidebar, CategoryBox } from "components";
 import { getCookie } from "lib/function.utils.js";
-import { isEmptyArray } from "utils/function.util.js";
-import { Sidebar } from "components";
-import { isFunction } from "utils/function.util";
+import { isEmptyArray, isFunction } from "utils/function.util.js";
 
 const Layout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
+  const [catMenueStatus, setCatMenueStatus] = useState(false);
   const [token, setToken] = useState();
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [dropDownItems, setDropDownItems] = useState([]);
@@ -44,7 +44,6 @@ const Layout = ({ children, showFilters = false, ...props }) => {
           search,
         };
         const result = await searchProduct(data);
-        console.log(result);
       }, 1000);
 
       return () => clearTimeout(getData);
@@ -258,10 +257,27 @@ const Layout = ({ children, showFilters = false, ...props }) => {
             </div>
           </div>
         </div>
+        <div className="text-sm mx-1 mt-2">
+          <div className="relative">
+            <span
+              onMouseMove={() => setCatMenueStatus(true)}
+              onMouseLeave={() => setCatMenueStatus(false)}
+            >
+              <GiHamburgerMenu className=" inline-block cursor-pointer" />
+
+              <span className="px-3 cursor-pointer">دسته بندی ها</span>
+              {catMenueStatus && (
+                <CategoryBox
+                  onMouseLeaveCatMenue={() => setCatMenueStatus(false)}
+                />
+              )}
+            </span>
+          </div>
+        </div>
       </header>
       <div
         className={`p-3 flex items-center shadow-lg bg-white border md:hidden lg:hidden ${
-          !showFilters && "hidden"
+          !showFilters && ""
         }`}
       >
         <div
@@ -274,10 +290,14 @@ const Layout = ({ children, showFilters = false, ...props }) => {
       </div>
       {/* <div className="border border-white "></div> */}
       <div className="flex">
-        <Sidebar
-          onChangeFilter={handleChangeFilter}
-          className={` ${!showFilters ? "hidden" : "hidden md:block lg:block"}`}
-        />
+        {showFilters && (
+          <Sidebar
+            onChangeFilter={handleChangeFilter}
+            className={` ${
+              !showFilters ? "hidden" : "hidden md:block lg:block"
+            }`}
+          />
+        )}
         {/* <div className="bg-white mt-5 mr-3 p-5 rounded w-1/6">
 
         </div> */}
@@ -304,10 +324,12 @@ const Layout = ({ children, showFilters = false, ...props }) => {
           onClickClose={() => setShowFilterModal(false)}
           onClickBackdrop={() => setShowFilterModal(false)}
         >
-          <Sidebar
-            onChangeFilter={handleChangeFilter}
-            className=" !w-full !p-0  !shadow-none"
-          />
+          {showFilters && (
+            <Sidebar
+              onChangeFilter={handleChangeFilter}
+              className=" !w-full !p-0  !shadow-none"
+            />
+          )}
         </Modal>
       </div>
     </div>

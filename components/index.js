@@ -21,4 +21,5 @@ export { Toast } from "./Toast";
 export { ShippingPrice } from "./ShippingPrice";
 export { Progressbar } from "./Progressbar";
 export { Sidebar } from "./Filter";
-export {SearchKader} from './SearchKader'
+export { SearchKader } from "./SearchKader";
+export { CategoryBox } from "./CategoryBox";
