@@ -1,14 +1,17 @@
 import React from "react";
+import emmtyCart from "../../public/images/empty-cart.png";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { BiMemoryCard } from "react-icons/bi";
 import { AiOutlineNumber } from "react-icons/ai";
 import { isEmptyArray, getToman } from "utils/function.util";
+import Link from "next/link";
+import Image from "next/image";
 
 const CartBoxTemplate = ({ items }) => {
   return (
-    <div>
-      <div className=" text-lg">سبد خرید شما</div>
+    <div className="">
+      {!isEmptyArray(items) && <div className=" text-lg">سبد خرید شما</div>}
       <div className="mb-5">
         {!isEmptyArray(items) &&
           items.map((item, index) => (
@@ -74,6 +77,18 @@ const CartBoxTemplate = ({ items }) => {
               </div>
             </div>
           ))}
+        {isEmptyArray(items) && (
+          <div className="text-base text-gray-400 lg:text-lg t flex h-full p-20 justify-center items-center">
+            <div>
+              <Image
+                src={emmtyCart}
+                width="200"
+                alt="shopping cart, basket cart red shopping icon"
+              />
+              <div className="text-center">سبد شما خالی است</div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

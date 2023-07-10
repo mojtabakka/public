@@ -42,6 +42,7 @@
         "react-input-mask": "^2.0.4",
         "react-loader-spinner": "^5.3.4",
         "react-modal-sheet": "^1.10.2",
+        "react-modern-drawer": "^1.2.0",
         "react-persian-datepicker": "^3.0.2",
         "react-redux": "^8.0.5",
         "react-responsive-carousel": "^3.2.23",

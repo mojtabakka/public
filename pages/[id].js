@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "components/layout/mainLayout";
-import { getProducts, getCats } from "api";
-import { ProductCard, Loading, SearchKader, Card } from "components";
+import { getProducts } from "api";
+import { ProductCard, Loading, SearchKader } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { isEmptyArray, isEmptyObject } from "../utils/function.util";
 
@@ -39,15 +39,17 @@ const products = ({ products, paginations }) => {
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     !isEmptyArray(products)
       ? setAllProducts([...products])
       : setAllProducts([]);
     !isEmptyObject
       ? setPaginationsnotssr({ ...paginations })
       : setPaginationsnotssr({});
+    setLoading(false);
   }, [products]);
   const handleChangeFilter = (item) => {
-    router.push({
+    router.replace({
       query: { ...router.query, properties: item },
     });
   };
@@ -84,7 +86,6 @@ const products = ({ products, paginations }) => {
         >
           <div className="  mt-5 w-full md:mt-1 lg:mt-1  grid lg:grid-cols-4 mx-0   md:grid-cols-3 sm:grid-cols-2 grid-cols-1  h-full">
             {!isEmptyArray(allProducts) &&
-              // !isEmptyArray(allProducts) &&
               allProducts.map((item, index) => (
                 <span key={index + item.id}>
                   <ProductCard

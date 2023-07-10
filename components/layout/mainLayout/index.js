@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Drawer from "react-modern-drawer";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import logo from "public/images/logo.jpeg";
-import { searchProduct } from "api";
+import { searchProduct, getCats } from "api";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
@@ -12,9 +13,19 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { GrMapLocation } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoFilter } from "react-icons/io5";
-import { Dropdown, BasketModal, Modal, Sidebar, CategoryBox } from "components";
+import {
+  Dropdown,
+  BasketModal,
+  Modal,
+  Sidebar,
+  CategoryBox,
+  Loading,
+  Filter,
+} from "components";
 import { getCookie } from "lib/function.utils.js";
+import "react-modern-drawer/dist/index.css";
 import { isEmptyArray, isFunction } from "utils/function.util.js";
+import { isEmptyObject } from "../../../utils/function.util";
 
 const Layout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
@@ -28,15 +39,113 @@ const Layout = ({ children, showFilters = false, ...props }) => {
   const [leaveBaketKadrFlag, setLeaveBaketKadrFlag] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [search, setSearch] = useState();
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [cats, setCats] = useState([]);
+  const [sidbarItems, setSidbarItems] = useState([]);
   const { push } = useRouter();
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(false);
     const token = getCookie("token");
     setToken(token);
+    getAllCats();
     initDropDown();
+    CreateSidebarItem();
   }, []);
+  useEffect(() => {
+    setLoading(false);
+  }, [router.query]);
 
+  const getAllCats = async () => {
+    const myCats = await getCats();
+    setCats(myCats.data);
+    CreateSidebarItem(myCats.data);
+  };
+
+  const CreateSidebarItem = (categories) => {
+    const items = [];
+    !isEmptyArray(categories) &&
+      categories.forEach((item) => {
+        const catId = item.id;
+        const data = {};
+        const brands = {};
+        const types = {};
+        const properties = {};
+        data.name = item.title;
+        data.label = item.title;
+        (data.path = {
+          query: {},
+          pathname: "/" + catId,
+        }),
+          (data.items = []);
+        if (!isEmptyArray(item.brands)) {
+          brands.name = "برندها";
+          brands.label = "برندها";
+          brands.items = [];
+          brands.path = {
+            query: null,
+            pathname: "/" + catId,
+          };
+          item.brands.forEach((item) => {
+            brands.items.push({
+              name: item.brand,
+              label: item.brand + ` ( ${item.title} ) `,
+              path: {
+                query: { brand: item.id },
+                pathname: "/" + catId,
+              },
+            });
+          });
+        }
+        data.items.push(brands);
+
+        if (!isEmptyArray(item.productTypes)) {
+          types.name = "انواع";
+          types.label = "انواع";
+          types.items = [];
+          types.path = {
+            query: null,
+            pathname: "/" + catId,
+          };
+          item.productTypes.forEach((item) => {
+            types.items.push({
+              name: item.brans,
+              label: item.type,
+              path: {
+                query: { type: item.id },
+                pathname: "/" + catId,
+              },
+            });
+          });
+        }
+        data.items.push(types);
+
+        if (!isEmptyArray(item.propertyTitles)) {
+          properties.name = "ویژگی ها";
+          properties.label = "ویژگی ها";
+          properties.items = [];
+          properties.path = {
+            query: null,
+            pathname: "/" + catId,
+          };
+          item.propertyTitles.forEach((item) => {
+            properties.items.push({
+              name: item.brans,
+              label: item.title,
+              path: {
+                query: { properties: item.id },
+                pathname: "/" + catId,
+              },
+            });
+          });
+        }
+        !isEmptyObject(properties) && data.items.push(properties);
+        items.push(data);
+      });
+
+    setSidbarItems(items);
+  };
   useEffect(() => {
     if (search) {
       const getData = setTimeout(async () => {
@@ -49,7 +158,9 @@ const Layout = ({ children, showFilters = false, ...props }) => {
       return () => clearTimeout(getData);
     }
   }, [search]);
+
   const handleClickBasket = () => {
+    router.asPath !== "/cart" && setLoading(true);
     if (router.pathname !== "/cart") {
       setLoading(true);
       router.push({
@@ -137,9 +248,13 @@ const Layout = ({ children, showFilters = false, ...props }) => {
 
   return (
     <div className="">
-      <header className=" shadow-md bg-white  sm:text-xm p-2  lg:sticky lg:top-0 md:sticky md:top-0 w-full  z-50 ">
-        <div className="text-center lg:hidden md:hidden flex justify-between items-center">
-          <div className="w-full text-right ">
+      <Drawer
+        open={isOpenDrawer}
+        onClose={() => setIsOpenDrawer(false)}
+        direction="right"
+      >
+        <div className="text-left mt-2 bg">
+          <div className="text-center">
             <Image
               onClick={handleClickLogo}
               src={logo}
@@ -149,13 +264,45 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               className=" inline-block cursor-pointer"
             />
           </div>
-          <div className="text-left w-full text-blue-400  text-medium">
-            فروشگاه بزرگ دوربین ایرانیان
+          <hr />
+          <div className=" h-screen ">
+            <div style={{ height: "92%" }} className="   overflow-y-scroll">
+              <Sidebar
+                items={sidbarItems}
+                onClickSidbarItem={(item) => {
+                  setLoading(true);
+                  router.push({
+                    pathname: item.pathname,
+                    query: { ...router.query, ...item.query },
+                  });
+                  setIsOpenDrawer(false);
+                }}
+              />
+            </div>
           </div>
         </div>
-        <hr className="lg:hidden md:hidden " />
+      </Drawer>
+      <header className=" shadow-md bg-white  sm:text-xm p-2  lg:sticky lg:top-0 md:sticky md:top-0 w-full  z-50 ">
+        <div className="text-center lg:hidden flex justify-between items-center">
+          <div className="w-full  text-right">
+            <div className="px-2" onClick={() => setIsOpenDrawer(true)}>
+              <GiHamburgerMenu className=" inline-block cursor-pointer text-lg" />
+            </div>
+          </div>
+          <div className="w-1/2 text-left ">
+            <Image
+              onClick={handleClickLogo}
+              src={logo}
+              alt="Picture of the author"
+              width={50}
+              height={50}
+              className=" inline-block cursor-pointer"
+            />
+          </div>
+        </div>
+        <hr className="lg:hidden " />
         <div className=" flex place-items-center mt-3">
-          <div className="flex-1 text-right mx-20 md:block lg:block hidden ">
+          <div className=" text-right mx-20  lg:block hidden w-1/2  ">
             <Image
               onClick={handleClickLogo}
               src={logo}
@@ -165,9 +312,9 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               className=" inline-block cursor-pointer"
             />
           </div>
-          <div className="flex-1  text-right w-full ">
+          <div className="  text-right w-full   ">
             <form>
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   type="search"
                   id="default-search"
@@ -196,7 +343,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               </div>
             </form>
           </div>
-          <div className="flex-1 lg:mx-10 md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
+          <div className=" lg:mx-10  md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
             <div className="flex  items-center justify-end mx-3 lg:mx-0">
               <div
                 className=" inline-block px-6 py-3 "
@@ -257,41 +404,49 @@ const Layout = ({ children, showFilters = false, ...props }) => {
             </div>
           </div>
         </div>
-        <div className="text-sm mx-1 mt-2">
-          <div className="relative">
+        <div className="text-base mx-1 mt-2 px-4">
+          <div className="relative  hidden lg:block ">
             <span
               onMouseMove={() => setCatMenueStatus(true)}
               onMouseLeave={() => setCatMenueStatus(false)}
             >
               <GiHamburgerMenu className=" inline-block cursor-pointer" />
 
-              <span className="px-3 cursor-pointer">دسته بندی ها</span>
+              <span className="px-3 cursor-pointer lg:text-base text-sm ">
+                دسته بندی ها
+              </span>
               {catMenueStatus && (
                 <CategoryBox
+                  className="text-sm"
                   onMouseLeaveCatMenue={() => setCatMenueStatus(false)}
+                  categories={cats}
                 />
               )}
             </span>
           </div>
         </div>
       </header>
-      <div
-        className={`p-3 flex items-center shadow-lg bg-white border md:hidden lg:hidden ${
-          !showFilters && ""
-        }`}
-      >
+      {showFilters && (
         <div
-          className={`cursor-pointer text-blue-400 ${!showFilters && "hidden"}`}
-          onClick={handleClickFilterIcon}
+          className={`p-3 flex items-center shadow-lg bg-white  md:hidden lg:hidden ${
+            !showFilters && ""
+          }`}
         >
-          <span className="pl-1 text-base">فیلترها</span>
-          <IoFilter className=" inline-block text-base" />
+          <div
+            className={`cursor-pointer text-blue-400 ${
+              !showFilters && "hidden"
+            }`}
+            onClick={handleClickFilterIcon}
+          >
+            <span className="pl-1 text-base">فیلترها</span>
+            <IoFilter className=" inline-block text-base" />
+          </div>
         </div>
-      </div>
+      )}
       {/* <div className="border border-white "></div> */}
       <div className="flex">
         {showFilters && (
-          <Sidebar
+          <Filter
             onChangeFilter={handleChangeFilter}
             className={` ${
               !showFilters ? "hidden" : "hidden md:block lg:block"
@@ -325,12 +480,13 @@ const Layout = ({ children, showFilters = false, ...props }) => {
           onClickBackdrop={() => setShowFilterModal(false)}
         >
           {showFilters && (
-            <Sidebar
+            <Filter
               onChangeFilter={handleChangeFilter}
               className=" !w-full !p-0  !shadow-none"
             />
           )}
         </Modal>
+        <Loading show={loading} />
       </div>
     </div>
   );

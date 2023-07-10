@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { SidebarTemplate } from "./Sidebar.template";
+import { FilterTemplate } from "./filter.template";
 import { getCat } from "api";
 import "./index.module.scss";
 import { isEmptyArray } from "../../utils/function.util";
 import { useRouter } from "next/router";
 
-const Sidebar = (props) => {
+const Filter = (props) => {
   const [menueItems, setMenueItems] = useState([]);
   const router = useRouter();
   useEffect(() => {
@@ -49,7 +49,7 @@ const Sidebar = (props) => {
     }
   };
   return (
-    <SidebarTemplate
+    <FilterTemplate
       {...props}
       SidebarStatus={SidebarStatus}
       sidebarStatusToDown={sidebarStatusToDown}
@@ -60,4 +60,4 @@ const Sidebar = (props) => {
     />
   );
 };
-export { Sidebar };
+export { Filter };

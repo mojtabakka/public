@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { colors } from "config/sibarMenu.config";
 import * as MdIcons from "react-icons/md";
 import { isEmptyArray } from "../../../utils/function.util";
-
-const SidebarItem = ({
+const FilterItem = ({
   onChangeCheckbox,
   depth = 0,
   depthStep = 10,
@@ -17,7 +16,6 @@ const SidebarItem = ({
   ...rest
 }) => {
   const [subNav, setSubNav] = useState(false);
-  const [checkBoxValues, setCheckBoxValues] = useState();
   useEffect(() => {
     if (sidebarStatus === false) {
       setSubNav(false);
@@ -99,7 +97,7 @@ const SidebarItem = ({
           <div>
             {items.map((subItem, index) => (
               <div key={(subItem.name + subItem.id, index)}>
-                <SidebarItem
+                <FilterItem
                   onChangeCheckbox={onChangeCheckbox}
                   sidebarStatus={sidebarStatus}
                   key={subItem.name}
@@ -116,4 +114,4 @@ const SidebarItem = ({
   );
 };
 
-export default SidebarItem;
+export default FilterItem;

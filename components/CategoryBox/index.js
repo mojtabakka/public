@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CategoryBoxTemplate } from "./CategoryBox.template";
-import { getCat, getCats } from "api";
-// import "./index.module.scss";
 import { isEmptyArray } from "../../utils/function.util";
 import { useRouter } from "next/router";
 
-const CategoryBox = (props) => {
+const CategoryBox = ({ categories, ...props }) => {
   const [menueItems, setMenueItems] = useState([]);
   const [cats, setCats] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -17,30 +15,28 @@ const CategoryBox = (props) => {
     init();
   }, []);
   const init = async () => {
-    const data = {
-      id: router.query.id,
-    };
-    const result = await getCat(data);
-    const myCats = await getCats();
-    setBrands(myCats.data[0].brands);
-    setTypes(myCats.data[0].productTypes);
-    setProperties(myCats.data[0].propertyTitles.properties);
-    createProperties(myCats.data[1].propertyTitles);
-    setCats(myCats.data);
-    const propertyTitles = result.data.propertyTitles;
-    const menueItems = propertyTitles.map((item) => {
-      const data = {
-        id: item.id,
-        name: item.title,
-        label: item.title,
-      };
-      if (!isEmptyArray(item.properties)) {
-        data.items = item.properties.map((el) => {
-          return { name: el.property, label: el.property, id: el.id };
-        });
-      }
-      return data;
-    });
+    setBrands(categories[0].brands);
+    setTypes(categories[0].productTypes);
+    setProperties(categories[0].propertyTitles.properties);
+    createProperties(categories[1].propertyTitles);
+    setCats(categories);
+    const propertyTitles = categories.propertyTitles;
+    const menueItems = !isEmptyArray(propertyTitles)
+      ? propertyTitles.map((item) => {
+          const data = {
+            id: item.id,
+            name: item.title,
+            label: item.title,
+            path: {},
+          };
+          if (!isEmptyArray(item.properties)) {
+            data.items = item.properties.map((el) => {
+              return { name: el.property, label: el.property, id: el.id };
+            });
+          }
+          return data;
+        })
+      : [];
     setMenueItems(menueItems);
   };
 

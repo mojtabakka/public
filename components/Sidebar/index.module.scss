@@ -1,0 +1,20 @@
+.sidebar {
+    max-width: 240px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rotate_n90 {
+    transform: rotate(-90deg);
+}
+
+.rotate_0 {
+    transform: rotate(-90deg);
+}
+
+.transition {
+    transition: 200ms linear
+}
+
+.small_width_menue {
+    width: 8%;
+}

@@ -16,7 +16,7 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
         <div className="  w-full bg-red flex md:block sm:block lg:block justify-between ">
           <figure className=" px-5 pt-3 flex justify-center w-full ">
             {!isEmptyArray(items?.photos) ? (
-              <img src={src} className="  h-40 w-40" />
+              <img src={src} alt={items.model} className="  h-40 w-40" />
             ) : (
               <IoCamera className=" h-40 w-40 text-gray-600" />
             )}

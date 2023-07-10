@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-// import { items } from "config/sibarMenu.config";
-import SidebarItem from "./sidbarItems";
+import FilterItem from "./FilterItems";
 import { isEmptyArray, isFunction } from "../../utils/function.util";
 
-const SidebarTemplate = ({
+const FilterTemplate = ({
   depth,
   depthStep,
   onOpneSidebarFromChild,
@@ -51,7 +50,7 @@ const SidebarTemplate = ({
             {!isEmptyArray(menueItems) &&
               menueItems.map((sidebarItem, index) => (
                 <div key={index + sidebarItem?.id}>
-                  <SidebarItem
+                  <FilterItem
                     onOpenSidebar={onOpneSidebarFromChild}
                     sidebarStatus={SidebarStatus}
                     key={`${sidebarItem.name}${index}`}
@@ -69,4 +68,4 @@ const SidebarTemplate = ({
   );
 };
 
-export { SidebarTemplate };
+export { FilterTemplate };

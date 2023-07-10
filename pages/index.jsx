@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Layout from "components/layout/mainLayout";
-import { getProducts, getCats } from "api";
-import { ProductCard, Loading, SearchKader, Card } from "components";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { getCats } from "api";
+import { IoCamera } from "react-icons/io5";
+import { Card, Loading } from "components";
 import { isEmptyArray } from "../utils/function.util";
 import Link from "next/link";
+import { useState } from "react";
 
 export async function getServerSideProps(context) {
   try {
@@ -27,24 +26,34 @@ export async function getServerSideProps(context) {
 }
 
 function Home({ cats }) {
+  const [loading, setLoading] = useState(false);
   return (
     <Layout showFilters={false}>
-      <Card className="text-center mx-2 mt-5 border-rounded ">
-        <span className="text-center text-lg ">دسته بندی ها</span>
-        <div className="flex justify-center mt-10">
+      <Card className="text-center mx-2 mt-5 border-rounded  ">
+        <span className="text-center lg:text-lg text-sm ">دسته بندی ها</span>
+        <div className=" grid  grid-cols-3 mt-10">
           {!isEmptyArray(cats) &&
             cats.map((item) => (
-              <Link href={item.id.toString()}>
-                <h1 className=" p-20     rounded-full shadow-lg mx-40 border">
-                  {/* <div className="p-20 bg-blue-100 rounded-full text-right"> */}
-
-                  {/* </div> */}
-                </h1>
-                <h1 className="pt-3  text-sm">{item.title}</h1>
+              <Link href={item.id.toString()} onClick={() => setLoading(true)}>
+                <div className="text-center my-3   ">
+                  <div className="flex justify-center ">
+                    {item.photo ? (
+                      <img
+                        src={item.photo}
+                        alt={item.title}
+                        className="  h-20 w-20  "
+                      />
+                    ) : (
+                      <IoCamera className="  h-20 w-20 text-gray-600" />
+                    )}
+                  </div>
+                  <h1 className="pb-4 text-xs text-gray-400 ">{item.title}</h1>
+                </div>
               </Link>
             ))}
         </div>
       </Card>
+      <Loading show={loading} />
     </Layout>
   );
 }
