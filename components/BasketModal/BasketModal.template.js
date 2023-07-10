@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, OrderButton } from "components";
-import { MdOutlineDeliveryDining, MdOutlinePriceCheck } from "react-icons/md";
+import { MdOutlineDeliveryDining } from "react-icons/md";
 import { BiMemoryCard } from "react-icons/bi";
 
 function BasketModalTemplate({

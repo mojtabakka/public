@@ -1,10 +1,12 @@
-import { BACK_URL } from "redux/types.js";
-const initialState = {};
+import { BACK_URL, GENERAL_SET_SUM_CART } from "redux/types.js";
+const initialState = {
+  sumCart: 0,
+};
 
 const generalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case BACK_URL:
-      return { ...state, back_url: action.data };
+    case GENERAL_SET_SUM_CART:
+      return { ...state, sumCart: action.data };
     default:
       return state;
   }

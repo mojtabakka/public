@@ -10,7 +10,6 @@ const Filter = (props) => {
   const router = useRouter();
   useEffect(() => {
     init();
-    console.log(router.query.id);
   }, [router.query.id]);
   const init = async () => {
     const data = {

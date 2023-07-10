@@ -5,7 +5,6 @@ import { AiOutlineMail } from "react-icons/ai";
 import { CiMobile1 } from "react-icons/ci";
 import { BsPerson } from "react-icons/bs";
 import { BiLocationPlus } from "react-icons/bi";
-import { RxPerson } from "react-icons/rx";
 import { Input } from "components";
 import { Loading } from "../Loading";
 

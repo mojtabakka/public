@@ -1,7 +1,4 @@
-import Image from "next/image";
 import React from "react";
-import camera from "public/images/ camra2.jpeg";
-import Link from "next/link";
 import { Badge } from "components";
 
 function CardProdcutTemplate({ items, key, onClick }) {

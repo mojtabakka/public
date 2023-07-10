@@ -3,7 +3,7 @@ import Drawer from "react-modern-drawer";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import logo from "public/images/logo.jpeg";
-import { searchProduct, getCats } from "api";
+import { searchProduct, getCats, getCurrentBasketCount } from "api";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
@@ -21,11 +21,13 @@ import {
   CategoryBox,
   Loading,
   Filter,
+  Badge,
 } from "components";
 import { getCookie } from "lib/function.utils.js";
 import "react-modern-drawer/dist/index.css";
 import { isEmptyArray, isFunction } from "utils/function.util.js";
 import { isEmptyObject } from "../../../utils/function.util";
+import { useSelector } from "react-redux";
 
 const Layout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
@@ -44,6 +46,8 @@ const Layout = ({ children, showFilters = false, ...props }) => {
   const [sidbarItems, setSidbarItems] = useState([]);
   const { push } = useRouter();
   const router = useRouter();
+  const mySumCart = useSelector((state) => state.general.sumCart);
+  const [sumCart, setSumCart] = useState();
 
   useEffect(() => {
     setLoading(false);
@@ -52,10 +56,18 @@ const Layout = ({ children, showFilters = false, ...props }) => {
     getAllCats();
     initDropDown();
     CreateSidebarItem();
+    currentBasketCount();
   }, []);
+  const currentBasketCount = async () => {
+    const result = await getCurrentBasketCount();
+    setSumCart(result.data);
+  };
   useEffect(() => {
     setLoading(false);
   }, [router.query]);
+  useEffect(() => {
+    setSumCart(mySumCart);
+  }, [mySumCart]);
 
   const getAllCats = async () => {
     const myCats = await getCats();
@@ -351,7 +363,17 @@ const Layout = ({ children, showFilters = false, ...props }) => {
                 onMouseOver={handleBasketIconMoouseOver}
                 onClick={handleClickBasket}
               >
-                <SlBasket className="inline-block relative  lg:text-2xl  md:text-xl sm:text-lg text-lg" />
+                <div className=" relative">
+                  <SlBasket className="   inline-block   lg:text-2xl  md:text-xl sm:text-lg text-xl" />
+                  {sumCart > 0 && (
+                    <Badge
+                      className="text-xs top-2   flex !items-center absolute  left-0"
+                      style={{ left: "-5px" }}
+                    >
+                      {sumCart}
+                    </Badge>
+                  )}
+                </div>
               </div>
               {!token ? (
                 <span

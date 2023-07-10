@@ -10,6 +10,7 @@ export {
   getOrder,
   getPreviousOrders,
   removeProductFromBasket,
+  getCurrentBasketCount
 } from "./orders.api";
 export { getUser, editUser } from "./user.api";
 export {

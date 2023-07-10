@@ -7,6 +7,7 @@ import { addCommasSeprator } from "utils/function.util.js";
 import Link from "next/link";
 
 const ProductPriceTemplate = ({
+  loading,
   product,
   onClickPlus,
   onClickBin,
@@ -88,6 +89,7 @@ const ProductPriceTemplate = ({
                 onClickPlus={onClickPlus}
                 onClickBin={onClickBin}
                 value={numberOfOrder}
+                loading={loading}
               />
               <Link
                 href={"/cart"}

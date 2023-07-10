@@ -9,7 +9,6 @@ function ModalTemplate({
   show,
   sheetSubtitle,
   className,
-  sheetTitle,
   onClickBackdrop,
 }) {
   return (

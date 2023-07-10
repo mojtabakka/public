@@ -5,7 +5,6 @@ import { IoShieldCheckmark } from "react-icons/io5";
 import { BiMemoryCard } from "react-icons/bi";
 import { AiOutlineNumber } from "react-icons/ai";
 import { isEmptyArray, getToman } from "utils/function.util";
-import Link from "next/link";
 import Image from "next/image";
 
 const CartBoxTemplate = ({ items }) => {

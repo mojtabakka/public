@@ -11,8 +11,11 @@ import Layout from "components/layout/mainLayout";
 import { PATHS } from "config/routes.config";
 import { BACK_URL } from "redux/types.js";
 import { getCookie } from "lib/function.utils.js";
+import { useDispatch } from "react-redux";
+import { setSumOfCart } from "../../redux/action/general.action";
 
 const DetailProduct = (props) => {
+  const dispatch = useDispatch();
   const { product } = props;
   const [numberOfOrder, setNumberOfOrder] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -36,7 +39,9 @@ const DetailProduct = (props) => {
         return;
       }
       const data = { model: product.model };
-      await addToBasket(data);
+      const result = await addToBasket(data);
+
+      dispatch(setSumOfCart(result.data?.products.length));
       const userId = setNumberOfOrder((value) => {
         return value + 1;
       });
@@ -48,14 +53,18 @@ const DetailProduct = (props) => {
   };
   const handleClickBin = async () => {
     try {
+      setLoading(true);
       if (numberOfOrder > 0) {
-        await removeProductFromBasket(product.model);
+        const result = await removeProductFromBasket(product.model);
+        dispatch(setSumOfCart(result.data?.products.length));
         setNumberOfOrder((value) => {
           return value - 1;
         });
       }
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,6 +79,7 @@ const DetailProduct = (props) => {
       <ProductImages product={product} />
       <ProductFeatures product={product} />
       <ProductPrice
+        loading={loading}
         product={product}
         onClickPlus={handleClickPlus}
         onClickBin={handleClickBin}
