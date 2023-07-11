@@ -10,6 +10,7 @@ function ModalTemplate({
   sheetSubtitle,
   className,
   onClickBackdrop,
+  isForm,
 }) {
   return (
     <>
@@ -62,27 +63,51 @@ function ModalTemplate({
           !show ? " hidden" : "lg:flex md:flex hidden"
         }`}
       ></div>
-
       <Sheet
         className=" inline-block lg:hidden md:hidden"
         isOpen={show}
         onClose={onClickClose}
         detent="content-height"
       >
-        <Sheet.Container>
-          <Sheet.Header>
-            <div className="p-3  rounded-lg">
-              <div>{title} </div>
-              <span className=" text-small text-gray-400 text-xs">
-                {sheetSubtitle}
+        {isForm ? (
+          <form>
+            <Sheet.Container>
+              <Sheet.Header>
+                <div className="p-3  rounded-lg">
+                  <div>{title} </div>
+                  <span className=" text-small text-gray-400 text-xs">
+                    {sheetSubtitle}
+                  </span>
+                </div>
+                <hr />
+              </Sheet.Header>
+              <Sheet.Content className=" bg-gray-100">
+                <div className={`p-5 ${className}`}>{children}</div>
+                <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
+                  {footer}
+                </span>
+              </Sheet.Content>
+            </Sheet.Container>
+          </form>
+        ) : (
+          <Sheet.Container>
+            <Sheet.Header>
+              <div className="p-3  rounded-lg">
+                <div>{title} </div>
+                <span className=" text-small text-gray-400 text-xs">
+                  {sheetSubtitle}
+                </span>
+              </div>
+              <hr />
+            </Sheet.Header>
+            <Sheet.Content className=" bg-gray-100">
+              <div className={`p-5 ${className}`}>{children}</div>
+              <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
+                {footer}
               </span>
-            </div>
-            <hr />
-          </Sheet.Header>
-          <Sheet.Content className=" bg-gray-100">
-            <div className={`p-5 ${className}`}>{children}</div>
-          </Sheet.Content>
-        </Sheet.Container>
+            </Sheet.Content>
+          </Sheet.Container>
+        )}
 
         <Sheet.Backdrop onClick={onClickBackdrop} />
       </Sheet>

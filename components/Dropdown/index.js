@@ -11,11 +11,17 @@ const Dropdown = ({
   title,
   sheetTitle,
   sheetSubtitle,
+  onClose,
 }) => {
   const [open, setOpen] = useState(false);
-  const ref = useRef();
 
-  useOutsideClick(ref, () => {});
+  const handleClickOutside = () => {
+    setOpen(false);
+    isFunction(onClose) && onClose();
+  };
+
+  const ref = useOutsideClick(handleClickOutside);
+
   const onClickItem = (item) => {
     setOpen(!open);
     isFunction(onClick) && onClick(item);
@@ -24,12 +30,11 @@ const Dropdown = ({
     setOpen(!open);
   };
   return (
-    <div className=" relative" dir="ltr">
+    <div className=" relative" dir="ltr" ref={ref}>
       <div onClick={onClickTitle} className=" cursor-pointer">
         {title}
       </div>
       <div
-        ref={ref}
         dir="rtl"
         id="dropdown"
         className={` absolute w-full  p-3 ${
@@ -47,7 +52,7 @@ const Dropdown = ({
                 <li
                   onClick={() => onClickItem(item)}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
-                  className=" rounded  w-100 bg-red-50 w-full "
+                  className=" rounded  w-100 w-full "
                   key={item.id}
                 >
                   <div className="w-full" key={item.id}>
@@ -94,10 +99,11 @@ const Dropdown = ({
               </div>
             </Sheet.Header>
             <Sheet.Content>
-              <div className="p-5">
+              <div className="p-5 ">
                 {items.map((item) => (
                   <div
-                    className={`flex w-full mt-3 rounded  p-4 items-center border ${item.className}`}
+                    className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
+                    
                     onClick={() => onClickItem(item)}
                   >
                     <div className={`   rounded  text-sm w-full `}>

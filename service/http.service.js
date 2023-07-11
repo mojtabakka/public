@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { BASE_URL, AXIOS_TIMEdOUT } from "config/variables.config";
 import { NEEDED_URLS_FOR_AUTHENTICATION } from "config/url.config";
 import { getCookie } from "../lib/function.utils";
+import { isEmptyArray, isEmptyObject } from "../utils/function.util";
 // import { getCookie } from "cookie-parser";
 
 class httpService {
@@ -11,7 +12,6 @@ class httpService {
     axios.defaults.withCredentials = true;
     axios.defaults.baseURL = BASE_URL + "api";
     axios.defaults.timeout = AXIOS_TIMEdOUT;
-
     axios.interceptors.request.use(
       (config) => {
         const checkExist = NEEDED_URLS_FOR_AUTHENTICATION().filter((item) => {
@@ -31,11 +31,31 @@ class httpService {
 
     axios.interceptors.response.use(
       function (response) {
-        // Any status code that lie within the range of 2xx cause this function to trigger
-        // Do something with response data
         return response;
       },
       function (error) {
+        if (error?.response?.data?.statusCode === 403) {
+          localStorage.removeItem("user");
+          window.location.href = "/";
+        }
+        if (isEmptyObject(error)) {
+          toast("خطای داخلی سرور", {
+            autoClose: 2000,
+            type: toast.TYPE.ERROR,
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+        toast(
+          isEmptyArray(error.response.data.message)
+            ? error.response.data.message
+            : error.response.data.message[0],
+          {
+            autoClose: 2000,
+            type: toast.TYPE.ERROR,
+            position: toast.POSITION.BOTTOM_LEFT,
+          }
+        );
+
         if (error?.response?.status === 401) {
           localStorage.removeItem("token");
           window.location.href = "/login";
@@ -62,7 +82,7 @@ class httpService {
     return axios.post(address, data, config);
   }
 
-  delete(address, data = null, config = null) {
+  delete(address, data = {}, config = null) {
     config = config || { headers: { "content-type": "application/json" } };
     return axios.delete(address, { data });
   }

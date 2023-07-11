@@ -4,20 +4,25 @@ import { INPUT_NAMES } from "./ModalAddAddress.config";
 
 function ModalAddAddressTemplate({ onClickClose, show, onSubmit, loading }) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} id="hello">
       <Modal
         show={show}
         title="افزودن آدرس"
         onClickClose={onClickClose}
+        isForm={true}
         footer={
           <>
-            <Button className="mx-3" type="submit" loading={loading}>
-              تایید
+            <Button
+              className="mx-3 w-full"
+              type="submit"
+              loading={loading}
+              form="hello"
+            >
+              ثبت آدرس
             </Button>
           </>
         }
       >
-        {/* {addresses.map((item) => {})} */}
         <div className="md:h-96 lg:h-96   overflow-scroll px-6 mb-4">
           <Input label={"نشانی پستی"} name={INPUT_NAMES.address} />
           <hr />

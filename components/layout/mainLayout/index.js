@@ -28,6 +28,7 @@ import "react-modern-drawer/dist/index.css";
 import { isEmptyArray, isFunction } from "utils/function.util.js";
 import { isEmptyObject } from "../../../utils/function.util";
 import { useSelector } from "react-redux";
+import useOutsideClick from "../../../hooks/useOutsideClick";
 
 const Layout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
@@ -210,7 +211,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
         id: 2,
         title: "آدرس ها",
         bgColor: "white",
-        url: "/addresses",
+        url: "/address",
         icon: <GrMapLocation />,
       },
     ];
@@ -220,7 +221,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
     setDropdownOpen(!DropdownOpen);
   };
   const handleClickDropdown = (item) => {
-    setLoading(true)
+    setLoading(true);
     push(item.url);
   };
 
@@ -395,6 +396,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               ) : (
                 <div>
                   <Dropdown
+                    onClose={() => setDropdownOpen(false)}
                     sheetTitle={
                       <>
                         <div

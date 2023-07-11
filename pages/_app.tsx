@@ -6,6 +6,8 @@ import { store } from "../redux/store";
 import { ReactNode } from "react";
 import momentJalali from "moment-jalaali";
 import type { Page } from "./page";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 // import fa from "moment/locale/fa";
 momentJalali.locale("fa");
 momentJalali.loadPersian({ dialect: "persian-modern" });
@@ -24,6 +26,8 @@ const App = ({ Component, pageProps }: Props) => {
       <div className=" text-xs">
         <Provider store={store}>
           {getLayout(<Component {...pageProps} />)}
+          <ToastContainer />
+          
         </Provider>
       </div>
     </Layout>

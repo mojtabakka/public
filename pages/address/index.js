@@ -9,50 +9,49 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdOutlineAddLocationAlt } from "react-icons/md";
 
 import { BsPerson } from "react-icons/bs";
-import { getAddresses } from "api";
+import { getAddresses, deleteAddress } from "api";
 import { isEmptyArray } from "utils/function.util";
 import { Dropdown, ModalAddAddress } from "components";
+import { Loading } from "../../components";
+import { toast } from "react-toastify";
 
 const address = () => {
   const [addresses, setAddresses] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [dropDownItems, setDropDownItems] = useState([]);
   useEffect(() => {
+    toast("Toast is good", {
+      hideProgressBar: true,
+      autoClose: 2000,
+      type: "success",
+      position: "bottom-left",
+    });
     getAddressItems();
-    initDropDown();
   }, []);
+
+  const handleClickDropDown = async (item) => {
+    switch (item.key) {
+      case "delete":
+        const data = {
+          id: item.id,
+        };
+        await deleteAddress(data);
+        getAddressItems();
+        break;
+
+      case "edit":
+        console.log("edit");
+        break;
+    }
+  };
 
   const getAddressItems = async () => {
     const result = await getAddresses();
     setAddresses(result.data);
   };
 
-  const initDropDown = () => {
-    const items = [
-      {
-        id: 1,
-        title: "ویرایش ",
-        border: true,
-        className: "",
-        icon: <BiEditAlt className=" text-xl inline-block" />,
-        // secondIcon: <MdOutlineKeyboardArrowLeft className="" />,
-        url: "/profile",
-      },
-
-      {
-        id: 2,
-        title: "حذف",
-        bgColor: "white",
-        url: "/orders",
-        icon: <AiFillDelete className=" text-xl inline-block" />,
-        // icon: <BsFillBasket3Fill />,
-      },
-    ];
-    setDropDownItems(items);
-  };
-
   const handleResult = (result) => {
-    result && getAllAddresses();
+    result && getAddressItems();
+
     setShowAddModal(false);
   };
   return (
@@ -85,8 +84,27 @@ const address = () => {
                 <Dropdown
                   title={<BsThreeDots className="mt-3 cursor-pointer " />}
                   open={true}
-                  items={dropDownItems}
-                  //   onClick={handleClickDropdown}
+                  items={[
+                    {
+                      id: item.id,
+                      title: "ویرایش ",
+                      key: "edit",
+                      border: true,
+                      className: "",
+                      icon: <BiEditAlt className=" text-xl inline-block" />,
+                      // secondIcon: <MdOutlineKeyboardArrowLeft className="" />,
+                      url: "/profile",
+                    },
+                    {
+                      id: item.id,
+                      key: "delete",
+                      title: "حذف",
+                      url: "/orders",
+                      icon: <AiFillDelete className=" text-xl inline-block" />,
+                      // icon: <BsFillBasket3Fill />,
+                    },
+                  ]}
+                  onClick={handleClickDropDown}
                 />
               </div>
             </div>

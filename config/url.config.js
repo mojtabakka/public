@@ -27,6 +27,7 @@ export const GET_CURRENT_BASKET_COUNT = "/orders/get-current-basket-count";
 export const USER = "/users/public-user/user";
 //address
 export const ADDRESS = "/address";
+export const ADDRESS_DELETE = "/address/:id";
 export const GET_ACTIVE_ADDRESS = "/address/get-active-address";
 export const CHANGE_ACTIVE_ADDRESS = "/address/change-active-address/:id";
 

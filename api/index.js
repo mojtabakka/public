@@ -10,7 +10,7 @@ export {
   getOrder,
   getPreviousOrders,
   removeProductFromBasket,
-  getCurrentBasketCount
+  getCurrentBasketCount,
 } from "./orders.api";
 export { getUser, editUser } from "./user.api";
 export {
@@ -18,5 +18,6 @@ export {
   changeActiveAddress,
   getActiveAddress,
   getAddresses,
+  deleteAddress,
 } from "./address.api";
-export { getCat,getCats } from "./category.api";
+export { getCat, getCats } from "./category.api";
