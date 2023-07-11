@@ -25,17 +25,20 @@ function ModalAddressTemplate({
           title="انتخاب آدرس"
           onClickClose={onClickClose}
           footer={
-            <div
-              className="text-blue-400 cursor-pointer"
-              onClick={onClickAddAddress}
-            >
-              <BiLocationPlus className=" inline-block text-lg" />
-              <span className="px-2 text-medium">افزودن ادرس جدید</span>
-            </div>
+            !isEmptyArray(addresses) && (
+              <div
+                className="text-blue-400 cursor-pointer"
+                onClick={onClickAddAddress}
+              >
+                <BiLocationPlus className=" inline-block text-lg" />
+
+                <span className="px-2 text-medium">افزودن ادرس جدید</span>
+              </div>
+            )
           }
         >
           <div className="lg:h-96 md:h-96 overflow-scroll">
-            {!isEmptyArray(addresses) &&
+            {!isEmptyArray(addresses) ? (
               addresses.map((item, index) => {
                 return (
                   <div
@@ -78,7 +81,19 @@ function ModalAddressTemplate({
                     </div>
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <span onClick={onClickAddAddress} className=" cursor-pointer">
+                  <div className="text-center flex justify-center">
+                    <BiLocationPlus className="  text-5xl text-blue-400" />
+                  </div>
+                  <div className="px-2 text-medium text-blue-400">
+                    افزودن ادرس جدید
+                  </div>
+                </span>
+              </div>
+            )}
           </div>
         </Modal>
       </form>

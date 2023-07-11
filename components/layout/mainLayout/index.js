@@ -220,6 +220,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
     setDropdownOpen(!DropdownOpen);
   };
   const handleClickDropdown = (item) => {
+    setLoading(true)
     push(item.url);
   };
 

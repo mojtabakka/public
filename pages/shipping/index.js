@@ -11,6 +11,7 @@ import {
   ModalAddress,
   SelectShippingTime,
   ShippingPrice,
+  Loading,
 } from "components";
 import { useRouter } from "next/router";
 
@@ -20,12 +21,15 @@ const shipping = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [cart, setCart] = useState(false);
   const [shippingTime, setShippingTime] = useState();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     getAllAddresses();
   }, []);
   const addProductsOrder = async () => {
+    setLoading(true);
+    !address && setShowModal(true);
     if (shippingTime && address) {
       const result = await addOrder({ shippingTime });
       router.push({ pathname: "/payment" });
@@ -129,10 +133,6 @@ const shipping = () => {
         />
       </div>
       <div className="flex justify-between">
-        {/* <Card className="mt-2 w-full text-base">
-      
-          
-        </Card> */}
         <div className="w-full mx-1"></div>
       </div>
       <ModalAddAddress
@@ -145,6 +145,7 @@ const shipping = () => {
         show={showModal}
         onClickClose={() => setShowModal(false)}
       />
+      <Loading show={loading} />
     </div>
   );
 };

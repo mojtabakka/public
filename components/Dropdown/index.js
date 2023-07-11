@@ -32,9 +32,9 @@ const Dropdown = ({
         ref={ref}
         dir="rtl"
         id="dropdown"
-        className={` absolute w-full  ${
+        className={` absolute w-full  p-3 ${
           !open ? "hidden" : "hidden  lg:inline-block md:inline-block"
-        }  z-10   bg-white divide-y divide-gray-100 rounded shadow w-52 dark:bg-gray-700 ${className}`}
+        }  z-10   bg-white divide-y divide-gray-100 rounded shadow-xl w-52 dark:bg-gray-700 ${className}`}
       >
         <ul
           className=" text-sm text-gray-700 dark:text-gray-200  w-full "
