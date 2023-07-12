@@ -315,7 +315,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
           </div>
         </div>
         <hr className="lg:hidden " />
-        <div className=" flex place-items-center mt-3">
+        <div className=" flex place-items-center mt-3  ">
           <div className=" text-right mx-20  lg:block hidden w-1/2  ">
             <Image
               onClick={handleClickLogo}
@@ -326,7 +326,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               className=" inline-block cursor-pointer"
             />
           </div>
-          <div className="  text-right w-full   ">
+          <div className="  text-right  w-full  ">
             <form>
               <div className="relative w-full">
                 <input
@@ -357,7 +357,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               </div>
             </form>
           </div>
-          <div className=" lg:mx-10  md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left ">
+          <div className=" lg:mx-10  md:mx-6 sm:mx-1 cursor-pointer mr-2 mt-1 sm:text-sm text-left  flex justify-end w-full">
             <div className="flex  items-center justify-end mx-3 lg:mx-0">
               <div
                 className=" inline-block px-6 py-3 "
@@ -380,7 +380,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
               {!token ? (
                 <span
                   onClick={handleClicklogin}
-                  className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x"
+                  className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x w-full "
                 >
                   <HiOutlineLogin className="  inline-block  text-lg  lg:text-2xl  md:text-xl sm:text-lg" />
                   <span

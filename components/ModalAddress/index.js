@@ -8,8 +8,9 @@ const ModalAddress = (props) => {
   const [loading, setLoading] = useState(false);
   const [addresses, setAddresses] = useState([]);
   useEffect(() => {
+    console.log('hello');
     getAllAddresses();
-  }, []);
+  }, [props.state]);
   const handleClickClose = () => {
     isFunction(props.onClickClose) && props.onClickClose();
   };
@@ -28,7 +29,7 @@ const ModalAddress = (props) => {
       await changeActiveAddress(event.target.value);
       getAllAddresses();
     } catch (error) {
-      console.log("error", error);
+      console.log("erro r", error);
     } finally {
       setLoading(false);
     }

@@ -25,7 +25,6 @@ function ModalAddAddressTemplate({
                 message: "لطفا این قسمت را پر کنید",
               },
             }}
-            // onChange={(e) => onChangInput(e.target.value, INPUT_NAMES.address)}
           />
 
           <hr />
@@ -58,7 +57,11 @@ function ModalAddAddressTemplate({
           </div>
 
           <div className="mt-3">
-            <Input label={"محله"} name={INPUT_NAMES.district} />
+            <Input
+              label={"محله"}
+              name={INPUT_NAMES.district}
+              validations={{}}
+            />
           </div>
 
           <div class="grid grid-cols-4 gap-4 mt-3">
@@ -75,7 +78,7 @@ function ModalAddAddressTemplate({
               />
             </div>
             <div className="col-span-1">
-              <Input label={"واحد"} name={INPUT_NAMES.unit} />
+              <Input label={"واحد"} name={INPUT_NAMES.unit} validations={{}} />
             </div>
             <div className="col-span-2">
               <Input
@@ -102,12 +105,17 @@ function ModalAddAddressTemplate({
           <hr className="mt-3" />
           <div className=" grid grid-cols-2 gap-4 mt-3 w-full">
             <div className=" col-span-1">
-              <Input name={INPUT_NAMES.receivername} label={"نام گیرنده"} />
+              <Input
+                name={INPUT_NAMES.receivername}
+                label={"نام گیرنده"}
+                validations={{}}
+              />
             </div>
             <div className=" col-span-1">
               <Input
                 name={INPUT_NAMES.receiverlastname}
                 label={"نام خانوادگی گیرنده"}
+                validations={{}}
               />
             </div>
           </div>
@@ -116,6 +124,7 @@ function ModalAddAddressTemplate({
               name={INPUT_NAMES.recivermobile}
               label={"شماره همراه گیرنده "}
               subText="مثال :۰۹۱۲۱۲۳۴۵۶۷"
+              validations={{}}
             />
           </div>
         </div>

@@ -52,7 +52,7 @@ class httpService {
           {
             autoClose: 2000,
             type: toast.TYPE.ERROR,
-            position: toast.POSITION.BOTTOM_LEFT,
+            position: toast.POSITION.TOP_CENTER,
           }
         );
 

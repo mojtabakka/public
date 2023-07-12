@@ -115,7 +115,7 @@ const Orders = () => {
                         return (
                           <div className="flex p-2 mx-2 " key={index}>
                             <img
-                              src={data.photos[0].src}
+                              src={data?.photos[0]?.src}
                               className="  w-16 h-16 lg:w-24 lg:h-24 md:w-24 md:h-24"
                             />
                             <div className="relative">

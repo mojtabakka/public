@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import "../styles/globals.css";
 import { store } from "../redux/store";
 import { ReactNode } from "react";
@@ -27,7 +27,6 @@ const App = ({ Component, pageProps }: Props) => {
         <Provider store={store}>
           {getLayout(<Component {...pageProps} />)}
           <ToastContainer />
-          
         </Provider>
       </div>
     </Layout>

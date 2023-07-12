@@ -116,3 +116,8 @@ export function mobileAndTabletCheck() {
     };
   }
 }
+
+export function changeMaskValueToNumber(val) {
+  let value = val.replace(/_/g, "");
+  return value.replace(/\s/g, "");
+}

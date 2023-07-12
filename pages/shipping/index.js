@@ -23,15 +23,16 @@ const shipping = () => {
   const [shippingTime, setShippingTime] = useState();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [modalAddressesState, setModalAddressesState] = useState(true);
 
   useEffect(() => {
     getAllAddresses();
   }, []);
   const addProductsOrder = async () => {
-    setLoading(true);
     !address && setShowModal(true);
     if (shippingTime && address) {
       const result = await addOrder({ shippingTime });
+      setLoading(true);
       router.push({ pathname: "/payment" });
     }
   };
@@ -47,6 +48,7 @@ const shipping = () => {
 
   const handleResult = (result) => {
     result && getAllAddresses();
+    setModalAddressesState(!modalAddressesState);
     setShowAddModal(false);
   };
 
@@ -141,6 +143,7 @@ const shipping = () => {
         onResult={handleResult}
       />
       <ModalAddress
+        state={modalAddressesState}
         onClickAddAddress={handleClickAddAddress}
         show={showModal}
         onClickClose={() => setShowModal(false)}
