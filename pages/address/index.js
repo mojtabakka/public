@@ -12,19 +12,11 @@ import { BsPerson } from "react-icons/bs";
 import { getAddresses, deleteAddress } from "api";
 import { isEmptyArray } from "utils/function.util";
 import { Dropdown, ModalAddAddress } from "components";
-import { Loading } from "../../components";
-import { toast } from "react-toastify";
 
 const address = () => {
   const [addresses, setAddresses] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   useEffect(() => {
-    toast("Toast is good", {
-      hideProgressBar: true,
-      autoClose: 2000,
-      type: "success",
-      position: "bottom-left",
-    });
     getAddressItems();
   }, []);
 

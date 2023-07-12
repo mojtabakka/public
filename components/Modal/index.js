@@ -3,7 +3,6 @@ import ModalTamplate from "./Modal.template";
 import { isFunction } from "utils/function.util";
 
 const Modal = (props) => {
-  console.log(props);
   const [show, setShow] = useState(false);
   useEffect(() => {
     setShow(props.show);

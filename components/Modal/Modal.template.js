@@ -3,13 +3,16 @@ import Sheet from "react-modal-sheet";
 
 function ModalTemplate({
   title,
-  children,
   footer,
   onClickClose,
   show,
   sheetSubtitle,
   className,
   onClickBackdrop,
+  modalContent,
+  modalFooter,
+  sheetContent,
+  sheetFooter,
   isForm,
 }) {
   return (
@@ -48,9 +51,9 @@ function ModalTemplate({
                 </button>
               </div>
             </div>
-            <div className={`p-6 ${className}`}>{children}</div>
+            <div className={`p-6 ${className}`}>{modalContent}</div>
             <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600 text-left  justify-end">
-              {footer}
+              {modalFooter}
             </div>
           </div>
         </div>
@@ -69,46 +72,23 @@ function ModalTemplate({
         onClose={onClickClose}
         detent="content-height"
       >
-        {isForm ? (
-          <form>
-            <Sheet.Container>
-              <Sheet.Header>
-                <div className="p-3  rounded-lg">
-                  <div>{title} </div>
-                  <span className=" text-small text-gray-400 text-xs">
-                    {sheetSubtitle}
-                  </span>
-                </div>
-                <hr />
-              </Sheet.Header>
-              <Sheet.Content className=" bg-gray-100">
-                <div className={`p-5 ${className}`}>{children}</div>
-                <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
-                  {footer}
-                </span>
-              </Sheet.Content>
-            </Sheet.Container>
-          </form>
-        ) : (
-          <Sheet.Container>
-            <Sheet.Header>
-              <div className="p-3  rounded-lg">
-                <div>{title} </div>
-                <span className=" text-small text-gray-400 text-xs">
-                  {sheetSubtitle}
-                </span>
-              </div>
-              <hr />
-            </Sheet.Header>
-            <Sheet.Content className=" bg-gray-100">
-              <div className={`p-5 ${className}`}>{children}</div>
-              <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
-                {footer}
+        <Sheet.Container>
+          <Sheet.Header>
+            <div className="p-3  rounded-lg">
+              <div>{title} </div>
+              <span className=" text-small text-gray-400 text-xs">
+                {sheetSubtitle}
               </span>
-            </Sheet.Content>
-          </Sheet.Container>
-        )}
-
+            </div>
+            <hr />
+          </Sheet.Header>
+          <Sheet.Content className=" bg-gray-100">
+            <div className={`p-5 ${className}  `}>{sheetContent}</div>
+            <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
+              {sheetFooter}
+            </span>
+          </Sheet.Content>
+        </Sheet.Container>
         <Sheet.Backdrop onClick={onClickBackdrop} />
       </Sheet>
     </>

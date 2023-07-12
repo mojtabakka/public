@@ -1,5 +1,6 @@
 import React from "react";
-import InputMask from "react-input-mask";
+import { useFormContext } from "react-hook-form";
+import { findInputError } from "../../utils/function.util";
 
 const InputTemplate = ({
   checked,
@@ -10,15 +11,22 @@ const InputTemplate = ({
   maskpattern = null,
   max = null,
   name,
+  form,
   placeholder,
   subText,
   type,
   value,
   onChange,
   onClick,
-  onKeyDown,
   className,
+  validations,
 }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const inputError = findInputError(errors, name);
   return (
     <>
       <div>
@@ -34,6 +42,7 @@ const InputTemplate = ({
       <div>
         {type === "radio" ? (
           <input
+            form={form}
             value={value}
             name={name}
             id={id}
@@ -42,10 +51,15 @@ const InputTemplate = ({
             onChange={onChange}
             checked={checked}
             onClick={onClick}
+            {...register(name, {
+              ...validations,
+              onChange: onChange,
+            })}
           />
         ) : mask ? (
           <input
             maxLength={max}
+            form={form}
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300 "
             name={name}
             id={id}
@@ -53,22 +67,33 @@ const InputTemplate = ({
             value={value}
             placeholder={placeholder}
             defaultValue={defaultValue}
-            onChange={onKeyDown}
+            {...register(name, {
+              ...validations,
+              onChange: onChange,
+            })}
           />
         ) : (
-          <InputMask
+          <input
+            onChange={onChange}
+            form={form}
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
             mask={maskpattern}
             value={value}
-            onChange={onChange}
             name={name}
             type={type}
-          ></InputMask>
+            {...register(name, {
+              ...validations,
+              onChange: onChange,
+            })}
+          />
         )}
       </div>
       {subText && (
         <div className="text-xs p-1 my-1 text-gray-400">{subText}</div>
       )}
+      <span className="text-xs px-2 text-red-500">
+        {inputError?.error?.message}
+      </span>
     </>
   );
 };

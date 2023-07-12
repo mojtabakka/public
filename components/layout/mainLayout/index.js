@@ -497,20 +497,22 @@ const Layout = ({ children, showFilters = false, ...props }) => {
             {children}
           </div>
         </div>
-        <Modal
-          title="فیلتر ها"
-          show={showFilterModal}
-          className="bg-white"
-          onClickClose={() => setShowFilterModal(false)}
-          onClickBackdrop={() => setShowFilterModal(false)}
-        >
-          {showFilters && (
-            <Filter
-              onChangeFilter={handleChangeFilter}
-              className=" !w-full !p-0  !shadow-none"
-            />
-          )}
-        </Modal>
+        {showFilterModal && (
+          <Modal
+            title="فیلتر ها"
+            show={showFilterModal}
+            className="bg-white"
+            onClickClose={() => setShowFilterModal(false)}
+            onClickBackdrop={() => setShowFilterModal(false)}
+          >
+            {showFilters && (
+              <Filter
+                onChangeFilter={handleChangeFilter}
+                className=" !w-full !p-0  !shadow-none"
+              />
+            )}
+          </Modal>
+        )}
         <Loading show={loading} />
       </div>
     </div>

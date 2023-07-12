@@ -10,9 +10,11 @@ const ButtonTemplate = ({
   className,
   outline = false,
   loading = false,
+  form,
 }) => {
   return (
     <button
+      form={form}
       onClick={onClick}
       style={{
         background: !outline ? COLORS[color].bg : "white",
