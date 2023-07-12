@@ -27,7 +27,6 @@ function ModalAddAddressTemplate({
       <form id={id}>
         <div className="md:h-96 lg:h-96   overflow-scroll px-6 mb-4">
           <Input
-            form="add-address-form"
             label={"نشانی پستی"}
             name={INPUT_NAMES.address}
             // value={formValue[INPUT_NAMES.address]}

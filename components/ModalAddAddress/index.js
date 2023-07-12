@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ModalAddAddressTemplate from "./ModalAddAddress.template";
 import { addAddresses } from "api";
 import { isFunction } from "utils/function.util";
-import { useForm } from "react-hook-form";
+import { useForm, reset } from "react-hook-form";
 import { INPUT_NAMES } from "./ModalAddAddress.config";
 
 const ModalAddAddress = (props) => {
@@ -26,7 +26,7 @@ const ModalAddAddress = (props) => {
     setLoading(true);
     try {
       const result = await addAddresses(data);
-      // target.reset();
+      methodsModal.reset();
       isFunction(props.onResult) && result && props.onResult(result);
     } catch (error) {
       // isFunction(props.onResult) && props.onResult();
@@ -40,7 +40,6 @@ const ModalAddAddress = (props) => {
     setLoading(true);
     try {
       const result = await addAddresses(data);
-      // target.reset();
       isFunction(props.onResult) && result && props.onResult(result);
     } catch (error) {
       // isFunction(props.onResult) && props.onResult();
