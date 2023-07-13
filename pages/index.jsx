@@ -52,7 +52,7 @@ function Home({ cats }) {
               </Link>
             ))}
         </div>
-      </Card> 
+      </Card>
       <Loading show={loading} />
     </Layout>
   );

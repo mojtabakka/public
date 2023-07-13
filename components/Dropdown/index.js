@@ -38,7 +38,7 @@ const Dropdown = ({
         dir="rtl"
         id="dropdown"
         className={` absolute w-full  p-3 ${
-          !open ? "hidden" : "hidden  lg:inline-block md:inline-block"
+          !open ? "hidden" : "hidden  lg:inline-block "
         }  z-10   bg-white divide-y divide-gray-100 rounded shadow-xl w-52 dark:bg-gray-700 ${className}`}
       >
         <ul
@@ -84,7 +84,7 @@ const Dropdown = ({
       </div>
       <div>
         <Sheet
-          className=" inline-block lg:hidden md:hidden"
+          className=" inline-block lg:hidden"
           isOpen={open}
           onClose={() => setOpen(false)}
           detent="content-height"
@@ -103,7 +103,6 @@ const Dropdown = ({
                 {items.map((item) => (
                   <div
                     className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
-                    
                     onClick={() => onClickItem(item)}
                   >
                     <div className={`   rounded  text-sm w-full `}>

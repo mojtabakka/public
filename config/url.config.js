@@ -4,6 +4,8 @@
 export const PRODUCT = "/product/public";
 export const GET_PRODUCT = "/product/public/:model";
 export const PRODUCT_SERCH = "/product/public/product-search/product-search";
+export const PRODUCT_NOT_RESERVED =
+  "/product/public/product-not-reserved/get-products-notReserved";
 
 //auth
 export const LOGIN = "/auth/send-otp";
@@ -20,7 +22,7 @@ export const CURRENT_ORDERS_GET = "orders/current-orders";
 export const PREVIOUS_ORDERS_GET = "orders/previous-orders";
 export const ADD_TO_BASKET = "orders/addToBasket";
 export const GET_CURRENT_BASKET = "orders/getCurrentBasket";
-export const GET_ORDER = "/orders/:id";
+export const GET_ORDER = "/orders/get-order/:id";
 export const GET_CURRENT_BASKET_COUNT = "/orders/get-current-basket-count";
 
 //user

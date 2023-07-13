@@ -32,8 +32,8 @@ const shipping = () => {
     !address && setShowModal(true);
     if (shippingTime && address) {
       const result = await addOrder({ shippingTime });
-      setLoading(true);
-      router.push({ pathname: "/payment" });
+      // setLoading(true);
+      // router.push({ pathname: "/payment" });
     }
   };
 

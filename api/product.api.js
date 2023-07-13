@@ -1,5 +1,10 @@
 import http from "service/http.service";
-import { PRODUCT, GET_PRODUCT, PRODUCT_SERCH } from "config/url.config";
+import {
+  PRODUCT,
+  GET_PRODUCT,
+  PRODUCT_SERCH,
+  PRODUCT_NOT_RESERVED,
+} from "config/url.config";
 
 export function getProducts(data) {
   return new Promise((resolve, reject) => {
@@ -24,6 +29,15 @@ export function searchProduct(item) {
   return new Promise((resolve, reject) => {
     http
       .get(PRODUCT_SERCH, { data: item })
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}
+
+export function getProductsNotReserved(item) {
+  return new Promise((resolve, reject) => {
+    http
+      .get(PRODUCT_NOT_RESERVED, { data: item })
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

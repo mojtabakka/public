@@ -18,7 +18,7 @@ const CategoryBox = ({ categories, ...props }) => {
     setBrands(categories[0].brands);
     setTypes(categories[0].productTypes);
     setProperties(categories[0].propertyTitles.properties);
-    createProperties(categories[1].propertyTitles);
+    createProperties(categories[0].propertyTitles);
     setCats(categories);
     const propertyTitles = categories.propertyTitles;
     const menueItems = !isEmptyArray(propertyTitles)

@@ -5,6 +5,7 @@ import {
   getNumberOfProductInBasket,
   removeProductFromBasket,
   addToBasket,
+  getProductsNotReserved,
 } from "api";
 import { ProductFeatures, ProductImages, ProductPrice } from "components";
 import Layout from "components/layout/mainLayout";
@@ -40,6 +41,8 @@ const DetailProduct = (props) => {
       }
       const data = { model: product.model };
       const result = await addToBasket(data);
+      // const result = await getProductsNotReserved();
+      console.log(result);
 
       dispatch(setSumOfCart(result.data?.products.length));
       const userId = setNumberOfOrder((value) => {
@@ -67,11 +70,6 @@ const DetailProduct = (props) => {
       setLoading(false);
     }
   };
-
-  const setBackUrl = (back_url = null) => ({
-    type: BACK_URL,
-    data: back_url,
-  });
 
   const handleShowOrders = () => {};
   return (

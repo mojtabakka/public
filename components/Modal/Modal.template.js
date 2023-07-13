@@ -19,7 +19,7 @@ function ModalTemplate({
     <>
       <div
         className={` fixed h-full top-0  left-0 right-0  z-50  flex w-full items-center justify-center ${
-          !show ? " hidden" : "lg:flex md:flex hidden"
+          !show ? " hidden" : "lg:flex hidden"
         }`}
       >
         <div className="   w-full max-w-2xl">
@@ -63,11 +63,11 @@ function ModalTemplate({
         tabIndex="-1"
         aria-hidden="true"
         className={`fixed top-0 left-0 right-0 z-10  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-400 opacity-50           ${
-          !show ? " hidden" : "lg:flex md:flex hidden"
+          !show ? " hidden" : "lg:flex  hidden"
         }`}
       ></div>
       <Sheet
-        className=" inline-block lg:hidden md:hidden"
+        className=" inline-block lg:hidden "
         isOpen={show}
         onClose={onClickClose}
         detent="content-height"

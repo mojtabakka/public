@@ -27,8 +27,8 @@ const orderDetails = () => {
       if (router.query.id) {
         const result = await getOrder(orderId);
         console.log(result.data);
-        const products = result?.data.cart?.products
-          ? groupBy(result?.data?.cart?.products, "model")
+        const products = result?.data?.products
+          ? groupBy(result?.data?.products, "model")
           : null;
 
         setProducts(products);
@@ -201,6 +201,7 @@ const orderDetails = () => {
                 );
               })}
           </div>
+          
         </div>
       </Card>
     </>

@@ -68,6 +68,7 @@ const payment = () => {
               </div>
               <div className="pr-5">
                 <Image
+                  alt="payment-icon"
                   value={PAYMENT_METHODS.local}
                   src={paymentIcon}
                   width={25}

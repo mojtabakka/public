@@ -1,4 +1,4 @@
-export { getProducts, getProduct, searchProduct } from "./product.api";
+export { getProducts, getProduct, searchProduct,getProductsNotReserved } from "./product.api";
 export { sendOtp, verification } from "./auth.api";
 export {
   addOrder,

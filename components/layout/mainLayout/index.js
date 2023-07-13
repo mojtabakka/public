@@ -28,8 +28,6 @@ import "react-modern-drawer/dist/index.css";
 import { isEmptyArray, isFunction } from "utils/function.util.js";
 import { isEmptyObject } from "../../../utils/function.util";
 import { useSelector } from "react-redux";
-import useOutsideClick from "../../../hooks/useOutsideClick";
-
 const Layout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
   const [catMenueStatus, setCatMenueStatus] = useState(false);
@@ -57,7 +55,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
     getAllCats();
     initDropDown();
     CreateSidebarItem();
-    currentBasketCount();
+    // currentBasketCount();
   }, []);
   const currentBasketCount = async () => {
     const result = await getCurrentBasketCount();
@@ -453,18 +451,18 @@ const Layout = ({ children, showFilters = false, ...props }) => {
       </header>
       {showFilters && (
         <div
-          className={`p-3 flex items-center shadow-lg bg-white  md:hidden lg:hidden ${
+          className={`p-3 flex items-center shadow  rounded border-4 mt-1 border-white lg:hidden  ${
             !showFilters && ""
           }`}
         >
           <div
-            className={`cursor-pointer text-blue-400 ${
+            className={`cursor-pointer  ${
               !showFilters && "hidden"
             }`}
             onClick={handleClickFilterIcon}
           >
-            <span className="pl-1 text-base">فیلترها</span>
-            <IoFilter className=" inline-block text-base" />
+            <span className="pl-1 text-xs">فیلترها</span>
+            <IoFilter className=" inline-block text-xs" />
           </div>
         </div>
       )}
@@ -473,9 +471,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
         {showFilters && (
           <Filter
             onChangeFilter={handleChangeFilter}
-            className={` ${
-              !showFilters ? "hidden" : "hidden md:block lg:block"
-            }`}
+            className={` ${!showFilters ? "hidden" : "hidden lg:block"}`}
           />
         )}
         {/* <div className="bg-white mt-5 mr-3 p-5 rounded w-1/6">
@@ -504,14 +500,23 @@ const Layout = ({ children, showFilters = false, ...props }) => {
             className="bg-white"
             onClickClose={() => setShowFilterModal(false)}
             onClickBackdrop={() => setShowFilterModal(false)}
-          >
-            {showFilters && (
-              <Filter
-                onChangeFilter={handleChangeFilter}
-                className=" !w-full !p-0  !shadow-none"
-              />
-            )}
-          </Modal>
+            modalContent={
+              showFilters && (
+                <Filter
+                  onChangeFilter={handleChangeFilter}
+                  className=" !w-full !p-0  !shadow-none"
+                />
+              )
+            }
+            sheetContent={
+              showFilters && (
+                <Filter
+                  onChangeFilter={handleChangeFilter}
+                  className=" !w-full !p-0  !shadow-none"
+                />
+              )
+            }
+          ></Modal>
         )}
         <Loading show={loading} />
       </div>

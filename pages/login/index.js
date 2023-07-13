@@ -13,6 +13,7 @@ const INPUT_NAMES = {
   otp: "otp",
 };
 function Login(props) {
+  console.log("hello");
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [showVerification, setShowVerification] = useState(false);
   const [otpValue, setOtpValue] = useState("");
@@ -69,6 +70,7 @@ function Login(props) {
                   className=" inline-block"
                   width={100}
                   height={100}
+                  alt="logo"
                 />
               </div>
               <h1 className="font-extrabold text-lg  mb-14 ">ورود | ثبت نام</h1>
@@ -103,6 +105,7 @@ function Login(props) {
                   src={logo}
                   className=" inline-block"
                   width={100}
+                  alt="logo"
                   height={100}
                 />
               </div>

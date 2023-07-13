@@ -29,7 +29,7 @@ function ModalAddAddressTemplate({
 
           <hr />
 
-          <div class="grid grid-cols-2 gap-4 mt-3">
+          <div className="grid grid-cols-2 gap-4 mt-3">
             <div>
               <Input
                 label={"استان "}
@@ -64,7 +64,7 @@ function ModalAddAddressTemplate({
             />
           </div>
 
-          <div class="grid grid-cols-4 gap-4 mt-3">
+          <div className="grid grid-cols-4 gap-4 mt-3">
             <div className="col-span-1">
               <Input
                 label={"پلاک"}

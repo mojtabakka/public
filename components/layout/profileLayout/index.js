@@ -16,9 +16,9 @@ const ProfileLayout = ({ children }) => {
     await getUser();
   };
   return (
-    <div className=" h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-4 gap-1 ">
-      <div className=" h-screen hidden lg:block md:inline-block sm:hidden">
-        <div className=" h-5/6 bg-white rounded shadow-sm      mt-5 mr-3 ">
+    <div className="  h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-4 gap-1   pb-40 fixed w-full  overflow-x-scroll ">
+      <div className="   hidden lg:block md:inline-block sm:hidden ">
+        <div className="    bg-white rounded shadow-sm   pb-40     mt-5 mr-3  top10   sticky top-2   ">
           <div className="flex p-3 items-center justify-between">
             <div>
               <div className="flex p-3 items-center">

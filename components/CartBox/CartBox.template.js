@@ -8,6 +8,7 @@ import { isEmptyArray, getToman } from "utils/function.util";
 import Image from "next/image";
 
 const CartBoxTemplate = ({ items }) => {
+  console.log(items);
   return (
     <div className="">
       {!isEmptyArray(items) && <div className=" text-lg">سبد خرید شما</div>}
