@@ -10,7 +10,7 @@ class httpService {
   BearerToken = null;
   constructor() {
     axios.defaults.withCredentials = true;
-    axios.defaults.baseURL = BASE_URL + "api";
+    axios.defaults.baseURL = "http://46.249.100.166:3003/api";
     axios.defaults.timeout = AXIOS_TIMEdOUT;
     axios.interceptors.request.use(
       (config) => {
