@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Layout from "components/layout/mainLayout";
+import { MainLayout } from "components/layout/mainLayout";
 import { getProducts } from "api";
 import { ProductCard, Loading, SearchKader } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -68,7 +68,7 @@ const products = ({ products, paginations }) => {
   };
 
   return (
-    <Layout onChangeFilter={handleChangeFilter} showFilters={true}>
+    <MainLayout onChangeFilter={handleChangeFilter} showFilters={true}>
       <SearchKader />
       <div className=" ">
         <InfiniteScroll
@@ -99,7 +99,7 @@ const products = ({ products, paginations }) => {
         </InfiniteScroll>
         <Loading show={loading} />
       </div>
-    </Layout>
+    </MainLayout>
   );
 };
 

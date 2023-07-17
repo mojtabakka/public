@@ -1,4 +1,4 @@
-import Layout from "components/layout/mainLayout";
+import { MainLayout } from "components/layout/mainLayout";
 import { getCats } from "api";
 import { IoCamera } from "react-icons/io5";
 import { Card, Loading } from "components";
@@ -28,33 +28,41 @@ export async function getServerSideProps(context) {
 function Home({ cats }) {
   const [loading, setLoading] = useState(false);
   return (
-    <Layout showFilters={false}>
+    <MainLayout showFilters={false}>
       <Card className="text-center mx-2 mt-5 border-rounded  ">
         <span className="text-center lg:text-lg text-sm ">دسته بندی ها</span>
         <div className=" grid  grid-cols-3 mt-10">
           {!isEmptyArray(cats) &&
             cats.map((item) => (
-              <Link href={item.id.toString()} onClick={() => setLoading(true)}>
-                <div className="text-center my-3   ">
-                  <div className="flex justify-center ">
-                    {item.photo ? (
-                      <img
-                        src={item.photo}
-                        alt={item.title}
-                        className="  h-20 w-20  "
-                      />
-                    ) : (
-                      <IoCamera className="  h-20 w-20 text-gray-600" />
-                    )}
+              <div key={item.id}>
+                <Link
+                  href={item.id.toString()}
+                  onClick={() => setLoading(true)}
+                  key={item.id}
+                >
+                  <div className="text-center my-3   ">
+                    <div className="flex justify-center ">
+                      {item.photo ? (
+                        <img
+                          src={item.photo}
+                          alt={item.title}
+                          className="  h-20 w-20  "
+                        />
+                      ) : (
+                        <IoCamera className="  h-20 w-20 text-gray-600" />
+                      )}
+                    </div>
+                    <h1 className="pb-4 text-xs text-gray-400 ">
+                      {item.title}
+                    </h1>
                   </div>
-                  <h1 className="pb-4 text-xs text-gray-400 ">{item.title}</h1>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
         </div>
       </Card>
       <Loading show={loading} />
-    </Layout>
+    </MainLayout>
   );
 }
 

@@ -8,7 +8,7 @@ import {
   getProductsNotReserved,
 } from "api";
 import { ProductFeatures, ProductImages, ProductPrice } from "components";
-import Layout from "components/layout/mainLayout";
+import { MainLayout } from "components/layout/mainLayout";
 import { PATHS } from "config/routes.config";
 import { BACK_URL } from "redux/types.js";
 import { getCookie } from "lib/function.utils.js";
@@ -95,6 +95,6 @@ export async function getServerSideProps(context) {
   return { props: { product } };
 }
 DetailProduct.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 export default DetailProduct;

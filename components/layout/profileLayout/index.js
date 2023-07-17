@@ -66,4 +66,4 @@ const ProfileLayout = ({ children }) => {
   );
 };
 
-export default ProfileLayout;
+export { ProfileLayout };

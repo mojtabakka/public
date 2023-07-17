@@ -3,7 +3,7 @@ import { CartBox, Card } from "components";
 import { getCurrentBasket } from "api";
 import { MdOutlinePriceCheck } from "react-icons/md";
 import { GiProfit } from "react-icons/gi";
-import MainLayout from "components/Layout/mainLayout";
+import { MainLayout } from "components/Layout/mainLayout";
 import { Button, Loading } from "components";
 import Link from "next/link";
 import { getToman, isEmptyArray } from "../../utils/function.util";

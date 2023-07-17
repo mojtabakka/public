@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import MainLayout from "components/Layout/mainLayout";
-import ProfileLayout from "components/Layout/profileLayout";
+import { MainLayout } from "components/Layout/mainLayout";
+import { ProfileLayout } from "components/Layout/profileLayout";
 import { FaCity } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";

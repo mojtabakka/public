@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import Sheet from "react-modal-sheet";
-import { isFunction } from "../../utils/function.util";
+import { isFunction } from "utils/function.util";
 import useOutsideClick from "hooks/useOutsideClick";
+import { isEmptyArray } from "../../utils/function.util";
 
 const Dropdown = ({
   className,
@@ -46,9 +47,9 @@ const Dropdown = ({
           aria-labelledby="dropdownDefaultButton"
           key={key}
         >
-          {items?.length > 0 &&
+          {!isEmptyArray(items) &&
             items.map((item, index) => (
-              <span key={index}>
+              <span key={index + item.id}>
                 <li
                   onClick={() => onClickItem(item)}
                   style={{ backgroundColor: item?.bgColor, color: item?.color }}
@@ -100,8 +101,9 @@ const Dropdown = ({
             </Sheet.Header>
             <Sheet.Content>
               <div className="p-5 ">
-                {items.map((item) => (
+                {items.map((item, index) => (
                   <div
+                    key={index + item.id}
                     className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
                     onClick={() => onClickItem(item)}
                   >

@@ -4,7 +4,7 @@ import { CgTrashEmpty } from "react-icons/cg";
 import { IoLocationSharp } from "react-icons/io5";
 import { getActiveAddress, addOrder } from "api";
 import { isEmptyArray, isEmptyObject } from "utils/function.util";
-import MainLayout from "components/Layout/mainLayout";
+import { MainLayout } from "components/Layout/mainLayout";
 import {
   Card,
   ModalAddAddress,
@@ -15,7 +15,7 @@ import {
 } from "components";
 import { useRouter } from "next/router";
 
-const shipping = () => {
+const Shipping = () => {
   const [address, setAddress] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -157,4 +157,4 @@ shipping.getLayout = function getLayout(page) {
   return <MainLayout>{page}</MainLayout>;
 };
 
-export default shipping;
+export default Shipping;

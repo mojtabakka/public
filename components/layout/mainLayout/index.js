@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Drawer from "react-modern-drawer";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import Image from "next/image";
+import Drawer from "react-modern-drawer";
+import "react-modern-drawer/dist/index.css";
 import logo from "public/images/logo.jpeg";
-import { searchProduct, getCats, getCurrentBasketCount } from "api";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { SlBasket } from "react-icons/Sl";
@@ -13,6 +14,8 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { GrMapLocation } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoFilter } from "react-icons/io5";
+import { searchProduct, getCats, getCurrentBasketCount } from "api";
+import { getCookie } from "lib/function.utils.js";
 import {
   Dropdown,
   BasketModal,
@@ -23,12 +26,8 @@ import {
   Filter,
   Badge,
 } from "components";
-import { getCookie } from "lib/function.utils.js";
-import "react-modern-drawer/dist/index.css";
-import { isEmptyArray, isFunction } from "utils/function.util.js";
-import { isEmptyObject } from "../../../utils/function.util";
-import { useSelector } from "react-redux";
-const Layout = ({ children, showFilters = false, ...props }) => {
+import { isEmptyObject, isEmptyArray, isFunction } from "utils/function.util";
+const MainLayout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
   const [catMenueStatus, setCatMenueStatus] = useState(false);
   const [token, setToken] = useState();
@@ -206,7 +205,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
       },
 
       {
-        id: 2,
+        id: 3,
         title: "آدرس ها",
         bgColor: "white",
         url: "/address",
@@ -456,9 +455,7 @@ const Layout = ({ children, showFilters = false, ...props }) => {
           }`}
         >
           <div
-            className={`cursor-pointer  ${
-              !showFilters && "hidden"
-            }`}
+            className={`cursor-pointer  ${!showFilters && "hidden"}`}
             onClick={handleClickFilterIcon}
           >
             <span className="pl-1 text-xs">فیلترها</span>
@@ -466,7 +463,6 @@ const Layout = ({ children, showFilters = false, ...props }) => {
           </div>
         </div>
       )}
-      {/* <div className="border border-white "></div> */}
       <div className="flex">
         {showFilters && (
           <Filter
@@ -474,9 +470,6 @@ const Layout = ({ children, showFilters = false, ...props }) => {
             className={` ${!showFilters ? "hidden" : "hidden lg:block"}`}
           />
         )}
-        {/* <div className="bg-white mt-5 mr-3 p-5 rounded w-1/6">
-
-        </div> */}
         <div className="w-full">
           <div className=" hidden  md:block">
             <div className={`${!displayBaskModal ? "hidden" : ""}`}>
@@ -524,4 +517,4 @@ const Layout = ({ children, showFilters = false, ...props }) => {
   );
 };
 
-export default Layout;
+export { MainLayout };

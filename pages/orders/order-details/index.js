@@ -1,12 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import MainLayout from "components/Layout/mainLayout";
-import ProfileLayout from "components/Layout/profileLayout";
+import { MainLayout } from "components/Layout/mainLayout";
+import { ProfileLayout } from "components/Layout/profileLayout";
 import { getOrder } from "api";
 import { Card } from "components";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { IoShieldCheckmark } from "react-icons/io5";
-import { BiMemoryCard } from "react-icons/bi";
 import { AiOutlineNumber } from "react-icons/ai";
 import { groupBy, isEmptyArray, getToman } from "utils/function.util";
 import { getCompleteDateToPersian } from "../../../utils/function.util";
@@ -201,7 +200,6 @@ const orderDetails = () => {
                 );
               })}
           </div>
-          
         </div>
       </Card>
     </>

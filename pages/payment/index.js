@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment-jalaali";
-import MainLayout from "components/Layout/mainLayout";
+import { MainLayout } from "components/Layout/mainLayout";
 import { Card, ShippingPrice, Input } from "components";
 import { getCurrentOrder } from "api";
 import { MdOutlinePayment } from "react-icons/md";

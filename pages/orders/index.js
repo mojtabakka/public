@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import MainLayout from "components/Layout/mainLayout";
-import ProfileLayout from "components/Layout/profileLayout";
+import { MainLayout } from "components/Layout/mainLayout";
+import { ProfileLayout } from "components/Layout/profileLayout";
 import { Tab } from "components";
 import { MdArrowBackIos } from "react-icons/md";
 import { CgTrashEmpty } from "react-icons/cg";
-import { getCurrentOrders, getPreviousOrders } from "api";
+import { getCurrentOrders, getPreviousOrders, getProduct } from "api";
 import {
   groupBy,
   isEmptyArray,
@@ -28,6 +28,17 @@ const TAB_ITEMS = [
     action: ACTIONS.COMPLETED_ORDERS,
   },
 ];
+
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+  const data = {
+    context,
+    id,
+  };
+  const result = await getProduct(data);
+  const product = result.data;
+  return { props: { product: [{ id: 1 }] } };
+}
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +55,6 @@ const Orders = () => {
     try {
       setIsLoading(true);
       let orders;
-
       switch (item.action) {
         case ACTIONS.CURRENT_ORDERS:
           orders = item.action !== tabAction && (await getCurrentOrders());
@@ -72,101 +82,85 @@ const Orders = () => {
     });
   };
   return (
-    <div className="  bg-white mt-5 p-3 rounded">
-      <Tab items={TAB_ITEMS} onClick={handleClickTabItem} />
-      {!isEmptyArray(orders) && !isLoading ? (
-        <div>
-          {!isEmptyArray(orders) &&
-            orders.map((order, key) => {
-              const products = order?.cart?.products
-                ? groupBy(order?.cart?.products, "model")
-                : null;
-              return (
-                <div
-                  onClick={() => handleClickOrder(order.id)}
-                  className="p-3 border mt-5  rounded-lg  bg-gray-50 "
-                  key={key}
-                >
-                  <div className=" flex justify-between">
-                    <div className=" py-3 flex  justify-between">
-                      <div className=" w-1/2   text-gray-500">
-                        <div className="p-1">تاریخ</div>
-                        <div className="p-1">شماره سفارش</div>
-                        <div className="p-1">مبلغ خرید</div>
-                      </div>
-                      <div className=" w-full">
-                        <div className="p-1">
-                          {getCompleteDateToPersian(order.created_at)}
-                        </div>
-                        <div className="p-1">{order.id}</div>
-                        <div className="p-1">{order.priceForUser} تومان</div>
-                      </div>
-                    </div>
-                    <div className="mt-3">
-                      <MdArrowBackIos />
-                    </div>
-                  </div>
-                  <div className="flex overflow-x-scroll bg-white rounded-lg">
-                    {!isEmptyArray(products) &&
-                      products.map((item, index) => {
-                        const key = Object.keys(item)[0];
-                        const data = item[key][0];
-                        const number = item[key].length;
-                        return (
-                          <div className="flex p-2 mx-2 " key={index}>
-                            <img
-                              src={data?.photos[0]?.src}
-                              className="  w-16 h-16 lg:w-24 lg:h-24 md:w-24 md:h-24"
-                            />
-                            <div className="relative">
-                              <span
-                                className="bg-gray-400 p-1 rounded-3xl  absolute "
-                                style={{ right: "-30px", bottom: "0px" }}
-                              >
-                                {number}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <div className=" text-left p-3 text-medium text-blue-500 mt-2 cursor-pointer">
-                    مشاهده فاکتور
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      ) : (
-        <div className="flex  justify-center p-20">
-          <span>
-            <CgTrashEmpty className=" text-8xl" />
-            <div className="mt-3">سفارشی ثبت نشده است</div>
-          </span>
-        </div>
-      )}
-
-      <Loading show={isLoading} />
-    </div>
-  );
-};
-
-export async function getServerSideProps(context) {
-  // const { id } = context.query;
-  // const data = {
-  //   context,
-  //   id,
-  // };
-  // const result = await getProduct(data);
-  // const product = result.data;
-  return { props: { product: [{ id: 1 }] } };
-}
-
-Orders.getLayout = function getLayout(page) {
-  return (
     <MainLayout>
-      <ProfileLayout>{page}</ProfileLayout>
+      <div className="  bg-white mt-5 p-3 rounded">
+        <Tab items={TAB_ITEMS} onClick={handleClickTabItem} />
+        {!isEmptyArray(orders) && !isLoading ? (
+          <div>
+            {!isEmptyArray(orders) &&
+              orders.map((order, key) => {
+                const products = order?.cart?.products
+                  ? groupBy(order?.cart?.products, "model")
+                  : null;
+                return (
+                  <div
+                    onClick={() => handleClickOrder(order.id)}
+                    className="p-3 border mt-5  rounded-lg  bg-gray-50 "
+                    key={key}
+                  >
+                    <div className=" flex justify-between">
+                      <div className=" py-3 flex  justify-between">
+                        <div className=" w-1/2   text-gray-500">
+                          <div className="p-1">تاریخ</div>
+                          <div className="p-1">شماره سفارش</div>
+                          <div className="p-1">مبلغ خرید</div>
+                        </div>
+                        <div className=" w-full">
+                          <div className="p-1">
+                            {getCompleteDateToPersian(order.created_at)}
+                          </div>
+                          <div className="p-1">{order.id}</div>
+                          <div className="p-1">{order.priceForUser} تومان</div>
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <MdArrowBackIos />
+                      </div>
+                    </div>
+                    <div className="flex overflow-x-scroll bg-white rounded-lg">
+                      {!isEmptyArray(products) &&
+                        products.map((item, index) => {
+                          const key = Object.keys(item)[0];
+                          const data = item[key][0];
+                          const number = item[key].length;
+                          return (
+                            <div className="flex p-2 mx-2 " key={index}>
+                              <img
+                                src={data?.photos[0]?.src}
+                                className="  w-16 h-16 lg:w-24 lg:h-24 md:w-24 md:h-24"
+                              />
+                              <div className="relative">
+                                <span
+                                  className="bg-gray-400 p-1 rounded-3xl  absolute "
+                                  style={{ right: "-30px", bottom: "0px" }}
+                                >
+                                  {number}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                    <div className=" text-left p-3 text-medium text-blue-500 mt-2 cursor-pointer">
+                      مشاهده فاکتور
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        ) : (
+          <div className="flex  justify-center p-20">
+            <span>
+              <CgTrashEmpty className=" text-8xl" />
+              <div className="mt-3">سفارشی ثبت نشده است</div>
+            </span>
+          </div>
+        )}
+
+        <Loading show={isLoading} />
+      </div>
     </MainLayout>
   );
 };
+
 export default Orders;

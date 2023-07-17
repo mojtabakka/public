@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { colors } from "config/sibarMenu.config";
 import * as MdIcons from "react-icons/md";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const SidebarItem = ({
@@ -85,15 +84,17 @@ const SidebarItem = ({
           }}
         >
           <div>
-            {items.map((subItem) => (
-              <SidebarItem
-                sidebarStatus={sidebarStatus}
-                key={subItem.name}
-                depth={depth + 1}
-                depthStep={depthStep}
-                {...subItem}
-                onClickSidbarItem={onClickSidbarItem}
-              />
+            {items.map((subItem, index) => (
+              <div index={index}>
+                <SidebarItem
+                  sidebarStatus={sidebarStatus}
+                  key={subItem.name}
+                  depth={depth + 1}
+                  depthStep={depthStep}
+                  {...subItem}
+                  onClickSidbarItem={onClickSidbarItem}
+                />
+              </div>
             ))}
           </div>
         </div>

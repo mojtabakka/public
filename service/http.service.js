@@ -3,7 +3,11 @@ import { toast } from "react-toastify";
 import { BASE_URL, AXIOS_TIMEdOUT } from "config/variables.config";
 import { NEEDED_URLS_FOR_AUTHENTICATION } from "config/url.config";
 import { getCookie } from "../lib/function.utils";
-import { isEmptyArray, isEmptyObject } from "../utils/function.util";
+import {
+  findGetParameter,
+  isEmptyArray,
+  isEmptyObject,
+} from "../utils/function.util";
 // import { getCookie } from "cookie-parser";
 
 class httpService {
@@ -11,6 +15,7 @@ class httpService {
   constructor() {
     axios.defaults.withCredentials = true;
     axios.defaults.baseURL = "http://46.249.100.166:3003/api";
+    // axios.defaults.baseURL = "http://localhost:3003/api";
     axios.defaults.timeout = AXIOS_TIMEdOUT;
     axios.interceptors.request.use(
       (config) => {
@@ -46,22 +51,15 @@ class httpService {
           });
         }
         toast(
-          isEmptyArray(error.response.data.message)
-            ? error.response.data.message
-            : error.response.data.message[0],
+          isEmptyArray(error?.response?.data?.message)
+            ? error.response?.data?.message
+            : error.response?.data?.message[0],
           {
             autoClose: 2000,
             type: toast.TYPE.ERROR,
             position: toast.POSITION.TOP_CENTER,
           }
         );
-
-        if (error?.response?.status === 401) {
-          localStorage.removeItem("token");
-          window.location.href = "/login";
-        }
-        // Any status codes that falls outside the range of 2xx cause this function to trigger
-        // Do something with response error
         return Promise.reject(error);
       }
     );

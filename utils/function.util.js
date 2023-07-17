@@ -121,3 +121,16 @@ export function changeMaskValueToNumber(val) {
   let value = val.replace(/_/g, "");
   return value.replace(/\s/g, "");
 }
+
+export function findGetParameter(parameterName) {
+  var result = null,
+    tmp = [];
+  location.search
+    .substr(1)
+    .split("&")
+    .forEach(function (item) {
+      tmp = item.split("=");
+      if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    });
+  return result;
+}
