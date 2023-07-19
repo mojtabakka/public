@@ -14,8 +14,8 @@ class httpService {
   BearerToken = null;
   constructor() {
     axios.defaults.withCredentials = true;
-    axios.defaults.baseURL = "http://46.249.100.166:3003/api";
-    // axios.defaults.baseURL = "http://localhost:3003/api";
+    // axios.defaults.baseURL = "http://46.249.100.166:3003/api";
+    axios.defaults.baseURL = "http://localhost:3003/api";
     axios.defaults.timeout = AXIOS_TIMEdOUT;
     axios.interceptors.request.use(
       (config) => {
@@ -50,17 +50,19 @@ class httpService {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         }
-        toast(
-          isEmptyArray(error?.response?.data?.message)
-            ? error.response?.data?.message
-            : error.response?.data?.message[0],
-          {
-            autoClose: 2000,
-            type: toast.TYPE.ERROR,
-            position: toast.POSITION.TOP_CENTER,
-          }
-        );
-        return Promise.reject(error);
+        if (error?.response?.data?.statusCode !== 401) {
+          toast(
+            isEmptyArray(error?.response?.data?.message)
+              ? error.response?.data?.message
+              : error.response?.data?.message[0],
+            {
+              autoClose: 2000,
+              type: toast.TYPE.ERROR,
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+          return Promise.reject(error);
+        }
       }
     );
   }

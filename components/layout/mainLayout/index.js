@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
@@ -14,7 +14,8 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { GrMapLocation } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoFilter } from "react-icons/io5";
-import { searchProduct, getCats, getCurrentBasketCount } from "api";
+import { searchProduct, getCats } from "api";
+import { setSumOfCart } from "redux/action/general.action";
 import { getCookie } from "lib/function.utils.js";
 import {
   Dropdown,
@@ -46,6 +47,7 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
   const router = useRouter();
   const mySumCart = useSelector((state) => state.general.sumCart);
   const [sumCart, setSumCart] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(false);
@@ -54,11 +56,13 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
     getAllCats();
     initDropDown();
     CreateSidebarItem();
-    // currentBasketCount();
+    currentBasketCount();
   }, []);
   const currentBasketCount = async () => {
-    const result = await getCurrentBasketCount();
-    setSumCart(result.data);
+    const products = JSON.parse(localStorage.getItem("cart"));
+    const cartCount = products && !isEmptyArray(products) ? products.length : 0;
+    setSumCart(cartCount);
+    dispatch(setSumOfCart(cartCount));
   };
   useEffect(() => {
     setLoading(false);

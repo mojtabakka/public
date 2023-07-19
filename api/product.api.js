@@ -34,10 +34,10 @@ export function searchProduct(item) {
   });
 }
 
-export function getProductsNotReserved(item) {
+export function getProductsNotReserved(data) {
   return new Promise((resolve, reject) => {
     http
-      .get(PRODUCT_NOT_RESERVED, { data: item })
+      .get(PRODUCT_NOT_RESERVED, { data })
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

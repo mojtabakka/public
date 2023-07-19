@@ -6,7 +6,7 @@ import { GiProfit } from "react-icons/gi";
 import { MainLayout } from "components/Layout/mainLayout";
 import { Button, Loading } from "components";
 import Link from "next/link";
-import { getToman, isEmptyArray } from "../../utils/function.util";
+import { getToman, groupBy, isEmptyArray } from "../../utils/function.util";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -26,9 +26,12 @@ const Cart = () => {
     }
   };
   const getBasekt = async () => {
-    const data = await getCurrentBasket();
-    calculatePrices(data.data);
-    setCartItems(data.data);
+    let data = JSON.parse(localStorage.getItem("cart"));
+    data = groupBy(data, "model");
+    console.log(data);
+    // console.log(data);
+    calculatePrices(data);
+    setCartItems(data);
   };
 
   const handleClickOrder = () => {

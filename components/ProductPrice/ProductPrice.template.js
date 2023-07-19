@@ -1,21 +1,12 @@
 import React from "react";
-import { Badge, Button, OrderButton } from "components";
+import { Badge, OrderButton } from "components";
 import { IoShieldCheckmark } from "react-icons/io5";
-import { FaClipboardList } from "react-icons/fa";
 import { MdOutlineDeliveryDining, MdOutlinePriceCheck } from "react-icons/md";
 import { addCommasSeprator } from "utils/function.util.js";
 import Link from "next/link";
 
-const ProductPriceTemplate = ({
-  loading,
-  product,
-  onClickPlus,
-  onClickBin,
-  numberOfOrder,
-  showOrders,
-}) => {
-  const { warranty, priceForUser, exist, numberOfExist, deliveryMethod, off } =
-    product;
+const ProductPriceTemplate = ({ product, showOrders }) => {
+  const { warranty, priceForUser, deliveryMethod, off, model } = product;
   return (
     <div className="bg-white m-1 rounded lg:w-1/4 px-3 pb-14 pt-3  w-full text-right mt-3">
       <div className=" flex-col h-full">
@@ -79,52 +70,31 @@ const ProductPriceTemplate = ({
           </div>
         </div>
         <div className="w-full text-right  mb-0  flex-1 hidden lg:inline-block">
-          {numberOfOrder === 0 ? (
-            <Button className="w-full" onClick={onClickPlus}>
-              افزودن به سبد
-            </Button>
-          ) : (
-            <>
-              <OrderButton
-                onClickPlus={onClickPlus}
-                onClickBin={onClickBin}
-                value={numberOfOrder}
-                loading={loading}
-              />
-              <Link
-                href={"/cart"}
-                className="text-xs p-2 text-blue-300 cursor-pointer"
-                onClick={showOrders}
-              >
-                مشاهده سبد خرید
-              </Link>
-            </>
-          )}
+          <>
+            <OrderButton model={model} />
+            <Link
+              href={"/cart"}
+              className="text-xs p-2 text-blue-300 cursor-pointer"
+              onClick={showOrders}
+            >
+              مشاهده سبد خرید
+            </Link>
+          </>
         </div>
 
         <div className=" fixed w-full   right-0  bottom-0  bg-white shadow-lg border p-2">
           <div className="w-full text-center my-3 items-center flex  align-middle lg:hidden">
             <div className="w-full text-right   ">
-              {numberOfOrder === 0 ? (
-                <Button className="w-full" onClick={onClickPlus}>
-                  افزودن به سبد
-                </Button>
-              ) : (
-                <>
-                  <OrderButton
-                    onClickPlus={onClickPlus}
-                    onClickBin={onClickBin}
-                    value={numberOfOrder}
-                  />
-                  <Link
-                    href="/cart"
-                    className=" p-2 text-blue-300 cursor-pointer"
-                    onClick={showOrders}
-                  >
-                    مشاهده سبد خرید
-                  </Link>
-                </>
-              )}
+              <>
+                <OrderButton model={model} />
+                <Link
+                  href="/cart"
+                  className=" p-2 text-blue-300 cursor-pointer"
+                  onClick={showOrders}
+                >
+                  مشاهده سبد خرید
+                </Link>
+              </>
             </div>
             <div className=" w-9/12 flex justify-end  items-center  ">
               <div className="flex">

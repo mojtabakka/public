@@ -153,7 +153,7 @@ const Shipping = () => {
   );
 };
 
-shipping.getLayout = function getLayout(page) {
+Shipping.getLayout = function getLayout(page) {
   return <MainLayout>{page}</MainLayout>;
 };
 

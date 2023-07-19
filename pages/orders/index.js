@@ -151,7 +151,9 @@ const Orders = () => {
         ) : (
           <div className="flex  justify-center p-20">
             <span>
-              <CgTrashEmpty className=" text-8xl" />
+              <div className="text-center">
+                <CgTrashEmpty className=" text-8xl inline-block" />
+              </div>
               <div className="mt-3">سفارشی ثبت نشده است</div>
             </span>
           </div>

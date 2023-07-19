@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "api";
 import { ProfileLayout } from "components/Layout/profileLayout";
-import { mainLayout } from "components/Layout/mainLayout";
+import { MainLayout } from "components/Layout/mainLayout";
 import { editUser } from "api";
-// import { DatePicker } from "react-persian-datepicker
 
 import { Input, Button } from "components";
 
