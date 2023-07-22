@@ -4,7 +4,7 @@ import { CgTrashEmpty } from "react-icons/cg";
 import { IoLocationSharp } from "react-icons/io5";
 import { getActiveAddress, addOrder } from "api";
 import { isEmptyArray, isEmptyObject } from "utils/function.util";
-import { MainLayout } from "components/Layout/mainLayout";
+import { MainLayout } from "components/Layout/MainLayout";
 import {
   Card,
   ModalAddAddress,

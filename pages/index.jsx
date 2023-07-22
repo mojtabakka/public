@@ -1,4 +1,4 @@
-import { MainLayout } from "components/layout/mainLayout";
+import { MainLayout } from "components/layout/MainLayout";
 import { getCats } from "api";
 import { IoCamera } from "react-icons/io5";
 import { Card, Loading } from "components";
@@ -34,7 +34,7 @@ function Home({ cats }) {
         <div className=" grid  grid-cols-3 mt-10">
           {!isEmptyArray(cats) &&
             cats.map((item) => (
-              <div key={item.id}>
+              <div key={item.id} className=" border rounded shadow">
                 <Link
                   href={item.id.toString()}
                   onClick={() => setLoading(true)}

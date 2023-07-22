@@ -107,6 +107,7 @@ function Login(props) {
       const result = await verification(data);
       result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
       changeBasket();
+      localStorage.setItem("authenticated", true);
       router.query?.back_url
         ? router.push(router.query.back_url)
         : router.push("/");

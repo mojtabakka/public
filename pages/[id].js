@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { MainLayout } from "components/layout/mainLayout";
+import { MainLayout } from "components/layout/MainLayout";
 import { getProducts } from "api";
 import { ProductCard, Loading, SearchKader } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";

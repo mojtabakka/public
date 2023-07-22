@@ -47,6 +47,7 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
   const router = useRouter();
   const mySumCart = useSelector((state) => state.general.sumCart);
   const [sumCart, setSumCart] = useState();
+  const [authenticated, setAuthenticated] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,6 +58,8 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
     initDropDown();
     CreateSidebarItem();
     currentBasketCount();
+    const authenticated = localStorage.getItem("authenticated");
+    setAuthenticated(authenticated);
   }, []);
   const currentBasketCount = async () => {
     const products = JSON.parse(localStorage.getItem("cart"));
@@ -378,7 +381,7 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
                   )}
                 </div>
               </div>
-              {!token ? (
+              {!authenticated ? (
                 <span
                   onClick={handleClicklogin}
                   className=" p-1 sm:p-2 lg:p-4 md:p-2  border-x w-full "

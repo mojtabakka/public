@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "api";
-import { ProfileLayout } from "components/Layout/profileLayout";
-import { MainLayout } from "components/Layout/mainLayout";
+import { ProfileLayout } from "components/Layout/ProfileLayout";
+import { MainLayout } from "components/Layout/MainLayout";
 import { editUser } from "api";
 
 import { Input, Button } from "components";

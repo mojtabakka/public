@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { MainLayout } from "components/Layout/mainLayout";
 import { getUser } from "api";
 import { BsPersonCircle } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";

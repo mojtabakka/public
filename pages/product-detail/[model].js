@@ -1,7 +1,7 @@
 import React from "react";
 import { getProduct } from "api";
 import { ProductFeatures, ProductImages, ProductPrice } from "components";
-import { MainLayout } from "components/layout/mainLayout";
+import { MainLayout } from "components/layout/MainLayout";
 
 const DetailProduct = (props) => {
   const { product } = props;

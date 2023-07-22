@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CartBox, Card } from "components";
 import { MdOutlinePriceCheck } from "react-icons/md";
 import { GiProfit } from "react-icons/gi";
-import { MainLayout } from "components/Layout/mainLayout";
+import { MainLayout } from "components/Layout/MainLayout";
 import { Button, Loading } from "components";
 import Link from "next/link";
 import {
