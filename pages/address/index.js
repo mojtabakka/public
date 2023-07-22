@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MainLayout } from "components/Layout/MainLayout";
-import { ProfileLayout } from "components/Layout/ProfileLayout";
 import { FaCity } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
@@ -11,7 +9,12 @@ import { MdOutlineAddLocationAlt } from "react-icons/md";
 import { BsPerson } from "react-icons/bs";
 import { getAddresses, deleteAddress } from "api";
 import { isEmptyArray } from "utils/function.util";
-import { Dropdown, ModalAddAddress } from "components";
+import {
+  Dropdown,
+  ModalAddAddress,
+  ProfileLayout,
+  MainLayout,
+} from "components";
 
 const address = () => {
   const [addresses, setAddresses] = useState([]);

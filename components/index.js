@@ -25,3 +25,4 @@ export { Sppiner } from "./Sppiner";
 export { Tab } from "./tab";
 export { Toast } from "./Toast";
 export { MainLayout } from "./Layout/MainLayout";
+export { ProfileLayout } from "./Layout/ProfileLayout";

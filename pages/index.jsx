@@ -1,7 +1,6 @@
-import { MainLayout } from "components/layout/MainLayout";
 import { getCats } from "api";
 import { IoCamera } from "react-icons/io5";
-import { Card, Loading } from "components";
+import { Card, Loading, MainLayout } from "components";
 import { isEmptyArray } from "../utils/function.util";
 import Link from "next/link";
 import { useState } from "react";
