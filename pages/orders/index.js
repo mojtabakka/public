@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MainLayout } from "components/Layout/MainLayout";
-import { ProfileLayout } from "components/Layout/ProfileLayout";
 import { Tab } from "components";
 import { MdArrowBackIos } from "react-icons/md";
 import { CgTrashEmpty } from "react-icons/cg";
@@ -10,7 +8,7 @@ import {
   isEmptyArray,
   getCompleteDateToPersian,
 } from "utils/function.util";
-import { Loading } from "components";
+import { Loading, MainLayout } from "components";
 import { useRouter } from "next/router";
 
 const ACTIONS = {

@@ -1,15 +1,12 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { MainLayout } from "components/Layout/MainLayout";
-import { ProfileLayout } from "components/Layout/ProfileLayout";
 import { getOrder } from "api";
-import { Card } from "components";
+import { Card, Progressbar, MainLayout, ProfileLayout } from "components";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { AiOutlineNumber } from "react-icons/ai";
 import { groupBy, isEmptyArray, getToman } from "utils/function.util";
 import { getCompleteDateToPersian } from "../../../utils/function.util";
-import { Progressbar } from "../../../components";
 import { ORDER_STATUS } from "config/general.config";
 
 const orderDetails = () => {
@@ -25,7 +22,6 @@ const orderDetails = () => {
     {
       if (router.query.id) {
         const result = await getOrder(orderId);
-        console.log(result.data);
         const products = result?.data?.products
           ? groupBy(result?.data?.products, "model")
           : null;
