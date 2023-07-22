@@ -42,7 +42,10 @@ const Cart = () => {
           item[el].reduce((total, preveius) => {
             console.log(preveius);
             return (
-              (!isEmptyObject(total) ? +total?.priceForUser : total) +
+              (!isEmptyObject(total)
+                ? total?.priceForUser -
+                  total?.priceForUser * (+total?.off / 100)
+                : total) +
               +(
                 preveius?.priceForUser -
                 preveius?.priceForUser * (+preveius?.off / 100)
