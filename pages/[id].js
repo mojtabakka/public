@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { MainLayout } from "components";
 import { getProducts } from "api";
-import { ProductCard, Loading, SearchKader } from "components";
+import { ProductCard, Loading, SearchKader, MainLayout } from "components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { isEmptyArray, isEmptyObject } from "../utils/function.util";
 
