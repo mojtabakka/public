@@ -7,7 +7,7 @@ import "react-modern-drawer/dist/index.css";
 import logo from "public/images/logo.jpeg";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
-import { SlBasket } from "react-icons/Sl";
+import { SlBasket } from "react-icons/si";
 import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
