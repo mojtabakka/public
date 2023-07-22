@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  removeProductFromBasket,
-  addToBasket,
-  getNumberOfProductInBasket,
-  getProductsNotReserved,
-} from "api";
+import { addToBasket, getProductsNotReserved } from "api";
 import { setSumOfCart } from "redux/action/general.action";
 import OrderButtonTemplate from "./OrderButton.template";
-import { PATHS } from "config/routes.config";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { isEmptyArray } from "../../utils/function.util";
 
@@ -24,11 +17,13 @@ const OrderButton = (props) => {
   const getNumberOfProductFunc = async () => {
     try {
       let products = JSON.parse(localStorage.getItem("cart"));
+      console.log(products);
       products =
         !isEmptyArray(products) &&
         products.filter((item) => item?.model === props.model);
       const cartCount =
         products && !isEmptyArray(products) ? products.length : 0;
+
       setNumberOfOrder((value) => {
         return cartCount;
       });
@@ -45,7 +40,14 @@ const OrderButton = (props) => {
       if (localStorageCart) {
         localStorageCart = JSON.parse(localStorage.getItem("cart"));
         if (localStorageCart.length > 0) {
-          localStorageCart.pop();
+          const filterModel = localStorageCart.filter((item) => {
+            return item.model === props.model;
+          })[0];
+
+          localStorageCart = localStorageCart.filter(
+            (item) => item.id !== filterModel.id
+          );
+          console.log(localStorageCart);
           isEmptyArray(!localStorageCart) &&
             localStorageCart.forEach((element) => {
               ids.push(element.id);
@@ -81,6 +83,7 @@ const OrderButton = (props) => {
         });
       const data = {
         ids,
+        model: props.model,
       };
       let product = (await getProductsNotReserved(data)).data;
       if (product) {
@@ -94,7 +97,6 @@ const OrderButton = (props) => {
         setNumberOfOrder((value) => {
           return value + 1;
         });
-        console.log(ids);
         await addToBasket(ids);
       }
     } catch (error) {

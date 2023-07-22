@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Input, Button, Loading } from "components";
 import logo from "public/images/logo.jpeg";
-import { sendOtp, verification } from "api";
+import { sendOtp, verification, getCurrentBasket } from "api";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { changeMaskValueToNumber } from "utils/function.util";
-import { getCookie } from "lib/function.utils";
 import Cookies from "js-cookie";
+import { isEmptyArray } from "../../utils/function.util";
+import { addToBasket } from "../../api/orders.api";
 
 const INPUT_NAMES = {
   phoneNumber: "phoneNumber",
@@ -23,13 +24,62 @@ function Login(props) {
   const router = useRouter();
   const state = useSelector((state) => state.general);
 
-  useEffect(() => {
-    const value = changeMaskValueToNumber(otpValue);
+  const changeBasket = async () => {
+    try {
+      const mainProducts = [];
+      const ids = [];
+      const cart = await getCurrentBasket();
+      const products = cart.data.products;
+
+      const productsLength = !isEmptyArray(products) ? products.length : 0;
+      const storageProducts = JSON.parse(localStorage.getItem("cart"));
+      console.log(storageProducts);
+      const storageProductsLengh = !isEmptyArray(storageProducts)
+        ? storageProducts.length
+        : 0;
+
+      if (productsLength >= storageProductsLengh) {
+        !isEmptyArray(products) &&
+          products.map((item) => {
+            mainProducts.push(item);
+            !isEmptyArray(storageProducts) &&
+              storageProducts.map((data) => {
+                const check = products.find((el) => el.id == item.id);
+                if (!check) mainProducts.push(data);
+              });
+          });
+      }
+      if (productsLength < storageProductsLengh) {
+        !isEmptyArray(storageProducts) &&
+          storageProducts.map((item) => {
+            mainProducts.push(item);
+            !isEmptyArray(products) &&
+              products.map((data) => {
+                const check = storageProducts.find((el) => el.id == item.id);
+                if (!check) mainProducts.push(item);
+              });
+          });
+      }
+
+      !isEmptyArray(mainProducts) &&
+        mainProducts.forEach((item) => {
+          ids.push(item.id);
+        });
+      await addToBasket(ids);
+      localStorage.setItem("cart", JSON.stringify(mainProducts));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleChangeOtpCode = (e) => {
+    const val = e.target.value;
+    setOtpValue(val);
+    const value = changeMaskValueToNumber(val);
     if (value.length === 4) {
       setOtpValue(value);
       handleVerification(value);
     }
-  }, [otpValue]);
+  };
   const handleSubmit = async (e) => {
     try {
       setButtonLoading(true);
@@ -55,8 +105,8 @@ function Login(props) {
     data.phoneNumber = phoneNumber;
     try {
       const result = await verification(data);
-      Cookies.set("token", result.data.token.token);
       result.data.token && localStorage.setItem("phoneNumber", phoneNumber);
+      changeBasket();
       router.query?.back_url
         ? router.push(router.query.back_url)
         : router.push("/");
@@ -131,7 +181,7 @@ function Login(props) {
                     name={INPUT_NAMES.otp}
                     defaultValue={null}
                     value={otpValue}
-                    onChange={(event) => setOtpValue(event.target.value)}
+                    onChange={handleChangeOtpCode}
                     max={4}
                     mask={true}
                     maskpattern="9 9 9 9 "

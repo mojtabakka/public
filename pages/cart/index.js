@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { CartBox, Card } from "components";
-import { getCurrentBasket } from "api";
 import { MdOutlinePriceCheck } from "react-icons/md";
 import { GiProfit } from "react-icons/gi";
 import { MainLayout } from "components/Layout/mainLayout";
 import { Button, Loading } from "components";
 import Link from "next/link";
-import { getToman, groupBy, isEmptyArray } from "../../utils/function.util";
+import {
+  getToman,
+  groupBy,
+  isEmptyArray,
+  isEmptyObject,
+} from "../../utils/function.util";
+import { getCurrentBasket } from "api/orders.api";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -19,17 +24,47 @@ const Cart = () => {
   }, []);
 
   const calculatePrices = (data) => {
-    if (!isEmptyArray(data)) {
-      setBenefit(data[0]?.basket_benefit);
-      setSumFinalPrice(data[0]?.basket_finalPrice);
-      setSumPrice(data[0]?.basket_purePrice);
-    }
+    let purePrice = 0;
+    let sumFinalPrice = 0;
+    data.map((item) => {
+      Object.keys(item).forEach((el) => {
+        purePrice =
+          purePrice +
+          item[el].reduce((total, preveius) => {
+            return (
+              (!isEmptyObject(total) ? +total.priceForUser : total) +
+              +preveius.priceForUser
+            );
+          });
+
+        sumFinalPrice =
+          sumFinalPrice +
+          item[el].reduce((total, preveius) => {
+            console.log(preveius);
+            return (
+              (!isEmptyObject(total) ? +total?.priceForUser : total) +
+              +(
+                preveius?.priceForUser -
+                preveius?.priceForUser * (+preveius?.off / 100)
+              )
+            );
+          });
+
+        console.log(setSumFinalPrice);
+      });
+    });
+
+    // if (!isEmptyArray(data)) {
+
+    setSumFinalPrice(sumFinalPrice);
+    setSumPrice(purePrice);
+
+    setBenefit(purePrice - sumFinalPrice);
+    // }
   };
   const getBasekt = async () => {
     let data = JSON.parse(localStorage.getItem("cart"));
     data = groupBy(data, "model");
-    console.log(data);
-    // console.log(data);
     calculatePrices(data);
     setCartItems(data);
   };

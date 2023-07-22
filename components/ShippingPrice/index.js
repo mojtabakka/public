@@ -15,11 +15,9 @@ function ShippingPrice(props) {
   const getCart = async () => {
     let mySumFinalPrice = 0;
     const cart = await getCurrentBasket();
-    setPurePrice(cart.data[0].basket_finalPrice);
-    setFinalPrice(
-      cart.data[0].basket_finalPrice - cart.data[0].basket_shippingPrice
-    );
-    setShippingPrice(cart.data[0].basket_shippingPrice);
+    setPurePrice(cart.data.finalPrice);
+    setFinalPrice(cart.data.finalPrice - cart.data.shippingPrice);
+    setShippingPrice(cart.data.shippingPrice);
     isFunction(props.onCartItem) && props.onCartItem(cart.data);
     setCart(cart.data);
     setPrice(mySumFinalPrice);
