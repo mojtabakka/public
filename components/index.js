@@ -24,5 +24,5 @@ export { Sidebar } from "./Sidebar";
 export { Sppiner } from "./Sppiner";
 export { Tab } from "./tab";
 export { Toast } from "./Toast";
-export { MainLayout } from "./Layout/MainLayout";
-export { ProfileLayout } from "./Layout/ProfileLayout";
+export { MainLayout } from "./AppLayout/MainLayout";
+export { ProfileLayout } from "./AppLayout/ProfileLayout";
