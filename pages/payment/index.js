@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment-jalaali";
-import { MainLayout } from "components/Layout/MainLayout";
-import { Card, ShippingPrice, Input } from "components";
+import { Card, ShippingPrice, Input, MainLayout } from "components";
 import { getCurrentOrder } from "api";
 import { MdOutlinePayment } from "react-icons/md";
 import paymentIcon from "public/images/payment.png";
 import Image from "next/image";
 import { isEmptyArray } from "utils/function.util";
 import { CgTrashEmpty } from "react-icons/cg";
-import { getMonthName } from "../../utils/function.util";
+import { getMonthName } from "utils/function.util";
 
 const PAYMENT_METHODS = {
   internet: "internet",
