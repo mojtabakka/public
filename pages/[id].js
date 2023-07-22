@@ -19,6 +19,7 @@ export async function getServerSideProps(context) {
         products: [...result.data],
       },
     };
+    
   } catch (error) {
     console.log("error", error);
     return {
