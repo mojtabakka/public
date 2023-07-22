@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "api";
-import { ProfileLayout } from "components/Layout/ProfileLayout";
+import { ProfileLayout } from "components/Layout/profileLayout";
 import { MainLayout } from "components/Layout/MainLayout";
 import { editUser } from "api";
 
