@@ -7,7 +7,8 @@ import "react-modern-drawer/dist/index.css";
 import logo from "public/images/logo.jpeg";
 import { HiOutlineLogin } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
-import { SlBasket } from "react-icons/si";
+// import { SlBasket } from "react-icons/si";
+import { BsCart2 } from "react-icons/bs";
 import { BsPersonCircle } from "react-icons/bs";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
@@ -370,7 +371,7 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
                 onClick={handleClickBasket}
               >
                 <div className=" relative">
-                  <SlBasket className="   inline-block   lg:text-2xl  md:text-xl sm:text-lg text-xl" />
+                  <BsCart2 className="   inline-block   lg:text-2xl  md:text-xl sm:text-lg text-xl" />
                   {sumCart > 0 && (
                     <Badge
                       className="text-xs top-2   flex !items-center absolute  left-0"
