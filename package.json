@@ -6,7 +6,8 @@
         "dev": "env-cmd -f ./environment/.env.development  next dev",
         "build": " next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "prod": " npm run build && pm2 start npm --name public -- run start -- -p 8080"
     },
     "browser": {
         "fs": false,
