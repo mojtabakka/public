@@ -7,17 +7,22 @@ import { isEmptyArray } from "../../utils/function.util";
 
 const OrderButton = (props) => {
   const [loading, setLoading] = useState(false);
-
   const [numberOfOrder, setNumberOfOrder] = useState(0);
+  const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getNumberOfProductFunc();
+    checkLogin();
   });
+  const checkLogin = () => {
+    const check = localStorage.getItem("authenticated");
+    if (check) setIsLogin(true);
+    else setIsLogin(false);
+  };
   const getNumberOfProductFunc = async () => {
     try {
       let products = JSON.parse(localStorage.getItem("cart"));
-      console.log(products);
       products =
         !isEmptyArray(products) &&
         products.filter((item) => item?.model === props.model);
@@ -47,7 +52,6 @@ const OrderButton = (props) => {
           localStorageCart = localStorageCart.filter(
             (item) => item.id !== filterModel.id
           );
-          console.log(localStorageCart);
           isEmptyArray(!localStorageCart) &&
             localStorageCart.forEach((element) => {
               ids.push(element.id);
@@ -58,7 +62,8 @@ const OrderButton = (props) => {
           setNumberOfOrder((value) => {
             return value - 1;
           });
-          await addToBasket(ids);
+
+          isLogin && (await addToBasket(ids));
         }
       }
     } catch (error) {
@@ -97,7 +102,7 @@ const OrderButton = (props) => {
         setNumberOfOrder((value) => {
           return value + 1;
         });
-        await addToBasket(ids);
+        isLogin && (await addToBasket(ids));
       }
     } catch (error) {
       console.log("error", error);

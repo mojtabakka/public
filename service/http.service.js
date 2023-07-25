@@ -3,11 +3,7 @@ import { toast } from "react-toastify";
 import { BASE_URL, AXIOS_TIMEdOUT } from "config/variables.config";
 import { NEEDED_URLS_FOR_AUTHENTICATION } from "config/url.config";
 import { getCookie } from "../lib/function.utils";
-import {
-  findGetParameter,
-  isEmptyArray,
-  isEmptyObject,
-} from "../utils/function.util";
+import { isEmptyArray, isEmptyObject } from "../utils/function.util";
 // import { getCookie } from "cookie-parser";
 
 class httpService {
