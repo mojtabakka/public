@@ -40,6 +40,7 @@ const OrderButton = (props) => {
   const handleClickBin = async () => {
     const ids = [];
     try {
+      setIsLogin(true)
       let localStorageCart = localStorage.getItem("cart");
 
       if (localStorageCart) {
