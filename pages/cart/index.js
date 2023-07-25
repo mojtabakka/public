@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { CartBox, Card } from "components";
-import { MdOutlinePriceCheck } from "react-icons/md";
-import { GiProfit } from "react-icons/gi";
-import { Button, Loading, MainLayout } from "components";
 import Link from "next/link";
+import { GiProfit } from "react-icons/gi";
+import { MdOutlinePriceCheck } from "react-icons/md";
+import { CartBox, Card, Button, Loading, MainLayout } from "components";
 import {
   getToman,
   groupBy,
   isEmptyArray,
   isEmptyObject,
-} from "../../utils/function.util";
-import { getCurrentBasket } from "api/orders.api";
+} from "utils/function.util";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);

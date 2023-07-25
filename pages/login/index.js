@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Input, Button, Loading } from "components";
-import logo from "public/images/logo.jpeg";
-import { sendOtp, verification, getCurrentBasket } from "api";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { changeMaskValueToNumber } from "utils/function.util";
-import Cookies from "js-cookie";
-import { isEmptyArray } from "../../utils/function.util";
-import { addToBasket } from "../../api/orders.api";
+import Image from "next/image";
+import logo from "public/images/logo.jpeg";
+import { setSumOfCart } from "redux/action/general.action";
+import { Input, Button, Loading } from "components";
+import { sendOtp, verification, getCurrentBasket, addToBasket } from "api";
+import { changeMaskValueToNumber, isEmptyArray } from "utils/function.util";
 
 const INPUT_NAMES = {
   phoneNumber: "phoneNumber",
@@ -33,7 +31,6 @@ function Login(props) {
 
       const productsLength = !isEmptyArray(products) ? products.length : 0;
       const storageProducts = JSON.parse(localStorage.getItem("cart"));
-      console.log(storageProducts);
       const storageProductsLengh = !isEmptyArray(storageProducts)
         ? storageProducts.length
         : 0;
@@ -67,6 +64,8 @@ function Login(props) {
         });
       await addToBasket(ids);
       localStorage.setItem("cart", JSON.stringify(mainProducts));
+
+      dispatch(setSumOfCart(mainProducts.length));
     } catch (error) {
       console.log(error);
     }

@@ -58,21 +58,23 @@ export function getMonthName(monthNumber) {
 
 export function groupBy(list, key) {
   const result = {};
-  list.forEach((item) => {
-    const changeResultToArray = Object.keys(result).map((key) => [
-      key,
-      result[key],
-    ]);
-    const findKey = changeResultToArray.find((data) => {
-      return data[0] === item[key];
-    });
 
-    if (!findKey) {
-      result[item[key]] = [item];
-    } else {
-      result[item[key]].push(item);
-    }
-  });
+  !isEmptyArray(list) &&
+    list.forEach((item) => {
+      const changeResultToArray = Object.keys(result).map((key) => [
+        key,
+        result[key],
+      ]);
+      const findKey = changeResultToArray.find((data) => {
+        return data[0] === item[key];
+      });
+
+      if (!findKey) {
+        result[item[key]] = [item];
+      } else {
+        result[item[key]].push(item);
+      }
+    });
   return Object.keys(result).map((key) => {
     return { [key]: result[key] };
   });
