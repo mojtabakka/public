@@ -13,7 +13,7 @@ import {
   Loading,
   MainLayout,
 } from "components";
-import { useRouter } from "next/router";
+import { groupBy } from "../../utils/function.util";
 
 const Shipping = () => {
   const [address, setAddress] = useState([]);
@@ -22,7 +22,6 @@ const Shipping = () => {
   const [cart, setCart] = useState(false);
   const [shippingTime, setShippingTime] = useState();
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [modalAddressesState, setModalAddressesState] = useState(true);
 
   useEffect(() => {
@@ -62,7 +61,8 @@ const Shipping = () => {
   };
 
   const handleCartItem = (item) => {
-    setCart(item);
+    const products = groupBy(item.products, "model");
+    setCart(products);
   };
   return (
     <div className="mt-5">
@@ -103,23 +103,24 @@ const Shipping = () => {
             )}
             <div className="flex overflow-x-scroll">
               {!isEmptyArray(cart) &&
-                cart.map((item, index) => (
-                  <div className="flex" key={index}>
-                    <img
-                      src={item?.productPhotos_src}
-                      width={100}
-                      height={100}
-                    />
-                    <div className="relative">
-                      <span
-                        className="bg-gray-400 p-1 rounded  absolute "
-                        style={{ right: "-30px", bottom: "0px" }}
-                      >
-                        {item?.number}
-                      </span>
+                cart.map((item, index) => {
+                  const key = Object.keys(item)[0];
+                  const len = Object.keys(item)[0].length;
+                  const data = item[key][0];
+                  return (
+                    <div className="flex" key={index}>
+                      <img src={data.photos[0].src} width={100} height={100} />
+                      <div className="relative">
+                        <span
+                          className="bg-gray-400 p-1 rounded  absolute "
+                          style={{ right: "-30px", bottom: "0px" }}
+                        >
+                          {len}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
             </div>
           </div>
           <div className="border mt-3  rounded-lg">
