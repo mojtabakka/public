@@ -7,7 +7,7 @@
         "build": " next build",
         "start": "next start",
         "lint": "next lint",
-        "prod": " npm run build && pm2 start npm --name public -- run start -- -p 8080"
+        "prod": "  npm run build && pm2 stop public && pm2 start npm --name public -- run start -- -p 8080"
     },
     "browser": {
         "fs": false,
