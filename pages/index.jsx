@@ -48,7 +48,7 @@ function Home({ cats }) {
                           className=" border p-5 rounded-full sm:w-52 sm:h-52 md:w-60 md:h-60  w-32   h-32 shadow   lg:h-60 lg:w-60  "
                         />
                       ) : (
-                        <IoCamera className="   h-20 w-20 text-gray-600" />
+                        <IoCamera className=" border p-5 rounded-full sm:w-52 sm:h-52 md:w-60 md:h-60  w-32   h-32 shadow   lg:h-60 lg:w-60  text-gray-600 " />
                       )}
                     </div>
                     <h1 className="pb-4 mt-5   ">{item.title}</h1>
