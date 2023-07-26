@@ -17,7 +17,6 @@ const CartBoxTemplate = ({ items }) => {
         {!isEmptyArray(items) &&
           items.map((item, index) => {
             const data = item[Object.keys(item)[0]][0];
-            console.log();
             return (
               <div className="mt-5" key={index}>
                 <div className="flex border rounded-lg p-5">
@@ -28,7 +27,7 @@ const CartBoxTemplate = ({ items }) => {
                       width={200}
                       alt={data.model}
                     />
-                    <div className="mt-5">
+                    <div className="mt-8 bg-red-50  text-center">
                       <OrderButton model={data.model} />
                     </div>
                   </div>
