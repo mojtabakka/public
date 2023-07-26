@@ -137,7 +137,7 @@ function Login(props) {
               <form onSubmit={handleSubmit}>
                 <div className=" mt-1 ">
                   <Input
-                    type="number"
+                    type="tel"
                     max={11}
                     name={INPUT_NAMES.phoneNumber}
                     mask={true}
@@ -177,7 +177,7 @@ function Login(props) {
               <form onSubmit={handleVerification}>
                 <div className=" mt-1 ">
                   <Input
-                    type="number"
+                    type="tel"
                     name={INPUT_NAMES.otp}
                     defaultValue={null}
                     value={otpValue}

@@ -89,7 +89,7 @@ const InputTemplate = ({
             mask={maskpattern}
             value={value}
             name={name}
-            // type={type}
+            type={type}
             {...register}
           />
         )}
