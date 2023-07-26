@@ -27,7 +27,7 @@ const CartBoxTemplate = ({ items }) => {
                       width={200}
                       alt={data.model}
                     />
-                    <div className="mt-8 bg-red-50  text-center">
+                    <div className="mt-8  text-center">
                       <OrderButton model={data.model} />
                     </div>
                   </div>
