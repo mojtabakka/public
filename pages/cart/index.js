@@ -37,7 +37,6 @@ const Cart = () => {
         sumFinalPrice =
           sumFinalPrice +
           item[el].reduce((total, preveius) => {
-            console.log(preveius);
             return (
               (!isEmptyObject(total)
                 ? total?.priceForUser -
@@ -54,13 +53,10 @@ const Cart = () => {
       });
     });
 
-    // if (!isEmptyArray(data)) {
-
     setSumFinalPrice(sumFinalPrice);
     setSumPrice(purePrice);
 
     setBenefit(purePrice - sumFinalPrice);
-    // }
   };
   const getBasekt = async () => {
     let data = JSON.parse(localStorage.getItem("cart"));

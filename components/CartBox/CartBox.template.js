@@ -9,6 +9,7 @@ import Image from "next/image";
 import { OrderButton } from "../OrderButton";
 
 const CartBoxTemplate = ({ items }) => {
+  console.log(items);
   return (
     <div className="">
       {!isEmptyArray(items) && <div className=" text-lg">سبد خرید شما</div>}
@@ -16,12 +17,13 @@ const CartBoxTemplate = ({ items }) => {
         {!isEmptyArray(items) &&
           items.map((item, index) => {
             const data = item[Object.keys(item)[0]][0];
+            console.log();
             return (
               <div className="mt-5" key={index}>
                 <div className="flex border rounded-lg p-5">
                   <div>
                     <img
-                      src={data?.productPhotos_src}
+                      src={data?.photos[0]?.src}
                       height={200}
                       width={200}
                       alt={data.model}
