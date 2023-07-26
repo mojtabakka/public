@@ -65,7 +65,7 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
                 borderTopLeftRadius: "5px",
                 borderBottomRightRadius: "30px",
                 borderBottomLeftRadius: "0px",
-                borderTopRightRadius: "5px",
+                borderTopRightRadius: "0px",
               }}
             >
               {items.off} % تخفیف
