@@ -64,7 +64,7 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
               style={{
                 borderTopLeftRadius: "5px",
                 borderBottomRightRadius: "30px",
-                borderBottomLeftRadius: "5px",
+                borderBottomLeftRadius: "0px",
                 borderTopRightRadius: "5px",
               }}
             >
