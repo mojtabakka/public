@@ -11,8 +11,8 @@ class httpService {
   constructor() {
     axios.defaults.withCredentials = true;
     console.log(process.env);
-    // axios.defaults.baseURL = "http://46.249.100.166:3003/api";
-    axios.defaults.baseURL = "http://localhost:3003/api";
+    axios.defaults.baseURL = "http://46.249.100.166:3003/api";
+    // axios.defaults.baseURL = "http://localhost:3003/api";
 
     axios.defaults.timeout = AXIOS_TIMEdOUT;
     axios.interceptors.request.use(
