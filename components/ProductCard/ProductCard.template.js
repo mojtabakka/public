@@ -56,7 +56,16 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
           </div>
         </div>
         <div className=" text-left flex   w-50  justify-end ">
-          <div className={`text-left  ${style.up_arrow} `}></div>
+          <div
+            className={`text-left   `}
+            style={{
+              width: "0",
+              height: "0",
+              borderRight: "50px solid transparent",
+              borderRadius: "5px",
+              borderTop: " 70px solid #b91c1b",
+            }}
+          ></div>
           <div className=" absolute top-2 px-2 text-white  left-0-">
             {items.off} %
           </div>
