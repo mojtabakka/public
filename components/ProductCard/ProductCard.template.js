@@ -44,10 +44,12 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
                   </div>
                   {items?.off && (
                     <div
-                      className="text-xs text-gray-400 px-1 line-through"
+                      className="text-xs text-gray-400 px-1 flex "
                       style={{ fontSize: "10px" }}
                     >
-                      {getToman(items.priceForUser)}
+                      <span className="line-through">
+                        {getToman(items.priceForUser)}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -55,21 +57,21 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
             </div>
           </div>
         </div>
-        <div className=" text-left flex   w-50  justify-end ">
-          <div
-            className={`text-left   `}
-            style={{
-              width: "0",
-              height: "0",
-              borderRight: "50px solid transparent",
-              borderRadius: "5px",
-              borderTop: " 70px solid #b91c1b",
-            }}
-          ></div>
-          {/* <div className=" absolute top-2 px-2 text-white  left-0 bg-red-800 rounded-full h-10">
-            {items.off} %
-          </div> */}
-        </div>
+        {items?.off && (
+          <div className=" text-left flex   w-50  justify-end ">
+            <div
+              className=" absolute px-2  text-white  left-0 bg-red-500 text-xs  py-2"
+              style={{
+                borderTopLeftRadius: "5px",
+                borderBottomRightRadius: "30px",
+                borderBottomLeftRadius: "5px",
+                borderTopRightRadius: "5px",
+              }}
+            >
+              {items.off} % تخفیف
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
