@@ -19,15 +19,15 @@ const CartBoxTemplate = ({ items }) => {
             const data = item[Object.keys(item)[0]][0];
             return (
               <div className="mt-5" key={index}>
-                <div className="flex border rounded-lg p-5">
+                <div className="flex border rounded-lg">
                   <div>
                     <img
                       src={data?.photos[0]?.src}
-                      height={200}
-                      width={200}
+                      height={130}
+                      width={130}
                       alt={data.model}
                     />
-                    <div className="mt-8  text-center">
+                    <div className="mt-14  text-center">
                       <OrderButton model={data.model} />
                     </div>
                   </div>
@@ -70,10 +70,10 @@ const CartBoxTemplate = ({ items }) => {
                           {getToman(
                             Number(data.priceForUser) * (data.off / 100)
                           )}
-                          تومان تخفیف
+                          <span  className="px-1">تومان تخفیف</span>
                         </div>
                       )}
-                      <div className="mt-3 font-black text-lg">
+                      <div className="mt-3 font-black text-base">
                         {getToman(
                           Number(data.priceForUser) -
                             Number(data.priceForUser) * (data.off / 100)
