@@ -12,7 +12,6 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
       key={key}
       className=" cursor-pointer w-full mt-1 rounded  "
     >
-      <div className={`${style.up_arrow}`}> </div>
       <div className=" relative shadow-sm bg-white  hover:shadow-lg border rounded-lg w-full flex">
         <div className="  w-full flex md:block sm:block lg:block justify-between py-4 ">
           <figure className=" px-5  flex justify-center w-full  ">
