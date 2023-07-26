@@ -458,7 +458,7 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
       </header>
       {showFilters && (
         <div
-          className={`p-3 flex items-center shadow  rounded border-4 mt-1 border-white lg:hidden  ${
+          className={`p-3 flex items-center     rounded  shadow px-2 mx-2 mt-1 bg-white lg:hidden  ${
             !showFilters && ""
           }`}
         >
