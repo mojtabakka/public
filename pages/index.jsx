@@ -28,12 +28,12 @@ function Home({ cats }) {
   const [loading, setLoading] = useState(false);
   return (
     <MainLayout showFilters={false}>
-      <Card className="text-center mx-2 mt-5 border-rounded  ">
+      <Card className="text-center !p-0 mt-5 border-rounded  ">
         <span className="text-center lg:text-lg text-sm ">دسته بندی ها</span>
-        <div className=" grid  grid-cols-3 mt-10">
+        <div className=" grid  grid-cols-3 mt-5">
           {!isEmptyArray(cats) &&
             cats.map((item) => (
-              <div key={item.id} className=" border rounded shadow">
+              <div key={item.id} className=" mx-2 rounded ">
                 <Link
                   href={item.id.toString()}
                   onClick={() => setLoading(true)}
@@ -45,15 +45,13 @@ function Home({ cats }) {
                         <img
                           src={item.photo}
                           alt={item.title}
-                          className="  h-20 w-20  "
+                          className=" border p-5 rounded-full sm:w-52 sm:h-52 md:w-60 md:h-60  w-32   h-32 shadow   lg:h-60 lg:w-60  "
                         />
                       ) : (
-                        <IoCamera className="  h-20 w-20 text-gray-600" />
+                        <IoCamera className="   h-20 w-20 text-gray-600" />
                       )}
                     </div>
-                    <h1 className="pb-4 text-xs text-gray-400 ">
-                      {item.title}
-                    </h1>
+                    <h1 className="pb-4 mt-5   ">{item.title}</h1>
                   </div>
                 </Link>
               </div>
