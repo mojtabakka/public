@@ -13,7 +13,6 @@ function ModalTemplate({
   modalFooter,
   sheetContent,
   sheetFooter,
-  isForm,
 }) {
   return (
     <>
@@ -83,7 +82,7 @@ function ModalTemplate({
             <hr />
           </Sheet.Header>
           <Sheet.Content className=" bg-gray-100">
-            <div className={`p-5 ${className}  `}>{sheetContent}</div>
+            <div className={`p-5 ${className}  pb-20 `}>{sheetContent}</div>
             <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
               {sheetFooter}
             </span>

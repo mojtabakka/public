@@ -16,7 +16,7 @@ const ModalAddAddress = (props) => {
     [INPUT_NAMES.district]: null,
     [INPUT_NAMES.city]: null,
     [INPUT_NAMES.postalCode]: null,
-    [INPUT_NAMES.address]: "hello",
+    [INPUT_NAMES.address]: null,
     [INPUT_NAMES.receiverlastname]: null,
     [INPUT_NAMES.receiverlastname]: null,
     [INPUT_NAMES.recivermobile]: null,

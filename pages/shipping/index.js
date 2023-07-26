@@ -3,7 +3,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { CgTrashEmpty } from "react-icons/cg";
 import { IoLocationSharp } from "react-icons/io5";
 import { getActiveAddress, addOrder } from "api";
-import { isEmptyArray, isEmptyObject } from "utils/function.util";
+import { groupBy, isEmptyArray, isEmptyObject } from "utils/function.util";
 import {
   Card,
   ModalAddAddress,
@@ -13,7 +13,6 @@ import {
   Loading,
   MainLayout,
 } from "components";
-import { groupBy } from "../../utils/function.util";
 
 const Shipping = () => {
   const [address, setAddress] = useState([]);
@@ -38,6 +37,7 @@ const Shipping = () => {
 
   const getAllAddresses = async () => {
     const myAaddress = await getActiveAddress();
+
     setAddress(myAaddress.data);
   };
 
@@ -70,6 +70,7 @@ const Shipping = () => {
         <Card className="w-full ">
           <div className="border p-3 rounded-lg">
             <div className="text-medium  text-gray-400">آدرس تحویل سفارش</div>
+            {console.log(address)}
             {isEmptyObject(address) && (
               <>
                 <div>هیچ آدرسی وجود ندارد</div>
