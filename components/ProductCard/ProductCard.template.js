@@ -66,9 +66,9 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
               borderTop: " 70px solid #b91c1b",
             }}
           ></div>
-          <div className=" absolute top-2 px-2 text-white  left-0-">
+          {/* <div className=" absolute top-2 px-2 text-white  left-0 bg-red-800 rounded-full h-10">
             {items.off} %
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
