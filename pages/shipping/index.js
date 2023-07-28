@@ -13,6 +13,7 @@ import {
   Loading,
   MainLayout,
 } from "components";
+import { useRouter } from "next/router";
 
 const Shipping = () => {
   const [address, setAddress] = useState([]);
@@ -22,6 +23,7 @@ const Shipping = () => {
   const [shippingTime, setShippingTime] = useState();
   const [loading, setLoading] = useState(false);
   const [modalAddressesState, setModalAddressesState] = useState(true);
+  const router  = useRouter()
 
   useEffect(() => {
     getAllAddresses();
