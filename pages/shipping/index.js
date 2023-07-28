@@ -27,11 +27,17 @@ const Shipping = () => {
     getAllAddresses();
   }, []);
   const addProductsOrder = async () => {
-    !address && setShowModal(true);
-    if (shippingTime && address) {
-      const result = await addOrder({ shippingTime });
-      // setLoading(true);
-      // router.push({ pathname: "/payment" });
+    try {
+      !address && setShowModal(true);
+      if (shippingTime && address) {
+        const result = await addOrder({ shippingTime });
+        setLoading(true);
+        router.push({ pathname: "/payment" });
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +76,6 @@ const Shipping = () => {
         <Card className="w-full ">
           <div className="border p-3 rounded-lg">
             <div className="text-medium  text-gray-400">آدرس تحویل سفارش</div>
-            {console.log(address)}
             {isEmptyObject(address) && (
               <>
                 <div>هیچ آدرسی وجود ندارد</div>
