@@ -15,6 +15,7 @@ function ShippingPrice(props) {
   const getCart = async () => {
     let mySumFinalPrice = 0;
     const cart = await getCurrentBasket();
+    console.log(cart);
     setPurePrice(cart.data.finalPrice);
     setFinalPrice(cart.data.finalPrice - cart.data.shippingPrice);
     setShippingPrice(cart.data.shippingPrice);

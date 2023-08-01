@@ -29,6 +29,7 @@ import {
   Badge,
 } from "components";
 import { isEmptyObject, isEmptyArray, isFunction } from "utils/function.util";
+import Cookies from "js-cookie";
 const MainLayout = ({ children, showFilters = false, ...props }) => {
   const [loading, setLoading] = useState(false);
   const [catMenueStatus, setCatMenueStatus] = useState(false);
@@ -63,7 +64,7 @@ const MainLayout = ({ children, showFilters = false, ...props }) => {
     setAuthenticated(authenticated);
   }, []);
   const currentBasketCount = async () => {
-    const products = JSON.parse(localStorage.getItem("cart"));
+    const products = Cookies.get("cart") ? JSON.parse(Cookies.get("cart")) : [];
     const cartCount = products && !isEmptyArray(products) ? products.length : 0;
     setSumCart(cartCount);
     dispatch(setSumOfCart(cartCount));

@@ -3,7 +3,8 @@ import { addToBasket, getProductsNotReserved } from "api";
 import { setSumOfCart } from "redux/action/general.action";
 import OrderButtonTemplate from "./OrderButton.template";
 import { useDispatch } from "react-redux";
-import { isEmptyArray } from "../../utils/function.util";
+import { isEmptyArray } from "utils/function.util";
+import Cookies from "js-cookie";
 
 const OrderButton = (props) => {
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ const OrderButton = (props) => {
   };
   const getNumberOfProductFunc = async () => {
     try {
-      let products = JSON.parse(localStorage.getItem("cart"));
+      let products = JSON.parse(Cookies.get("cart"));
       products =
         !isEmptyArray(products) &&
         products.filter((item) => item?.model === props.model);
@@ -38,28 +39,27 @@ const OrderButton = (props) => {
   };
 
   const handleClickBin = async () => {
+    console.log("helo");
     const ids = [];
     try {
-      setIsLogin(true)
-      let localStorageCart = localStorage.getItem("cart");
+      setIsLogin(true);
+      let cookieCart = Cookies.get("cart");
 
-      if (localStorageCart) {
-        localStorageCart = JSON.parse(localStorage.getItem("cart"));
-        if (localStorageCart.length > 0) {
-          const filterModel = localStorageCart.filter((item) => {
+      if (cookieCart) {
+        cookieCart = JSON.parse(Cookies.get("cart"));
+        if (cookieCart.length > 0) {
+          const filterModel = cookieCart.filter((item) => {
             return item.model === props.model;
           })[0];
 
-          localStorageCart = localStorageCart.filter(
-            (item) => item.id !== filterModel.id
-          );
-          isEmptyArray(!localStorageCart) &&
-            localStorageCart.forEach((element) => {
+          cookieCart = cookieCart.filter((item) => item.id !== filterModel.id);
+          isEmptyArray(!cookieCart) &&
+            cookieCart.forEach((element) => {
               ids.push(element.id);
             });
-          dispatch(setSumOfCart(localStorageCart.length));
-          localStorageCart = JSON.stringify(localStorageCart);
-          localStorage.setItem("cart", localStorageCart);
+          dispatch(setSumOfCart(cookieCart.length));
+          cookieCart = JSON.stringify(cookieCart);
+          Cookies.set("cart", cookieCart);
           setNumberOfOrder((value) => {
             return value - 1;
           });
@@ -78,13 +78,13 @@ const OrderButton = (props) => {
     const ids = [];
     setLoading(true);
     try {
-      let localStorageCart = localStorage.getItem("cart");
-      if (!localStorageCart) {
-        localStorage.setItem("cart", JSON.stringify([]));
+      let cookieCart = Cookies.get("cart");
+      if (!cookieCart) {
+        Cookies.set("cart", JSON.stringify([]));
       }
-      localStorageCart = JSON.parse(localStorage.getItem("cart"));
-      isEmptyArray(!localStorageCart) &&
-        localStorageCart.forEach((element) => {
+      cookieCart = JSON.parse(Cookies.get("cart"));
+      isEmptyArray(!cookieCart) &&
+        cookieCart.forEach((element) => {
           ids.push(element.id);
         });
       const data = {
@@ -93,13 +93,11 @@ const OrderButton = (props) => {
       };
       let product = (await getProductsNotReserved(data)).data;
       if (product) {
-        const chekck = localStorageCart.find(
-          (item) => item?.id === product?.id
-        );
-        !chekck && localStorageCart.push(product);
+        const chekck = cookieCart.find((item) => item?.id === product?.id);
+        !chekck && cookieCart.push(product);
         ids.push(product.id);
-        localStorage.setItem("cart", JSON.stringify(localStorageCart));
-        dispatch(setSumOfCart(localStorageCart.length));
+        Cookies.set("cart", JSON.stringify(cookieCart));
+        dispatch(setSumOfCart(cookieCart.length));
         setNumberOfOrder((value) => {
           return value + 1;
         });

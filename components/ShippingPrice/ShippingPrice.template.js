@@ -9,6 +9,7 @@ const ShippingPriceTemplate = ({
   finalPrice,
   purePrice,
   shippingPrice,
+  inValidTextButton = "  انتخاب زمان سفارش",
 }) => {
   return (
     <div className="w-full text-xs   mt-4 mx-0 md:mx-2 lg:mx-2  md:mt-0 lg:mt-0  md:w-1/2 lg:w-1/3 ">
@@ -41,7 +42,7 @@ const ShippingPriceTemplate = ({
               </Button>
             ) : (
               <Button className="w-ful" color="primary" outline={true}>
-                انتخاب زمان سفارش
+                {inValidTextButton}
               </Button>
             )}
           </div>
@@ -53,7 +54,7 @@ const ShippingPriceTemplate = ({
                 </Button>
               ) : (
                 <Button className="w-ful" color="primary" outline={true}>
-                  انتخاب زمان سفارش
+                  {inValidTextButton}
                 </Button>
               )}
             </div>

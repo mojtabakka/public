@@ -8,6 +8,7 @@ import {
   GET_NUMBER_OF_PRODUCT_IN_BASKET,
   GET_ORDER,
   ORDER,
+  POST_CHANGE_ORDER_STATUS,
   PREVIOUS_ORDERS_GET,
   REMOVE_PRODUCT_FROM_BASKET,
 } from "config/url.config";
@@ -105,3 +106,11 @@ export function getOrder(id) {
   });
 }
 
+export function changeOrderStatus(id, data) {
+  return new Promise((resolve, reject) => {
+    http
+      .patch(POST_CHANGE_ORDER_STATUS.replace(":id", id), data)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+}

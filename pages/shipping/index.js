@@ -23,7 +23,7 @@ const Shipping = () => {
   const [shippingTime, setShippingTime] = useState();
   const [loading, setLoading] = useState(false);
   const [modalAddressesState, setModalAddressesState] = useState(true);
-  const router  = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     getAllAddresses();
@@ -113,8 +113,8 @@ const Shipping = () => {
               {!isEmptyArray(cart) &&
                 cart.map((item, index) => {
                   const key = Object.keys(item)[0];
-                  const len = Object.keys(item)[0].length;
                   const data = item[key][0];
+                  const len = item[key].length;
                   return (
                     <div className="flex" key={index}>
                       <img src={data.photos[0].src} width={100} height={100} />

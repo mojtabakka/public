@@ -9,6 +9,8 @@ import {
   isEmptyArray,
   isEmptyObject,
 } from "utils/function.util";
+import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -16,9 +18,10 @@ const Cart = () => {
   const [benefit, setBenefit] = useState();
   const [sumFinalPrice, setSumFinalPrice] = useState();
   const [sumPrice, setSumPrice] = useState();
+  const cartCount = useSelector((item) => item.general.sumCart);
   useEffect(() => {
     getBasekt();
-  }, []);
+  }, [cartCount]);
 
   const calculatePrices = (data) => {
     let purePrice = 0;
@@ -59,10 +62,12 @@ const Cart = () => {
     setBenefit(purePrice - sumFinalPrice);
   };
   const getBasekt = async () => {
-    let data = JSON.parse(localStorage.getItem("cart"));
-    data = groupBy(data, "model");
-    calculatePrices(data);
-    setCartItems(data);
+    if (Cookies.get("cart")) {
+      let data = JSON.parse(Cookies.get("cart"));
+      data = groupBy(data, "model");
+      calculatePrices(data);
+      setCartItems(data);
+    }
   };
 
   const handleClickOrder = () => {
@@ -71,7 +76,7 @@ const Cart = () => {
   return (
     <div className="p-2 w-full md:flex  lg:flex text-xs">
       <Card className="m-2 w-full rounded-lg ">
-        <CartBox items={cartItems} />
+        <CartBox onCartItems={() => console.log("hell")} />
       </Card>
       {!isEmptyArray(cartItems) && (
         <div className=" lg:w-1/3 md:w-1/2 m-2 w-full ">

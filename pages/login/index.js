@@ -7,6 +7,7 @@ import { setSumOfCart } from "redux/action/general.action";
 import { Input, Button, Loading } from "components";
 import { sendOtp, verification, getCurrentBasket, addToBasket } from "api";
 import { changeMaskValueToNumber, isEmptyArray } from "utils/function.util";
+import Cookies from "js-cookie";
 
 const INPUT_NAMES = {
   phoneNumber: "phoneNumber",
@@ -30,7 +31,7 @@ function Login(props) {
       const products = cart.data.products;
 
       const productsLength = !isEmptyArray(products) ? products.length : 0;
-      const storageProducts = JSON.parse(localStorage.getItem("cart"));
+      const storageProducts = JSON.parse(Cookies.get("cart"));
       const storageProductsLengh = !isEmptyArray(storageProducts)
         ? storageProducts.length
         : 0;
@@ -63,7 +64,7 @@ function Login(props) {
           ids.push(item.id);
         });
       await addToBasket(ids);
-      localStorage.setItem("cart", JSON.stringify(mainProducts));
+      Cookies.set("cart", JSON.stringify(mainProducts));
 
       dispatch(setSumOfCart(mainProducts.length));
     } catch (error) {

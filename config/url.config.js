@@ -24,6 +24,8 @@ export const ADD_TO_BASKET = "orders/addToBasket";
 export const GET_CURRENT_BASKET = "orders/getCurrentBasket";
 export const GET_ORDER = "/orders/get-order/:id";
 export const GET_CURRENT_BASKET_COUNT = "/orders/get-current-basket-count";
+export const POST_CHANGE_ORDER_STATUS =
+  "/orders/change-order-status-public/:id";
 
 //user
 export const USER = "/users/public-user/user";

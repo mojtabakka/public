@@ -7,10 +7,11 @@ import style from "./OrderButton.module.scss";
 const OrderButtonTemplate = ({
   onClickPlus,
   onClickBin,
-  value = 1,
+  value = 0,
   loading = false,
   model,
 }) => {
+  console.log(value);
   return (
     <span className={` border p-2 rounded ${style.button__shodow}`}>
       <button className=" border-0">

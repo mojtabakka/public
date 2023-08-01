@@ -1,4 +1,9 @@
-export { getProducts, getProduct, searchProduct,getProductsNotReserved } from "./product.api";
+export {
+  getProducts,
+  getProduct,
+  searchProduct,
+  getProductsNotReserved,
+} from "./product.api";
 export { sendOtp, verification } from "./auth.api";
 export {
   addOrder,
@@ -11,6 +16,7 @@ export {
   getPreviousOrders,
   removeProductFromBasket,
   getCurrentBasketCount,
+  changeOrderStatus,
 } from "./orders.api";
 export { getUser, editUser } from "./user.api";
 export {
