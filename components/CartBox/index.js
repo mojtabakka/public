@@ -17,7 +17,6 @@ const CartBox = (props) => {
       let data = JSON.parse(Cookies.get("cart"));
       data = groupBy(data, "model");
       setCartItems(data);
-      props.onCartItems(data);
     }
   };
 

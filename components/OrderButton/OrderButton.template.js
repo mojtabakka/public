@@ -9,9 +9,7 @@ const OrderButtonTemplate = ({
   onClickBin,
   value = 0,
   loading = false,
-  model,
 }) => {
-  console.log(value);
   return (
     <span className={` border p-2 rounded ${style.button__shodow}`}>
       <button className=" border-0">

@@ -124,7 +124,6 @@ const payment = () => {
                   {!isEmptyArray(cart) &&
                     cart.map((item, index) => {
                       const data = item[Object.keys(item)[0]][0];
-                      console.log(data);
                       const number = item[Object.keys(item)[0]].length;
 
                       return (

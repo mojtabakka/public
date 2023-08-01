@@ -51,8 +51,6 @@ const Cart = () => {
               )
             );
           });
-
-        console.log(setSumFinalPrice);
       });
     });
 
@@ -76,7 +74,7 @@ const Cart = () => {
   return (
     <div className="p-2 w-full md:flex  lg:flex text-xs">
       <Card className="m-2 w-full rounded-lg ">
-        <CartBox onCartItems={() => console.log("hell")} />
+        <CartBox />
       </Card>
       {!isEmptyArray(cartItems) && (
         <div className=" lg:w-1/3 md:w-1/2 m-2 w-full ">
