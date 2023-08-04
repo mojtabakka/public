@@ -12,11 +12,11 @@ const ProductCardTemplate = ({ items, key, onClick }) => {
       key={key}
       className=" cursor-pointer w-full mt-1 rounded  "
     >
-      <div className=" relative shadow-sm bg-white  hover:shadow-lg border rounded-lg w-full flex">
-        <div className="  w-full flex md:block sm:block lg:block justify-between py-4 ">
-          <figure className=" px-5  flex justify-center w-full  ">
+      <div className=" relative shadow-sm bg-white   hover:shadow-lg border rounded-lg w-full flex">
+        <div className="  w-full flex md:block sm:block lg:block justify-between ">
+          <figure className=" px-5 pt-7   w-full  flex justify-center  items-center ">
             {!isEmptyArray(items?.photos) ? (
-              <img src={src} alt={items.model} className="  h-40 w-40" />
+              <img src={src} alt={items.model} className="   h-52 w-52 " />
             ) : (
               <IoCamera className=" h-40 w-40 text-gray-600" />
             )}

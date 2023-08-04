@@ -8,7 +8,7 @@ import Link from "next/link";
 const ProductPriceTemplate = ({ product, showOrders }) => {
   const { warranty, priceForUser, deliveryMethod, off, model } = product;
   return (
-    <div className="bg-white m-1 rounded lg:w-1/4 px-3 pb-14 pt-3  w-full text-right mt-3">
+    <div className="bg-white m-1 rounded lg:w-1/4 px-3  pt-3  w-full text-right mt-3">
       <div className=" flex-col h-full">
         <div className="  text-sm flex-1   h-5/6">
           {warranty && (
