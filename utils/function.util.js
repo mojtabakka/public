@@ -86,16 +86,17 @@ export function getCompleteDateToPersian(date, jalaali = false) {
 }
 
 export const isFormValid = (error) => {
-  if (Object.keys(error).length > 0) return false;
+  if (error && Object.keys(error).length > 0) return false;
   return true;
 };
 
 export function findInputError(errors, name) {
-  const filtered = Object.keys(errors)
+
+  const filtered = errors ? Object.keys(errors)
     .filter((key) => key.includes(name))
     .reduce((cur, key) => {
       return Object.assign(cur, { error: errors[key] });
-    }, {});
+    }, {}) : null;
   return filtered;
 }
 

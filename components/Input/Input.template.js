@@ -23,30 +23,25 @@ const InputTemplate = ({
   className,
   validations,
 }) => {
-  // const {
-  //   register,
-  //   formState: { errors },
-  // } = useFormContext();
   const data = useFormContext();
-
   const inputError = validations
     ? findInputError(useFormContext()?.formState?.errors, name)
     : null;
 
   const register = validations
     ? {
-        ...data?.register(name, {
-          ...validations,
-          onChange: onChange,
-        }),
-      }
+      ...data?.register(name, {
+        ...validations,
+        onChange: onChange,
+      }),
+    }
     : {};
   return (
     <>
       <div>
         {label && (
           <label
-            className={`block text-gray-500 font-bold md:text-right mb-1 md:mb-0  py-3 ${className}`}
+            className={`block text-gray-500 font-bold md:text-left mb-1 md:mb-0  py-3 ${className}`}
             for="inline-full-name"
           >
             {label}
@@ -65,6 +60,7 @@ const InputTemplate = ({
             onChange={onChange}
             checked={checked}
             onClick={onClick}
+            defaultValue={defaultValue}
             {...register}
           />
         ) : !mask ? (
@@ -78,6 +74,7 @@ const InputTemplate = ({
             value={value}
             placeholder={placeholder}
             defaultValue={defaultValue}
+
             onChange={onChange}
             {...register}
           />
@@ -90,6 +87,7 @@ const InputTemplate = ({
             value={value}
             name={name}
             type={type}
+            defaultValue={defaultValue}
             {...register}
           />
         )}
@@ -97,9 +95,9 @@ const InputTemplate = ({
       {subText && (
         <div className="text-xs p-1 my-1 text-gray-400">{subText}</div>
       )}
-      <span className="text-xs px-2 text-red-500">
+      <div className="text-xs px-2 text-red-500   text-left py-1">
         {validations && inputError?.error?.message}
-      </span>
+      </div>
     </>
   );
 };

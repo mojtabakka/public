@@ -17,9 +17,8 @@ function ModalTemplate({
   return (
     <>
       <div
-        className={` fixed h-full top-0  left-0 right-0  z-50  flex w-full items-center justify-center ${
-          !show ? " hidden" : "lg:flex hidden"
-        }`}
+        className={` fixed h-full top-0  left-0 right-0  z-50  flex w-full items-center justify-center ${!show ? " hidden" : "lg:flex hidden"
+          }`}
       >
         <div className="   w-full max-w-2xl">
           <div className="relative bg-white rounded-lg lg:shadow md:shadow dark:bg-gray-700">
@@ -51,7 +50,7 @@ function ModalTemplate({
               </div>
             </div>
             <div className={`p-6 ${className}`}>{modalContent}</div>
-            <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600 text-left  justify-end">
+            <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600 text-left  justify-start">
               {modalFooter}
             </div>
           </div>
@@ -61,9 +60,8 @@ function ModalTemplate({
         id="defaultModal"
         tabIndex="-1"
         aria-hidden="true"
-        className={`fixed top-0 left-0 right-0 z-10  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-400 opacity-50           ${
-          !show ? " hidden" : "lg:flex  hidden"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-10  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-400 opacity-50           ${!show ? " hidden" : "lg:flex  hidden"
+          }`}
       ></div>
       <Sheet
         className=" inline-block lg:hidden "
@@ -83,7 +81,7 @@ function ModalTemplate({
           </Sheet.Header>
           <Sheet.Content className=" bg-gray-100">
             <div className={`p-5 ${className}  pb-20 `}>{sheetContent}</div>
-            <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-center">
+            <span className="w-full  shadow-lg  fixed bg-white p-3 bottom-0 border flex justify-end">
               {sheetFooter}
             </span>
           </Sheet.Content>

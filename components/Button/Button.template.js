@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { COLORS } from "./Button.config";
 import { Sppiner } from "../Sppiner";
-const ButtonTemplate = ({
+const ButtonTemplate = memo(({
   onClick,
   color = "primary",
   children,
@@ -23,14 +23,14 @@ const ButtonTemplate = ({
       }}
       disabled={disabled | loading}
       type={type}
-      className={`${disabled ? " opacity-50" : null} ${
-        !outline ? "text-white" : "text-white"
-      }  font-bold py-2 px-4 rounded text-center  ${className} `}
+      className={`${disabled ? " opacity-50" : null} ${!outline ? "text-white" : "text-white"
+        }  font-bold py-2 px-4 rounded text-center  ${className} `}
     >
       {children}
       {loading && <Sppiner />}
     </button>
   );
-};
+})
+
 
 export default ButtonTemplate;
