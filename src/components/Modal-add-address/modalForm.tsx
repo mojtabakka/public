@@ -1,0 +1,154 @@
+"use client"
+
+import React from 'react'
+import Form from '../form';
+import { Button, InputLable, TextFiled } from '..';
+import { useForm } from 'react-hook-form';
+import { Input } from 'postcss';
+import ModalFooter from '../modal/modalFooter';
+import { z as zod } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { fetchInstance } from '@/utils/fetch';
+import { isFunction } from 'lodash';
+import { Address } from '@/types/address.type';
+import { endpoints } from '@/utils/end-points';
+export const INPUT_NAMES = {
+  plaque: "plaque",
+  unit: "unit",
+  state: "state",
+  district: "district",
+  city: "city",
+  postalCode: "postalCode",
+  address: "address",
+  receivername: "receivername",
+  receiverlastname: "receiverlastname",
+  recivermobile: "recivermobile",
+};
+
+interface propsType {
+  onResult: (data: Address) => void
+}
+
+export default function ModalForm(props: propsType) {
+  const defaultValues = {
+    plaque: "",
+    unit: "",
+    state: "",
+    district: "",
+    city: "",
+    postalCode: "",
+    address: "",
+    receivername: "",
+    receiverlastname: "",
+    recivermobile: "",
+  };
+  const UserQuickEditSchema = zod.object({
+    plaque: zod.string().trim().min(1, { message: "پلاک را وارد کنید" }),
+    state: zod.string().trim().min(1, { message: "استان را وارد کنید" }),
+    city: zod.string().trim().min(1, { message: "لطفا شهر را وارد کنید" }),
+    postalCode: zod.string().trim().min(1, { message: "لطفا کد پستی را وارد کنید" }),
+    address: zod.string().trim().min(1, { message: "لطفا نشانی پستی را وارد کنید" }),
+  });
+  const methods = useForm({
+    mode: 'all',
+    defaultValues,
+    resolver: zodResolver(UserQuickEditSchema),
+  });
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const result = await fetchInstance(endpoints.address.addAddress, { method: "POST", body: { ...data } })
+      isFunction(props.onResult) && result && props.onResult(result.data);
+    } catch (error) {
+      // isFunction(props.onResult) && props.onResult();
+      console.log(error);
+    }
+  });
+  return (
+    <Form methods={methods} onSubmit={onSubmit}>
+      <div className=" overflow-scroll px-6 mb-4 pb-3 lg:pb-0 pt-5   ">
+
+        <InputLable>نشانی پستی</InputLable>
+        <TextFiled
+          name={INPUT_NAMES.address}
+        />
+        <hr />
+        <div className="grid grid-cols-2 gap-4 mt-3">
+          <div>
+            <InputLable>استان</InputLable>
+            <TextFiled
+              name={INPUT_NAMES.state}
+            />
+          </div>
+          <div>
+            <InputLable>شهر</InputLable>
+            <TextFiled
+              name={INPUT_NAMES.city}
+            />
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <InputLable>محله</InputLable>
+          <TextFiled
+            name={INPUT_NAMES.district}
+          />
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 mt-3">
+
+          <div className="col-span-1">
+            <InputLable>پلاک</InputLable>
+            <TextFiled
+              name={INPUT_NAMES.plaque}
+            />
+          </div>
+
+          <div className="col-span-1">
+            <InputLable>واحد</InputLable>
+            <TextFiled name={INPUT_NAMES.unit}
+            />
+          </div>
+          <div className="col-span-2">
+            <InputLable>کدپستی</InputLable>
+            <TextFiled
+              name={INPUT_NAMES.postalCode}
+            // subText="کدپستی باید ۱۰ رقم و بدون خط خوردگی باشد"
+            />
+          </div>
+        </div>
+        <hr className="mt-3" />
+        <div className=" grid grid-cols-2 gap-4 mt-3 w-full">
+          <div className=" col-span-1">
+            <InputLable>نام گیرنده</InputLable>
+            <TextFiled
+              name={INPUT_NAMES.receivername}
+            />
+          </div>
+          <div className=" col-span-1">
+            <InputLable>نام و نام خانوادگی گیرنده</InputLable>
+            <TextFiled
+              name={INPUT_NAMES.receiverlastname}
+            />
+          </div>
+        </div>
+        <div className=" col-span-1 w-1/2 mt-2">
+          <InputLable>شماره همراه گیرنده</InputLable>
+          <TextFiled
+            name={INPUT_NAMES.recivermobile}
+          // subText="مثال :۰۹۱۲۱۲۳۴۵۶۷"
+          />
+        </div>
+      </div>
+
+      <ModalFooter className='  justify-end' >
+        <Button variant='contained' type='submit' loading={isSubmitting}>افزودن</Button>
+      </ModalFooter>
+    </Form >
+  )
+}
+

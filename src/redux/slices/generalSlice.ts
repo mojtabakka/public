@@ -9,7 +9,7 @@ const initialState: GeneralState = {
 };
 
 const generalSlice = createSlice({
-  name: "counter",
+  name: "general",
   initialState,
   reducers: {
     setSumOfCart: (state, action: PayloadAction<number>) => {

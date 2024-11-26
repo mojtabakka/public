@@ -1,22 +1,32 @@
-"use client";
-import React, { useState } from "react";
-import { Icon } from "@iconify/react";
-import { Drawer } from "@mui/material";
 
+"use server"
+import React from "react";
 import SearchInput from "../searchInput";
 import LoginText from "../login-text";
 import Logo from "../logo";
-export default function Layout() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+import { Catergory } from "@/types/catergory.type";
+import CategoryBox from "./CategoryBox";
+import Sidebar from "./sidebar";
+import { endpoints } from "@/utils/end-points";
+import { fetchInstanceClient } from "@/utils/fetch-client";
+export default async function Layout() {
+  let categories: Array<Catergory> = []
+  try {
+
+    const cates = await fetchInstanceClient(endpoints.category.getCatergoris, { cache: "no-store" })
+    categories = cates.data
+  } catch (error) {
+    console.log('error', error)
+  }
   return (
     <>
-      <header className="shadow-lg bg-white">
+
+      <header className="shadow-lg bg-white z-50 sticky">
         <div>
           <div
             className=" text-2xl flex justify-between items-center px-4  lg:hidden"
-            onClick={() => setIsOpen(true)}
           >
-            <Icon icon="gg:menu" />
+            <Sidebar categories={categories} />
             <Logo />
           </div>
           <div className=" flex justify-between px-4 gap-14   items-center lg:pt-3    ">
@@ -24,18 +34,11 @@ export default function Layout() {
             <SearchInput />
             <LoginText />
           </div>
-          <h1
-            className="px-6 cursor-pointer lg:text-base text-sm  lg:flex gap-1 pb-4  items-center  hidden    "
-            onClick={() => setIsOpen(true)}
-          >
-            <Icon icon="gg:menu" />
-            <div style={{ fontFamily: "shabnam" }}>دسته بندی ها</div>
-          </h1>
+          <div>
+            <CategoryBox categories={categories} />
+          </div>
         </div>
       </header>
-      <Drawer open={isOpen} anchor="right" onClose={() => setIsOpen(false)}>
-        ffkljfj
-      </Drawer>
     </>
   );
 }

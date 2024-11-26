@@ -1,39 +1,33 @@
+"use client"
+
 import { Drawer, Popover } from "@mui/material";
 import React, { ReactElement, useState } from "react";
 import { Icon } from "@iconify/react";
 import { isEmpty } from "lodash";
+import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
+import Link from "next/link";
 
 interface PropsType {
-  sheetTitle: ReactElement;
+  sheetTitle?: ReactElement;
   icon: string;
-  items: Array<{
-    color: string;
-    id?: number;
-    title?: string;
-    bgColor?: string;
-    border?: string;
-    icon?: string;
-    secondIcon?: string;
-    subTitle: string;
-    url: string;
-  }>;
+  onClick?: (item: PopoverListIconType) => void
+  items: Array<PopoverListIconType>;
 }
 export default function PopoverListIcon(props: PropsType) {
-  const { items, icon, sheetTitle } = props;
+  const { items, icon, sheetTitle, onClick } = props;
 
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <div className=" relative">
+    <div className=" relative ">
       <Icon
         icon={icon}
-        className="   cursor-pointer text-2xl "
+        className="   cursor-pointer text-4xl "
         onClick={() => setOpen(true)}
       />
 
       <Popover
         sx={{ display: { xs: "none", md: "none", lg: "block" } }}
         className=" absolute top-10 left-5 "
-        id={"helo"}
         open={open}
         onClose={() => setOpen(false)}
       >
@@ -45,13 +39,12 @@ export default function PopoverListIcon(props: PropsType) {
           <ul
             className=" text-sm text-gray-700 dark:text-gray-200  w-full "
             aria-labelledby="dropdownDefaultButton"
-            // key={key}
           >
             {!isEmpty(items) &&
               items.map((item, index) => (
-                <span key={item.id ? index + item.id : ""}>
-                  <li
-                    // onClick={() => onClickItem(item)}
+                <span key={item?.id ? `${index}${item?.id}` : ""}>
+                  <Link href={item?.href || ""}
+                    onClick={() => onClick && onClick(item)}
                     style={{
                       backgroundColor: item?.bgColor,
                       color: item?.color,
@@ -80,7 +73,7 @@ export default function PopoverListIcon(props: PropsType) {
                         </div>
                       </a>
                     </div>
-                  </li>
+                  </Link>
                   {item?.border && <div className="border"></div>}
                 </span>
               ))}
@@ -99,10 +92,9 @@ export default function PopoverListIcon(props: PropsType) {
 
           {items.map((item, index) => (
             <div
-              key={item.id ? index + item?.id : index}
-              // key={index + item.id}
+              key={item.id ? `${index}${item?.id}` : index}
               className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
-              // onClick={() => onClickItem(item)}
+              onClick={() => onClick && onClick(item)}
             >
               <div className={`   rounded  text-sm w-full `}>
                 <div className="text-sm">{item.title}</div>

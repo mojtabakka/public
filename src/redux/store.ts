@@ -1,10 +1,10 @@
 // store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./slices/generalSlice";
+import generalReducer from "./slices/generalSlice";
 
 const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    general: generalReducer,
   },
 });
 
