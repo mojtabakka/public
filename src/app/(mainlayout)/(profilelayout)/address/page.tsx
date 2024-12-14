@@ -12,13 +12,14 @@ import AddressSkeleton from "@/skeletons/address.skeleton";
 
 export default function Addresses() {
     const [addresses, setAddresses] = useState<Array<Address>>([]);
+    const [address, setAddress] = useState<Address>();
     const [showAddModal, setShowAddModal] = useState(false);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         getAddressItems();
     }, []);
 
-    const handleClickDropDown = async (item: PopoverListIconType) => {
+    const handleClickDropDown = async (item: PopoverListIconType, address: Address) => {
         switch (item.key) {
             case "delete":
                 console.log(`${endpoints.address.address}/${item.id}`)
@@ -26,7 +27,8 @@ export default function Addresses() {
                 getAddressItems();
                 break;
             case "edit":
-                console.log("edit");
+                setAddress(address)
+                setShowAddModal(true)
                 break;
         }
     };
@@ -96,7 +98,7 @@ export default function Addresses() {
                                         },
                                     ]}
 
-                                    onClick={handleClickDropDown}
+                                    onClick={(PopoverItems) => handleClickDropDown(PopoverItems, item)}
                                 />
                             </div>
                         </div>
@@ -116,6 +118,7 @@ export default function Addresses() {
             }
 
             <ModalAddAddress
+                address={address}
                 show={showAddModal}
                 onClose={() => setShowAddModal(false)}
                 onResult={handleResult}

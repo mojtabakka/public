@@ -25,21 +25,22 @@ export const INPUT_NAMES = {
 };
 
 interface propsType {
+  address: Address
   onResult: (data: Address) => void
 }
 
 export default function ModalForm(props: propsType) {
   const defaultValues = {
-    plaque: "",
-    unit: "",
-    state: "",
-    district: "",
-    city: "",
-    postalCode: "",
-    address: "",
-    receivername: "",
-    receiverlastname: "",
-    recivermobile: "",
+    plaque: props.address ? props.address.plaque : "",
+    unit: props.address ? props.address.unit : "",
+    state: props.address ? props.address.state : "",
+    district: props.address ? props.address.district : "",
+    city: props.address ? props.address.city : "",
+    postalCode: props.address ? props.address.postalCode : "",
+    address: props.address ? props.address.address : "",
+    receivername: props.address ? props.address.receiverlastname : "",
+    receiverlastname: props.address ? props.address.receiverlastname : "",
+    recivermobile: props.address ? props.address.recivermobile : "",
   };
   const UserQuickEditSchema = zod.object({
     plaque: zod.string().trim().min(1, { message: "پلاک را وارد کنید" }),
@@ -60,8 +61,14 @@ export default function ModalForm(props: propsType) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const result = await fetchInstance(endpoints.address.addAddress, { method: "POST", body: { ...data } })
-      if (isFunction(props.onResult) && result) props.onResult(result.data);
+      if (!props.address) {
+        const result = await fetchInstance(endpoints.address.addAddress, { method: "POST", body: { ...data } })
+        if (isFunction(props.onResult) && result) props.onResult(result.data);
+      }
+      if (props.address) {
+        const result = await fetchInstance(`${endpoints.address.addAddress}/${props?.address?.id}`, { method: "PATCH", body: { ...data } })
+        if (isFunction(props.onResult) && result) props.onResult(result.data);
+      }
     } catch (error) {
       // isFunction(props.onResult) && props.onResult();
       console.log(error);
@@ -145,7 +152,9 @@ export default function ModalForm(props: propsType) {
       </div>
 
       <ModalFooter className='  justify-end' >
-        <Button variant='contained' type='submit' loading={isSubmitting}>افزودن</Button>
+        {!props.address && <Button variant='contained' type='submit' loading={isSubmitting}>افزودن</Button>}
+        {props.address && <Button variant='contained' type='submit' loading={isSubmitting}>ویرایش</Button>}
+
       </ModalFooter>
     </Form >
   )
