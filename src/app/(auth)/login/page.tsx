@@ -4,12 +4,11 @@
 import { Button, Form, Logo, TextFiled } from '@/components';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { fetchInstance } from '@/utils/fetch';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { endpoints } from '@/utils/end-points';
-import { fetchInstanceClient } from '@/utils/fetch-client';
-export default function page() {
+import { fetchInstance } from '@/utils/fetch';
+export default function Login() {
   const router = useRouter()
   const defaultValues = {
     phoneNumber: ''
@@ -23,10 +22,10 @@ export default function page() {
     formState: { isSubmitting },
   } = methods;
   const onSubmit = handleSubmit(async (data) => {
-    const promise = fetchInstanceClient(endpoints.auth.sendOtp, { method: "POST", body: { phoneNumber: data.phoneNumber } })
+    const promise = fetchInstance<{ phoneNumber: string }>(endpoints.auth.sendOtp, { method: "POST", body: { phoneNumber: data.phoneNumber } })
     toast.promise(promise, {
       loading: "لطفا منتظر بمانید",
-      success: "کد تایید به شماره همراه شما ارساƒل شد",
+      success: "کد تایید به شماره همراه شما ارسال شد",
       error: (error) => error?.message[0] || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
     });
     try {

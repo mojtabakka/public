@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { colors } from "@/config/sibarMenu.config";
 import { Icon } from '@iconify/react'
-import { useRouter } from "next/router";
 import { isFunction } from "lodash";
 
 interface PropsType {
     depth?: number;
     depthStep?: number,
-    icon?: any,
+    icon?: string,
     items?: any,
     label?: string,
     onOpenSidebar?: () => void,
-    path?: any,
+    path?: {
+        query?: { type: string | number } | string | object,
+        pathname?: string,
+    };
     sidebarStatus?: boolean,
-    onClickSidbarItem?: (path: string) => void,
+    onClickSidbarItem?: (path: {
+        query?: { type: string | number } | string | object,
+        pathname?: string,
+    }) => void,
 }
 
 const SidebarItem = (props: PropsType) => {
@@ -23,7 +28,6 @@ const SidebarItem = (props: PropsType) => {
         icon,
         items,
         label,
-        onOpenSidebar,
         path = {},
         sidebarStatus = false,
         onClickSidbarItem,
@@ -41,7 +45,7 @@ const SidebarItem = (props: PropsType) => {
     };
 
     const handleClickTitle = () => {
-        isFunction(onClickSidbarItem) && onClickSidbarItem(path);
+        if (isFunction(onClickSidbarItem)) onClickSidbarItem(path);
     };
     return (
         <>

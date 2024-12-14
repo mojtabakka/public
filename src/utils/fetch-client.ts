@@ -1,44 +1,36 @@
-export async function fetchInstanceClient(
+"use client";
+export async function fetchInstanceClient<B = undefined>(
   url: string,
   data?: {
     method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | "HEAD";
-    body?: any;
+    body?: B;
     headers?: HeadersInit;
     cache?: RequestCache;
   }
 ) {
-  const baseURL = "http://localhost:3003/api/";
-  const request = new Request(`${baseURL}${url}`, {
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL + "api/";
+
+  // Create a request configuration
+  const requestConfig: RequestInit = {
+    method: data?.method?.toUpperCase() || "GET", // Default to GET if no method is provided
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
+      ...(data?.headers || {}),
     },
-    body: data?.body && JSON.stringify({ ...data.body }),
+    body: data?.body ? JSON.stringify(data.body) : undefined, // Only include body if provided
     cache: data?.cache,
-    method: data?.method && data.method.toUpperCase(),
-    credentials: "include",
-  });
+    credentials: "include", // Include credentials in the request
+  };
 
-  const response = await fetch(request);
-  console.log(response);
-  if (!response.ok) throw await response.json();
+  // Perform the fetch request
+  const response = await fetch(`${baseURL}${url}`, requestConfig);
 
-  return response.json();
-}
-
-export async function getCookie(cname: string) {
-  const isBrowser = typeof window !== "undefined";
-  if (!isBrowser) return "";
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == " ") {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
+  // Check for successful response
+  if (!response.ok) {
+    const errorResponse = await response.json();
+    throw new Error(errorResponse?.message || "Request failed");
   }
-  return "";
+
+  // Return parsed JSON response (generic type for flexibility)
+  return response.json();
 }

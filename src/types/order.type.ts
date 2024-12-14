@@ -12,7 +12,7 @@ export interface Order extends Share {
   products: Array<Product>;
   shippingPrice: number;
   shippingTime: string;
-  status: string;
+  status: "notPayed" | "payed" | "preparing" | "isSendig" | "completed";
   user: User;
   value: string;
 }

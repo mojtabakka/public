@@ -1,6 +1,8 @@
+"use client"
+
 import React from "react";
 import { Icon } from '@iconify/react'
-import { isEmpty } from "lodash";
+import { isEmpty, isObject } from "lodash";
 import { getToman } from "@/utils/function.utils";
 import OrderButton from "../order-button";
 import Image from 'next/image'
@@ -17,7 +19,8 @@ export default function CardBox(props: propsType) {
     } = props
     return (
         <div className="">
-            {!isEmpty(items) ? <div className=" text-lg">سبد خرید شما</div> : <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={100} height={35} ></Skeleton>}
+            {items ? isObject(items) && items.length > 0 && < div className=" text-lg">سبد خرید شما</div> : <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={100} height={35} ></Skeleton>
+            }
             <div className="mb-5">
                 {!isEmpty(items) && items &&
                     items.map((item, index) => {
@@ -29,7 +32,7 @@ export default function CardBox(props: propsType) {
                                 <div className="mt-5" key={index}>
                                     <div className="flex border rounded-lg">
                                         <div className="flex flex-col justify-between py-5 px-5">
-                                            <Image src={data?.photos[0]?.src} height={10} width={200} alt={data.model} className=" rounded-lg h-24 w-24" />
+                                            <Image src={(process.env.NEXT_PUBLIC_BASE_URL || "") + data?.photos[0]?.src} height={10} width={200} alt={data.model} className=" rounded-lg h-24 w-24" />
                                             <div className="  text-center">
                                                 <OrderButton model={data.model} />
                                             </div>
@@ -103,7 +106,7 @@ export default function CardBox(props: propsType) {
 
                 {!items && <CartBoxSkeleton />}
             </div>
-        </div>
+        </div >
     )
 }
 

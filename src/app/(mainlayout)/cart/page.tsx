@@ -5,13 +5,13 @@ import { Icon } from '@iconify/react'
 import { CartBox, Card, Button } from "@/components";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
-import { isEmpty } from "lodash";
+import { isEmpty, sumBy } from "lodash";
 import { getToman, groupBy } from "@/utils/function.utils";
 import { RootState } from "@/redux/store";
 import CalPricesBoxSkeleton from "@/skeletons/cal-prices-box.skeleton";
+import { Product } from "@/types/product.type";
 
 const Cart = () => {
-    const [loading, setLoading] = useState(false);
     const [cartItems, setCartItems] = useState<Array<{ [key: string]: any }>>();
     const [benefit, setBenefit] = useState<number>();
     const [sumFinalPrice, setSumFinalPrice] = useState<number>();
@@ -19,53 +19,33 @@ const Cart = () => {
     const cartCount = useSelector((item: RootState) => item.general.sumCart);
     useEffect(() => {
         getBasekt();
+
     }, [cartCount]);
 
     const calculatePrices = (data: any) => {
         let purePrice = 0;
         let sumFinalPrice = 0;
         data.map((item: any) => {
-            Object.keys(item).forEach((el) => {
-                purePrice = purePrice +
-                    item[el].reduce((total: any, preveius: any) => {
-                        return (
-                            (!isEmpty(total) ? +total.priceForUser : +total) +
-                            +preveius.priceForUser
-                        );
-                    });
-
-                sumFinalPrice =
-                    sumFinalPrice +
-                    item[el].reduce((total: any, preveius: any) => {
-                        return (
-                            (!isEmpty(total)
-                                ? total?.priceForUser -
-                                total?.priceForUser * (+total?.off / 100)
-                                : total) +
-                            +(
-                                preveius?.priceForUser -
-                                preveius?.priceForUser * (+preveius?.off / 100)
-                            )
-                        );
-                    });
-            });
+            const mapedItem = item[Object.keys(item)[0]].map((data: Product) => ({ ...data, priceForUser: +data.priceForUser }))
+            purePrice = sumBy(mapedItem, 'priceForUser')
+            item[Object.keys(item)[0]].forEach((item: Product) => {
+                sumFinalPrice = sumFinalPrice + (+item.priceForUser - (+item.priceForUser * (item.off / 100)))
+            })
         });
-
         setSumFinalPrice(sumFinalPrice);
         setSumPrice(purePrice);
-
         setBenefit(purePrice - sumFinalPrice);
     };
     const getBasekt = async () => {
         if (Cookies.get("cart")) {
             let data = JSON.parse(Cookies.get("cart") || "");
-            data = groupBy(data, "model");
+            data = groupBy<Product>(data, "model");
             calculatePrices(data);
             setCartItems(data);
         }
-    };
-    const handleClickOrder = () => {
-        setLoading(true);
+        else {
+            setCartItems([]);
+        }
     };
     return (
         <div className="p-2 w-full md:flex  lg:flex text-xs">
@@ -100,13 +80,12 @@ const Cart = () => {
                                 <div className="">{getToman(Number(benefit))} تومان</div>
                             </div>
                             <div className="w-full mt-10  mb-3 text-center">
-                                <Link href={"shipping"} onClick={handleClickOrder}>
+                                <Link href={"shipping"} >
                                     <Button variant="contained" className="w-full"> ثبت سفارش</Button>
                                 </Link>
                             </div>
                         </div>
                     </Card>
-                    {/* <Loading show={loading} /> */}
                 </div>
             )}
             {

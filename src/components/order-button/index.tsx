@@ -10,7 +10,7 @@ import { setSumOfCart } from "@/redux/slices/generalSlice";
 import { Product } from "@/types/product.type";
 import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
-import { fetchInstanceClient } from "@/utils/fetch-client";
+import { Button } from "..";
 
 interface propsType {
     model: string
@@ -39,7 +39,7 @@ export default function OrderButton(props: propsType) {
                     products.filter((item) => item?.model === props.model) : []
             const cartCount =
                 products && !isEmpty(products) ? products.length : 0;
-            setNumberOfOrder((value) => {
+            setNumberOfOrder(() => {
                 return cartCount;
             });
         } catch (error) {
@@ -48,7 +48,6 @@ export default function OrderButton(props: propsType) {
     };
 
     const handleClickBin = async () => {
-
         const ids: Array<string | number> = [];
         try {
             setIsLogin(true);
@@ -61,23 +60,24 @@ export default function OrderButton(props: propsType) {
                     })[0] : { id: "" }
 
                     cookieCart = isArray(cookieCart) ? cookieCart.filter((item) => item.id !== filterModel.id) : '';
-                    isEmpty(!cookieCart) && isArray(cookieCart) &&
+                    if (isEmpty(!cookieCart) && isArray(cookieCart))
                         cookieCart.forEach((element) => {
                             ids.push(element.id);
                         });
-
                     dispatch(setSumOfCart(cookieCart.length));
                     cookieCart = JSON.stringify(cookieCart);
                     Cookies.set("cart", cookieCart);
                     setNumberOfOrder((value) => {
                         return value - 1;
                     });
-                    isLogin && (await fetchInstance(endpoints.order.addToCart, {
-                        method: "POST",
-                        cache: "no-cache", body: {
-                            ids
-                        }
-                    }));
+                    if (isLogin) {
+                        await fetchInstance(endpoints.order.addToCart, {
+                            method: "POST",
+                            cache: "no-cache", body: {
+                                ids
+                            }
+                        })
+                    };
                 }
             }
         } catch (error) {
@@ -96,7 +96,8 @@ export default function OrderButton(props: propsType) {
                 Cookies.set("cart", JSON.stringify([]));
             }
             cookieCart = JSON.parse(Cookies.get("cart") || "");
-            isEmpty(!cookieCart) && isArray(cookieCart) &&
+
+            if (isEmpty(!cookieCart) && isArray(cookieCart))
                 cookieCart.forEach((element) => {
                     ids.push(element.id);
                 });
@@ -106,25 +107,26 @@ export default function OrderButton(props: propsType) {
                 ids: JSON.stringify(ids)
             });
 
-            let product = (await fetchInstanceClient(`${endpoints.product.getProductsNotReserved}?${data}`, {
+            const product = (await fetchInstance(`${endpoints.product.getProductsNotReserved}?${data}`, {
                 method: "GET",
                 cache: "no-cache"
             })).data
             if (product) {
                 const chekck = isArray(cookieCart) && cookieCart.find((item) => item?.id === product?.id);
-                !chekck && isArray(cookieCart) && cookieCart.push(product);
+                if (!chekck && isArray(cookieCart)) cookieCart.push(product);
                 ids.push(product.id);
+                if (isArray(cookieCart)) dispatch(setSumOfCart(cookieCart?.length));
                 Cookies.set("cart", JSON.stringify(cookieCart));
-                isArray(cookieCart) && dispatch(setSumOfCart(cookieCart.length));
                 setNumberOfOrder((value) => {
                     return value + 1;
                 });
-                isLogin && ((await fetchInstanceClient(endpoints.order.addToCart, {
-                    method: "POST",
-                    cache: "no-cache", body: {
-                        ids
-                    }
-                })));
+                if (isLogin)
+                    await fetchInstance(endpoints.order.addToCart, {
+                        method: "POST",
+                        cache: "no-cache", body: {
+                            ids
+                        }
+                    });
             }
         } catch (error) {
             console.log("error", error);
@@ -134,31 +136,36 @@ export default function OrderButton(props: propsType) {
     };
 
     return (
-        <span className={` border p-2 rounded ${style.button__shodow}`}>
-            <button className=" border-0">
-                <span className="px-2 " onClick={handleClickPlus}>
-                    <Icon icon="ic:baseline-plus" className=" inline-block text-blue-400" />
-                </span>
-                <span className="px-2">
-                    {loading ? (
-                        <div className=" inline-block">
-                            <ThreeDots
-                                height="10"
-                                width="10"
-                                radius="9"
-                                color="#5FA4F9"
-                                ariaLabel="three-dots-loading"
-                                visible={loading}
-                            />
-                        </div>
-                    ) : (
-                        <span className="text -blue-400">{numberOfOrder}</span>
-                    )}
-                </span>
-                <span className="px-2" onClick={handleClickBin}>
-                    <Icon icon="gravity-ui:trash-bin" className=" text-red-400 inline-block" />
-                </span>
-            </button>
-        </span>
+        <>
+            {numberOfOrder > 0 && <span className={` border p-2 rounded ${style.button__shodow}`}>
+                <button className=" border-0">
+                    <span className="px-2 " onClick={handleClickPlus}>
+                        <Icon icon="ic:baseline-plus" className=" inline-block text-blue-400" />
+                    </span>
+                    <span className="px-2">
+                        {loading ? (
+                            <div className=" inline-block">
+                                <ThreeDots
+                                    height="10"
+                                    width="10"
+                                    radius="9"
+                                    color="#5FA4F9"
+                                    ariaLabel="three-dots-loading"
+                                    visible={loading}
+                                />
+                            </div>
+                        ) : (
+                            <span className="text -blue-400">{numberOfOrder}</span>
+                        )}
+                    </span>
+                    <span className="px-2" onClick={handleClickBin}>
+                        <Icon icon="gravity-ui:trash-bin" className=" text-red-400 inline-block" />
+                    </span>
+                </button>
+            </span>}
+            {
+                numberOfOrder === 0 && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
+            }
+        </>
     );
 }

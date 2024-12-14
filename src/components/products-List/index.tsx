@@ -62,7 +62,7 @@ export default function ProductList(props: propsType) {
                         ))}
 
                     {
-                        loading && Array(8).fill(9).map(() => <ProductCardSkeleton />)
+                        loading && Array(8).fill(9).map((_, index) => <div key={index}> <ProductCardSkeleton /></div>)
                     }
                 </div>
             </InfiniteScroll>

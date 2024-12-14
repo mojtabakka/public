@@ -8,12 +8,12 @@ import { Catergory } from "@/types/catergory.type";
 import CategoryBox from "./CategoryBox";
 import Sidebar from "./sidebar";
 import { endpoints } from "@/utils/end-points";
-import { fetchInstanceClient } from "@/utils/fetch-client";
+import { fetchInstance } from "@/utils/fetch";
 export default async function Layout() {
   let categories: Array<Catergory> = []
   try {
 
-    const cates = await fetchInstanceClient(endpoints.category.getCatergoris, { cache: "no-store" })
+    const cates = await fetchInstance(endpoints.category.getCatergoris, { cache: "no-store" })
     categories = cates.data
   } catch (error) {
     console.log('error', error)

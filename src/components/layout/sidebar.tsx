@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import SidebarItem from './SidebarItem'
 import { Catergory } from '@/types/catergory.type';
 import { Icon } from '@iconify/react'
-import { Drawer, makeStyles } from '@mui/material';
+import { Drawer } from '@mui/material';
 import Logo from '../logo';
 
 interface propsType {
@@ -15,11 +15,17 @@ interface propsType {
 interface menueDataType {
     name?: string,
     label?: string,
-    path?: any;
+    path?: {
+        query: { type: string | number } | string | object,
+        pathname: string,
+    };
     items?: Array<{
         name?: string,
         label?: string,
-        path?: any;
+        path?: {
+            query: { type: string | number } | string | object,
+            pathname: string,
+        };
     }>
 }
 
@@ -41,7 +47,7 @@ export default function Sidebar(props: propsType) {
 
     const CreateSidebarItem = () => {
         const items: Array<menueDataType> = [];
-        !isEmpty(categories) &&
+        if (isEmpty(categories))
             categories.forEach((item) => {
                 const catId = item.id;
                 const data: menueDataType = {};
@@ -50,22 +56,22 @@ export default function Sidebar(props: propsType) {
                 const properties: menueDataType = {};
                 data.name = item.title;
                 data.label = item.title;
-                (data.path = {
+                data.path = {
                     query: {},
                     pathname: "/" + catId,
-                }),
-                    (data.items = []);
+                };
+                data.items = []
 
                 if (!isEmpty(item.brands)) {
                     brands.name = "برندها";
                     brands.label = "برندها";
                     brands.items = [];
                     brands.path = {
-                        query: null,
+                        query: '',
                         pathname: "/" + catId,
                     };
-                    !isEmpty(item.brands) && item.brands.forEach((item) => {
-                        brands.items && brands.items.push({
+                    if (!isEmpty(item.brands)) item.brands.forEach((item) => {
+                        if (brands.items) brands.items.push({
                             name: item.title,
                             label: item.brand,
                             path: {
@@ -82,11 +88,11 @@ export default function Sidebar(props: propsType) {
                     types.label = "انواع";
                     types.items = [];
                     types.path = {
-                        query: null,
+                        query: '',
                         pathname: "/" + catId,
                     };
-                    !isEmpty(item.productTypes) && item.productTypes.forEach((item) => {
-                        types.items && types.items.push({
+                    if (!isEmpty(item.productTypes)) item.productTypes.forEach((item) => {
+                        if (types.items) types.items.push({
                             name: item.title,
                             label: item.type,
                             path: {
@@ -103,11 +109,11 @@ export default function Sidebar(props: propsType) {
                     properties.label = "ویژگی ها";
                     properties.items = [];
                     properties.path = {
-                        query: null,
+                        query: "",
                         pathname: "/" + catId,
                     };
-                    !isEmpty(item.propertyTitles) && item.propertyTitles.forEach((item) => {
-                        properties.items && properties.items.push({
+                    if (!isEmpty(item.propertyTitles)) item.propertyTitles.forEach((item) => {
+                        if (properties.items) properties.items.push({
                             name: item.title,
                             label: item.title,
                             path: {
@@ -117,7 +123,7 @@ export default function Sidebar(props: propsType) {
                         });
                     });
                 }
-                !isEmpty(properties) && data.items.push(properties);
+                if (!isEmpty(properties)) data.items.push(properties);
                 items.push(data);
             });
         // console.log(items)
@@ -145,7 +151,7 @@ export default function Sidebar(props: propsType) {
                     <div className=" h-screen  z-0">
                         <div style={{ height: "92%" }} className="   overflow-y-scroll">
                             <div className={` w-full `}>
-                                {!isEmpty(sidbarItems) &&
+                                {(!isEmpty(sidbarItems)) &&
                                     sidbarItems.map((sidebarItem, index) => (
                                         <SidebarItem
                                             onOpenSidebar={handleOpneSidebarFromChild}
@@ -154,7 +160,8 @@ export default function Sidebar(props: propsType) {
                                             {...sidebarItem}
                                             onClickSidbarItem={() => console.log('hello')}
                                         />
-                                    ))}
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>

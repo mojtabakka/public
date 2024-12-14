@@ -1,10 +1,14 @@
+'use client'
+
 import React from "react";
 import OrderButton from "@/components/order-button";
 import { Icon } from '@iconify/react'
 import Link from "next/link";
 import { Product } from "@/types/product.type";
-import { addCommasSeprator } from "@/utils/function.utils";
+import { addCommasSeprator, englishToPersianNumbers } from "@/utils/function.utils";
 import { Badge } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 
 interface PropsType {
@@ -12,6 +16,7 @@ interface PropsType {
 }
 
 export default function ProductPrice(props: PropsType) {
+    const cartCount = useSelector((item: RootState) => item.general.sumCart);
     const { product } = props
     const { warranty, priceForUser, deliveryMethod, off, model } = product;
     return (
@@ -24,54 +29,55 @@ export default function ProductPrice(props: PropsType) {
                                 <span className="pl-2">
                                     <Icon icon="iconamoon:shield-yes-bold" className=" inline-block text-xl" />
                                 </span>
-                                {warranty}
+                                <span className=" font-semibold">
+                                    {warranty}
+                                </span>
                             </div>
-                            <div className="border"></div>
                         </>
                     )}
 
                     {deliveryMethod && (
-                        <div className="px-3 py-2 text-gray-500 ">
+                        <div className="px-3 py-2 ">
                             <span className="pl-2">
                                 <Icon icon="hugeicons:delivery-delay-02" className=" inline-block  text-lg" />
                             </span>
-                            <span> ارسال با </span>
+                            <span className=" font-semibold"> ارسال با </span>
                             <span>{deliveryMethod}</span>
                         </div>
                     )}
 
-                    <div className="text-left p-2 pt-5 hidden  lg:block   ">
+                    <div className="text-left  pt-3 hidden  lg:block   ">
                         <div className=" flex justify-between">
-                            <div className="hidden lg:block">
-                                <div className="flex ">
-                                    <div className="px-2">
+                            <div className="hidden lg:items-start lg:justify-between  w-full  lg:flex">
+                                <div className="flex items-center  ">
+                                    <div className="px-2 flex">
                                         <span className="pl-2">
                                             <Icon icon="material-symbols:price-check" className=" inline-block  text-xl" />
                                         </span>
-                                        قیمت فروشنده
+                                        <span>قیمت فروشنده</span>
                                     </div>
-                                    {off && <Badge className="p-1">{Math.round(off)} %</Badge>}
+                                    {off && <Badge className="p-1 py-0 bg-red-600  text-white  rounded-xl   !text-xs" variant="standard" color="error">{englishToPersianNumbers(Math.round(off))} %</Badge>}
                                 </div>
-                            </div>
-                            <div>
-                                <div>
-                                    <span>
-                                        {off
-                                            ? addCommasSeprator(
-                                                Math.round(Number(priceForUser) - Number(priceForUser) * (off / 10)).toString()
-                                            )
-                                            : addCommasSeprator(Math.round(Number(priceForUser)).toString())}
-                                    </span>
-                                    <span className="px-1">تومان </span>
-                                </div>
-                                {off && (
-                                    <div
-                                        className=" text-right line-through text-gray-400"
-                                        style={{ fontSize: "12px" }}
-                                    >
-                                        {priceForUser}
+                                <div >
+                                    <div className=" text-right text-lg font-semibold ">
+                                        <span className=" text-right">
+                                            {off
+                                                ? englishToPersianNumbers(addCommasSeprator(
+                                                    Math.round(Number(priceForUser) - Number(priceForUser) * (+off / 100)).toString()
+                                                ))
+                                                : englishToPersianNumbers(addCommasSeprator(Math.round(Number(priceForUser)).toString()))}
+                                        </span>
+                                        <span className="px-1">تومان </span>
                                     </div>
-                                )}
+
+                                    {off && (
+                                        <div
+                                            className=" text-right line-through text-gray-400 text-base"
+                                        >
+                                            {englishToPersianNumbers(priceForUser)}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,12 +85,12 @@ export default function ProductPrice(props: PropsType) {
                 <div className="w-full text-right  mb-0  flex-1 hidden lg:inline-block">
                     <>
                         <OrderButton model={model} />
-                        <Link
+                        {cartCount > 0 && <Link
                             href={"/cart"}
                             className="text-xs p-2 text-blue-300 cursor-pointer"
                         >
                             مشاهده سبد خرید
-                        </Link>
+                        </Link>}
                     </>
                 </div>
 
@@ -93,12 +99,12 @@ export default function ProductPrice(props: PropsType) {
                         <div className="w-full text-right   ">
                             <>
                                 <OrderButton model={model} />
-                                <Link
+                                {cartCount > 0 && < Link
                                     href="/cart"
                                     className=" p-2 text-blue-300 cursor-pointer text-xs"
                                 >
                                     مشاهده سبد خرید
-                                </Link>
+                                </Link>}
                             </>
                         </div>
                         <div className=" w-8/12 flex justify-end  items-center  ">
@@ -126,7 +132,7 @@ export default function ProductPrice(props: PropsType) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

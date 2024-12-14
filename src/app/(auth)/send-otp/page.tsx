@@ -1,6 +1,5 @@
 
 'use client'
-
 import { Button, Form, Logo, TextFiled } from '@/components'
 import { fetchInstance } from '@/utils/fetch';
 import Link from 'next/link';
@@ -8,7 +7,7 @@ import { toast } from 'sonner';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { isEmpty } from 'lodash';
+import { isArray, isEmpty } from 'lodash';
 import Cookies from 'js-cookie'
 import { Product } from '@/types/product.type';
 import { useDispatch } from 'react-redux';
@@ -17,14 +16,13 @@ import { endpoints } from '@/utils/end-points';
 import { fetchInstanceClient } from '@/utils/fetch-client';
 
 export default function SendOtp() {
-
     const searchParams = useSearchParams();
     const dispatch = useDispatch()
     const phoneNumber = searchParams.get("phoneNumber");
     const back_url = searchParams.get("back_url");
     const router = useRouter()
     useLayoutEffect(() => {
-        !phoneNumber && router.replace("/login")
+        if (!phoneNumber) router.replace("/login")
     })
     const defaultValues = {
         otp: ''
@@ -42,24 +40,21 @@ export default function SendOtp() {
 
         const promise = fetchInstanceClient(endpoints.auth.verification, {
             method: "POST",
-            headers: {
-                "content-type": "application/json",
-            },
             body: { otp: data.otp }
         })
         toast.promise(promise, {
             loading: "لطفا منتظر بمانید",
-            error: (error) => error?.message[0] || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
+            error: (error) => isArray(error?.message) ? error?.message[0] : error?.message || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
 
         });
         try {
             const result = await promise;
-            result.data.token && phoneNumber && localStorage.setItem("phoneNumber", phoneNumber);
+            if (result.data.token && phoneNumber) localStorage.setItem("phoneNumber", phoneNumber);
             changeBasket();
             localStorage.setItem("authenticated", "true");
-            back_url
-                ? router.push(back_url)
-                : router.push("/");
+            if (back_url)
+                router.push(back_url)
+            else router.push("/");
         } catch (error) {
             console.log('errrororor', error)
         }
@@ -69,7 +64,7 @@ export default function SendOtp() {
     const changeBasket = async () => {
         try {
             const mainProducts: Array<Product> = []
-            const ids: Array<Number | string> = [];
+            const ids: Array<number | string> = [];
             const cart = await fetchInstance(endpoints.order.getCurrentBasket)
             const products = cart.data.products;
             const productsLength = !isEmpty(products) ? products.length : 0;
@@ -79,10 +74,10 @@ export default function SendOtp() {
                 : 0;
 
             if (productsLength >= storageProductsLengh) {
-                !isEmpty(products) &&
+                if (!isEmpty(products))
                     products.map((item: Product) => {
                         mainProducts.push(item);
-                        !isEmpty(storageProducts) &&
+                        if (!isEmpty(storageProducts))
                             storageProducts.map((data: Product) => {
                                 const check = products.find((el: Product) => el.id == item.id);
                                 if (!check) mainProducts.push(data);
@@ -90,17 +85,17 @@ export default function SendOtp() {
                     });
             }
             if (productsLength < storageProductsLengh) {
-                !isEmpty(storageProducts) &&
+                if (!isEmpty(storageProducts))
                     storageProducts.map((item: Product) => {
                         mainProducts.push(item);
-                        !isEmpty(products) &&
-                            products.map((data: Product) => {
+                        if (!isEmpty(products))
+                            products.map(() => {
                                 const check = storageProducts.find((el: Product) => el.id == item.id);
                                 if (!check) mainProducts.push(item);
                             });
                     });
             }
-            !isEmpty(mainProducts) &&
+            if (!isEmpty(mainProducts))
                 mainProducts.forEach((item: Product) => {
                     ids.push(item.id);
                 });

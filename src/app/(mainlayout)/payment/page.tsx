@@ -12,24 +12,27 @@ import { ORDER_STATUS } from "@/config/general.config";
 import { endpoints } from "@/utils/end-points";
 import { fetchInstance } from "@/utils/fetch";
 import { FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Product } from "@/types/product.type";
+import PaymentSkeleton from "@/skeletons/payment.skeleton";
 
 export default function Payment() {
   const [showPage, setShowPage] = useState(true);
   const [cart, setCart] = useState<Array<{ [key: string]: any }>>();
   const [shippingTime, setShippingTime] = useState<string>();
-  const [paymentMethod, setPaymentMethod] = useState<string>();
   const [shippingPermision, setShippingPermission] = useState<boolean>(false);
   const [orderId, setOrderId] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter();
   useEffect(() => {
     currentOrder();
-  });
+  }, []);
   const handleCartItem = () => {
     let data = JSON.parse(Cookies.get("cart") || '');
-    data = groupBy(data, "model");
+    data = groupBy<Product>(data, "model");
     setCart(data);
   };
   const currentOrder = async () => {
+    setLoading(true)
     try {
       const order = await fetchInstance(endpoints.order.getCurrentOrder, { cache: "no-cache" });
       if (!order.data) router.push("cart");
@@ -48,10 +51,12 @@ export default function Payment() {
     } catch (error) {
       console.log('error', error)
     }
+    finally {
+      setLoading(false)
+    }
   };
 
-  const handelChangePaymentMethod = (item: any) => {
-    setPaymentMethod(item);
+  const handelChangePaymentMethod = () => {
     setShippingPermission(true);
   };
 
@@ -71,8 +76,8 @@ export default function Payment() {
   return (
     showPage && (
       <>
-        <div className=" lg:px-2 md:px-2 pt-5 lg:flex md:flex ">
-          <Card className="w-full lg:mx-2 md:mx-2 mx-0">
+        {<div className=" lg:px-2 md:px-2 pt-5 lg:flex md:flex ">
+          {!loading && <Card className="w-full lg:mx-2 md:mx-2 mx-0">
             <div className="border w-full h-full p-3 rounded-lg  ">
               <span className="text-base text-gray-400">پرداخت از طریق </span>
               <div className="flex mt-10 text-lg items-center   ">
@@ -135,7 +140,7 @@ export default function Payment() {
                       return (
                         <div className="flex" key={index}>
                           <img
-                            src={data.photos[0].src}
+                            src={process.env.NEXT_PUBLIC_BASE_URL + data.photos[0].src}
                             width={100}
                             height={100}
                           />
@@ -153,14 +158,16 @@ export default function Payment() {
                 </div>
               </div>
             </div>
-          </Card>
+          </Card>}
+
+          {loading && <PaymentSkeleton />}
           <ShippingPrice
             shippingPermision={shippingPermision}
             onCartItem={handleCartItem}
             onClick={handleClickOrder}
             inValidTextButton="انتخاب روش پرداخت"
           />
-        </div>
+        </div>}
       </>
     )
   )

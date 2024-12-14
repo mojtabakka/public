@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface GeneralState {
-  sumCart: 0;
+  sumCart: number;
 }
 
 const initialState: GeneralState = {
@@ -13,7 +13,7 @@ const generalSlice = createSlice({
   initialState,
   reducers: {
     setSumOfCart: (state, action: PayloadAction<number>) => {
-      state.sumCart += action.payload;
+      state.sumCart = action.payload;
     },
   },
 });

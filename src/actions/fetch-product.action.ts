@@ -2,7 +2,6 @@
 
 import { endpoints } from "@/utils/end-points";
 import { fetchInstance } from "@/utils/fetch";
-import { fetchInstanceClient } from "@/utils/fetch-client";
 
 export async function fetchProducts(page: number = 1, data: any) {
   const params = new URLSearchParams({
@@ -11,7 +10,7 @@ export async function fetchProducts(page: number = 1, data: any) {
     take: "8",
   });
 
-  const products = await fetchInstanceClient(
+  const products = await fetchInstance(
     `${endpoints.product.getProducts}?${params}`,
     {
       cache: "no-cache",

@@ -1,5 +1,5 @@
 export interface TabType {
-  id?: string;
+  id?: string | number;
   key?: string;
   title: string;
   action?: string;

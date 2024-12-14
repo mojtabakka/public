@@ -5,12 +5,12 @@ import IconTitleSubtitle from "../icon-title-subtitle";
 import { cookies } from "next/headers";
 import { Icon } from '@iconify/react'
 import CartIcon from "../cart-icon";
+import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
 
 export default function LoginText() {
-
   const cookieStore = cookies();
-  const token = "" + cookieStore.get("token")?.value;
-  const popoverItems = [
+  const token = cookieStore.get("token")?.value;
+  const popoverItems: Array<PopoverListIconType> = [
     {
       id: 1,
       title: "09124482013",
@@ -45,7 +45,7 @@ export default function LoginText() {
         <div
           className="  lg:p-4 md:p-2    flex gap-2 items-center "
         >
-          <CartIcon />
+          <CartIcon carts={cookieStore.get("cart")?.value || ""} />
           <Link
             className="  text-xs lg:text-base md:text-base  sm:text-sm text  font-bold border-x  flex  items-center gap-2 px-4 "
             href={"/login"}
@@ -59,7 +59,7 @@ export default function LoginText() {
         </div>
       ) : (
         <div className="flex gap-4">
-          <CartIcon />
+          <CartIcon carts={cookieStore.get("cart")?.value || ""} />
           <PopoverListIcon
             sheetTitle={
               <IconTitleSubtitle

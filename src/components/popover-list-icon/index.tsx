@@ -10,54 +10,74 @@ import Link from "next/link";
 interface PropsType {
   sheetTitle?: ReactElement;
   icon: string;
-  onClick?: (item: PopoverListIconType) => void
+  onClick?: (item: PopoverListIconType) => void;
   items: Array<PopoverListIconType>;
 }
+
 export default function PopoverListIcon(props: PropsType) {
   const { items, icon, sheetTitle, onClick } = props;
 
-  const [open, setOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleOpen = (event: React.MouseEvent<any>) => {
+    setAnchorEl(event.currentTarget as HTMLElement);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
-    <div className=" relative ">
+    <div className="relative">
       <Icon
         icon={icon}
-        className="   cursor-pointer text-4xl "
-        onClick={() => setOpen(true)}
+        className="cursor-pointer text-4xl"
+        onClick={handleOpen}
       />
 
       <Popover
-        sx={{ display: { xs: "none", md: "none", lg: "block" } }}
-        className=" absolute top-10 left-5 "
+        anchorEl={anchorEl}
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        sx={{ display: { xs: "none", md: "none", lg: "block" } }}
       >
         <div
           dir="rtl"
           id="dropdown"
-          className={`  w-full  ${"hidden  lg:inline-block "}  z-10   bg-white divide-y divide-gray-100 rounded shadow-xl w-52 dark:bg-gray-700 `}
+          className="z-10 bg-white divide-y divide-gray-100 rounded shadow-xl w-52 dark:bg-gray-700"
         >
-          <ul
-            className=" text-sm text-gray-700 dark:text-gray-200  w-full "
-            aria-labelledby="dropdownDefaultButton"
-          >
+          <ul className="text-sm text-gray-700 dark:text-gray-200 w-full">
             {!isEmpty(items) &&
               items.map((item, index) => (
                 <span key={item?.id ? `${index}${item?.id}` : ""}>
-                  <Link href={item?.href || ""}
-                    onClick={() => onClick && onClick(item)}
+                  <Link
+                    href={item?.href || ""}
+                    onClick={() => {
+                      onClick && onClick(item);
+                      handleClose();
+                    }}
                     style={{
                       backgroundColor: item?.bgColor,
                       color: item?.color,
                     }}
-                    className=" rounded  w-100 w-full "
+                    className="rounded w-100 w-full"
                     key={item.id}
                   >
                     <div className="w-full" key={item.id}>
                       <a
                         href="#"
-                        className="block  rounded  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-right"
+                        className="block rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-right"
                       >
-                        <div className="flex items-center w-full  py-4 justify-between ">
+                        <div className="flex items-center w-full py-4 justify-between">
                           <div className="flex items-center">
                             <span className="px-2">{item?.icon}</span>
                             <div>
@@ -84,24 +104,27 @@ export default function PopoverListIcon(props: PropsType) {
       <Drawer
         open={open}
         anchor="bottom"
-        onClose={() => setOpen(false)}
+        onClose={handleClose}
         sx={{ display: { xs: "block", md: "block", lg: "none" } }}
       >
-        <div className="p-3 ">
+        <div className="p-3">
           {sheetTitle}
-
           {items.map((item, index) => (
-            <div
+            <Link
+              href={item.href || ""}
               key={item.id ? `${index}${item?.id}` : index}
               className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
-              onClick={() => onClick && onClick(item)}
+              onClick={() => {
+                onClick && onClick(item);
+                handleClose();
+              }}
             >
-              <div className={`   rounded  text-sm w-full `}>
+              <div className="rounded text-sm w-full">
                 <div className="text-sm">{item.title}</div>
                 <span className="text-gray-400 text-xs">{item.subTitle}</span>
               </div>
               <div>{item.icon}</div>
-            </div>
+            </Link>
           ))}
         </div>
       </Drawer>

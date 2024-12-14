@@ -13,71 +13,43 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 interface PropsType {
   categories: Array<Catergory>
 }
-
-interface menueItemType {
-  id: string,
-  name: string,
-  label: string,
-  path: any,
-  items?: Array<{ id: string, name: string, label: string, }>
-}
-
 export default function CategoryBox(props: PropsType) {
   const {
     categories
   } = props
-  const [menueItems, setMenueItems] = useState<Array<menueItemType>>([]);
   const [menustatus, setMenustatus] = useState<boolean>(false)
   const [cats, setCats] = useState<Array<Catergory>>([]);
   const [brands, setBrands] = useState<Array<Brand>>([]);
   const [types, setTypes] = useState<Array<ProductType>>([]);
-  const [properties, setProperties] = useState<any>([]);
+  const [properties, setProperties] = useState<Array<Property | PropertyTitle>>([]);
   const [catId, setCatId] = useState<string | number>();
   useEffect(() => {
     init();
   }, []);
 
   const handleMouseOverCat = (id: string | number) => {
-    id && setCatId(id);
+    if (id) setCatId(id);
     const filterCat = cats.filter((item) => {
       return item.id == id;
     });
 
-    setBrands(filterCat[0].brands);
-    setTypes(filterCat[0].productTypes);
-    createProperties(filterCat[0].propertyTitles);
+    setBrands(filterCat[0]?.brands);
+    setTypes(filterCat[0]?.productTypes);
+    createProperties(filterCat[0]?.propertyTitles);
   };
   const init = async () => {
-    setBrands(categories[0].brands);
-    setTypes(categories[0].productTypes);
-    setProperties(categories[0].propertyTitles);
-    createProperties(categories[0].propertyTitles);
+    setBrands(categories[0]?.brands);
+    setTypes(categories[0]?.productTypes);
+    setProperties(categories[0]?.propertyTitles);
+    createProperties(categories[0]?.propertyTitles);
     setCats(categories);
-    const propertyTitles = categories[0].propertyTitles;
-    const menueItems = !isEmpty(propertyTitles)
-      ? propertyTitles.map(item => {
-        const data: menueItemType = {
-          id: item.id,
-          name: item.title,
-          label: item.title,
-          path: {},
-        };
-        if (!isEmpty(item.properties)) {
-          data.items = item.properties.map((el: Property) => {
-            return { name: el.property, label: el.property, id: el.id };
-          });
-        }
-        return data;
-      })
-      : [];
-    setMenueItems(menueItems);
   };
 
   const createProperties = (propertyTitle: Array<PropertyTitle>) => {
     const properties: Array<PropertyTitle> = [];
-    !isEmpty(propertyTitle) &&
+    if (!isEmpty(propertyTitle))
       propertyTitle.map((item) => {
-        !isEmpty(item.properties) &&
+        if (!isEmpty(item.properties))
           item.properties.map((data) => {
             properties.push(data);
           });
@@ -89,7 +61,7 @@ export default function CategoryBox(props: PropsType) {
     setMenustatus(false);
   };
 
-  const ref = useOutsideClick(handleClickOutside);
+  const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <div className=" flex ">
       <div className="w-fit" ref={ref}>
@@ -102,8 +74,8 @@ export default function CategoryBox(props: PropsType) {
             // onMouseLeave={onMouseLeaveCatMenue}
             className={`  px-3 mt-3  py-4 shadow-2xl  min-h-96 bg-white w-1/3 h-full rounded  `}
           >
-            {cats.map((item) => (
-              <div
+            {cats.map((item, index) => (
+              <div key={index}
                 className={`flex justify-between  items-center cursor-pointer p-3 rounded ${catId === item.id ? " text-blue-400  bg-gray-100" : ""} `}
                 onMouseOver={() => { handleMouseOverCat(item?.id) }}
               >
@@ -118,8 +90,9 @@ export default function CategoryBox(props: PropsType) {
                 <div className="">
                   <div className="mb-5 text-base text-gray-400">برندها</div>
                   <div>
-                    {brands.map((item) => (
+                    {brands.map((item, index) => (
                       <Link
+                        key={index}
                         className="p-1 block  hover:text-blue-400  "
                         onClick={() => setMenustatus(false)}
                         href={{
@@ -138,8 +111,9 @@ export default function CategoryBox(props: PropsType) {
                 <div className="">
                   <div className="mb-5 text-base text-gray-400">انواع</div>
                   <div>
-                    {types.map((item) => (
+                    {types.map((item, index) => (
                       <Link
+                        key={index}
                         onClick={() => setMenustatus(false)}
                         className="p-1 block  hover:text-blue-400 "
                         href={{
@@ -157,8 +131,9 @@ export default function CategoryBox(props: PropsType) {
                 <div className="">
                   <div className="mb-5 text-base text-gray-400">ویژگی ها</div>
                   <div>
-                    {properties.map((item: Property) => (
+                    {properties.map((item: any, index) => (
                       <Link
+                        key={index}
                         onClick={() => setMenustatus(false)}
                         className="p-1 block  hover:text-blue-400 "
                         href={{

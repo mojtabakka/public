@@ -8,8 +8,9 @@ export interface PopoverListIconType {
   bgColor?: string;
   border?: boolean;
   icon?: ReactNode;
-  secondIcon?: string;
+  secondIcon?: string | ReactNode;
   subTitle?: string;
   url?: string;
   href?: string;
+  className?: string;
 }

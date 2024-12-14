@@ -21,6 +21,9 @@ import ModalAddress from "@/components/modal-address";
 import { endpoints } from "@/utils/end-points";
 import ShippingPrice from "@/components/shipping-price";
 import SelectShippingTime from "@/components/select-shipping-time";
+import { Product } from "@/types/product.type";
+import ShippingPriceSkeleton from "@/skeletons/shipping-price.skeleton";
+import ShippingSkeleton from "@/skeletons/shipping.skeleton";
 
 const Shipping = () => {
     const [address, setAddress] = useState<Address>();
@@ -28,35 +31,45 @@ const Shipping = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [cart, setCart] = useState<Array<{ [key: string]: any }>>();
     const [shippingTime, setShippingTime] = useState<string>();
-    const [loading, setLoading] = useState(false);
     const [modalAddressesState, setModalAddressesState] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [addressLoading, setAddressLoading] = useState<boolean>(true);
     const router = useRouter();
 
     useEffect(() => {
         getAllAddresses();
     }, []);
     const addProductsOrder = async () => {
+
         try {
-            !address && setShowModal(true);
+            if (!address) setShowModal(true);
             if (shippingTime && address) {
                 await fetchInstance(endpoints.order.addOrder, {
+                    cache: "no-store",
                     method: "POST", body: {
                         shippingTime
                     }
                 })
-                setLoading(true);
                 router.push("/payment");
             }
+
         } catch (error) {
             console.log("error", error);
-        } finally {
-            setLoading(false);
         }
     };
 
     const getAllAddresses = async () => {
-        const myAaddress = await fetchInstance(endpoints.address.getActiveAddress, { cache: "no-cache" });
-        setAddress(myAaddress.data);
+        try {
+
+            setAddressLoading(true)
+            const myAaddress = await fetchInstance(endpoints.address.getActiveAddress, { cache: "no-store" });
+            setAddress(myAaddress.data);
+        } catch (error) {
+            console.log('error', error)
+        } finally {
+            setAddressLoading(false)
+        }
+
     };
 
     const handleClickAddNewAddress = () => {
@@ -64,7 +77,7 @@ const Shipping = () => {
     };
 
     const handleResult = (result: Address) => {
-        result && getAllAddresses();
+        if (result) getAllAddresses();
         setModalAddressesState(!modalAddressesState);
         setShowAddModal(false);
     };
@@ -75,17 +88,17 @@ const Shipping = () => {
     };
 
     const handleSelectTime = (value: string) => {
-        value && setShippingTime(value);
+        if (value) setShippingTime(value);
     };
 
     const handleCartItem = (item: Cart) => {
-        const products = groupBy(item.products, "model");
+        const products = groupBy<Product>(item.products, "model");
         setCart(products);
     };
     return (
         <div className="mt-5">
             <div className=" lg:flex md:flex justify-between">
-                <Card className="w-full ">
+                {!addressLoading && <Card className="w-full ">
                     <div className="border p-3 rounded-lg">
                         <div className="text-medium  text-gray-400">آدرس تحویل سفارش</div>
                         {isEmpty(address) && (
@@ -128,7 +141,7 @@ const Shipping = () => {
                                     const len = item[key].length;
                                     return (
                                         <div className="flex" key={index}>
-                                            <img src={data.photos[0].src} width={100} height={100} />
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + data.photos[0].src} width={100} height={100} />
                                             <div className="relative">
                                                 <span
                                                     className="bg-gray-400 p-1 rounded  absolute "
@@ -146,13 +159,18 @@ const Shipping = () => {
                         <div className="px-2 py-2">انتخاب زمان ارسال</div>
                         <SelectShippingTime onSelectTime={handleSelectTime} />
                     </div>
-                </Card>
+                </Card>}
+                {
+                    addressLoading && <ShippingSkeleton />
+                }
 
                 <ShippingPrice
                     shippingPermision={shippingTime ? true : false}
                     onCartItem={handleCartItem}
                     onClick={addProductsOrder}
                 />
+
+
             </div>
             <div className="flex justify-between">
                 <div className="w-full mx-1"></div>

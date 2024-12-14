@@ -1,4 +1,4 @@
-import { Button, ButtonProps, CircularProgress } from '@mui/material'
+import { ButtonProps } from '@mui/material'
 import React from 'react'
 import { LoadingButton } from '@mui/lab'
 interface other {
@@ -9,7 +9,7 @@ interface PropsType extends ButtonProps, other { }
 export default function muiButton(props: PropsType) {
     const { children } = props
     return (
-        <LoadingButton variant='text' className='text-white'  {...props}>
+        <LoadingButton variant='text'   {...props}>
             {children}
         </LoadingButton>
     )

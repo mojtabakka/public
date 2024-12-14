@@ -4,6 +4,7 @@ export const endpoints = {
     verification: "auth/verification",
   },
   order: {
+    getOrder: "orders/get-order/:id",
     changeStatusorder: "orders/change-order-status-public/:id",
     getCurrentOrders: "orders/current-orders",
     getPreviousOrders: "orders/previous-orders",
@@ -22,12 +23,12 @@ export const endpoints = {
     user: "users/public-user/user",
   },
   category: {
-    getCatergoris: "category",
-  },
+    getCatergoris: "category",  },
   product: {
     getProduct: "product/public/:model",
     getProducts: "product/public",
     getProductsNotReserved:
       "product/public/product-not-reserved/get-products-notReserved",
+    searchProduct: "product/public/product-search/product-search/",
   },
 };

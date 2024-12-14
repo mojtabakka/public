@@ -2,12 +2,13 @@
 
 import { Drawer } from '@mui/material'
 import React, { ReactNode } from 'react'
+import MuiModal from '@mui/material/Modal';
 interface propsType {
     title: string,
     onClose?: () => void,
     modalContent?: ReactNode,
     modalFooter?: ReactNode,
-    className?: String,
+    className?: string,
     show?: boolean,
     sheetSubtitle?: string,
     sheetContent?: ReactNode,
@@ -17,9 +18,14 @@ export default function Modal(props: propsType) {
     const { sheetContent, sheetFooter, sheetSubtitle, title, onClose, modalContent, modalFooter, className, show } = props
     return (
         <>
-            <div
-                className={` fixed h-full top-0  left-0 right-0  z-50  flex w-full items-center justify-center ${!show ? " hidden" : "lg:flex hidden"
+            <MuiModal
+                open={show || false}
+                onClose={onClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                className={`   h-full top-0  left-0 right-0    flex w-full items-center justify-center ${!show ? " hidden" : "lg:flex hidden z-50"
                     }`}
+                style={{ zIndex: 100000 }}
             >
                 <div className="   w-full max-w-2xl">
                     <div className="relative bg-white rounded-lg lg:shadow md:shadow dark:bg-gray-700">
@@ -56,7 +62,7 @@ export default function Modal(props: propsType) {
                         </div>}
                     </div>
                 </div>
-            </div>
+            </MuiModal>
             <div
                 id="defaultModal"
                 tabIndex={-1}

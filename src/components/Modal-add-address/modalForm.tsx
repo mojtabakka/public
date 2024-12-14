@@ -4,7 +4,6 @@ import React from 'react'
 import Form from '../form';
 import { Button, InputLable, TextFiled } from '..';
 import { useForm } from 'react-hook-form';
-import { Input } from 'postcss';
 import ModalFooter from '../modal/modalFooter';
 import { z as zod } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -62,7 +61,7 @@ export default function ModalForm(props: propsType) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const result = await fetchInstance(endpoints.address.addAddress, { method: "POST", body: { ...data } })
-      isFunction(props.onResult) && result && props.onResult(result.data);
+      if (isFunction(props.onResult) && result) props.onResult(result.data);
     } catch (error) {
       // isFunction(props.onResult) && props.onResult();
       console.log(error);
