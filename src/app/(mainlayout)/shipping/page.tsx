@@ -4,17 +4,11 @@ import { Icon } from '@iconify/react'
 import { groupBy } from "@/utils/function.utils";
 import {
     Card,
-    // ModalAddAddress,
-    // ModalAddress,
-    // SelectShippingTime,
-    // ShippingPrice,
-    // Loading,
 } from "@/components";
 import { useRouter } from "next/navigation";
 import { isEmpty } from "lodash";
 import { fetchInstance } from "@/utils/fetch";
 import { Cart } from "@/types/cart.type";
-
 import { Address } from "@/types/address.type";
 import ModalAddAddress from "@/components/Modal-add-address";
 import ModalAddress from "@/components/modal-address";
@@ -22,7 +16,6 @@ import { endpoints } from "@/utils/end-points";
 import ShippingPrice from "@/components/shipping-price";
 import SelectShippingTime from "@/components/select-shipping-time";
 import { Product } from "@/types/product.type";
-import ShippingPriceSkeleton from "@/skeletons/shipping-price.skeleton";
 import ShippingSkeleton from "@/skeletons/shipping.skeleton";
 
 const Shipping = () => {
@@ -43,6 +36,7 @@ const Shipping = () => {
 
         try {
             if (!address) setShowModal(true);
+
             if (shippingTime && address) {
                 await fetchInstance(endpoints.order.addOrder, {
                     cache: "no-store",

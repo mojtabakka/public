@@ -22,7 +22,7 @@ export default function Login() {
     formState: { isSubmitting },
   } = methods;
   const onSubmit = handleSubmit(async (data) => {
-    const promise = fetchInstance<{ phoneNumber: string }>(endpoints.auth.sendOtp, { method: "POST", body: { phoneNumber: data.phoneNumber } })
+    const promise = fetchInstance<{ phoneNumber: string }>(endpoints.auth.sendOtp, { method: "POST", body: { phoneNumber: data.phoneNumber.replaceAll(" ", "") } })
     toast.promise(promise, {
       loading: "لطفا منتظر بمانید",
       success: "کد تایید به شماره همراه شما ارسال شد",
@@ -30,7 +30,8 @@ export default function Login() {
     });
     try {
       await promise;
-      router.push(`send-otp?phoneNumber=${data.phoneNumber}`)
+      router.push(`send-otp?phoneNumber=${data.phoneNumber.replaceAll(" ", "")}`)
+      
     } catch (error) {
       console.log('error', error)
     }
@@ -38,7 +39,7 @@ export default function Login() {
 
   return (
     <div className=" grid place-items-center h-screen  ">
-      <div className="  bg-white items-center justify-center gap-6   w-1/5   rounded-lg px-4 py-4 ">
+      <div className="  bg-white items-center justify-center gap-6   w-full md:w-1/2  lg:w-1/5   rounded-lg px-4 py-4 ">
         <div className="">
           <Logo />
         </div>
@@ -48,7 +49,7 @@ export default function Login() {
             <span className="text-sm  opacity-50  leading-10 ">
               لطفا شماره موبایل خود را وارد نمایید
             </span>
-            <TextFiled name="phoneNumber" />
+            <TextFiled mask='9 9 9 9 9 9 9 9 9 9 9' name="phoneNumber" className='  !text-left' />
           </div>
           <div className="py-4 text-center mt-10 ">
             <Button

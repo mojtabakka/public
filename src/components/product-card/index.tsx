@@ -7,18 +7,35 @@ import Image from 'next/image';
 import Link from "next/link";
 
 interface propsType {
-    items: Product;
+    items: {
+        model: string,
+        product_id: 21,
+        photos_id: 2,
+        photos_created_at: string,
+        photos_updated_at: string,
+        photos_src: string,
+        category_id: 1,
+        category_created_at: string,
+        category_updated_at: string,
+        category_title: string,
+        category_photo: string,
+        productCount: string
+        priceForUser: string,
+        warranty: string,
+        deliveryMethod: string,
+        off: string
+    };
 }
 
 const ProductCard = ({ items }: propsType) => {
-    const src = `${items?.photos[0]?.src}`;
+    const src = `${items.photos_src}`;
 
     return (
         <div className="cursor-pointer w-full mt-1 rounded">
             <Link href={`product-detail/${items.model}`} className="relative shadow-sm bg-white hover:shadow-lg border rounded-lg w-full flex">
                 <div className="w-full flex md:block sm:block lg:block justify-between">
                     <figure className="w-full flex justify-center items-center">
-                        {!isEmpty(items?.photos) ? (
+                        {items.photos_src ? (
                             <Image
                                 src={`${process.env.NEXT_PUBLIC_BASE_URL}${src}`}
                                 alt={`Product image for ${items.model}`}

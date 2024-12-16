@@ -1,4 +1,5 @@
 
+
 import { fetchProducts } from '@/actions/fetch-product.action';
 import ProductList from '@/components/products-List';
 import { Product } from '@/types/product.type'
@@ -15,6 +16,7 @@ export default async function Products(props: any) {
             catId: props.params?.type || "",
         };
         const pro = await fetchProducts(1, data)
+        console.log(pro)
         products = pro.data
         hasmore = pro.meta.hasNextPage
 

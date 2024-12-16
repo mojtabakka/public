@@ -25,7 +25,7 @@ export const INPUT_NAMES = {
 };
 
 interface propsType {
-  address: Address
+  address?: Address | undefined
   onResult: (data: Address) => void
 }
 
@@ -123,6 +123,8 @@ export default function ModalForm(props: propsType) {
             <InputLable>کدپستی</InputLable>
             <TextFiled
               name={INPUT_NAMES.postalCode}
+              mask='99999999999'
+              textAlign='right'
             // subText="کدپستی باید ۱۰ رقم و بدون خط خوردگی باشد"
             />
           </div>
@@ -145,8 +147,9 @@ export default function ModalForm(props: propsType) {
         <div className=" col-span-1 w-1/2 mt-2">
           <InputLable>شماره همراه گیرنده</InputLable>
           <TextFiled
+            textAlign='right'
             name={INPUT_NAMES.recivermobile}
-          // subText="مثال :۰۹۱۲۱۲۳۴۵۶۷"
+            mask='99999999999'
           />
         </div>
       </div>

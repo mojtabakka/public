@@ -10,7 +10,25 @@ import { fetchProducts } from '@/actions/fetch-product.action'
 import ProductCardSkeleton from '@/skeletons/product-cart-skeleton'
 interface propsType {
     hasMore: boolean;
-    initialData: Array<Product>
+    initialData: Array<
+        {
+            model: string,
+            product_id: 21,
+            photos_id: 2,
+            photos_created_at: string,
+            photos_updated_at: string,
+            photos_src: string,
+            category_id: 1,
+            category_created_at: string,
+            category_updated_at: string,
+            category_title: string,
+            category_photo: string,
+            productCount: string
+            priceForUser: string,
+            warranty: string,
+            deliveryMethod: string,
+            off: string
+        }>;
     filterData: {
         type: string
         brand: string,
@@ -53,10 +71,10 @@ export default function ProductList(props: propsType) {
                 <div className="  mt-5 w-full md:mt-1   grid lg:grid-cols-4 mx-0   md:grid-cols-3 sm:grid-cols-2 grid-cols-1  h-full gap-2">
                     {!isEmpty(items) &&
                         items.map((item, index) => (
-                            <span key={`${index}${item.id}`}>
+                            <span key={`${index}${item.product_id}`}>
                                 <ProductCard
                                     items={item}
-                                    key={item.id}
+                                    key={item.product_id}
                                 />
                             </span>
                         ))}

@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, InputLable, TextFiled } from "@/components";
 import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
-// import { z as zod } from 'zod'
+import { z as zod } from 'zod'
 import { useForm } from "react-hook-form";
 import { User } from "@/types/user.type";
 import { toast } from "sonner";
 import { isArray } from "lodash";
+import { zodResolver } from "@hookform/resolvers/zod";
 const INPUT_NAMES = {
     name: "name",
     lastname: "lastName",
@@ -40,27 +41,41 @@ export default function Profile() {
 
     const defaultValues = {
         name: user?.name || "",
-        // lastName: user?.lastName || "",
-        // nationalCode: user?.nationalCode || "",
-        // email: user?.email || "",
-        // phoneNumber: user?.phoneNumber || "",
-        // password: user?.password || "",
-        // birthDate: "f"
+        lastName: user?.lastName || "",
+        nationalCode: user?.nationalCode || "",
+        email: user?.email || "",
+        phoneNumber: user?.phoneNumber || "",
+        password: user?.password || "",
+        birthDate: ""
     };
-    // const UserQuickEditSchema = zod.object({
-    //     name: zod.string().trim().min(1, { message: "نام را وارد کنید" }),
-    //     lastName: zod.string().trim().min(1, { message: "نام خانوادگی را وارد کنید" }),
-    //     nationalCode: zod.string().trim().min(1, { message: " کدملی را وارد کنید" }),
-    //     email: zod.string().trim().min(1, { message: " ایمیل را وارد کنید" }),
-    //     phoneNumber: zod.string().trim().min(1, { message: " شماره تلفن همراه را وارد کنید" }),
-    //     password: zod.string().trim().min(1, { message: " رمز عبور را وارد" }),
-    //     birthDate: zod.string().trim().min(1, { message: " تاریخ تولد را وارد کنید" }),
-    // });
+    const UserQuickEditSchema = zod.object({
+        name: zod.string().trim().min(1, { message: "نام را وارد کنید" }),
+        lastName: zod.string().trim().min(1, { message: "نام خانوادگی را وارد کنید" }),
+        nationalCode: zod
+            .string()
+            .trim()
+            .min(10, { message: "کدملی باید حداقل ۱۰ رقم باشد" })
+            .max(10, { message: "کدملی باید حداکثر ۱۰ رقم باشد" })
+            .regex(/^\d{10}$/, { message: "کدملی فقط باید شامل اعداد باشد" }),
+        email: zod
+            .string()
+            .trim()
+            .email({ message: "ایمیل معتبر وارد کنید" }),
+        phoneNumber: zod.string().trim().min(11, { message: "شماره تلفن همراه باید 11 رقم باشد" }).max(11, { message: "شماره تلفن همراه باید 11 رقم باشد" }).regex(/^09\d{9}$/, { message: "شماره تلفن همراه باید با 09 شروع شود" }),
+        password: zod
+            .string()
+            .trim()
+            .min(8, { message: "رمز عبور باید حداقل 8 کاراکتر باشد" }),
+        birthDate: zod
+            .string()
+            .trim()
+            .regex(/^\d{4}\/\d{2}\/\d{2}$/, { message: "تاریخ تولد باید به فرمت YYYY/MM/DD باشد" }),
+    });
 
     const methods = useForm({
         mode: 'all',
         defaultValues,
-        // resolver: zodResolver(UserQuickEditSchema),
+        resolver: zodResolver(UserQuickEditSchema),
     });
     const {
         handleSubmit,
@@ -97,14 +112,18 @@ export default function Profile() {
                             />
                         </div>
                         <div className="py-1">
-                            <InputLable>شماره ملی</InputLable>
+                            <InputLable >شماره ملی</InputLable>
                             <TextFiled
+                                mask="9999999999"
+                                textAlign="right"
                                 name={INPUT_NAMES.nationalCode}
                             />
                         </div>
                         <div className="py-1">
                             <InputLable>شماره تلفن همراه</InputLable>
                             <TextFiled
+                                textAlign="right"
+                                mask="99999999999"
                                 name={INPUT_NAMES.phoneNumber}
                             />
                         </div>
@@ -127,6 +146,8 @@ export default function Profile() {
 
                             <InputLable>تاریخ تولد</InputLable>
                             <TextFiled
+                                textAlign="right"
+                                mask="9999/99/99"
                                 name={INPUT_NAMES.birthDate}
                             />
                         </div>

@@ -9,9 +9,12 @@ export const endpoints = {
     getCurrentOrders: "orders/current-orders",
     getPreviousOrders: "orders/previous-orders",
     addOrder: "orders",
-    getCurrentBasket: "orders/getCurrentBasket",
-    addToCart: "orders/addToBasket",
+    getCurrentBasket: "orders/getCurrentBasket/:cartId",
+    getCurrentCartWithProductModel: "orders/getCurrentCartWithModel/:id",
+    addToCart: "orders/addToCart",
+    reomoveFormCart: "orders/removeFromCart",
     getCurrentOrder: "orders/get-current-order",
+    addtoCartAfterLogin: "orders/add-to-cart-after-login/:id",
   },
   address: {
     address: "address",
@@ -23,7 +26,8 @@ export const endpoints = {
     user: "users/public-user/user",
   },
   category: {
-    getCatergoris: "category",  },
+    getCatergoris: "category",
+  },
   product: {
     getProduct: "product/public/:model",
     getProducts: "product/public",

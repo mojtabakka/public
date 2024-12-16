@@ -4,13 +4,10 @@ import { Icon } from '@iconify/react'
 import { ThreeDots } from "react-loader-spinner";
 import style from "./OrderButton.module.scss";
 import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
-import { isArray, isEmpty } from "lodash";
-import { setSumOfCart } from "@/redux/slices/generalSlice";
-import { Product } from "@/types/product.type";
 import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
 import { Button } from "..";
+import { setSumOfCart } from "@/redux/slices/generalSlice";
 
 interface propsType {
     model: string
@@ -18,116 +15,69 @@ interface propsType {
 
 export default function OrderButton(props: propsType) {
     const [loading, setLoading] = useState(false);
-    const [numberOfOrder, setNumberOfOrder] = useState(0);
-    const [isLogin, setIsLogin] = useState(false);
+    const [numberOfOrder, setNumberOfOrder] = useState<number>(0);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         getNumberOfProductFunc();
-        checkLogin();
-    });
-    const checkLogin = () => {
-        const check = localStorage.getItem("authenticated");
-        if (check) setIsLogin(true);
-        else setIsLogin(false);
-    };
+
+    }, []);
     const getNumberOfProductFunc = async () => {
-        try {
-            let products: Array<Product> = JSON.parse(Cookies.get("cart") || "");
-            products =
-                !isEmpty(products) ?
-                    products.filter((item) => item?.model === props.model) : []
-            const cartCount =
-                products && !isEmpty(products) ? products.length : 0;
-            setNumberOfOrder(() => {
-                return cartCount;
-            });
-        } catch (error) {
-            console.log("error", error);
+        setLoading(true)
+        const CartId = localStorage.getItem("cartId") || ''
+        if (CartId) {
+            try {
+                const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", CartId)}?model=${props.model}`)
+
+                setNumberOfOrder(response.data.count || 0)
+                dispatch(setSumOfCart(response.data.total));
+
+            } catch (error) {
+                console.log('error', error)
+            } finally {
+                setLoading(false)
+            }
         }
     };
 
     const handleClickBin = async () => {
-        const ids: Array<string | number> = [];
+        setLoading(true)
+        const CartId = localStorage.getItem('cartId')
         try {
-            setIsLogin(true);
-            let cookieCart: Array<Product> | string = Cookies.get("cart") || "";
-            if (cookieCart) {
-                cookieCart = JSON.parse(Cookies.get("cart") || "");
-                if (cookieCart.length > 0) {
-                    const filterModel = isArray(cookieCart) ? cookieCart.filter((item) => {
-                        return item.model === props.model;
-                    })[0] : { id: "" }
-
-                    cookieCart = isArray(cookieCart) ? cookieCart.filter((item) => item.id !== filterModel.id) : '';
-                    if (isEmpty(!cookieCart) && isArray(cookieCart))
-                        cookieCart.forEach((element) => {
-                            ids.push(element.id);
-                        });
-                    dispatch(setSumOfCart(cookieCart.length));
-                    cookieCart = JSON.stringify(cookieCart);
-                    Cookies.set("cart", cookieCart);
-                    setNumberOfOrder((value) => {
-                        return value - 1;
-                    });
-                    if (isLogin) {
-                        await fetchInstance(endpoints.order.addToCart, {
-                            method: "POST",
-                            cache: "no-cache", body: {
-                                ids
-                            }
-                        })
-                    };
+            const response = await fetchInstance(endpoints.order.reomoveFormCart, {
+                method: "POST",
+                cache: "no-cache", body: {
+                    model: props.model,
+                    cartId: CartId ? CartId : ''
                 }
-            }
+            });
+            setNumberOfOrder(response.data.count)
+
+            dispatch(setSumOfCart(response.data.total));
+
         } catch (error) {
-            console.log("error", error);
+            console.log(error)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     };
 
     const handleClickPlus = async () => {
-        const ids: Array<string | number> = [];
         setLoading(true);
+        const CartId = localStorage.getItem('cartId')
         try {
-            let cookieCart = Cookies.get("cart");
-            if (!cookieCart) {
-                Cookies.set("cart", JSON.stringify([]));
-            }
-            cookieCart = JSON.parse(Cookies.get("cart") || "");
-
-            if (isEmpty(!cookieCart) && isArray(cookieCart))
-                cookieCart.forEach((element) => {
-                    ids.push(element.id);
-                });
-
-            const data = new URLSearchParams({
-                model: props.model,
-                ids: JSON.stringify(ids)
+            const response = await fetchInstance(endpoints.order.addToCart, {
+                method: "POST",
+                cache: "no-cache", body: {
+                    model: props.model,
+                    cartId: CartId ? CartId : ''
+                }
             });
-
-            const product = (await fetchInstance(`${endpoints.product.getProductsNotReserved}?${data}`, {
-                method: "GET",
-                cache: "no-cache"
-            })).data
-            if (product) {
-                const chekck = isArray(cookieCart) && cookieCart.find((item) => item?.id === product?.id);
-                if (!chekck && isArray(cookieCart)) cookieCart.push(product);
-                ids.push(product.id);
-                if (isArray(cookieCart)) dispatch(setSumOfCart(cookieCart?.length));
-                Cookies.set("cart", JSON.stringify(cookieCart));
-                setNumberOfOrder((value) => {
-                    return value + 1;
-                });
-                if (isLogin)
-                    await fetchInstance(endpoints.order.addToCart, {
-                        method: "POST",
-                        cache: "no-cache", body: {
-                            ids
-                        }
-                    });
-            }
+            console.log(response.data)
+            if (!CartId) localStorage.setItem('cartId', response.data?.cartId ? response.data.cartId : '')
+            setNumberOfOrder(+response.data.count)
+            dispatch(setSumOfCart(response.data.total));
         } catch (error) {
             console.log("error", error);
         } finally {

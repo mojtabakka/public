@@ -10,6 +10,8 @@ import { getToman, groupBy } from "@/utils/function.utils";
 import { RootState } from "@/redux/store";
 import CalPricesBoxSkeleton from "@/skeletons/cal-prices-box.skeleton";
 import { Product } from "@/types/product.type";
+import { fetchInstance } from "@/utils/fetch";
+import { endpoints } from "@/utils/end-points";
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState<Array<{ [key: string]: any }>>();
@@ -37,14 +39,17 @@ const Cart = () => {
         setBenefit(purePrice - sumFinalPrice);
     };
     const getBasekt = async () => {
-        if (Cookies.get("cart")) {
-            let data = JSON.parse(Cookies.get("cart") || "");
-            data = groupBy<Product>(data, "model");
+
+
+        try {
+            const response = await fetchInstance(endpoints.order.getCurrentBasket.replace(":cartId", localStorage.getItem("cartId") || ''))
+            console.log(response)
+            const data = groupBy<Product>(response.data.products, "model");
             calculatePrices(data);
             setCartItems(data);
-        }
-        else {
-            setCartItems([]);
+        } catch (error) {
+            console.log('error', error)
+        } finally {
         }
     };
     return (

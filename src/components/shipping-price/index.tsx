@@ -29,7 +29,7 @@ const ShippingPrice: React.FC<PropsType> = ({
     const getCart = useCallback(async () => {
         try {
             setLoading(true)
-            const cart = await fetchInstance(endpoints.order.getCurrentBasket, { cache: "no-cache" });
+            const cart = await fetchInstance(endpoints.order.getCurrentBasket.replace(":cartId", localStorage.getItem("cartId") || ""), { cache: "no-cache" });
             const { finalPrice, shippingPrice } = cart.data;
             setPurePrice(finalPrice);
             setFinalPrice(finalPrice + shippingPrice);

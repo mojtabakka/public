@@ -26,18 +26,22 @@ export default function Payment() {
   useEffect(() => {
     currentOrder();
   }, []);
-  const handleCartItem = () => {
-    let data = JSON.parse(Cookies.get("cart") || '');
-    data = groupBy<Product>(data, "model");
-    setCart(data);
+  const handleCartItem = async () => {
+
   };
   const currentOrder = async () => {
     setLoading(true)
     try {
       const order = await fetchInstance(endpoints.order.getCurrentOrder, { cache: "no-cache" });
+
       if (!order.data) router.push("cart");
       if (order.data) {
         setShowPage(true);
+
+        const response = await fetchInstance(endpoints.order.getCurrentBasket.replace(":cartId", localStorage.getItem("cartId") || ""), { cache: "no-cache" });
+        const data = groupBy<Product>(response.data.products, "model");
+        setCart(data);
+
         setOrderId(order.data.id);
         const m = moment(order?.data?.shippingTime, "jYYYY/jM/jD");
         const date =

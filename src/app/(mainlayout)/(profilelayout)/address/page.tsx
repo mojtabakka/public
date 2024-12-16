@@ -79,7 +79,7 @@ export default function Addresses() {
                             </div>
                             <div className=" relative">
                                 <PopoverListIcon
-                                    icon="bi:three-dots"
+                                    icon="ph:dots-three"
                                     items={[
                                         {
                                             id: item.id,

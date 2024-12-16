@@ -3,24 +3,30 @@
 'use client'
 import React, { useEffect } from 'react'
 import { Icon } from '@iconify/react'
-import { isEmpty } from 'lodash';
 import Link from 'next/link';
 import { Badge } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setSumOfCart } from '@/redux/slices/generalSlice';
+import { fetchInstance } from '@/utils/fetch';
+import { endpoints } from '@/utils/end-points';
 interface propsType {
     carts: string
 }
 
 
 export default function CartIcon(props: propsType) {
-    const { carts } = props
     const dispatch = useDispatch();
     useEffect(() => {
-        const products = carts ? JSON.parse(carts || "") : [];
-        dispatch(setSumOfCart(products && !isEmpty(products) ? products.length : 0));
+        getCartCount()
+
     }, [])
+
+    const getCartCount = async () => {
+        const cartId = localStorage.getItem("cartId") || ""
+        const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", cartId)}`)
+        dispatch(setSumOfCart(response.data.total || 0));
+    }
 
     const cartCount = useSelector((item: RootState) => item.general.sumCart);
 

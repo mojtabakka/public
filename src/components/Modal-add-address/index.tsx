@@ -5,7 +5,7 @@ import { isFunction } from 'lodash';
 import ModalForm from './modalForm';
 import { Address } from '@/types/address.type';
 interface PropsType {
-    address: Address
+    address?: Address
     show: boolean
     onClose?: () => void,
     onResult: (item: Address) => void
