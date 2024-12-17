@@ -20,6 +20,7 @@
     "@types/moment-jalaali": "^0.7.9",
     "@types/react-image-gallery": "^1.2.4",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "moment-jalaali": "^0.10.4",
     "next": "14.2.15",

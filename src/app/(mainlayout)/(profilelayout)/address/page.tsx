@@ -97,6 +97,23 @@ export default function Addresses() {
                                             icon: <Icon icon="mdi:bin" className="text-xl" />,
                                         },
                                     ]}
+                                    sheetItems={[
+                                        {
+                                            id: item.id,
+                                            title: "ویرایش ",
+                                            border: true,
+                                            icon: <Icon icon='mynaui:edit' className="text-xl" />,
+                                            url: "/profile",
+                                            key: "edit"
+                                        },
+                                        {
+                                            id: item.id,
+                                            key: "delete",
+                                            title: "حذف",
+                                            url: "/orders",
+                                            icon: <Icon icon="mdi:bin" className="text-xl" />,
+                                        },
+                                    ]}
 
                                     onClick={(PopoverItems) => handleClickDropDown(PopoverItems, item)}
                                 />

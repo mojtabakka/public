@@ -6,18 +6,32 @@ import { cookies } from "next/headers";
 import { Icon } from '@iconify/react'
 import CartIcon from "../cart-icon";
 import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
+import { jwtDecode } from 'jwt-decode';
+import { englishToPersianNumbers } from "@/utils/function.utils";
 
 export default function LoginText() {
+  let userInfo: {
+    phoneNumber?: string
+    sub?: number,
+    iat?: number,
+    exp?: number,
+    fullName?: string
+  } = {}
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
+  if (token)
+    userInfo = jwtDecode(token || '')
   const popoverItems: Array<PopoverListIconType> = [
     {
       id: 1,
-      title: "09124482013",
+      title: <div className=" text-lg font-extrabold">
+        <span> {englishToPersianNumbers(userInfo.phoneNumber || '')}</span>
+        <span className=" font-medium  text-sm text-gray-500"> {userInfo?.fullName}</span>
+      </div>,
       bgColor: "white",
       border: true,
       href: "/profile",
-      icon: < Icon icon="octicon:feed-person-16" className=" text-xl inline-block" />,
+      icon: <Icon icon="iconamoon:profile-circle" width="30" height="30" />,
       secondIcon: <Icon icon="ep:arrow-left" className=" text-xl" />
     },
 
@@ -26,7 +40,7 @@ export default function LoginText() {
       title: "سفارش ها",
       bgColor: "white",
       href: "/orders",
-      icon: <Icon icon="lsicon:order-filled" className=" text-xl" />,
+      icon: <Icon icon="lsicon:order-outline" width="30" height="30" />,
       secondIcon: <Icon icon="ep:arrow-left" className=" text-xl" />
     },
 
@@ -35,7 +49,27 @@ export default function LoginText() {
       title: "آدرس ها",
       bgColor: "white",
       href: "/address",
-      icon: <Icon icon="fa6-solid:map-location-dot" className=" text-xl" />,
+      icon: <Icon icon="pepicons-pencil:map" width="30" height="30" />,
+      secondIcon: <Icon icon="ep:arrow-left" className=" text-xl" />
+    },
+  ];
+
+  const popoverSheetItems: Array<PopoverListIconType> = [
+    {
+      id: 2,
+      title: "سفارش ها",
+      bgColor: "white",
+      href: "/orders",
+      icon: <Icon icon="lsicon:order-outline" width="30" height="30" />,
+      secondIcon: <Icon icon="ep:arrow-left" className=" text-xl" />
+    },
+
+    {
+      id: 3,
+      title: "آدرس ها",
+      bgColor: "white",
+      href: "/address",
+      icon: <Icon icon="pepicons-pencil:map" width="30" height="30" />,
       secondIcon: <Icon icon="ep:arrow-left" className=" text-xl" />
     },
   ];
@@ -64,12 +98,13 @@ export default function LoginText() {
             sheetTitle={
               <IconTitleSubtitle
                 icon={"healthicons:ui-user-profile"}
-                title={"مجتبی کریم"}
-                subTitle={"09124482013"}
+                title={userInfo.fullName || ''}
+                subTitle={englishToPersianNumbers(userInfo.phoneNumber || '')}
               />
             }
             icon="iconamoon:profile-circle-fill"
             items={popoverItems}
+            sheetItems={popoverSheetItems}
           />
         </div>
       )}

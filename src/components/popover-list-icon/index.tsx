@@ -12,10 +12,11 @@ interface PropsType {
   icon: string;
   onClick?: (item: PopoverListIconType) => void;
   items: Array<PopoverListIconType>;
+  sheetItems: Array<PopoverListIconType>;
 }
 
 export default function PopoverListIcon(props: PropsType) {
-  const { items, icon, sheetTitle, onClick } = props;
+  const { items, icon, sheetTitle, sheetItems, onClick } = props;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -109,7 +110,7 @@ export default function PopoverListIcon(props: PropsType) {
       >
         <div className="p-3">
           {sheetTitle}
-          {items.map((item, index) => (
+          {sheetItems.map((item, index) => (
             <Link
               href={item.href || ""}
               key={item.id ? `${index}${item?.id}` : index}

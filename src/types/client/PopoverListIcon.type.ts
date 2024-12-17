@@ -4,7 +4,7 @@ export interface PopoverListIconType {
   key?: string;
   color?: string;
   id?: number | string;
-  title?: string;
+  title?: string | ReactNode;
   bgColor?: string;
   border?: boolean;
   icon?: ReactNode;
