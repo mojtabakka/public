@@ -1,6 +1,6 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function middleware(request) {
   const token = request?.cookies?.get("token")?.value;
   const redirectPath = `/login?back_url=${request.nextUrl.pathname}${request.nextUrl.search}`;
   if (!token && request.nextUrl.pathname !== "/login")
@@ -9,8 +9,8 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname === "/shipping" ||
     request.nextUrl.pathname === "/payment"
   ) {
-    const cart = request.cookies.get("cart");
-    const cartNumber = cart && cart?.value ? JSON.parse(cart.value).length : 0;
+    // const cart = request.cookies.get("cart");
+    // const cartNumber = cart && cart?.value ? JSON.parse(cart.value).length : 0;
     // if (cartNumber == 0)
     //   return NextResponse.redirect(new URL("/cart", request.url));
   }

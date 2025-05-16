@@ -5,11 +5,12 @@ import { Icon } from '@iconify/react'
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import ProductCard from '../product-card'
-import { Product } from '@/types/product.type'
 import { fetchProducts } from '@/actions/fetch-product.action'
 import ProductCardSkeleton from '@/skeletons/product-cart-skeleton'
+
 interface propsType {
     hasMore: boolean;
+    initLoading: boolean;
     initialData: Array<
         {
             model: string,
@@ -40,11 +41,13 @@ interface propsType {
 export default function ProductList(props: propsType) {
     const [hasmore, setHasmore] = useState<boolean>(props.hasMore)
     const [items, setItems] = useState(props.initialData);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(props.initLoading)
     const [currentPage, setCurrentPage] = useState(2);
     useEffect(() => {
-        if (props.initialData) setLoading(false)
-    }, [props.initialData])
+        // setLoading(false)
+        setItems(props.initialData)
+        setLoading(props.initLoading)
+    }, [props.initLoading])
     const loadMore = async () => {
         setLoading(true)
         setCurrentPage((data) => data++)
@@ -68,7 +71,7 @@ export default function ProductList(props: propsType) {
                 }
                 scrollableTarget="scrollableDiv"
             >
-                <div className="  mt-5 w-full md:mt-1   grid lg:grid-cols-4 mx-0   md:grid-cols-3 sm:grid-cols-2 grid-cols-1  h-full gap-2">
+                <div className="   w-full md:mt-1   grid lg:grid-cols-4 mx-0   md:grid-cols-3 sm:grid-cols-2 grid-cols-1  h-full gap-2">
                     {!isEmpty(items) &&
                         items.map((item, index) => (
                             <span key={`${index}${item.product_id}`}>
@@ -83,7 +86,13 @@ export default function ProductList(props: propsType) {
                         loading && Array(8).fill(9).map((_, index) => <div key={index}> <ProductCardSkeleton /></div>)
                     }
                 </div>
-            </InfiniteScroll>
-        </div>
+            </InfiniteScroll >
+            {!loading && isEmpty(items) && < div className="w-full flex justify-center p-10">
+                <div className='  rounded justify-center w-fit p-16 '>
+                    <Icon className=' my-8' icon="iconoir:chat-bubble-empty" width="200" height="200" />
+                    کالایی با این ويژگی موجود نمی باشد
+                </div>
+            </div>}
+        </div >
     )
 }

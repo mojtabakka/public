@@ -2,9 +2,9 @@ import { convertMiladiDateToJalaliDate } from '@/utils/function.utils';
 import { isEmpty, isFunction } from 'lodash';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import moment from '@/utils/momentJalali.util';
-import { fetchInstanceClient } from '@/utils/fetch-client';
 import { endpoints } from '@/utils/end-points';
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { fetchInstance } from '@/utils/fetch';
 
 interface PropsType {
     onSelectTime: (item: string) => void;
@@ -20,10 +20,9 @@ interface daysType {
 export default function SelectShippingTime(props: PropsType) {
     const { onSelectTime } = props;
     const [days, setDays] = useState<Array<daysType>>([]);
-
     const currentOrder = async () => {
         try {
-            const currentOrder = await fetchInstanceClient(endpoints.order.getCurrentOrder, { cache: "no-cache" });
+            const currentOrder = await fetchInstance(endpoints.order.getCurrentOrder, { cache: "no-cache" });
             return currentOrder?.data?.shippingTime || null;
         } catch (error) {
             console.error('Error fetching current order:', error);

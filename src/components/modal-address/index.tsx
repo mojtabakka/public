@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Icon } from '@iconify/react'
 // import { Loading } from "../Loading";
 import { Address } from "@/types/address.type";
@@ -9,88 +9,103 @@ import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
 
 interface propsType {
+    addresses: Array<Address>
     show: boolean
     onSubmit?: () => void
     loading?: boolean
     onClose?: () => void,
     onChangeRadio?: () => void,
     onClickAddAddress?: () => void
+    onChangeActiveAddress?: () => void
 }
-function ModalAddressTemplate(props: propsType) {
-    const [addresses, setAddresses] = useState<Array<Address>>([]);
+function ModalAddress(props: propsType) {
     const {
         onClose,
         show,
         onSubmit,
-        onClickAddAddress } = props
+        onClickAddAddress,
+        addresses,
+        onChangeActiveAddress
+    } = props
 
-    useEffect(() => { getAllAddresses() }, [])
+    const handleChangeActiveAddrss = async (item) => {
+        try {
+            try {
+                await fetchInstance(endpoints.address.changeActiveAddress.replace(":id", item.target.value), { method: "PUT" })
+                if (isFunction(onChangeActiveAddress)) onChangeActiveAddress()
+            } catch (error) {
+                console.log('error', error)
+            }
 
-    const getAllAddresses = async () => {
-        const myAddresses = await fetchInstance(endpoints.address.addAddress, { cache: "no-cache" });
-        setAddresses(myAddresses.data);
-    };
+        } catch (error) {
+            console.log('error', error)
+        }
+
+    }
 
     const content = (
-        <div className="lg:h-96 md:h-96 overflow-scroll">
-            {!isEmpty(addresses) && addresses ? (
-                addresses.map((item, index) => {
-                    return (
-                        <div
-                            className="border mt-2  rounded-lg p-3 flex items-center bg-white "
-                            key={index}
-                        >
-                            <div className="mx-5">
-                                <FormControl>
+        <div className="lg:h-96 md:h-96 overflow-scroll px-3">
+            <FormControl
+                className="w-full"
 
-                                    <RadioGroup
-                                        aria-labelledby="demo-radio-buttons-group-label"
-                                        name="radio-buttons-group"
-                                    >
-                                        <FormControlLabel value={item.id} control={<Radio checked={item.active} />} label="" />
-                                    </RadioGroup>
-                                </FormControl>
-                            </div>
-                            <div>
+            >
+                <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    name="payment"
+                    onChange={handleChangeActiveAddrss}
+                >
+                    {!isEmpty(addresses) && addresses ? (
+                        addresses.map((item, index) => {
+                            return (
+                                <div
+                                    className="border mt-2   rounded-lg p-3 flex items-center bg-white "
+                                    key={index}
+                                >
+                                    <div className="mx-5">
+                                        <FormControlLabel value={item.id} control={<Radio checked={item.active} />} label="" name="payment" />
+                                    </div>
+                                    <div>
 
-                                <div className="my-4">
-                                    <Icon icon="fluent:mail-32-regular" className=" inline-block text-base" />
-                                    <span className=" mx-2 text-gray-400 ">
+                                        <div className="my-4">
+                                            <Icon icon="fluent:mail-32-regular" className=" inline-block text-base" />
+                                            <span className=" mx-2 text-gray-400 ">
 
-                                        {item.postalCode}
-                                    </span>
+                                                {item.postalCode}
+                                            </span>
+                                        </div>
+
+                                        <div className="my-4">
+                                            <Icon icon="circum:mobile-3" className=" inline-block text-base" />
+                                            <span className=" mx-2 text-gray-400 ">
+                                                {item.recivermobile}
+                                            </span>
+                                        </div>
+
+                                        <div className="my-4">
+                                            <Icon icon="fa6-solid:person" className=" inline-block text-base" />
+                                            <span className=" mx-2 text-gray-400 ">
+                                                {item.receivername} {item.receiverlastname}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div className="my-4">
-                                    <Icon icon="circum:mobile-3" className=" inline-block text-base" />
-                                    <span className=" mx-2 text-gray-400 ">
-                                        {item.recivermobile}
-                                    </span>
+                            );
+                        })
+                    ) : (
+                        <div className="flex items-center justify-center h-full">
+                            <span onClick={onClickAddAddress} className=" cursor-pointer">
+                                <div className="text-center flex justify-center">
+                                    <Icon icon="fluent:location-add-20-filled" className="  text-5xl text-blue-400" />
                                 </div>
-
-                                <div className="my-4">
-                                    <Icon icon="fa6-solid:person" className=" inline-block text-base" />
-                                    <span className=" mx-2 text-gray-400 ">
-                                        {item.receivername} {item.receiverlastname}
-                                    </span>
+                                <div className="px-2 text-medium text-blue-400">
+                                    افزودن ادرس جدید
                                 </div>
-                            </div>
+                            </span>
                         </div>
-                    );
-                })
-            ) : (
-                <div className="flex items-center justify-center h-full">
-                    <span onClick={onClickAddAddress} className=" cursor-pointer">
-                        <div className="text-center flex justify-center">
-                            <Icon icon="fluent:location-add-20-filled" className="  text-5xl text-blue-400" />
-                        </div>
-                        <div className="px-2 text-medium text-blue-400">
-                            افزودن ادرس جدید
-                        </div>
-                    </span>
-                </div>
-            )}
-        </div>
+                    )}
+                </RadioGroup >
+            </FormControl >
+        </div >
     );
     return (
         <>
@@ -130,4 +145,4 @@ function ModalAddressTemplate(props: propsType) {
     );
 }
 
-export default ModalAddressTemplate;
+export default ModalAddress;

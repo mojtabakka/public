@@ -7,7 +7,6 @@ import {
 } from "@/components";
 import { useRouter } from "next/navigation";
 import { isEmpty } from "lodash";
-import { fetchInstance } from "@/utils/fetch";
 import { Cart } from "@/types/cart.type";
 import { Address } from "@/types/address.type";
 import ModalAddAddress from "@/components/Modal-add-address";
@@ -17,15 +16,16 @@ import ShippingPrice from "@/components/shipping-price";
 import SelectShippingTime from "@/components/select-shipping-time";
 import { Product } from "@/types/product.type";
 import ShippingSkeleton from "@/skeletons/shipping.skeleton";
+import { fetchInstance } from "@/utils/fetch";
 
 const Shipping = () => {
     const [address, setAddress] = useState<Address>();
+    const [addresses, setAddresses] = useState<Array<Address>>([]);
     const [showModal, setShowModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [cart, setCart] = useState<Array<{ [key: string]: any }>>();
     const [shippingTime, setShippingTime] = useState<string>();
     const [modalAddressesState, setModalAddressesState] = useState(true);
-    const [loading, setLoading] = useState<boolean>(true);
     const [addressLoading, setAddressLoading] = useState<boolean>(true);
     const router = useRouter();
 
@@ -33,13 +33,11 @@ const Shipping = () => {
         getAllAddresses();
     }, []);
     const addProductsOrder = async () => {
-
         try {
             if (!address) setShowModal(true);
 
             if (shippingTime && address) {
                 await fetchInstance(endpoints.order.addOrder, {
-                    cache: "no-store",
                     method: "POST", body: {
                         shippingTime
                     }
@@ -54,10 +52,11 @@ const Shipping = () => {
 
     const getAllAddresses = async () => {
         try {
-
             setAddressLoading(true)
-            const myAaddress = await fetchInstance(endpoints.address.getActiveAddress, { cache: "no-store" });
-            setAddress(myAaddress.data);
+            const myAaddress = await fetchInstance(endpoints.address.address);
+            const activAddress = myAaddress.data.find((address) => address.active)
+            setAddresses(myAaddress.data)
+            setAddress(activAddress);
         } catch (error) {
             console.log('error', error)
         } finally {
@@ -175,6 +174,8 @@ const Shipping = () => {
                 onResult={handleResult}
             />
             <ModalAddress
+                onChangeActiveAddress={() => getAllAddresses()}
+                addresses={addresses}
                 onClickAddAddress={handleClickAddAddress}
                 show={showModal}
                 onClose={() => setShowModal(false)}

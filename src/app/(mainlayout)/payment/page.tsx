@@ -2,7 +2,6 @@
 import moment from "moment-jalaali";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { Card } from "@/components";
 import ShippingPrice from "@/components/shipping-price";
 import { getMonthName, groupBy } from "@/utils/function.utils";
@@ -34,7 +33,7 @@ export default function Payment() {
     try {
       const order = await fetchInstance(endpoints.order.getCurrentOrder, { cache: "no-cache" });
 
-      if (!order.data) router.push("cart");
+      // if (!order.data) router.push("cart");s
       if (order.data) {
         setShowPage(true);
 

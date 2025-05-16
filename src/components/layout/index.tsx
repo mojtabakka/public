@@ -13,15 +13,15 @@ export default async function Layout() {
   let categories: Array<Catergory> = []
   try {
 
-    const cates = await fetchInstance(endpoints.category.getCatergoris, { cache: "no-store" })
-    categories = cates.data
+    const cates = await fetchInstance(endpoints.category.getCatergoris)
+    categories = cates.data.data
   } catch (error) {
     console.log('error', error)
   }
   return (
     <>
 
-      <header className="shadow-lg bg-white z-50 sticky">
+      <header className="shadow-lg bg-white z-50 sticky top-0 ">
         <div>
           <div
             className=" text-2xl flex justify-between items-center px-4  lg:hidden"

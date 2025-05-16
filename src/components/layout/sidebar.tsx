@@ -47,8 +47,8 @@ export default function Sidebar(props: propsType) {
 
     const CreateSidebarItem = () => {
         const items: Array<menueDataType> = [];
-        if (isEmpty(categories))
-            categories.forEach((item) => {
+        if (!isEmpty(categories))
+            categories?.forEach((item) => {
                 const catId = item.id;
                 const data: menueDataType = {};
                 const brands: menueDataType = {};
@@ -58,7 +58,7 @@ export default function Sidebar(props: propsType) {
                 data.label = item.title;
                 data.path = {
                     query: {},
-                    pathname: "/" + catId,
+                    pathname: `products?category=${catId}`,
                 };
                 data.items = []
 
@@ -68,7 +68,7 @@ export default function Sidebar(props: propsType) {
                     brands.items = [];
                     brands.path = {
                         query: '',
-                        pathname: "/" + catId,
+                        pathname: `products?category=${catId}`,
                     };
                     if (!isEmpty(item.brands)) item.brands.forEach((item) => {
                         if (brands.items) brands.items.push({
@@ -76,7 +76,7 @@ export default function Sidebar(props: propsType) {
                             label: item.brand,
                             path: {
                                 query: { type: item.id },
-                                pathname: "/" + catId,
+                                pathname: `products?category=${catId}&brand=${item.id}`,
                             },
                         });
                     });
@@ -89,7 +89,7 @@ export default function Sidebar(props: propsType) {
                     types.items = [];
                     types.path = {
                         query: '',
-                        pathname: "/" + catId,
+                        pathname: `products?category=${catId}`,
                     };
                     if (!isEmpty(item.productTypes)) item.productTypes.forEach((item) => {
                         if (types.items) types.items.push({
@@ -97,7 +97,7 @@ export default function Sidebar(props: propsType) {
                             label: item.type,
                             path: {
                                 query: { type: item.id },
-                                pathname: "/" + catId,
+                                pathname: `products?category=${catId}&type=${item.id}`,
                             },
                         });
                     });
@@ -123,14 +123,11 @@ export default function Sidebar(props: propsType) {
                         });
                     });
                 }
-                if (!isEmpty(properties)) data.items.push(properties);
+                // if (!isEmpty(properties)) data.items.push(properties);
                 items.push(data);
             });
-        // console.log(items)
         setSidbarItems(items);
     };
-
-
     return (
 
         <div>
@@ -148,8 +145,8 @@ export default function Sidebar(props: propsType) {
                         <Logo />
                     </div>
 
-                    <div className=" h-screen  z-0">
-                        <div style={{ height: "92%" }} className="   overflow-y-scroll">
+                    <div className="   z-0">
+                        <div style={{ height: "100%" }}>
                             <div className={` w-full `}>
                                 {(!isEmpty(sidbarItems)) &&
                                     sidbarItems.map((sidebarItem, index) => (
@@ -158,7 +155,7 @@ export default function Sidebar(props: propsType) {
                                             sidebarStatus={SidebarStatus}
                                             key={`${sidebarItem.name}${index}`}
                                             {...sidebarItem}
-                                            onClickSidbarItem={() => console.log('hello')}
+                                            onClickSidbarItem={(item) => console.log(item)}
                                         />
                                     ))
                                 }

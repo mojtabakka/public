@@ -25,7 +25,6 @@ const ShippingPrice: React.FC<PropsType> = ({
     const [purePrice, setPurePrice] = useState<number | null>(null);
     const [shippingPrice, setShippingPrice] = useState<number | null>(null);
     const [loading, setLoading] = useState<boolean>(true); // Add loading state
-    const [error, setError] = useState<string | null>(null); // Error state
     const getCart = useCallback(async () => {
         try {
             setLoading(true)
@@ -37,7 +36,6 @@ const ShippingPrice: React.FC<PropsType> = ({
             if (isFunction(onCartItem)) onCartItem(cart.data);
             setLoading(false); // Stop loading
         } catch (error) {
-            setError("Error fetching cart"); // Handle error
             setLoading(false); // Stop loading on error
             console.error("Error fetching cart:", error);
         } finally {
@@ -52,7 +50,7 @@ const ShippingPrice: React.FC<PropsType> = ({
     return (
         <>
             {!loading && < div className="w-full text-xs mt-4 mx-0 md:mx-2 lg:mx-2 md:mt-0 lg:mt-0 md:w-1/2 lg:w-1/3">
-                <Card>
+                <Card className='mb-20 md:mb-0 lg:mb-0'>
                     <div className="border w-full rounded-lg p-4">
                         <div className="flex justify-between my-4">
                             <div>قیمت کالاها</div>

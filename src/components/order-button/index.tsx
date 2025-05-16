@@ -8,35 +8,39 @@ import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
 import { Button } from "..";
 import { setSumOfCart } from "@/redux/slices/generalSlice";
+import { isFunction } from "lodash";
+import { englishToPersianNumbers } from "@/utils/function.utils";
+import { Skeleton } from "@mui/material";
 
 interface propsType {
-    model: string
+    model: string,
+    onNumberOfOrder?: (number: number) => void
 }
 
 export default function OrderButton(props: propsType) {
     const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(true)
     const [numberOfOrder, setNumberOfOrder] = useState<number>(0);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         getNumberOfProductFunc();
-
     }, []);
     const getNumberOfProductFunc = async () => {
-        setLoading(true)
+        setLoading2(true)
         const CartId = localStorage.getItem("cartId") || ''
         if (CartId) {
             try {
                 const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", CartId)}?model=${props.model}`)
-
-                setNumberOfOrder(response.data.count || 0)
+                setNumberOfOrder(response.data.total || 0)
+                if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
                 dispatch(setSumOfCart(response.data.total));
 
             } catch (error) {
                 console.log('error', error)
             } finally {
-                setLoading(false)
+                setLoading2(false)
             }
         }
     };
@@ -53,7 +57,7 @@ export default function OrderButton(props: propsType) {
                 }
             });
             setNumberOfOrder(response.data.count)
-
+            if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
             dispatch(setSumOfCart(response.data.total));
 
         } catch (error) {
@@ -74,9 +78,9 @@ export default function OrderButton(props: propsType) {
                     cartId: CartId ? CartId : ''
                 }
             });
-            console.log(response.data)
             if (!CartId) localStorage.setItem('cartId', response.data?.cartId ? response.data.cartId : '')
             setNumberOfOrder(+response.data.count)
+            if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
             dispatch(setSumOfCart(response.data.total));
         } catch (error) {
             console.log("error", error);
@@ -105,7 +109,7 @@ export default function OrderButton(props: propsType) {
                                 />
                             </div>
                         ) : (
-                            <span className="text -blue-400">{numberOfOrder}</span>
+                            <span className="text -blue-400">{englishToPersianNumbers(numberOfOrder)}</span>
                         )}
                     </span>
                     <span className="px-2" onClick={handleClickBin}>
@@ -114,8 +118,9 @@ export default function OrderButton(props: propsType) {
                 </button>
             </span>}
             {
-                numberOfOrder === 0 && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
+                numberOfOrder === 0 && !loading2 && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
             }
+            {loading2 && <Skeleton variant="rectangular" className=" w-full rounded" height={40}></Skeleton>}
         </>
     );
 }

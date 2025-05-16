@@ -16,10 +16,12 @@ export const endpoints = {
     getCurrentOrder: "orders/get-current-order",
     addtoCartAfterLogin: "orders/add-to-cart-after-login/:id",
   },
+
   address: {
     address: "address",
     addAddress: "address",
     getActiveAddress: "address/get-active-address",
+    changeActiveAddress: "address/change-active-address/:id",
   },
 
   user: {
@@ -27,6 +29,7 @@ export const endpoints = {
   },
   category: {
     getCatergoris: "category",
+    getCatergory: "category/get-cat",
   },
   product: {
     getProduct: "product/public/:model",

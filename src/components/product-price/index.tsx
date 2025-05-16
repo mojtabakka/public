@@ -1,14 +1,12 @@
 'use client'
 
-import React from "react";
+import React, { useState } from "react";
 import OrderButton from "@/components/order-button";
 import { Icon } from '@iconify/react'
 import Link from "next/link";
 import { Product } from "@/types/product.type";
 import { addCommasSeprator, englishToPersianNumbers } from "@/utils/function.utils";
 import { Badge } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
 
 interface PropsType {
@@ -16,7 +14,7 @@ interface PropsType {
 }
 
 export default function ProductPrice(props: PropsType) {
-    const cartCount = useSelector((item: RootState) => item.general.sumCart);
+    const [numberOfOrder, setNumberOfOrder] = useState<number>(0);
     const { product } = props
     const { warranty, priceForUser, deliveryMethod, off, model } = product;
     return (
@@ -82,12 +80,13 @@ export default function ProductPrice(props: PropsType) {
                         </div>
                     </div>
                 </div>
-                <div className="w-full text-right  mb-0  flex-1 hidden lg:inline-block">
+                <div className="w-full text-right     flex-1  hidden justify-between  lg:flex">
                     <>
-                        <OrderButton model={model} />
-                        {cartCount > 0 && <Link
+                        <OrderButton model={model} onNumberOfOrder={(item) => setNumberOfOrder(item)} />
+                        {numberOfOrder > 0 && <Link
                             href={"/cart"}
-                            className="text-xs p-2 text-blue-300 cursor-pointer"
+                            className="p-2 text-blue-300 cursor-pointer  font-extrabold text-sm"
+
                         >
                             مشاهده سبد خرید
                         </Link>}
@@ -98,13 +97,13 @@ export default function ProductPrice(props: PropsType) {
                     <div className="w-full text-center my-3 items-center flex  align-middle lg:hidden">
                         <div className="w-full text-right   ">
                             <>
-                                <OrderButton model={model} />
-                                {cartCount > 0 && < Link
+                                <OrderButton model={model} onNumberOfOrder={(item) => setNumberOfOrder(item)} />
+                                {/* {numberOfOrder > 0 && < Link
                                     href="/cart"
                                     className=" p-2 text-blue-300 cursor-pointer text-xs"
                                 >
                                     مشاهده سبد خرید
-                                </Link>}
+                                </Link>} */}
                             </>
                         </div>
                         <div className=" w-8/12 flex justify-end  items-center  ">
@@ -112,19 +111,19 @@ export default function ProductPrice(props: PropsType) {
                                 <div className=" text-right">
                                     <div className=" text-gray-400 text-xs   ">
                                         {off
-                                            ? addCommasSeprator(
-                                                Math.round(Number(priceForUser) - Number(priceForUser) * (off / 10)).toString()
+                                            ? englishToPersianNumbers(addCommasSeprator(
+                                                Math.round(Number(priceForUser) - Number(priceForUser) * (off / 10)).toString())
                                             )
-                                            : addCommasSeprator(priceForUser)}
+                                            : englishToPersianNumbers(addCommasSeprator(priceForUser))}
 
                                         <span className="px-1">تومان</span>
                                     </div>
                                     {off && (
                                         <div className="line-through ">
-                                            {addCommasSeprator(priceForUser)}
+                                            {englishToPersianNumbers(addCommasSeprator(priceForUser))}
                                         </div>
                                     )}
-                                    <Badge className=" inline-block  text-xs p-1   font-black text-red-400 " color="error" >{off}% تخفیف</Badge>
+                                    <Badge className=" inline-block  text-xs p-1   font-black text-red-400 " color="error" >{englishToPersianNumbers(off)}% تخفیف</Badge>
                                 </div>
                             </div>
 

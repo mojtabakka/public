@@ -10,12 +10,9 @@ import { RootState } from '@/redux/store';
 import { setSumOfCart } from '@/redux/slices/generalSlice';
 import { fetchInstance } from '@/utils/fetch';
 import { endpoints } from '@/utils/end-points';
-interface propsType {
-    carts: string
-}
+import { englishToPersianNumbers } from '@/utils/function.utils';
 
-
-export default function CartIcon(props: propsType) {
+export default function CartIcon() {
     const dispatch = useDispatch();
     useEffect(() => {
         getCartCount()
@@ -32,9 +29,20 @@ export default function CartIcon(props: propsType) {
 
     return (
         <>
-            <Badge badgeContent={cartCount} color="error">
+            <Badge badgeContent={englishToPersianNumbers(cartCount)} color="error" sx={{
+                '& .MuiBadge-badge': {
+                    fontSize: '0.7rem', // سایز پیش‌فرض
+                    height: '20px',
+                    minWidth: '20px',
+                    '@media (max-width: 600px)': {
+                        fontSize: '0.6rem', // سایز در حالت موبایل
+                        height: '17px',
+                        minWidth: '18px',
+                    },
+                },
+            }}>
                 <Link href={"/cart"} >
-                    <Icon icon="uil:cart" className=" cursor-pointer  text-4xl" />
+                    <Icon icon="uil:cart" className=" cursor-pointer  lg:text-3xl text-2xl" />
                 </Link>
             </Badge>
 

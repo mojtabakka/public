@@ -1,4 +1,6 @@
 "use client";
+// import { loadEnvConfig } from "@next/env";
+// loadEnvConfig(process.cwd());
 export async function fetchInstanceClient<B = undefined>(
   url: string,
   data?: {
@@ -18,9 +20,11 @@ export async function fetchInstanceClient<B = undefined>(
       ...(data?.headers || {}),
     },
     body: data?.body ? JSON.stringify(data.body) : undefined, // Only include body if provided
-    cache: data?.cache,
+    cache: data?.cache || "no-cache",
     credentials: "include", // Include credentials in the request
   };
+
+  console.log("Base URL in client component:", process.env);
 
   // Perform the fetch request
   const response = await fetch(`${baseURL}${url}`, requestConfig);

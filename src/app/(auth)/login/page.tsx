@@ -1,14 +1,15 @@
 
 'use client'
-
 import { Button, Form, Logo, TextFiled } from '@/components';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { endpoints } from '@/utils/end-points';
 import { fetchInstance } from '@/utils/fetch';
-export default function Login() {
+// import { isArray } from 'lodash';
+export default function Login({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+
   const router = useRouter()
   const defaultValues = {
     phoneNumber: ''
@@ -26,12 +27,19 @@ export default function Login() {
     toast.promise(promise, {
       loading: "لطفا منتظر بمانید",
       success: "کد تایید به شماره همراه شما ارسال شد",
-      error: (error) => error?.message[0] || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
+      error: (error) => error.message || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
     });
     try {
-      await promise;
-      router.push(`send-otp?phoneNumber=${data.phoneNumber.replaceAll(" ", "")}`)
-      
+      const loginData = await promise;
+      toast.success('کد تایید :' + loginData.data.otpCode, {
+        duration: 5000,
+        position: "top-center"
+      });
+
+      const params = new URLSearchParams();
+      if (searchParams?.back_url) params.set("back_url", searchParams?.back_url);
+      params.set("phoneNumber", data.phoneNumber.replaceAll(" ", ""));
+      router.replace(`send-otp?${params}`)
     } catch (error) {
       console.log('error', error)
     }
@@ -54,7 +62,7 @@ export default function Login() {
           <div className="py-4 text-center mt-10 ">
             <Button
               loading={isSubmitting}
-              fullWidth
+            fullWidth
               variant='contained'
 
               className="  !w-full"

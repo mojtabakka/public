@@ -20,10 +20,12 @@ const ACTIONS = {
 
 const TAB_ITEMS = [
     {
+        id: 1,
         title: "سفارش های جاری",
         action: ACTIONS.CURRENT_ORDERS,
     },
     {
+        id: 2,
         title: "تحویل شده",
         action: ACTIONS.COMPLETED_ORDERS,
     },
@@ -54,7 +56,6 @@ export default function OrderDetails() {
             switch (item.action) {
                 case ACTIONS.CURRENT_ORDERS:
                     orders = item.action !== tabAction && (await fetchInstance(endpoints.order.getCurrentOrders, { cache: "no-cache" })).data;
-                    console.log(orders)
                     setTabAction(item.action);
                     break;
                 case ACTIONS.COMPLETED_ORDERS:
@@ -85,8 +86,8 @@ export default function OrderDetails() {
                 <div>
                     {!isEmpty(orders) && orders &&
                         orders.map((order, key) => {
-                            const products = order?.cart?.products
-                                ? groupBy<Product>(order?.cart?.products, "model")
+                            const products = order?.products
+                                ? groupBy<Product>(order?.products, "model")
                                 : null;
                             return (
                                 <div
@@ -122,7 +123,7 @@ export default function OrderDetails() {
                                                 return (
                                                     <div className="flex p-2 mx-2 " key={index}>
                                                         <img
-                                                            src={data?.photos[0]?.src}
+                                                            src={process.env.NEXT_PUBLIC_BASE_URL + data.photos[0].src}
                                                             className="  w-16 h-16 lg:w-24 lg:h-24 md:w-24 md:h-24"
                                                         />
                                                         <div className="relative">
@@ -138,7 +139,7 @@ export default function OrderDetails() {
                                             })}
                                     </div>
                                     <div className=" text-left p-3 text-medium text-blue-500 mt-2 cursor-pointer">
-                                        مشاهده فاکتور
+                                        مشاهده جزئیات
                                     </div>
                                 </div>
                             );
@@ -160,8 +161,6 @@ export default function OrderDetails() {
                 </>
             )
             }
-
-            {/* <Loading show={isLoading} /> */}
         </div >
     );
 

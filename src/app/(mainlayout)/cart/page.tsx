@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from '@iconify/react'
 import { CartBox, Card, Button } from "@/components";
-import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import { isEmpty, sumBy } from "lodash";
-import { getToman, groupBy } from "@/utils/function.utils";
+import { englishToPersianNumbers, getToman, groupBy } from "@/utils/function.utils";
 import { RootState } from "@/redux/store";
 import CalPricesBoxSkeleton from "@/skeletons/cal-prices-box.skeleton";
 import { Product } from "@/types/product.type";
 import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
+
+export const dynamic = "force-dynamic";
+
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState<Array<{ [key: string]: any }>>();
@@ -39,17 +41,19 @@ const Cart = () => {
         setBenefit(purePrice - sumFinalPrice);
     };
     const getBasekt = async () => {
-
-
-        try {
-            const response = await fetchInstance(endpoints.order.getCurrentBasket.replace(":cartId", localStorage.getItem("cartId") || ''))
-            console.log(response)
-            const data = groupBy<Product>(response.data.products, "model");
-            calculatePrices(data);
-            setCartItems(data);
-        } catch (error) {
-            console.log('error', error)
-        } finally {
+        if (localStorage.getItem("cartId")) {
+            try {
+                const response = await fetchInstance(endpoints.order.getCurrentBasket.replace(":cartId", localStorage.getItem("cartId") || ''))
+                const data = groupBy<Product>(response.data.products, "model");
+                calculatePrices(data);
+                setCartItems(data);
+            } catch (error) {
+                setCartItems([])
+                console.log('error', error)
+            } finally {
+            }
+        } else {
+            setCartItems([])
         }
     };
     return (
@@ -63,26 +67,26 @@ const Cart = () => {
                         <div>
                             <div className=" flex justify-between">
                                 <div>
-                                    <Icon icon="ic:baseline-price-check" className=" inline-block text-xl " />
-                                    <span className="px-2">قیمت کالاها</span>
+                                    <Icon icon="ic:baseline-price-check" className=" inline-block text-base  md:text-xl  " />
+                                    <span className="px-2 text-xs md:text-sm">قیمت کالاها</span>
                                 </div>
-                                <div>{getToman(Number(sumPrice))} تومان</div>
+                                <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(sumPrice)))} تومان</div>
                             </div>
                             <hr className="my-5" />
-                            <div className=" flex justify-between">
+                            <div className=" flex justify-between text-xs md:text-sm">
                                 <div>
-                                    <Icon icon="ic:baseline-price-check" className=" inline-block text-xl " />
-                                    <span className="px-2">جمع سبد خرید</span>
+                                    <Icon icon="ic:baseline-price-check" className="inline-block text-base  md:text-xl " />
+                                    <span className="px-2 text-xs md:text-sm">جمع سبد خرید</span>
                                 </div>
-                                <div>{getToman(Number(sumFinalPrice))} تومان</div>
+                                <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(sumFinalPrice)))} تومان</div>
                             </div>
                             <hr className="my-5" />
                             <div className=" flex justify-between text-red-500">
                                 <div>
-                                    <Icon icon="game-icons:profit" className=" inline-block text-xl" />
-                                    <span className="px-2">سود شما از خرید</span>
+                                    <Icon icon="game-icons:profit" className=" inline-block text-base  md:text-xl" />
+                                    <span className="px-2 text-xs md:text-sm">سود شما از خرید</span>
                                 </div>
-                                <div className="">{getToman(Number(benefit))} تومان</div>
+                                <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(benefit)))} تومان</div>
                             </div>
                             <div className="w-full mt-10  mb-3 text-center">
                                 <Link href={"shipping"} >

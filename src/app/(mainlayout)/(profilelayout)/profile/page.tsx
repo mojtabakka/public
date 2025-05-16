@@ -6,9 +6,10 @@ import { endpoints } from "@/utils/end-points";
 import { z as zod } from 'zod'
 import { useForm } from "react-hook-form";
 import { User } from "@/types/user.type";
-import { toast } from "sonner";
 import { isArray } from "lodash";
 import { zodResolver } from "@hookform/resolvers/zod";
+export const dynamic = "force-dynamic";
+
 const INPUT_NAMES = {
     name: "name",
     lastname: "lastName",
@@ -18,28 +19,13 @@ const INPUT_NAMES = {
     password: "password",
     birthDate: "birthDate"
 };
+import moment from '@/utils/momentJalali.util'
+import { getUser } from "./actions";
+import toast from "react-hot-toast";
 
 export default function Profile() {
     const [user, setUser] = useState<User>();
-    useEffect(() => {
-        getProfileUser();
-    }, []);
-    const getProfileUser = async () => {
-        const promise = fetchInstance(endpoints.user.user, { cache: "no-cache" });
-        toast.promise(promise, {
-            loading: "لطفا منتظر بمانید",
-            error: (error) => (isArray(error?.message) ? error?.message[0] : error.message) || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
-        });
-        try {
-            const user = await promise
-            console.log(user.data)
-            setUser(user.data);
-        } catch (error) {
-            console.log('error', error)
-        }
-    };
-
-    const defaultValues = {
+    const [defaultValues, setDefaultValues] = useState({
         name: user?.name || "",
         lastName: user?.lastName || "",
         nationalCode: user?.nationalCode || "",
@@ -47,6 +33,39 @@ export default function Profile() {
         phoneNumber: user?.phoneNumber || "",
         password: user?.password || "",
         birthDate: ""
+    })
+    useEffect(() => {
+        getProfileUser();
+    }, []);
+    const getProfileUser = async () => {
+        const promise = getUser()
+        toast.promise(promise, {
+            loading: "لطفا منتظر بمانید",
+            error: (error) => (isArray(error?.message) ? error?.message[0] : error.message) || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
+        });
+        try {
+
+            const user = await promise
+
+            setValue("name", user.data.name || "");
+            setValue("lastName", user.data.lastName || "");
+            setValue("nationalCode", user.data.nationalCode || "");
+            setValue("phoneNumber", user.data.phoneNumber || "");
+            setValue("email", user.data.email || "");
+            setValue("birthDate", moment(user?.data?.birthDate).format('jYYYY/jMM/jDD') || "");
+            setDefaultValues({
+                name: "",
+                lastName: "",
+                nationalCode: "",
+                email: "",
+                phoneNumber: "",
+                password: "",
+                birthDate: "",
+            })
+            setUser(user.data);
+        } catch (error) {
+            console.log('error', error)
+        }
     };
     const UserQuickEditSchema = zod.object({
         name: zod.string().trim().min(1, { message: "نام را وارد کنید" }),
@@ -65,7 +84,7 @@ export default function Profile() {
         password: zod
             .string()
             .trim()
-            .min(8, { message: "رمز عبور باید حداقل 8 کاراکتر باشد" }),
+            .min(8, { message: "رمز عبور باید حداقل 8 کاراکتر باشد" }).optional(),
         birthDate: zod
             .string()
             .trim()
@@ -79,18 +98,16 @@ export default function Profile() {
     });
     const {
         handleSubmit,
+        setValue,
         formState: { isSubmitting },
     } = methods;
-
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data)
-        console.log(data)
+        data.birthDate = moment(data.birthDate, "jYYYY/jMM/jDD").format("YYYY/MM/DD");
         const promise = fetchInstance(endpoints.user.user, { method: "PATCH", body: { ...data } })
         toast.promise(promise, {
             loading: "لطفا منتظر بمانید",
             success: "ویرایش اطلاعات شما با موفقیت انجام شد ",
             error: (error) => (isArray(error?.message) ? error?.message[0] : error.message) || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
-
         });
         try {
             await promise;

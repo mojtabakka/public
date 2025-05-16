@@ -1,9 +1,9 @@
 import MuiConfig from '@/components/mui-config';
 import '../globals.css'
 import { ReactNode } from "react";
-import { Toaster } from "sonner";
 import ReduxProvider from '@/components/redux-provider';
 import { CssBaseline } from '@mui/material';
+import { Toaster } from 'react-hot-toast';
 
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <body>
                 <MuiConfig >
                     <CssBaseline />
-                    <Toaster />
+                    <Toaster   position='bottom-right'/>
                     <ReduxProvider>
                         <div className=" p-4  bg-[#EEEEEE]" dir="rlt">{children}</div>
                     </ReduxProvider>

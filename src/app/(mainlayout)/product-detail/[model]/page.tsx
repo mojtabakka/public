@@ -23,7 +23,8 @@ export default async function page(props: { params: { model: string } }) {
   const product = await getProduct(props.params.model)
   return (
     <>
-      <div className=" lg:flex">
+      <div className=" lg:flex lg:flex-row  flex-col  justify-between">
+
         {!isEmpty(product) && <ProductImages product={product} />}
         {!isEmpty(product) && <ProductFeatures product={product} />}
         {!isEmpty(product) && < ProductPrice product={product} />}

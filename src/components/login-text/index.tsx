@@ -79,7 +79,7 @@ export default function LoginText() {
         <div
           className="  lg:p-4 md:p-2    flex gap-2 items-center "
         >
-          <CartIcon carts={cookieStore.get("cart")?.value || ""} />
+          <CartIcon />
           <Link
             className="  text-xs lg:text-base md:text-base  sm:text-sm text  font-bold border-x  flex  items-center gap-2 px-4 "
             href={"/login"}
@@ -92,8 +92,8 @@ export default function LoginText() {
           </Link>
         </div>
       ) : (
-        <div className="flex gap-4">
-          <CartIcon carts={cookieStore.get("cart")?.value || ""} />
+        <div className="flex lg:gap-4 gap-2 ">
+          <CartIcon />
           <PopoverListIcon
             sheetTitle={
               <IconTitleSubtitle

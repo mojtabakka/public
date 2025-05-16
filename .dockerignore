@@ -1,0 +1,8 @@
+/node_modules
+/.idea
+/build
+.git
+*.md
+.gitignore
+/.next/
+/out/

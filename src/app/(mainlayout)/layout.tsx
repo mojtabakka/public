@@ -4,8 +4,8 @@ import { ReactNode } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Layout from "@/components/layout";
 import ReduxProvider from "@/components/redux-provider";
-import { Toaster } from 'sonner'
 import MuiConfig from "@/components/mui-config";
+import { Toaster } from 'react-hot-toast';
 
 
 export default function RootLayout({ children }: { children: ReactNode }) {

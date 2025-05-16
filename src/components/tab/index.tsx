@@ -26,21 +26,21 @@ export default function Tab(props: PropsType) {
     }, [items, selectedTab]);
 
     return (
-        <div className="font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <div className="font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 text-xs md:text-sm lg:text-base">
             <ul className="flex flex-wrap -mb-px" role="tablist">
                 {items.map((item) => (
                     <li
                         key={item.id}  // Assuming `item.id` exists
                         className={`mr-2 cursor-pointer ${selectedTab?.id === item.id
-                                ? "text-blue-600 border-b-2 border-blue-300 font-bold"  // Apply blue underline and bold font on active tab
-                                : "text-gray-500 border-b-2 border-transparent font-normal" // Default tab style
+                            ? "text-blue-600 border-b-2 border-blue-300 font-bold"  // Apply blue underline and bold font on active tab
+                            : "text-gray-500 border-b-2 border-transparent font-normal" // Default tab style
                             }`}
                         onClick={() => handleTabClick(item)}
                         role="tab"
                         aria-selected={selectedTab?.id === item.id ? "true" : "false"}
                     >
                         <span
-                            className="inline-block p-4 rounded-t-lg hover:text-gray-600 dark:hover:text-gray-300"
+                            className="inline-block p-4 rounded-t-lg  dark:hover:text-gray-300"
                         >
                             {item.title}
                         </span>

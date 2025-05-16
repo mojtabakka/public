@@ -2,13 +2,16 @@
 import React, { useEffect } from "react";
 import { Icon } from '@iconify/react'
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { Card } from "@mui/material";
+import { setSumOfCart } from "@/redux/slices/generalSlice";
+import { useDispatch } from "react-redux";
 
 const FinalPayment = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        Cookies.remove("cart");
+        dispatch(setSumOfCart(0));
         setTimeout(() => {
             router.replace("/");
         }, 5000);

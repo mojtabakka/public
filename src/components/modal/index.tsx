@@ -4,6 +4,7 @@ import { Drawer } from '@mui/material'
 import React, { ReactNode } from 'react'
 import MuiModal from '@mui/material/Modal';
 interface propsType {
+    anchor?: "bottom" | "left" | "top" | "right" | undefined,
     title: string,
     onClose?: () => void,
     modalContent?: ReactNode,
@@ -15,10 +16,11 @@ interface propsType {
     sheetFooter?: ReactNode
 }
 export default function Modal(props: propsType) {
-    const { sheetContent, sheetFooter, sheetSubtitle, title, onClose, modalContent, modalFooter, className, show } = props
+    const { sheetContent, sheetFooter, sheetSubtitle, title, onClose, modalContent, modalFooter, className, show, anchor = "bottom" } = props
     return (
         <>
             <MuiModal
+
                 open={show || false}
                 onClose={onClose}
                 aria-labelledby="modal-modal-title"
@@ -71,12 +73,13 @@ export default function Modal(props: propsType) {
                     }`}
             ></div>
             <Drawer
+
                 className=" inline-block lg:hidden "
                 open={show}
                 onClose={onClose}
-                anchor="bottom"
+                anchor={anchor}
             >
-                <div>
+                <div style={{ height: "80vh" }}>
                     <header>
                         <div className="p-3  rounded-lg">
                             <div>{title} </div>

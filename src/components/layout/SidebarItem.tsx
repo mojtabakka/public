@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { colors } from "@/config/sibarMenu.config";
 import { Icon } from '@iconify/react'
 import { isFunction } from "lodash";
+import { useRouter } from "next/navigation";
 
 interface PropsType {
     depth?: number;
@@ -22,6 +23,7 @@ interface PropsType {
 }
 
 const SidebarItem = (props: PropsType) => {
+    const router = useRouter()
     const {
         depth = 0,
         depthStep = 10,
@@ -45,6 +47,7 @@ const SidebarItem = (props: PropsType) => {
     };
 
     const handleClickTitle = () => {
+        router.push(`${path.pathname}`);
         if (isFunction(onClickSidbarItem)) onClickSidbarItem(path);
     };
     return (
@@ -67,14 +70,16 @@ const SidebarItem = (props: PropsType) => {
                             >
                                 {icon}
                             </span>
-                            <span className="text-xs">{label}</span>
+                            <span className="text-xs" onClick={() => {
+
+
+                            }}>{label}</span>
                         </div>
                         {Array.isArray(items) ? (
                             <div
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     showSubNav();
-                                    // onOpenSidebar("");
                                 }}
                             >
                                 <Icon icon="ep:arrow-left"
@@ -92,7 +97,7 @@ const SidebarItem = (props: PropsType) => {
             {Array.isArray(items) ? (
                 <div
                     style={{
-                        maxHeight: `${subNav ? items.length * 110 + "px" : "0px"}`,
+                        maxHeight: `${subNav ? items.length * 200 + "px" : "0px"}`,
                         overflow: "hidden",
                         transition: "200ms linear",
                     }}

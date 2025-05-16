@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { Skeleton } from "@mui/material";
 
@@ -7,9 +8,12 @@ const ProductCardSkeleton = () => {
         >
             < div className=" relative shadow-sm  bg-white  hover:shadow-lg border rounded-lg w-full flex" >
                 <div className="  w-full flex md:block sm:block lg:block justify-between ">
-                    <figure className=" w-full flex justify-center items-center  py-4">
-                        <Skeleton variant="rounded" width={208} height={208} />
-                    </figure>
+                    <div className=" w-full flex justify-center items-center  my-4 pr-4">
+                        <Skeleton
+                            variant="rounded"
+                            className="w-24  mr-4 h-24 md:w-52 md:h-52 lg:!w-60 lg:h-60 object-cover"
+                        />
+                    </div>
                     <div className="w-full px-2  py-5 ">
                         <Skeleton variant="text" width={50} height={17} />
                         <div className="text-right mt-2 text-gray-500 text-xs ">
@@ -34,7 +38,9 @@ const ProductCardSkeleton = () => {
                         </div>
                     </div>
                 </div>
-                <Skeleton variant="text" width={50} height={17} />
+                <div className=" p-2">
+                    <Skeleton variant="text" width={50} height={17} />
+                </div>
             </div >
         </div >
     );

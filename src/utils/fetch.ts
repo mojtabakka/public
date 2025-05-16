@@ -12,9 +12,9 @@ export async function fetchInstance<B = undefined>(
   }
 ) {
   const baseURL = env.NEXT_PUBLIC_BASE_URL + "api/";
+
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
-
   const requestConfig: RequestInit = {
     method: data?.method?.toUpperCase() || "GET",
     headers: {
@@ -23,7 +23,7 @@ export async function fetchInstance<B = undefined>(
       ...(data?.headers || {}),
     },
     body: data?.body ? JSON.stringify(data.body) : undefined,
-    cache: data?.cache,
+    cache: data?.cache || "no-cache",
     credentials: "include",
   };
   const response = await fetch(`${baseURL}${url}`, requestConfig);

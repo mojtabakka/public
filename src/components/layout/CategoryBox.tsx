@@ -5,10 +5,15 @@ import { ProductType } from "@/types/productType.type";
 import { PropertyTitle } from "@/types/propertyTitle.type";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { isEmpty } from 'lodash'
-import { Property } from "@/types/property.type";
+import { isArray, isEmpty } from 'lodash'
+// import { Property } from "@/types/property.type";
 import { Icon } from "@iconify/react";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import Modal from "../modal";
+import { Filter } from "../filter";
+import { usePathname, useSearchParams } from "next/navigation";
+// import { Filter } from "../filter";
+// import Modal from "../modal";
 
 interface PropsType {
   categories: Array<Catergory>
@@ -17,12 +22,16 @@ export default function CategoryBox(props: PropsType) {
   const {
     categories
   } = props
+  const [showFilter, setShowFilter] = useState<boolean>(false)
   const [menustatus, setMenustatus] = useState<boolean>(false)
   const [cats, setCats] = useState<Array<Catergory>>([]);
   const [brands, setBrands] = useState<Array<Brand>>([]);
   const [types, setTypes] = useState<Array<ProductType>>([]);
-  const [properties, setProperties] = useState<Array<Property | PropertyTitle>>([]);
+  // const [properties, setProperties] = useState<Array<Property | PropertyTitle>>([]);
   const [catId, setCatId] = useState<string | number>();
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+  const pathname = usePathname();
   useEffect(() => {
     init();
   }, []);
@@ -40,7 +49,7 @@ export default function CategoryBox(props: PropsType) {
   const init = async () => {
     setBrands(categories[0]?.brands);
     setTypes(categories[0]?.productTypes);
-    setProperties(categories[0]?.propertyTitles);
+    // setProperties(categories[0]?.propertyTitles);
     createProperties(categories[0]?.propertyTitles);
     setCats(categories);
   };
@@ -54,7 +63,7 @@ export default function CategoryBox(props: PropsType) {
             properties.push(data);
           });
       });
-    setProperties(properties);
+    // setProperties(properties);
   };
   const handleClickOutside = () => {
     setCatId(0)
@@ -64,6 +73,12 @@ export default function CategoryBox(props: PropsType) {
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <div className=" flex ">
+      {category && pathname === "/products" && <div className=" flex gap-1 items-center px-6 pb-3 text-sm  font-extrabold  lg:hidden"
+        onClick={() => setShowFilter(true)}
+      >
+        <Icon icon="mdi:filter" width="20" height="20" />
+        <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">فیلترها</div>
+      </div>}
       <div className="w-fit" ref={ref}>
         <span className="px-6   lg:text-base text-sm  lg:flex gap-1 pb-4  w-fit   hidden menue-title items-center cursor-pointer" onMouseOver={() => setMenustatus(true)}>
           <Icon icon="gg:menu" className="cursor-pointer" />
@@ -74,7 +89,7 @@ export default function CategoryBox(props: PropsType) {
             // onMouseLeave={onMouseLeaveCatMenue}
             className={`  px-3 mt-3  py-4 shadow-2xl  min-h-96 bg-white w-1/3 h-full rounded  `}
           >
-            {cats.map((item, index) => (
+            {cats && isArray(cats) && cats.map((item, index) => (
               <div key={index}
                 className={`flex justify-between  items-center cursor-pointer p-3 rounded ${catId === item.id ? " text-blue-400  bg-gray-100" : ""} `}
                 onMouseOver={() => { handleMouseOverCat(item?.id) }}
@@ -96,8 +111,8 @@ export default function CategoryBox(props: PropsType) {
                         className="p-1 block  hover:text-blue-400  "
                         onClick={() => setMenustatus(false)}
                         href={{
-                          pathname: `/${catId}`,
-                          query: { brand: item.id },
+                          pathname: "products",
+                          query: { category: catId, brand: item.id },
                         }}
                       >
                         {item.brand}
@@ -117,8 +132,8 @@ export default function CategoryBox(props: PropsType) {
                         onClick={() => setMenustatus(false)}
                         className="p-1 block  hover:text-blue-400 "
                         href={{
-                          pathname: `/${catId}`,
-                          query: { type: item.id },
+                          pathname: "products",
+                          query: { category: catId, type: item.id },
                         }}
                       >
                         {item.type}
@@ -127,7 +142,7 @@ export default function CategoryBox(props: PropsType) {
                   </div>
                 </div>
               )}
-              {isEmpty(properties) && (
+              {/* {isEmpty(properties) && (
                 <div className="">
                   <div className="mb-5 text-base text-gray-400">ویژگی ها</div>
                   <div>
@@ -137,8 +152,8 @@ export default function CategoryBox(props: PropsType) {
                         onClick={() => setMenustatus(false)}
                         className="p-1 block  hover:text-blue-400 "
                         href={{
-                          pathname: `/${catId}`,
-                          query: { properties: item.id },
+                          pathname: "products",
+                          query: { category: catId, properties: item.id },
                         }}
                       >
                         {item.title}
@@ -147,11 +162,27 @@ export default function CategoryBox(props: PropsType) {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
       </div>
+
+      <span className="px-2   lg:text-base text-sm  lg:flex gap-1 pb-4  w-fit   hidden menue-title items-center cursor-pointer"
+      >
+        {category && pathname === "/products" && <div className=" flex gap-2 items-center"
+          onClick={() => setShowFilter(true)}
+        >
+          <Icon icon="mdi:filter" width="24" height="24" />
+          <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">فیلترها</div>
+        </div>}
+        <Modal
+          onClose={() => setShowFilter(false)}
+          title={"فیلترها"}
+          modalContent={<Filter />}
+          show={showFilter}
+          sheetContent={<Filter />} />
+      </span>
     </div >
   );
 }

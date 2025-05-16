@@ -33,7 +33,7 @@ export default function PopoverListIcon(props: PropsType) {
     <div className="relative">
       <Icon
         icon={icon}
-        className="cursor-pointer text-4xl"
+        className="cursor-pointer lg:text-4xl text-3xl"
         onClick={handleOpen}
       />
 
@@ -63,7 +63,7 @@ export default function PopoverListIcon(props: PropsType) {
                   <Link
                     href={item?.href || ""}
                     onClick={() => {
-                      onClick && onClick(item);
+                      if (onClick) onClick(item);
                       handleClose();
                     }}
                     style={{
@@ -116,7 +116,7 @@ export default function PopoverListIcon(props: PropsType) {
               key={item.id ? `${index}${item?.id}` : index}
               className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
               onClick={() => {
-                onClick && onClick(item);
+                if (onClick) onClick(item);
                 handleClose();
               }}
             >
