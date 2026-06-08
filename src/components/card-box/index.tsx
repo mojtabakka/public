@@ -32,7 +32,7 @@ export default function CardBox(props: propsType) {
                                 <div className="mt-3" key={index}>
                                     <div className="flex border rounded-lg">
                                         <div className="flex flex-col justify-between py-5 px-5">
-                                            <Image src={(process.env.NEXT_PUBLIC_BASE_URL || "") + data?.photos[0]?.src} height={10} width={200} alt={data.model} className=" rounded-lg h-24 w-24" />
+                                            <Image src={(process.env.NEXT_PUBLIC_BASE_URL_CLIENT || "") +'/'+ data?.photos[0]?.src} height={10} width={200} alt={data.model} className=" rounded-lg h-24 w-24" />
                                             <div className="  text-center">
                                                 <OrderButton model={data.model} />
                                             </div>

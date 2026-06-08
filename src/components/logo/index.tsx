@@ -8,12 +8,12 @@ interface PropsType {
 }
 
 export default function Logo(props: PropsType) {
-  const { className, height = 50, width = 50 } = props;
+  const { className, height = 100, width = 100 } = props;
   return (
     <div className={`text-center ${className}`}>
       <Link href="/">
         <Image
-          src={"/images/logo.jpeg"}
+          src={"/images/logo.png"}
           alt="Picture of the author"
           width={width}
           height={height}

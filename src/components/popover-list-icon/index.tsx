@@ -33,7 +33,7 @@ export default function PopoverListIcon(props: PropsType) {
     <div className="relative">
       <Icon
         icon={icon}
-        className="cursor-pointer lg:text-4xl text-3xl"
+        className="cursor-pointer lg:text-3xl text-3xl"
         onClick={handleOpen}
       />
 

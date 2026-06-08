@@ -5,6 +5,7 @@ import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
 import { Catergory } from "@/types/catergory.type";
 import { Card } from "@mui/material";
+// import ProjectInfoModal from "@/components/project-info";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +17,10 @@ export default async function Home() {
   } catch (error) {
     console.log('error', error)
   }
-  return (
+  return (    
     <>
       <Card className="text-center !p-0     !rounded-lg  ">
+        {/* <ProjectInfoModal /> */}
         <h1 className="text-center lg:text-lg text-sm   mt-5  font-extrabold ">دسته بندی ها</h1>
         <div className=" grid  grid-cols-3 mt-2">
           {isArray(cats) && !isEmpty(cats) &&

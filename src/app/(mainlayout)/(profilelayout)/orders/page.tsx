@@ -123,7 +123,7 @@ export default function OrderDetails() {
                                                 return (
                                                     <div className="flex p-2 mx-2 " key={index}>
                                                         <img
-                                                            src={process.env.NEXT_PUBLIC_BASE_URL + data.photos[0].src}
+                                                            src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT + '/' + data.photos[0].src}
                                                             className="  w-16 h-16 lg:w-24 lg:h-24 md:w-24 md:h-24"
                                                         />
                                                         <div className="relative">

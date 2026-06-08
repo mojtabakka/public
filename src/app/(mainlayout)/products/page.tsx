@@ -29,7 +29,6 @@ export default function Products(props: any) {
     }>>([]);
     const [hasMore, setHasmore] = useState<boolean>(false)
 
-
     useEffect(() => {
         init()
     }, [])

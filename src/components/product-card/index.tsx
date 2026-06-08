@@ -1,102 +1,150 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import { englishToPersianNumbers, getToman } from "@/utils/function.utils";
-import Image from 'next/image';
+import Image from "next/image";
 import Link from "next/link";
 
-interface propsType {
+interface PropsType {
     items: {
-        model: string,
-        product_id: 21,
-        photos_id: 2,
-        photos_created_at: string,
-        photos_updated_at: string,
-        photos_src: string,
-        category_id: 1,
-        category_created_at: string,
-        category_updated_at: string,
-        category_title: string,
-        category_photo: string,
-        productCount: string
-        priceForUser: string,
-        warranty: string,
-        deliveryMethod: string,
-        off: string
+        model: string;
+        product_id: number;
+        photos_id: number;
+        photos_created_at: string;
+        photos_updated_at: string;
+        photos_src: string;
+        category_id: number;
+        category_created_at: string;
+        category_updated_at: string;
+        category_title: string;
+        category_photo: string;
+        productCount: string;
+        priceForUser: string;
+        warranty: string;
+        deliveryMethod: string;
+        off: string;
     };
 }
 
-const ProductCard = ({ items }: propsType) => {
-    const src = `${items.photos_src}`;
+const ProductCard = ({ items }: PropsType) => {
+    const finalPrice = items.off
+        ? Math.round(
+            Number(items.priceForUser) -
+            Number(items.priceForUser) * (Number(items.off) / 100)
+        )
+        : Number(items.priceForUser);
 
     return (
-        <div className="cursor-pointer w-full mt-1 rounded">
-            <Link href={`product-detail/${items.model}`} className="relative shadow-sm bg-white hover:shadow-lg border rounded-lg w-full flex">
-                <div className="w-full flex md:block sm:block lg:block justify-between">
-                    <figure className="w-full flex justify-center items-center">
-                        {items.photos_src ? (
-                            <Image
-                                src={`${process.env.NEXT_PUBLIC_BASE_URL}${src}`}
-                                alt={`Product image for ${items.model}`}
-                                height={208}
-                                width={208}
-                                className="md:h-52 md:w-52   h-32 w-32  object-cover"
-                            />
-                        ) : (
-                            <Icon icon="fa6-solid:camera" className="h-40 w-40 text-gray-600" />
-                        )}
-                    </figure>
-                    <div className="w-full px-2 py-5 ">
-                        <h1 className="text-right pt-5  text-xs md:text-base lg:text-lg font-extrabold "> {items.model + '  '}
-                            <span className="  text-xs  md:text-sm font-medium text-red-500 ">
-                                {englishToPersianNumbers(`(${items.productCount} عدد باقی مانده)`)}
+        <div className="w-full h-full">
+            <Link
+                href={`/product-detail/${items.model}`}
+                className="relative flex h-full flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:shadow-lg"
+            >
+                {/* Discount Badge */}
+                {/* {!!items.off && (
+                    <div
+                        className="absolute left-0 top-0 z-10 bg-red-500 px-3 py-2 text-xs text-white"
+                        style={{
+                            borderBottomRightRadius: "24px",
+                        }}
+                    >
+                        {englishToPersianNumbers(items.off)}٪ تخفیف
+                    </div>
+                )} */}
+
+                {/* Product Image */}
+                <figure className="flex h-52 items-center justify-center border-b p-4">
+                    {items.photos_src ? (
+                        <Image
+                            src={`${process.env.NEXT_PUBLIC_BASE_URL}/${items.photos_src}`}
+                            alt={items.model}
+                            width={208}
+                            height={208}
+                            className="h-full w-full object-contain"
+                        />
+                    ) : (
+                        <Icon
+                            icon="fa6-solid:camera"
+                            className="h-24 w-24 text-gray-400"
+                        />
+                    )}
+                </figure>
+
+                {/* Content */}
+                <div className="flex flex-1 flex-col justify-between p-4">
+                    <div>
+                        {/* Title */}
+                        <h2 className="line-clamp-2 text-right text-sm font-bold leading-6 md:text-base lg:text-lg">
+                            {items.model}
+                        </h2>
+
+                        {/* Stock */}
+                        <div className="mt-2 text-right">
+                            <span className="text-xs text-red-500 md:text-sm">
+                                {englishToPersianNumbers(
+                                    `${items.productCount} عدد باقی مانده`
+                                )}
                             </span>
-                        </h1>
-                        <div className="text-right mt-2  text-xs lg:text-sm text-gray-500  flex gap-2 items-center">
-                            <Icon icon="iconamoon:delivery-fast" className=" inline-block text-xs  md:text-lg" />
-                            ارسال با {items.deliveryMethod}
                         </div>
-                        <div className="flex text-left justify-between w-full items-center">
-                            <div className="">
-                                <div className="text-right">
-                                    <div className=" mt-2 text-sm flex items-center gap-2 ">
-                                        <Icon icon="nimbus:discount-circle" className=" inline-block  text-xs  md:text-lg" />
-                                        <div className="text-xs lg:text-sm font-extrabold">
-                                            {englishToPersianNumbers(getToman(
-                                                items.off
-                                                    ? Math.round(Number(items.priceForUser) - Number(items.priceForUser) * (+items.off / 100))
-                                                    : Number(items.priceForUser)
-                                            ))}
-                                            <span className=" px-1 text-xs lg:text-sm">تومان</span>
-                                        </div>
-                                    </div>
-                                    {items?.off && (
-                                        <div className=" text-xs  md:text-lg text-gray-400 px-1 flex items-center" style={{ fontSize: "10px" }}>
-                                            <Icon icon="material-symbols-light:price-check-sharp" className=" inline-block  text-xs  md:text-lg" />
-                                            <span className="line-through">
-                                                {englishToPersianNumbers(getToman(Number(items.priceForUser)))}
-                                            </span>
-                                        </div>
-                                    )}
+
+                        {/* Delivery */}
+                        {items.deliveryMethod && (
+                            <div className="mt-3 flex items-center gap-2 text-xs text-gray-500 md:text-sm">
+                                <Icon
+                                    icon="iconamoon:delivery-fast"
+                                    className="text-base"
+                                />
+                                <span>
+                                    ارسال با {items.deliveryMethod}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Warranty */}
+                        {items.warranty && (
+                            <div className="mt-2 flex items-center gap-2 text-xs text-gray-500 md:text-sm">
+                                <Icon
+                                    icon="mdi:shield-check"
+                                    className="text-base"
+                                />
+                                <span>{items.warranty}</span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Price Section */}
+                    <div className="mt-4">
+                        <div className="flex items-center justify-between">
+                            {!!items.off && (
+                                <span className="rounded bg-red-100 px-2 py-1 text-xs font-bold text-red-600">
+                                    {englishToPersianNumbers(items.off)}٪
+                                </span>
+                            )}
+
+                            <div className="text-left">
+                                <div className="flex items-center justify-end gap-1">
+                                    <span className="text-sm font-extrabold md:text-base">
+                                        {englishToPersianNumbers(
+                                            getToman(finalPrice)
+                                        )}
+                                    </span>
+                                    <span className="text-xs text-gray-600">
+                                        تومان
+                                    </span>
                                 </div>
+
+                                {!!items.off && (
+                                    <div className="mt-1 text-xs text-gray-400 line-through">
+                                        {englishToPersianNumbers(
+                                            getToman(
+                                                Number(items.priceForUser)
+                                            )
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-                {items?.off && (
-                    <div className="text-left flex w-50 justify-end">
-                        <div
-                            className="absolute px-2 text-white left-0 bg-red-500 !text-xs py-2 "
-                            style={{
-                                borderTopLeftRadius: "5px",
-                                borderBottomRightRadius: "30px",
-                                borderBottomLeftRadius: "0px",
-                                borderTopRightRadius: "0px",
-                            }}
-                        >
-                            {englishToPersianNumbers(items.off)}% تخفیف
-                        </div>
-                    </div>
-                )}
             </Link>
         </div>
     );

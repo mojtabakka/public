@@ -33,6 +33,7 @@ export default function OrderButton(props: propsType) {
         if (CartId) {
             try {
                 const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", CartId)}?model=${props.model}`)
+
                 setNumberOfOrder(response.data.total || 0)
                 if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
                 dispatch(setSumOfCart(response.data.total));

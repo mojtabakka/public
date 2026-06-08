@@ -4,10 +4,17 @@ import React, { ReactNode } from 'react'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
+
+export const viewport = {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    minimumScale: 1,
+    userScalable: false,
+};
+
 export default function layout({ children }: { children: ReactNode }) {
     return (
-
-
         <div className="  h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-4 gap-1   pb-40 fixed w-full  overflow-x-scroll ">
             <div className="   hidden lg:block md:inline-block sm:hidden ">
                 <div className="    bg-white rounded shadow-sm   pb-40     mt-5 mr-3  top10   sticky top-2   ">

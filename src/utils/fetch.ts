@@ -11,9 +11,12 @@ export async function fetchInstance<B = undefined>(
     cache?: RequestCache;
   }
 ) {
-  const baseURL = env.NEXT_PUBLIC_BASE_URL + "api/";
 
+
+  const baseURL = env.NEXT_PUBLIC_BASE_URL + "/api/";
+  console.error('mojtaba base url', baseURL)
   const cookieStore = cookies();
+  console.log('hell')
   const token = cookieStore.get("token")?.value;
   const requestConfig: RequestInit = {
     method: data?.method?.toUpperCase() || "GET",
@@ -26,6 +29,8 @@ export async function fetchInstance<B = undefined>(
     cache: data?.cache || "no-cache",
     credentials: "include",
   };
+
+console.log(`${baseURL}${url}`,'mojtaba2')
   const response = await fetch(`${baseURL}${url}`, requestConfig);
 
   if (!response.ok) {

@@ -42,7 +42,7 @@ export default function CartIcon() {
                 },
             }}>
                 <Link href={"/cart"} >
-                    <Icon icon="uil:cart" className=" cursor-pointer  lg:text-3xl text-2xl" />
+                    <Icon icon="uil:cart" className=" cursor-pointer  lg:text-3xl text-3xl" />
                 </Link>
             </Badge>
 

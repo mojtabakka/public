@@ -9,7 +9,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "185.255.90.43", // آدرس سرور شما
+        hostname: "109.122.249.15", // آدرس سرور شما
         port: "3003", // پورتی که سرویس اجرا می‌شود
         pathname: "/asset/images/products/**", // مسیر فایل‌های تصویر
       },

@@ -143,7 +143,7 @@ export default function Payment() {
                       return (
                         <div className="flex" key={index}>
                           <img
-                            src={process.env.NEXT_PUBLIC_BASE_URL + data.photos[0].src}
+                            src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT + '/' + data.photos[0].src}
                             width={100}
                             height={100}
                           />

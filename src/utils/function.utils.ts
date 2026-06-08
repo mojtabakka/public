@@ -13,7 +13,7 @@ export function addCommasSeprator(nStr: string) {
 }
 
 export function getToman(value: number) {
-  return addCommasSeprator(Math.round(Number(value)).toString());
+  return englishToPersianNumbers(addCommasSeprator(Math.round(Number(value)).toString()));
 }
 
 export function convertMiladiDateToJalaliDate(date = new Date().toISOString()) {

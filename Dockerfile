@@ -1,32 +1,43 @@
-# -------- Build Stage --------
-FROM node:20-alpine AS builder
+# -------- Base --------
+FROM --platform=linux/amd64 node:20-alpine AS base
 
-# Set working directory
 WORKDIR /app
 
-# Copy dependencies
+# -------- Dependencies --------
+FROM base AS deps
+
 COPY package*.json ./
+COPY yarn.lock ./
 
-# Install dependencies
-RUN npm install
+RUN yarn install --frozen-lockfile
 
+
+# -------- Build --------
+FROM base AS builder
+
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the app
-RUN npm run build
 
-# -------- Production Stage --------
-FROM node:20-alpine
+RUN yarn build
 
-# Set working directory
+
+# -------- Production --------
+FROM --platform=linux/amd64 node:20-alpine AS runner
+
 WORKDIR /app
 
-# Copy only necessary files from build stage
-COPY --from=builder /app/next.config.mjs ./next.config.mjs
+ENV NODE_ENV=production
+
+# فقط فایل‌های ضروری
+COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.* ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
 
-# Start the app
-CMD ["npm", "start"]
+EXPOSE 3000
+
+CMD ["yarn", "start"]

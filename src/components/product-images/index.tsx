@@ -17,7 +17,7 @@ export default function ProductImages(props: PropsType) {
     product?.photos.map((item) => {
         images.push({
             main: true,
-            src: `${process.env.NEXT_PUBLIC_BASE_URL}${item.src}`,
+            src: `${process.env.NEXT_PUBLIC_BASE_URL_CLIENT}/${item.src}`,
         });
     });
     return (
