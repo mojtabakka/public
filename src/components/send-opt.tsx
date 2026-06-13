@@ -43,45 +43,48 @@ export default function SendOtp() {
         try {
             const result = await promise;
             const cartId = localStorage.getItem("cartId") || "0"
-            const response = await fetchInstance(endpoints.order.addtoCartAfterLogin.replace(":id", cartId))
-            localStorage.setItem("cartId", response.data.cartId)
+            if (cartId) {
+                const response = await fetchInstance(endpoints.order.addtoCartAfterLogin.replace(":id", cartId))
+                localStorage.setItem("cartId", response.data.cartId)
+            }
+
             if (result.data.token && phoneNumber) localStorage.setItem("phoneNumber", phoneNumber);
             localStorage.setItem("authenticated", "true");
             if (back_url)
-                router.replace(back_url)
+                router.replace(decodeURIComponent(back_url || "/"))
             else router.replace("/");
         } catch (error) {
             console.log('errrororor', error)
         }
     });
     return (
-        phoneNumber && <div className=" grid place-items-center h-screen  ">
-            <div className="  bg-white items-center justify-center gap-6   w-full md:w-1/2  lg:w-1/5   rounded-lg px-4 py-4 ">
+        phoneNumber && <div className="place-items-center grid h-screen">
+            <div className="justify-center items-center gap-6 bg-white px-4 py-4 rounded-lg w-full md:w-1/2 lg:w-1/5">
                 <div className="">
                     <Logo />
                 </div>
-                <h1 className="font-extrabold text-lg text-center mt-2">کد تایید</h1>
+                <h1 className="mt-2 font-extrabold text-lg text-center">کد تایید</h1>
                 <Form onSubmit={onSubmit} methods={methods}>
-                    <div className=" mt-6 ">
-                        <span className="text-sm  opacity-50  leading-10 ">
+                    <div className="mt-6">
+                        <span className="opacity-50 text-sm leading-10">
                             لطفا کد تایید را وارد کنید
                         </span>
-                        <TextFiled name="otp" mask='9     9     9     9 ' />
+                        <TextFiled  inputMode='numeric' name="otp" mask='9     9     9     9 ' />
                     </div>
-                    <div className="py-4 text-center mt-10 ">
+                    <div className="mt-10 py-4 text-center">
                         <Button
                             loading={isSubmitting}
                             fullWidth
                             variant='contained'
-                            className="  !w-full"
+                            className="!w-full"
                             type="submit"
                         >
                             تایید
                         </Button>
 
                     </div>
-                    <div className=' text-center'>
-                        <Link href="/login" replace className=' text-xs underline text-blue-400 text-center w-full '>اطلاح شماره همراه</Link>
+                    <div className='text-center'>
+                        <Link href="/login" replace className='w-full text-blue-400 text-xs text-center underline'>اطلاح شماره همراه</Link>
                     </div>
                 </Form>
             </div>

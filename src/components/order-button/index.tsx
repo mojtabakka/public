@@ -19,7 +19,7 @@ interface propsType {
 
 export default function OrderButton(props: propsType) {
     const [loading, setLoading] = useState(false);
-    const [loading2, setLoading2] = useState(true)
+    const [loading2, setLoading2] = useState(false)
     const [numberOfOrder, setNumberOfOrder] = useState<number>(0);
 
     const dispatch = useDispatch();
@@ -28,9 +28,10 @@ export default function OrderButton(props: propsType) {
         getNumberOfProductFunc();
     }, []);
     const getNumberOfProductFunc = async () => {
-        setLoading2(true)
+
         const CartId = localStorage.getItem("cartId") || ''
         if (CartId) {
+            setLoading2(true)
             try {
                 const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", CartId)}?model=${props.model}`)
 
@@ -41,6 +42,7 @@ export default function OrderButton(props: propsType) {
             } catch (error) {
                 console.log('error', error)
             } finally {
+                console.log('hello')
                 setLoading2(false)
             }
         }
@@ -93,13 +95,13 @@ export default function OrderButton(props: propsType) {
     return (
         <>
             {numberOfOrder > 0 && <span className={` border p-2 rounded ${style.button__shodow}`}>
-                <button className=" border-0">
-                    <span className="px-2 " onClick={handleClickPlus}>
-                        <Icon icon="ic:baseline-plus" className=" inline-block text-blue-400" />
+                <button className="relative border-0 w-[80px]">
+                    <span className="right-0 absolute px-2" onClick={handleClickPlus} >
+                        <Icon icon="ic:baseline-plus" className="inline-block text-blue-400" />
                     </span>
                     <span className="px-2">
                         {loading ? (
-                            <div className=" inline-block">
+                            <div className="inline-block">
                                 <ThreeDots
                                     height="10"
                                     width="10"
@@ -113,15 +115,16 @@ export default function OrderButton(props: propsType) {
                             <span className="text -blue-400">{englishToPersianNumbers(numberOfOrder)}</span>
                         )}
                     </span>
-                    <span className="px-2" onClick={handleClickBin}>
-                        <Icon icon="gravity-ui:trash-bin" className=" text-red-400 inline-block" />
+                    <span className="left-0 absolute px-2" onClick={handleClickBin}>
+                        <Icon icon="gravity-ui:trash-bin" className="inline-block text-red-400" />
                     </span>
                 </button>
             </span>}
             {
                 numberOfOrder === 0 && !loading2 && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
             }
-            {loading2 && <Skeleton variant="rectangular" className=" w-full rounded" height={40}></Skeleton>}
+            {loading2 && <Skeleton variant="rectangular" className="rounded w-full" height={40}></Skeleton>}
+
         </>
     );
 }

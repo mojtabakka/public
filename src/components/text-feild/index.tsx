@@ -1,15 +1,24 @@
-import type { TextFieldProps } from '@mui/material/TextField';
-import { Controller, useFormContext } from 'react-hook-form';
-import InputMask from 'react-input-mask';
-import TextField from '@mui/material/TextField';
+import type { TextFieldProps } from "@mui/material/TextField";
+import TextField from "@mui/material/TextField";
+import { Controller, useFormContext } from "react-hook-form";
+import InputMask from "react-input-mask";
 
 type Props = TextFieldProps & {
   name: string;
-  mask?: string; // Add a mask prop
-  textAlign?: string
+  mask?: string;
+  textAlign?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
 };
 
-export default function RHFTextField({ textAlign = "center", name, helperText, mask, type, ...other }: Props) {
+export default function RHFTextField({
+  textAlign = "center",
+  name,
+  helperText,
+  mask,
+  type,
+  inputMode,
+  ...other
+}: Props) {
   const { control } = useFormContext();
 
   return (
@@ -17,63 +26,68 @@ export default function RHFTextField({ textAlign = "center", name, helperText, m
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => {
-        // Check if a mask is provided
         const { onChange, onBlur, value, ref } = field;
 
-        return mask ? (
-          <InputMask
-            maskChar=""
-            mask={mask}
-            value={value || ''}
-            onChange={onChange} // Pass onChange directly
-            onBlur={onBlur}
-            slotProps={{
-              input: {
-                style: {
-                  textAlign: 'left',      // Horizontal center
+        if (mask) {
+          return (
+            <InputMask
+              mask={mask}
+              maskChar=""
+              value={value || ""}
+              onChange={onChange}
+              onBlur={onBlur}
+            >
+              {(inputProps: any) => (
+                <TextField
+                  {...inputProps}
+                  inputRef={ref}
+                  fullWidth
+                  type={type}
+                  dir="rtl"
+                  size="small"
+                  error={!!error}
+                  helperText={error?.message ?? helperText}
+                  inputProps={{
+                    ...inputProps.inputProps,
+                    inputMode,
+                  }}
+                  sx={{
+                    input: {
+                      textAlign,
+                      direction: "ltr",
+                    },
+                    "& .MuiFormHelperText-root": {
+                      textAlign: "right",
+                      direction: "rtl",
+                    },
+                  }}
+                  {...other}
+                />
+              )}
+            </InputMask>
+          );
+        }
 
-                },
-              },
-            }}   // Pass onBlur directly
-          >
-            {(inputProps) => (
-              <TextField
-                {...inputProps}
-                sx={{
-                  input: {
-                    textAlign: textAlign, // Center text horizontally
-                    direction: "ltr"
-                  },
-                  '& .MuiFormHelperText-root': {
-                    textAlign: 'right', // Center helper text
-                  },
-                }}
-                inputRef={ref} // Use react-hook-form's ref
-                fullWidth
-                type={type}
-                dir="rtl"
-                className="bg"
-                size="small"
-                error={!!error}
-                helperText={error?.message ?? helperText}
-                {...other}
-              />
-            )}
-          </InputMask>
-        ) : (
+        return (
           <TextField
             {...field}
+            inputRef={ref}
             fullWidth
             type={type}
             dir="rtl"
-            className="bg"
             size="small"
             error={!!error}
             helperText={error?.message ?? helperText}
+            inputProps={{
+              inputMode,
+            }}
             sx={{
-              '& .MuiFormHelperText-root': {
-                textAlign: 'right',
-                direction: 'rtl',
+              input: {
+                textAlign,
+              },
+              "& .MuiFormHelperText-root": {
+                textAlign: "right",
+                direction: "rtl",
               },
             }}
             {...other}

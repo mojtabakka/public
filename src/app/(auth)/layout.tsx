@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                     <CssBaseline />
                     <Toaster position='bottom-right' />
                     <ReduxProvider>
-                        <div className="p-4 bg-[#EEEEEE]" dir="rtl">
+                        <div className="bg-[#EEEEEE] p-4" dir="rtl">
                             {children}
                         </div>
                     </ReduxProvider>

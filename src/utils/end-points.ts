@@ -2,6 +2,7 @@ export const endpoints = {
   auth: {
     sendOtp: `auth/send-otp`,
     verification: "auth/verification",
+    logout: "auth/logout"
   },
   order: {
     getOrder: "orders/get-order/:id",
@@ -15,6 +16,7 @@ export const endpoints = {
     reomoveFormCart: "orders/removeFromCart",
     getCurrentOrder: "orders/get-current-order",
     addtoCartAfterLogin: "orders/add-to-cart-after-login/:id",
+
   },
 
   address: {

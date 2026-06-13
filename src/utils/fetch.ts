@@ -13,14 +13,15 @@ export async function fetchInstance<B = undefined>(
 ) {
 
 
-  const baseURL = env.NEXT_PUBLIC_BASE_URL + "/api/";
+  const baseURL = env.NEXT_PUBLIC_BASE_URL + "/";
+  console.log('')
+  // const baseURL = env.NEXT_PUBLIC_BASE_URL + "/api/";
   console.error('mojtaba base url', baseURL)
   const cookieStore = cookies();
-  console.log('hell')
   const token = cookieStore.get("token")?.value;
   const requestConfig: RequestInit = {
     method: data?.method?.toUpperCase() || "GET",
-    headers: {
+    headers: { 
       "Content-Type": "application/json",
       Authorization: `${token}`,
       ...(data?.headers || {}),
@@ -30,7 +31,7 @@ export async function fetchInstance<B = undefined>(
     credentials: "include",
   };
 
-console.log(`${baseURL}${url}`,'mojtaba2')
+  console.log(`${baseURL}${url}`, 'mojtaba2')
   const response = await fetch(`${baseURL}${url}`, requestConfig);
 
   if (!response.ok) {

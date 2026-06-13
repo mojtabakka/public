@@ -58,11 +58,11 @@ const Cart = () => {
     };
     return (
         <div className="p-2 w-full md:flex  lg:flex text-xs">
-            <Card className="m-2 w-full rounded-lg ">
+            <Card className=" w-full rounded-lg  md:m-2 ">
                 <CartBox items={cartItems} />
             </Card>
             {!isEmpty(cartItems) && cartItems && (
-                <div className=" lg:w-1/3 md:w-1/2 m-2 w-full ">
+                <div className=" lg:w-1/3 md:w-1/2 mt-2 w-full ">
                     <Card className="rounded-lg ">
                         <div>
                             <div className=" flex justify-between">

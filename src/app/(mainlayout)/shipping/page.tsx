@@ -134,7 +134,7 @@ const Shipping = () => {
                                     const len = item[key].length;
                                     return (
                                         <div className="flex" key={index}>
-                                            <img src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT + '/' + data.photos[0].src} width={100} height={100} />
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT  + data.photos[0].src} width={100} height={100} />
                                             <div className="relative">
                                                 <span
                                                     className="bg-gray-400 p-1 rounded  absolute "

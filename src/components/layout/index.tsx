@@ -20,25 +20,24 @@ export default async function Layout() {
   }
   return (
     <>
-
-      <header className="shadow-lg bg-white z-50 sticky top-0 ">
+      <header className="bg-white shadow-lg">
         <div>
-          <div
-            className=" text-2xl flex justify-between items-center px-4  lg:hidden"
-          >
+          <div className="lg:hidden flex justify-between items-center px-4 text-2xl">
             <Sidebar categories={categories} />
             <Logo />
           </div>
-          <div className=" flex justify-between px-4 gap-14   items-center lg:pt-3    ">
-            <Logo className=" hidden lg:inline-block" />
+
+          <div className="flex justify-between items-center gap-14 px-4 lg:pt-3">
+            <Logo className="hidden lg:inline-block" />
             <SearchInput />
             <LoginText />
           </div>
-          <div>
-            <CategoryBox categories={categories} />
-          </div>
         </div>
       </header>
+
+      <div className="top-0 z-10 lg:static sticky bg-white shadow-md lg:shadow-none">
+        <CategoryBox categories={categories} />
+      </div>
     </>
   );
 }

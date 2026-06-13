@@ -6,7 +6,7 @@ import ProductPrice from '@/components/product-price'
 import { endpoints } from '@/utils/end-points'
 import { isEmpty } from 'lodash'
 import React from 'react'
-import Card from '@/components/card'
+import { Icon } from "@iconify/react";
 import { fetchInstance } from '@/utils/fetch'
 
 
@@ -30,7 +30,32 @@ export default async function page(props: { params: { model: string } }) {
       </div>
       <div>
         {!isEmpty(product) && <MoreDetails product={product} />}
-        {isEmpty(product) && <Card className='w-full h-full flex justify-center  items-center font-extrabold text-xl'>نتیجه ای یافت نشد</Card>}
+        {isEmpty(product) &&
+          <div
+            className="
+            sm:mt-44
+                        flex
+                        flex-col
+                        items-center
+                        justify-center
+                        py-12
+                        text-center
+                      "
+          >
+            <Icon
+              icon="solar:magnifer-broken"
+              className="mb-3 text-6xl text-gray-300"
+            />
+
+            <h3 className="font-medium text-gray-700">
+              نتیجه‌ای پیدا نشد
+            </h3>
+
+            <p className="mt-1 text-sm text-gray-500">
+              عبارت دیگری را جستجو کنید
+            </p>
+          </div>
+        }
       </div>
     </>
   )

@@ -46,26 +46,26 @@ export default function Login({ searchParams }: { searchParams: { [key: string]:
   });
 
   return (
-    <div className=" grid place-items-center h-screen  ">
-      <div className="  bg-white items-center justify-center gap-6   w-full md:w-1/2  lg:w-1/5   rounded-lg px-4 py-4 ">
+    <div className="place-items-center grid h-[90vh]">
+      <div className="justify-center items-center gap-6 bg-white px-4 py-4 rounded-lg w-full md:w-1/2 lg:w-1/5">
         <div className="">
           <Logo />
         </div>
-        <h1 className="font-extrabold text-lg text-center mt-2">ورود | ثبت نام</h1>
+        <h1 className="mt-2 font-extrabold text-lg text-center">ورود | ثبت نام</h1>
         <Form onSubmit={onSubmit} methods={methods}>
-          <div className=" mt-6 ">
-            <span className="text-sm  opacity-50  leading-10 ">
+          <div className="mt-6">
+            <span className="opacity-50 text-sm leading-10">
               لطفا شماره موبایل خود را وارد نمایید
             </span>
-            <TextFiled mask='9 9 9 9 9 9 9 9 9 9 9' name="phoneNumber" className='  !text-left' />
+            <TextFiled inputMode='numeric'  mask='9 9 9 9 9 9 9 9 9 9 9' name="phoneNumber" className='!text-left' />
           </div>
-          <div className="py-4 text-center mt-10 ">
+          <div className="mt-10 py-4 text-center">
             <Button
               loading={isSubmitting}
-            fullWidth
+              fullWidth
               variant='contained'
 
-              className="  !w-full"
+              className="!w-full"
               type="submit"
             >
               ورود

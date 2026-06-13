@@ -7,8 +7,8 @@
 
 @font-face {
   font-family: shabnam;
-  src: url("../../public//fonts//Shabnam.woff") format("woff"),
-    url("../../public//fonts/Shabnam.woff2") format("woff2");
+  src: url("../../public//fonts//Shabnam-Light-FD-WOL.woff") format("woff"),
+    url("../../public//fonts/Shabnam-Medium-FD-WOL.woff2") format("woff2");
 
   font-style: normal;
 }

@@ -10,7 +10,7 @@ export async function fetchInstanceClient<B = undefined>(
     cache?: RequestCache;
   }
 ) {
-  const baseURL = process.env.NEXT_PUBLIC_BASE_URL_CLIENT + "/api/";
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL_CLIENT + "api/";
   const requestConfig: RequestInit = {
     method: data?.method?.toUpperCase() || "GET", // Default to GET if no method is provided
     headers: {

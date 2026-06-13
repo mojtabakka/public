@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function CalPricesBoxSkeleton() {
     return (
-        <div className=" lg:w-1/3 md:w-1/2 m-2 w-full ">
+        <div className=" lg:w-1/3 md:w-1/2 mt-2 w-full ">
             <Card className="rounded-lg ">
                 <div>
                     <div className=" flex justify-between">

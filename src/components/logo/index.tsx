@@ -8,16 +8,16 @@ interface PropsType {
 }
 
 export default function Logo(props: PropsType) {
-  const { className, height = 100, width = 100 } = props;
+  const { className, height =80, width = 80 } = props;
   return (
     <div className={`text-center ${className}`}>
       <Link href="/">
         <Image
-          src={"/images/logo.png"}
+          src={"/images/logo.jpg"}
           alt="Picture of the author"
           width={width}
           height={height}
-          className=" inline-block cursor-pointer"
+          className=" inline-block cursor-pointer "
         />
       </Link>
     </div>

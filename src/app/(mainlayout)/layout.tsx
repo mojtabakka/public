@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Toaster />
           <ReduxProvider>
             <Layout />
-            <div className=" p-4 bg-[#EEEEEE]" dir="rtl">{children}</div>
+            <div className="bg-[#EEEEEE] p-4" dir="rtl">{children}</div>
           </ReduxProvider>
         </MuiConfig>
       </body>

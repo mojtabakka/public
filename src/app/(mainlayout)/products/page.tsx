@@ -27,7 +27,7 @@ export default function Products(props: any) {
         deliveryMethod: string,
         off: string
     }>>([]);
-    const [hasMore, setHasmore] = useState<boolean>(false)
+    // const [hasMore, setHasmore] = useState<boolean>(false)
 
     useEffect(() => {
         init()
@@ -53,7 +53,7 @@ export default function Products(props: any) {
             const pro = await fetchProducts(1, data)
             if (pro.data) setProducts([...pro.data])
             else setProducts([])
-            setHasmore(pro.data?.meta?.hasNextPage)
+            // setHasmore(pro.data?.meta?.hasNextPage)
         } catch (error) {
             console.log('error', error)
         }
@@ -68,7 +68,7 @@ export default function Products(props: any) {
         <div>
             <ProductList
                 initLoading={loading}
-                hasMore={hasMore}
+                hasMore={true}
                 initialData={products}
                 filterData={{
                     type: props.searchParams?.type || "",

@@ -6,6 +6,8 @@ import { Icon } from "@iconify/react";
 import { isEmpty } from "lodash";
 import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
 import Link from "next/link";
+import { logOut } from "@/actions/auth.action";
+import toast from "react-hot-toast";
 
 interface PropsType {
   sheetTitle?: ReactElement;
@@ -18,6 +20,7 @@ interface PropsType {
 export default function PopoverListIcon(props: PropsType) {
   const { items, icon, sheetTitle, sheetItems, onClick } = props;
 
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpen = (event: React.MouseEvent<any>) => {
@@ -25,6 +28,26 @@ export default function PopoverListIcon(props: PropsType) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const siteLogout = async () => {
+    try {
+      const promise = logOut();
+
+      await toast.promise(promise, {
+        loading: "لطفا منتظر بمانید",
+        success: "خروج با موفقیت انجام شد",
+        error: (error) =>
+          Array.isArray(error?.message)
+            ? error?.message[0]
+            : error?.message ||
+            "مشکلی پیش آمده لطفا بعدا امتحان کنید",
+      });
+      localStorage.clear()
+      window.location.reload();
+    } catch (error) {
+      console.log("logout error:", error);
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -64,6 +87,9 @@ export default function PopoverListIcon(props: PropsType) {
                     href={item?.href || ""}
                     onClick={() => {
                       if (onClick) onClick(item);
+                      if (item.title === "خروج") {
+                        siteLogout()
+                      }
                       handleClose();
                     }}
                     style={{
@@ -100,7 +126,7 @@ export default function PopoverListIcon(props: PropsType) {
               ))}
           </ul>
         </div>
-      </Popover>
+      </Popover >
 
       <Drawer
         open={open}
@@ -116,6 +142,9 @@ export default function PopoverListIcon(props: PropsType) {
               key={item.id ? `${index}${item?.id}` : index}
               className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
               onClick={() => {
+                if (item.title == 'خروج') {
+                  siteLogout()
+                }
                 if (onClick) onClick(item);
                 handleClose();
               }}
@@ -129,6 +158,6 @@ export default function PopoverListIcon(props: PropsType) {
           ))}
         </div>
       </Drawer>
-    </div>
+    </div >
   );
 }

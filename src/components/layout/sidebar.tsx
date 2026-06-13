@@ -155,7 +155,7 @@ export default function Sidebar(props: propsType) {
                                             sidebarStatus={SidebarStatus}
                                             key={`${sidebarItem.name}${index}`}
                                             {...sidebarItem}
-                                            onClickSidbarItem={(item) => console.log(item)}
+                                            onClickSidbarItem={() => SetSidebarStatus(false)}
                                         />
                                     ))
                                 }

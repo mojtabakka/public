@@ -11,7 +11,7 @@ import { Icon } from "@iconify/react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import Modal from "../modal";
 import { Filter } from "../filter";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 // import { Filter } from "../filter";
 // import Modal from "../modal";
 
@@ -19,6 +19,7 @@ interface PropsType {
   categories: Array<Catergory>
 }
 export default function CategoryBox(props: PropsType) {
+  const router = useRouter()
   const {
     categories
   } = props
@@ -72,117 +73,125 @@ export default function CategoryBox(props: PropsType) {
 
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
-    <div className=" flex ">
-      {category && pathname === "/products" && <div className=" flex gap-1 items-center px-6 pb-3 text-sm  font-extrabold  lg:hidden"
-        onClick={() => setShowFilter(true)}
-      >
-        <Icon icon="mdi:filter" width="20" height="20" />
-        <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">فیلترها</div>
-      </div>}
-      <div className="w-fit" ref={ref}>
-        <span className="px-6   lg:text-base text-sm  lg:flex gap-1 pb-4  w-fit   hidden menue-title items-center cursor-pointer" onMouseOver={() => setMenustatus(true)}>
-          <Icon icon="gg:menu" className="cursor-pointer" />
-          <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">دسته بندی ها</div>
-        </span>
-        <div className={`absolute    justify-center flex  w-5/6   ${menustatus ? " flex" : "hidden"} `}  >
-          <div
-            // onMouseLeave={onMouseLeaveCatMenue}
-            className={`  px-3 mt-3  py-4 shadow-2xl  min-h-96 bg-white w-1/3 h-full rounded  `}
-          >
-            {cats && isArray(cats) && cats.map((item, index) => (
-              <div key={index}
-                className={`flex justify-between  items-center cursor-pointer p-3 rounded ${catId === item.id ? " text-blue-400  bg-gray-100" : ""} `}
-                onMouseOver={() => { handleMouseOverCat(item?.id) }}
-              >
-                <div className="text-base">{item.title}</div>
-                <Icon icon="ep:arrow-left-bold" />
-              </div>
-            ))}
-          </div>
-          <div className=" min-h-96 bg-white  shadow-2xl mx-1 h-full   p-4 mt-3  rounded w-full">
-            <div className="grid grid-cols-3">
-              {!isEmpty(brands) && (
-                <div className="">
-                  <div className="mb-5 text-base text-gray-400">برندها</div>
-                  <div>
-                    {brands.map((item, index) => (
-                      <Link
-                        key={index}
-                        className="p-1 block  hover:text-blue-400  "
-                        onClick={() => setMenustatus(false)}
-                        href={{
-                          pathname: "products",
-                          query: { category: catId, brand: item.id },
-                        }}
-                      >
-                        {item.brand}
-                        <span >{` ( ${item.title} )`}</span>
-                      </Link>
-                    ))}
-                  </div>
+    <>
+      <div className="md:hidden bg-gray-200 px-2 w-full h-[0.5px]">
+      </div>
+      <div className="flex">
+        {category && pathname === "/products" && <div className="lg:hidden flex items-center gap-1 px-6 pb-3 font-extrabold text-sm"
+          onClick={() => setShowFilter(true)}
+        >
+
+          <span className="flex justify-center items-center mt-3">
+            <Icon icon="mdi:filter" width="20" height="20" className="font-light text-gray-700 !text-xs" />
+            <div style={{ fontFamily: "shabnam" }} className="font-light text-xs cursor-pointer">فیلترها</div>
+          </span>
+        </div>}
+        <div className="w-fit" ref={ref}>
+          <span className="hidden lg:flex items-center gap-1 px-6 pb-4 w-fit text-sm lg:text-base cursor-pointer menue-title" onMouseOver={() => setMenustatus(true)}>
+            <Icon icon="gg:menu" className="cursor-pointer" />
+            <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">دسته بندی ها</div>
+          </span>
+          <div className={`absolute    justify-center flex  w-5/6   ${menustatus ? " flex" : "hidden"} `}  >
+            <div
+              // onMouseLeave={onMouseLeaveCatMenue}
+              className={`  px-3 mt-3  py-4 shadow-2xl  min-h-96 bg-white w-1/3 h-full rounded  `}
+            >
+              {cats && isArray(cats) && cats.map((item, index) => (
+                <div key={index}
+                  onClick={() => { router.push(`products?category=${item.id}`); setMenustatus(false) }}
+                  className={`flex justify-between  items-center cursor-pointer p-3 rounded ${catId === item.id ? " text-blue-400  bg-gray-100" : ""} `}
+                  onMouseOver={() => { handleMouseOverCat(item?.id) }}
+                >
+                  <div className="text-base">{item.title}</div>
+                  <Icon icon="ep:arrow-left-bold" />
                 </div>
-              )}
-              {!isEmpty(types) && (
-                <div className="">
-                  <div className="mb-5 text-base text-gray-400">انواع</div>
-                  <div>
-                    {types.map((item, index) => (
-                      <Link
-                        key={index}
-                        onClick={() => setMenustatus(false)}
-                        className="p-1 block  hover:text-blue-400 "
-                        href={{
-                          pathname: "products",
-                          query: { category: catId, type: item.id },
-                        }}
-                      >
-                        {item.type}
-                      </Link>
-                    ))}
+              ))}
+            </div>
+            <div className="bg-white shadow-2xl mx-1 mt-3 p-4 rounded w-full h-full min-h-96">
+              <div className="grid grid-cols-3">
+                {!isEmpty(brands) && (
+                  <div className="">
+                    <div className="mb-5 text-gray-400 text-base">برندها</div>
+                    <div>
+                      {brands.map((item, index) => (
+                        <Link
+                          key={index}
+                          className="block p-1 hover:text-blue-400"
+                          onClick={() => setMenustatus(false)}
+                          href={{
+                            pathname: "products",
+                            query: { category: catId, brand: item.id },
+                          }}
+                        >
+                          {item.brand}
+                          <span >{` ( ${item.title} )`}</span>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-              {/* {isEmpty(properties) && (
+                )}
+                {!isEmpty(types) && (
+                  <div className="">
+                    <div className="mb-5 text-gray-400 text-base">انواع</div>
+                    <div>
+                      {types.map((item, index) => (
+                        <Link
+                          key={index}
+                          onClick={() => setMenustatus(false)}
+                          className="block p-1 hover:text-blue-400"
+                          href={{
+                            pathname: "products",
+                            query: { category: catId, type: item.id },
+                          }}
+                        >
+                          {item.type}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {/* {isEmpty(properties) && (
                 <div className="">
-                  <div className="mb-5 text-base text-gray-400">ویژگی ها</div>
+                  <div className="mb-5 text-gray-400 text-base">ویژگی ها</div>
                   <div>
                     {properties.map((item: any, index) => (
                       <Link
                         key={index}
                         onClick={() => setMenustatus(false)}
-                        className="p-1 block  hover:text-blue-400 "
+                        className="block p-1 hover:text-blue-400"
                         href={{
                           pathname: "products",
                           query: { category: catId, properties: item.id },
                         }}
                       >
                         {item.title}
-                        <span className="text-gray-500  text-xs">{` ( ${item.property} )`}</span>
+                        <span className="text-gray-500 text-xs">{` ( ${item.property} )`}</span>
                       </Link>
                     ))}
                   </div>
                 </div>
               )} */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <span className="px-2   lg:text-base text-sm  lg:flex gap-1 pb-4  w-fit   hidden menue-title items-center cursor-pointer"
-      >
-        {category && pathname === "/products" && <div className=" flex gap-2 items-center"
-          onClick={() => setShowFilter(true)}
+        <span className="hidden lg:flex items-center gap-1 px-2 pb-4 w-fit text-sm lg:text-base cursor-pointer menue-title"
         >
-          <Icon icon="mdi:filter" width="24" height="24" />
-          <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">فیلترها</div>
-        </div>}
-        <Modal
-          onClose={() => setShowFilter(false)}
-          title={"فیلترها"}
-          modalContent={<Filter />}
-          show={showFilter}
-          sheetContent={<Filter />} />
-      </span>
-    </div >
+          {category && pathname === "/products" && <div className="flex items-center gap-2"
+            onClick={() => setShowFilter(true)}
+          >
+            <Icon icon="mdi:filter" width="24" height="24" />
+            {/* <div style={{ fontFamily: "shabnam" }} className="cursor-pointer">فیلترها</div> */}
+          </div>}
+          <Modal
+            onClose={() => setShowFilter(false)}
+            title={"فیلترها"}
+            modalContent={<Filter />}
+            show={showFilter}
+            sheetContent={<Filter />} />
+        </span>
+      </div >
+    </>
   );
 }

@@ -37,12 +37,12 @@ const ProductCard = ({ items }: PropsType) => {
         <div className="w-full h-full">
             <Link
                 href={`/product-detail/${items.model}`}
-                className="relative flex h-full flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:shadow-lg"
+                className="relative flex flex-col bg-white shadow-sm hover:shadow-lg border rounded-lg h-full overflow-hidden transition-all duration-300"
             >
                 {/* Discount Badge */}
                 {/* {!!items.off && (
                     <div
-                        className="absolute left-0 top-0 z-10 bg-red-500 px-3 py-2 text-xs text-white"
+                        className="top-0 left-0 z-10 absolute bg-red-500 px-3 py-2 text-white text-xs"
                         style={{
                             borderBottomRightRadius: "24px",
                         }}
@@ -52,34 +52,34 @@ const ProductCard = ({ items }: PropsType) => {
                 )} */}
 
                 {/* Product Image */}
-                <figure className="flex h-52 items-center justify-center border-b p-4">
+                <figure className="flex justify-center items-center p-4 border-b h-52">
                     {items.photos_src ? (
                         <Image
-                            src={`${process.env.NEXT_PUBLIC_BASE_URL}/${items.photos_src}`}
+                            src={`${process.env.NEXT_PUBLIC_BASE_URL_CLIENT}${items.photos_src}`}
                             alt={items.model}
                             width={208}
                             height={208}
-                            className="h-full w-full object-contain"
+                            className="w-full h-full object-contain"
                         />
                     ) : (
                         <Icon
                             icon="fa6-solid:camera"
-                            className="h-24 w-24 text-gray-400"
+                            className="w-24 h-24 text-gray-400"
                         />
                     )}
                 </figure>
 
                 {/* Content */}
-                <div className="flex flex-1 flex-col justify-between p-4">
+                <div className="flex flex-col flex-1 justify-between p-4">
                     <div>
                         {/* Title */}
-                        <h2 className="line-clamp-2 text-right text-sm font-bold leading-6 md:text-base lg:text-lg">
+                        <h2 className="font-bold text-sm md:text-base lg:text-lg text-right line-clamp-2 leading-6">
                             {items.model}
                         </h2>
 
                         {/* Stock */}
                         <div className="mt-2 text-right">
-                            <span className="text-xs text-red-500 md:text-sm">
+                            <span className="text-red-500 text-xs md:text-sm">
                                 {englishToPersianNumbers(
                                     `${items.productCount} عدد باقی مانده`
                                 )}
@@ -88,7 +88,7 @@ const ProductCard = ({ items }: PropsType) => {
 
                         {/* Delivery */}
                         {items.deliveryMethod && (
-                            <div className="mt-3 flex items-center gap-2 text-xs text-gray-500 md:text-sm">
+                            <div className="flex items-center gap-2 mt-3 text-gray-500 text-xs md:text-sm">
                                 <Icon
                                     icon="iconamoon:delivery-fast"
                                     className="text-base"
@@ -101,7 +101,7 @@ const ProductCard = ({ items }: PropsType) => {
 
                         {/* Warranty */}
                         {items.warranty && (
-                            <div className="mt-2 flex items-center gap-2 text-xs text-gray-500 md:text-sm">
+                            <div className="flex items-center gap-2 mt-2 text-gray-500 text-xs md:text-sm">
                                 <Icon
                                     icon="mdi:shield-check"
                                     className="text-base"
@@ -113,27 +113,27 @@ const ProductCard = ({ items }: PropsType) => {
 
                     {/* Price Section */}
                     <div className="mt-4">
-                        <div className="flex items-center justify-between">
+                        <div className="flex justify-between items-center">
                             {!!items.off && (
-                                <span className="rounded bg-red-100 px-2 py-1 text-xs font-bold text-red-600">
+                                <span className="bg-red-100 px-2 py-1 rounded font-bold text-red-600 text-xs">
                                     {englishToPersianNumbers(items.off)}٪
                                 </span>
                             )}
 
                             <div className="text-left">
-                                <div className="flex items-center justify-end gap-1">
-                                    <span className="text-sm font-extrabold md:text-base">
+                                <div className="flex justify-end items-center gap-1">
+                                    <span className="font-extrabold text-sm md:text-base">
                                         {englishToPersianNumbers(
                                             getToman(finalPrice)
                                         )}
                                     </span>
-                                    <span className="text-xs text-gray-600">
+                                    <span className="text-gray-600 text-xs">
                                         تومان
                                     </span>
                                 </div>
 
                                 {!!items.off && (
-                                    <div className="mt-1 text-xs text-gray-400 line-through">
+                                    <div className="mt-1 text-gray-400 text-xs line-through">
                                         {englishToPersianNumbers(
                                             getToman(
                                                 Number(items.priceForUser)

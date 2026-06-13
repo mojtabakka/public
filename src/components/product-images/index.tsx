@@ -17,12 +17,12 @@ export default function ProductImages(props: PropsType) {
     product?.photos.map((item) => {
         images.push({
             main: true,
-            src: `${process.env.NEXT_PUBLIC_BASE_URL_CLIENT}/${item.src}`,
+            src: `${process.env.NEXT_PUBLIC_BASE_URL_CLIENT}${item.src}`,
         });
     });
     return (
         <div
-            className={` bg-white m-1 rounded lg:w-2/5    text-center   overflow-scrolld  mt-3 `}
+            className={` bg-white m-1 rounded w-full  lg:w-2/5    text-center   overflow-scrolld  mt-3 `}
         >
             <div className=" flex justify-center  w-full">
                 <Gallery images={images} />

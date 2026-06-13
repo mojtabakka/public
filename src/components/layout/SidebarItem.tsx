@@ -77,6 +77,7 @@ const SidebarItem = (props: PropsType) => {
                         </div>
                         {Array.isArray(items) ? (
                             <div
+                            className="pr-4"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     showSubNav();

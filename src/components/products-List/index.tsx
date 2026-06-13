@@ -52,7 +52,12 @@ export default function ProductList(props: propsType) {
         setLoading(true)
         setCurrentPage((data) => data++)
         const res = await fetchProducts(currentPage, props.filterData)
-        setHasmore(res.meta.hasNextPage)
+        console.log('res', res)
+        if (res.data.length === 0) {
+            setLoading(false)
+            setHasmore(false)
+        } else { setHasmore(true) }
+        // setHasmore(res.meta.hasNextPage)
         setItems([...items, ...res.data,])
         setLoading(false)
     };
@@ -62,16 +67,16 @@ export default function ProductList(props: propsType) {
             <InfiniteScroll
                 dataLength={8}
                 next={loadMore}
-                className="md:mx-5    mx-0"
+                className="mx-0 md:mx-5"
                 hasMore={hasmore}
                 loader={
-                    <div className="text-center flex justify-center text-4xl">
-                        <Icon icon="svg-spinners:12-dots-scale-rotate" />
+                    <div className="flex justify-center text-4xl text-center">
+                        {loading && <Icon icon="svg-spinners:12-dots-scale-rotate" />}
                     </div>
                 }
                 scrollableTarget="scrollableDiv"
             >
-                <div className="   w-full md:mt-1   grid lg:grid-cols-4 mx-0   md:grid-cols-3 sm:grid-cols-2 grid-cols-1  h-full gap-2">
+                <div className="gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-0 md:mt-1 w-full h-full">
                     {!isEmpty(items) &&
                         items.map((item, index) => (
                             <span key={`${index}${item.product_id}`}>
@@ -87,10 +92,22 @@ export default function ProductList(props: propsType) {
                     }
                 </div>
             </InfiniteScroll >
-            {!loading && isEmpty(items) && < div className="w-full flex justify-center p-10">
-                <div className='  rounded justify-center w-fit p-16 '>
-                    <Icon className=' my-8' icon="iconoir:chat-bubble-empty" width="200" height="200" />
-                    کالایی با این ويژگی موجود نمی باشد
+            {!loading && isEmpty(items) && < div className="flex justify-center md:mt-32 p-10 w-full">
+                <div
+                    className="flex flex-col justify-center items-center py-12 text-center"
+                >
+                    <Icon
+                        icon="solar:magnifer-broken"
+                        className="mb-3 text-gray-300 text-6xl"
+                    />
+
+                    <h3 className="font-medium text-gray-700">
+                        نتیجه‌ای پیدا نشد
+                    </h3>
+
+                    <p className="mt-1 text-gray-500 text-sm">
+                        درحال حاضر کالایی در این دسته بندی موجود نمی باشد.
+                    </p>
                 </div>
             </div>}
         </div >
