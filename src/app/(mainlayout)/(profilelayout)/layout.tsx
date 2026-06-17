@@ -15,21 +15,21 @@ export const viewport = {
 
 export default function layout({ children }: { children: ReactNode }) {
     return (
-        <div className="  h-full  grid grid-cols-1  lg:grid-cols-4  md:grid-cols-4 gap-1   pb-40 fixed w-full  overflow-x-scroll ">
-            <div className="   hidden lg:block md:inline-block sm:hidden ">
-                <div className="    bg-white rounded shadow-sm   pb-40     mt-5 mr-3  top10   sticky top-2   ">
-                    <div className="flex p-3 items-center justify-between">
+        <div className="right-0 gap-1 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 w-full h-full overflow-x-scroll">
+            <div className="hidden sm:hidden lg:block md:inline-block">
+                <div className="top-2 z-0 bg-white shadow-sm mt-5 mr-3 pb-40 rounded stickyz-0">
+                    <div className="flex justify-between items-center p-3">
                         <div>
-                            <div className="flex p-3 items-center">
+                            <div className="flex items-center p-3">
                                 <div className="p-2">
-                                    <Icon icon="fluent:person-circle-28-filled" className=" text-6xl text-gray-500" />
+                                    <Icon icon="fluent:person-circle-28-filled" className="text-gray-500 text-6xl" />
                                 </div>
                             </div>
                         </div>
                         <div className="p-3">
                             <Link href="/profile">
-                                <Icon icon="lucide:edit-2" className="text-blue-400  text-2xl cursor-pointer" />
-                                <span className="text-blue-400  text-xs">ویرایش</span>
+                                <Icon icon="lucide:edit-2" className="text-blue-400 text-2xl cursor-pointer" />
+                                <span className="text-blue-400 text-xs">ویرایش</span>
                             </Link>
                         </div>
                     </div>
@@ -37,7 +37,7 @@ export default function layout({ children }: { children: ReactNode }) {
                     <Link href="/orders">
                         <div className="p-3 cursor-pointer">
                             <span className="p-3">
-                                <Icon icon="akar-icons:shopping-bag" className=" inline-block text-xl" />
+                                <Icon icon="akar-icons:shopping-bag" className="inline-block text-xl" />
                             </span>
                             <span>سفارش ها </span>
                         </div>
@@ -46,21 +46,21 @@ export default function layout({ children }: { children: ReactNode }) {
                     <Link href="/address">
                         <div className="p-3 cursor-pointer">
                             <span className="p-3">
-                                <Icon icon="fa6-regular:address-card" className=" inline-block text-xl" />
+                                <Icon icon="fa6-regular:address-card" className="inline-block text-xl" />
                             </span>
                             آدرس ها
                         </div>
                     </Link>
                     <hr />
-                    <div className="p-3 cursor-pointer ">
+                    <div className="p-3 cursor-pointer">
                         <span className="p-3">
-                            <Icon icon="fluent:arrow-exit-20-regular" className=" inline-block text-xl" />
+                            <Icon icon="fluent:arrow-exit-20-regular" className="inline-block text-xl" />
                         </span>
                         خروج
                     </div>
                 </div>
             </div>
-            <div className="    pl-5  col-span-3 rounded">{children}</div>
+            <div className="col-span-3 rounded">{children}</div>
         </div>
     )
 }

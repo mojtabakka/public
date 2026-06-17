@@ -14,10 +14,12 @@ import { Skeleton } from "@mui/material";
 
 interface propsType {
     model: string,
+    showAddButton?: boolean,
     onNumberOfOrder?: (number: number) => void
 }
 
 export default function OrderButton(props: propsType) {
+    const { showAddButton = true } = props
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false)
     const [numberOfOrder, setNumberOfOrder] = useState<number>(0);
@@ -30,14 +32,15 @@ export default function OrderButton(props: propsType) {
     const getNumberOfProductFunc = async () => {
 
         const CartId = localStorage.getItem("cartId") || ''
+
         if (CartId) {
             setLoading2(true)
             try {
+                console.log(props.model)
                 const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", CartId)}?model=${props.model}`)
-
                 setNumberOfOrder(response.data.total || 0)
                 if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
-                dispatch(setSumOfCart(response.data.total));
+                // dispatch(setSumOfCart(response.data.total));
 
             } catch (error) {
                 console.log('error', error)
@@ -121,7 +124,7 @@ export default function OrderButton(props: propsType) {
                 </button>
             </span>}
             {
-                numberOfOrder === 0 && !loading2 && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
+                numberOfOrder === 0 && !loading2 && showAddButton && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
             }
             {loading2 && <Skeleton variant="rectangular" className="rounded w-full" height={40}></Skeleton>}
 

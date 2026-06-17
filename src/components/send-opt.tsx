@@ -43,6 +43,7 @@ export default function SendOtp() {
         try {
             const result = await promise;
             const cartId = localStorage.getItem("cartId") || "0"
+            console.log('hello')
             if (cartId) {
                 const response = await fetchInstance(endpoints.order.addtoCartAfterLogin.replace(":id", cartId))
                 localStorage.setItem("cartId", response.data.cartId)
@@ -69,7 +70,7 @@ export default function SendOtp() {
                         <span className="opacity-50 text-sm leading-10">
                             لطفا کد تایید را وارد کنید
                         </span>
-                        <TextFiled  inputMode='numeric' name="otp" mask='9     9     9     9 ' />
+                        <TextFiled inputMode='numeric' name="otp" mask='9     9     9     9 ' />
                     </div>
                     <div className="mt-10 py-4 text-center">
                         <Button

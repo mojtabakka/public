@@ -35,6 +35,7 @@ const Shipping = () => {
     const addProductsOrder = async () => {
         try {
             if (!address) setShowModal(true);
+            console.log('hello')
 
             if (shippingTime && address) {
                 await fetchInstance(endpoints.order.addOrder, {
@@ -90,22 +91,22 @@ const Shipping = () => {
     };
     return (
         <div className="mt-5">
-            <div className=" lg:flex md:flex justify-between">
-                {!addressLoading && <Card className="w-full ">
-                    <div className="border p-3 rounded-lg">
-                        <div className="text-medium  text-gray-400">آدرس تحویل سفارش</div>
+            <div className="md:flex lg:flex justify-between">
+                {!addressLoading && <Card className="w-full">
+                    <div className="p-3 border rounded-lg">
+                        <div className="text-gray-400 text-medium">آدرس تحویل سفارش</div>
                         {isEmpty(address) && (
                             <>
                                 <div>هیچ آدرسی وجود ندارد</div>
                             </>
                         )}
                         {!isEmpty(address) && (
-                            <div className=" flex items-center text-base">
+                            <div className="flex items-center text-base">
                                 <span>
 
-                                    <Icon className="text-lg inline-block" icon="carbon:location-filled" />
+                                    <Icon className="inline-block text-lg" icon="carbon:location-filled" />
                                 </span>
-                                <div className="my-5 "> {address?.address} </div>
+                                <div className="my-5"> {address?.address} </div>
                             </div>
                         )}
 
@@ -115,15 +116,15 @@ const Shipping = () => {
                                 className="text-blue-400 cursor-pointer"
                             >
                                 تغییر یا ویرایش آدرس
-                                <Icon icon="ep:arrow-left-bold" className=" inline-block mx-1" />
+                                <Icon icon="ep:arrow-left-bold" className="inline-block mx-1" />
                             </span>
                         </span>
                         {/* </div> */}
                     </div>
-                    <div className="border p-3 rounded-lg mt-5">
+                    <div className="mt-5 p-3 border rounded-lg">
                         {isEmpty(cart) && (
                             <div className="flex justify-center p-20">
-                                <Icon icon="mdi:bin-outline" className=" text-8xl" />
+                                <Icon icon="mdi:bin-outline" className="text-8xl" />
                             </div>
                         )}
                         <div className="flex overflow-x-scroll">
@@ -137,7 +138,7 @@ const Shipping = () => {
                                             <img src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT  + data.photos[0].src} width={100} height={100} />
                                             <div className="relative">
                                                 <span
-                                                    className="bg-gray-400 p-1 rounded  absolute "
+                                                    className="absolute bg-gray-400 p-1 rounded"
                                                     style={{ right: "-30px", bottom: "0px" }}
                                                 >
                                                     {len}
@@ -148,7 +149,7 @@ const Shipping = () => {
                                 })}
                         </div>
                     </div>
-                    <div className="border mt-3  rounded-lg">
+                    <div className="mt-3 border rounded-lg">
                         <div className="px-2 py-2">انتخاب زمان ارسال</div>
                         <SelectShippingTime onSelectTime={handleSelectTime} />
                     </div>
@@ -166,7 +167,7 @@ const Shipping = () => {
 
             </div>
             <div className="flex justify-between">
-                <div className="w-full mx-1"></div>
+                <div className="mx-1 w-full"></div>
             </div>
             <ModalAddAddress
                 show={showAddModal}

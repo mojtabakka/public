@@ -23,7 +23,7 @@ export default async function page(props: { params: { model: string } }) {
   const product = await getProduct(props.params.model)
   return (
     <>
-      <div className=" lg:flex lg:flex-row  flex-col  justify-between">
+      <div className="lg:flex lg:flex-row flex-col justify-between">
         {!isEmpty(product) && <ProductImages product={product} />}
         {!isEmpty(product) && <ProductFeatures product={product} />}
         {!isEmpty(product) && < ProductPrice product={product} />}
@@ -32,26 +32,18 @@ export default async function page(props: { params: { model: string } }) {
         {!isEmpty(product) && <MoreDetails product={product} />}
         {isEmpty(product) &&
           <div
-            className="
-            sm:mt-44
-                        flex
-                        flex-col
-                        items-center
-                        justify-center
-                        py-12
-                        text-center
-                      "
+            className="flex flex-col justify-center items-center sm:mt-44 py-12 text-center"
           >
             <Icon
               icon="solar:magnifer-broken"
-              className="mb-3 text-6xl text-gray-300"
+              className="mb-3 text-gray-300 text-6xl"
             />
 
             <h3 className="font-medium text-gray-700">
               نتیجه‌ای پیدا نشد
             </h3>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-gray-500 text-sm">
               عبارت دیگری را جستجو کنید
             </p>
           </div>

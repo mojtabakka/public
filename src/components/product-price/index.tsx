@@ -55,7 +55,7 @@ export default function ProductPrice({
 
     return (
         <div
-            className="flex flex-col justify-between bg-white shadow-sm hover:shadow-md mt-3 p-5 border border-gray-100 rounded w-full lg:w-1/4 transition duration-300"
+            className="flex flex-col justify-between bg-white shadow-sm hover:shadow-md mt-3 p-5 border border-gray-100 !rounded-lg w-full lg:w-1/4 transition duration-300"
         >
             {/* ===== INFO SECTION ===== */}
             <div className="space-y-4">
@@ -147,19 +147,19 @@ export default function ProductPrice({
             <div
                 className="lg:hidden right-0 bottom-0 left-0 z-50 fixed bg-white/95 shadow-[0_-4px_20px_rgba(0,0,0,.08)] backdrop-blur-md border-t"
             >
-                <div className="flex justify-between items-center p-4">
+                <div className="flex justify-between items-center p-2">
                     {/* Price */}
                     <div>
                         {off > 0 && (
-                            <div className="font-bold text-red-500 text-xs">
+                            <span className="bg-red-500 px-1 rounded font-bold text-[11px] text-white" >
                                 {englishToPersianNumbers(
                                     Math.round(Number(off)).toString()
                                 )}
                                 % تخفیف
-                            </div>
+                            </span >
                         )}
 
-                        <div className="font-black text-lg">
+                        <div className="font-extrabold text-bas">
                             {formattedFinal}
                             <span className="mr-1 text-xs">
                                 تومان
@@ -167,14 +167,14 @@ export default function ProductPrice({
                         </div>
 
                         {off > 0 && (
-                            <div className="text-gray-400 text-xs line-through">
+                            <div className="mx-1 text-gray-600 text-sm line-through">
                                 {formattedOriginal}
                             </div>
                         )}
                     </div>
 
                     {/* Button */}
-                    <div className="min-w-[140px]">
+                    <div className="flex justify-end mx-1 min-w-[140px]">
                         <OrderButton
                             model={model}
                             onNumberOfOrder={setNumberOfOrder}

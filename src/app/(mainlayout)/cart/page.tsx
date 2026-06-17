@@ -57,38 +57,38 @@ const Cart = () => {
         }
     };
     return (
-        <div className="p-2 w-full md:flex  lg:flex text-xs">
-            <Card className=" w-full rounded-lg  md:m-2 ">
+        <div className="md:flex lg:flex p-2 w-full text-xs">
+            <Card className="md:m-2 rounded-lg w-full">
                 <CartBox items={cartItems} />
             </Card>
             {!isEmpty(cartItems) && cartItems && (
-                <div className=" lg:w-1/3 md:w-1/2 mt-2 w-full ">
-                    <Card className="rounded-lg ">
+                <div className="mt-2 w-full md:w-1/2 lg:w-1/3">
+                    <Card className="rounded-lg">
                         <div>
-                            <div className=" flex justify-between">
+                            <div className="flex justify-between">
                                 <div>
-                                    <Icon icon="ic:baseline-price-check" className=" inline-block text-base  md:text-xl  " />
+                                    <Icon icon="ic:baseline-price-check" className="inline-block text-base md:text-xl" />
                                     <span className="px-2 text-xs md:text-sm">قیمت کالاها</span>
                                 </div>
                                 <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(sumPrice)))} تومان</div>
                             </div>
                             <hr className="my-5" />
-                            <div className=" flex justify-between text-xs md:text-sm">
+                            <div className="flex justify-between text-xs md:text-sm">
                                 <div>
-                                    <Icon icon="ic:baseline-price-check" className="inline-block text-base  md:text-xl " />
+                                    <Icon icon="ic:baseline-price-check" className="inline-block text-base md:text-xl" />
                                     <span className="px-2 text-xs md:text-sm">جمع سبد خرید</span>
                                 </div>
                                 <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(sumFinalPrice)))} تومان</div>
                             </div>
                             <hr className="my-5" />
-                            <div className=" flex justify-between text-red-500">
+                            <div className="flex justify-between text-red-500">
                                 <div>
-                                    <Icon icon="game-icons:profit" className=" inline-block text-base  md:text-xl" />
+                                    <Icon icon="game-icons:profit" className="inline-block text-base md:text-xl" />
                                     <span className="px-2 text-xs md:text-sm">سود شما از خرید</span>
                                 </div>
                                 <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(benefit)))} تومان</div>
                             </div>
-                            <div className="w-full mt-10  mb-3 text-center">
+                            <div className="mt-10 mb-3 w-full text-center">
                                 <Link href={"shipping"} >
                                     <Button variant="contained" className="w-full"> ثبت سفارش</Button>
                                 </Link>

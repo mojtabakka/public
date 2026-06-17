@@ -22,9 +22,9 @@ export default function ProductImages(props: PropsType) {
     });
     return (
         <div
-            className={` bg-white m-1 rounded w-full  lg:w-2/5    text-center   overflow-scrolld  mt-3 `}
+            className={` bg-white rounded-lg w-full  lg:w-2/5    text-center   overflow-scrolld  mt-3 `}
         >
-            <div className=" flex justify-center  w-full">
+            <div className="flex justify-center w-full">
                 <Gallery images={images} />
             </div>
         </div>

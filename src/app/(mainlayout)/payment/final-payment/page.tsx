@@ -17,15 +17,15 @@ const FinalPayment = () => {
         }, 5000);
     });
     return (
-        <Card className="h-screen">
-            <div className="h-full  flex items-center  justify-center text-lg">
-                <div className=" w-full text-center">
-                    <div className=" flex justify-center">
-                        <div className="  flex justify-center p-5 w-32 h-32 border rounded-full  items-center bg-green-600 ">
-                            <Icon icon="carbon:checkmark-filled" className="   rounded-full bg-green-600 text-9xl text-white " />
+        <Card className="h-[75vh]">
+            <div className="flex justify-center items-center h-full text-lg">
+                <div className="w-full text-center">
+                    <div className="flex justify-center">
+                        <div className="flex justify-center items-center bg-green-600 p-5 border rounded-full w-32 h-32">
+                            <Icon icon="carbon:checkmark-filled" className="bg-green-600 rounded-full text-white text-9xl" />
                         </div>
                     </div>
-                    <div className="mt-5">پرداخت با موفقیت انجام شد</div>
+                <div className="mt-5">پردخت با موفقیت انجام شد</div>
                 </div>
             </div>
         </Card>

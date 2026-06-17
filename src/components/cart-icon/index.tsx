@@ -21,7 +21,7 @@ export default function CartIcon() {
 
     const getCartCount = async () => {
         const cartId = localStorage.getItem("cartId") || ""
-        const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", cartId)}`)
+        const response = await fetchInstance(`${endpoints.order.getCurrentBasket.replace(":cartId", cartId)}`)
         dispatch(setSumOfCart(response.data.total || 0));
     }
 
@@ -42,7 +42,7 @@ export default function CartIcon() {
                 },
             }}>
                 <Link href={"/cart"} >
-                    <Icon icon="uil:cart" className=" cursor-pointer  lg:text-3xl text-3xl" />
+                    <Icon icon="uil:cart" className="text-3xl lg:text-3xl cursor-pointer" />
                 </Link>
             </Badge>
 

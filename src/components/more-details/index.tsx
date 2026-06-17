@@ -34,7 +34,7 @@ export default function MoreDetails(props: PropsType) {
         }
     ]
     return (
-        <Card className='mx-1 roueded mt-2 mb-28 lg:mb-0' >
+        <Card className='mt-2 mb-28 lg:mb-0 !rounded-lg' >
             <Tab items={tabItems} onClick={(item) => setTabValue(item)} />
             {tabValue?.action === "properties" && <Properties className='mt-4 text-xs md:text-sm lg:text-base'   properties={product.properties} />}
         </Card >

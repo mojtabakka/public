@@ -44,10 +44,36 @@ export default function ModalForm(props: propsType) {
   };
   const UserQuickEditSchema = zod.object({
     plaque: zod.string().trim().min(1, { message: "پلاک را وارد کنید" }),
+
     state: zod.string().trim().min(1, { message: "استان را وارد کنید" }),
+
     city: zod.string().trim().min(1, { message: "لطفا شهر را وارد کنید" }),
-    postalCode: zod.string().trim().min(1, { message: "لطفا کد پستی را وارد کنید" }),
-    address: zod.string().trim().min(1, { message: "لطفا نشانی پستی را وارد کنید" }),
+
+    postalCode: zod
+      .string()
+      .trim()
+      .regex(/^\d{10}$/, {
+        message: "کد پستی باید ۱۰ رقم عددی باشد",
+      }),
+
+    address: zod
+      .string()
+      .trim()
+      .min(1, { message: "لطفا نشانی پستی را وارد کنید" }),
+
+    receivername: zod.string().trim().min(1, { message: "نام گیرنده را وارد کنید" }),
+
+    receiverlastname: zod
+      .string()
+      .trim()
+      .min(1, { message: "نام خانوادگی گیرنده را وارد کنید" }),
+
+    recivermobile: zod
+      .string()
+      .trim()
+      .regex(/^09\d{9}$/, {
+        message: "شماره موبایل باید با 09 شروع شود و 11 رقم باشد",
+      }),
   });
   const methods = useForm({
     mode: 'all',
@@ -76,14 +102,14 @@ export default function ModalForm(props: propsType) {
   });
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <div className=" overflow-scroll px-6 mb-4 pb-3 lg:pb-0 pt-5   ">
+      <div className="mb-4 px-6 pt-5 pb-3 lg:pb-0 overflow-scroll">
 
         <InputLable>نشانی پستی</InputLable>
         <TextFiled
           name={INPUT_NAMES.address}
         />
         <hr />
-        <div className="grid grid-cols-2 gap-4 mt-3">
+        <div className="gap-4 grid grid-cols-2 mt-3">
           <div>
             <InputLable>استان</InputLable>
             <TextFiled
@@ -105,7 +131,7 @@ export default function ModalForm(props: propsType) {
           />
         </div>
 
-        <div className="grid grid-cols-4 gap-4 mt-3">
+        <div className="gap-4 grid grid-cols-4 mt-3">
 
           <div className="col-span-1">
             <InputLable>پلاک</InputLable>
@@ -123,28 +149,28 @@ export default function ModalForm(props: propsType) {
             <InputLable>کدپستی</InputLable>
             <TextFiled
               name={INPUT_NAMES.postalCode}
-              mask='99999999999'
+              mask='9999999999'
               textAlign='right'
             // subText="کدپستی باید ۱۰ رقم و بدون خط خوردگی باشد"
             />
           </div>
         </div>
         <hr className="mt-3" />
-        <div className=" grid grid-cols-2 gap-4 mt-3 w-full">
-          <div className=" col-span-1">
+        <div className="gap-4 grid grid-cols-2 mt-3 w-full">
+          <div className="col-span-1">
             <InputLable>نام گیرنده</InputLable>
             <TextFiled
               name={INPUT_NAMES.receivername}
             />
           </div>
-          <div className=" col-span-1">
+          <div className="col-span-1">
             <InputLable>نام و نام خانوادگی گیرنده</InputLable>
             <TextFiled
               name={INPUT_NAMES.receiverlastname}
             />
           </div>
         </div>
-        <div className=" col-span-1 w-1/2 mt-2">
+        <div className="col-span-1 mt-2 w-1/2">
           <InputLable>شماره همراه گیرنده</InputLable>
           <TextFiled
             textAlign='right'
@@ -154,7 +180,7 @@ export default function ModalForm(props: propsType) {
         </div>
       </div>
 
-      <ModalFooter className='  justify-end' >
+      <ModalFooter className='justify-end' >
         {!props.address && <Button variant='contained' type='submit' loading={isSubmitting}>افزودن</Button>}
         {props.address && <Button variant='contained' type='submit' loading={isSubmitting}>ویرایش</Button>}
 

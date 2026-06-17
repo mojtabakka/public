@@ -79,11 +79,11 @@ export default function Payment() {
   return (
     showPage && (
       <>
-        {<div className=" lg:px-2 md:px-2 pt-5 lg:flex md:flex ">
-          {!loading && <Card className="w-full lg:mx-2 md:mx-2 mx-0">
-            <div className="border w-full h-full p-3 rounded-lg  ">
-              <span className="text-base text-gray-400">پرداخت از طریق </span>
-              <div className="flex mt-10 text-lg items-center   ">
+        {<div className="md:flex lg:flex md:px-2 lg:px-2 pt-5">
+          {!loading && <Card className="mx-0 md:mx-2 lg:mx-2 w-full">
+            <div className="p-3 border rounded-lg w-full h-full">
+              <span className="text-gray-400 text-base">پرداخت از طریق </span>
+              <div className="flex items-center mt-10 text-lg">
                 <div className="mt-1">
                   <FormControl>
                     <RadioGroup
@@ -91,7 +91,7 @@ export default function Payment() {
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="payment"
                     >
-                      <div className=" flex items-center">
+                      <div className="flex items-center">
                         <FormControlLabel value={PAYMENT_METHODS.internet} control={<Radio />} label="" />
                         <div className="pr-5">
                           <Icon icon="fluent:payment-28-regular" className="text-3xl" />
@@ -101,7 +101,7 @@ export default function Payment() {
                       <div className="flex items-center mt-3">
                         <FormControlLabel value={PAYMENT_METHODS.local} control={<Radio />} label="" />
                         <div className="pr-5">
-                          <Icon icon="mingcute:home-7-line" className=" text-3xl" />
+                          <Icon icon="mingcute:home-7-line" className="text-3xl" />
                         </div>
                         <span className="px-2">پرداخت در محل</span>
                       </div>
@@ -110,7 +110,7 @@ export default function Payment() {
                 </div>
 
               </div>
-              <div className="flex mt-7 text-lg items-center   ">
+              <div className="flex items-center mt-7 text-lg">
                 <div className="mt-1">
 
                   <FormControl>
@@ -125,14 +125,14 @@ export default function Payment() {
                 </div>
 
               </div>
-              <div className=" md:mt-32 lg:mt-32  mt-16 py-5 px-2 text-base">
+              <div className="mt-16 md:mt-32 lg:mt-32 px-2 py-5 text-base">
                 <span className="text-gray-400 text-sm">زمان ارسال :</span>{" "}
                 {shippingTime}
               </div>
-              <div className="border p-3 rounded-lg  ">
+              <div className="p-3 border rounded-lg">
                 {isEmpty(cart) && (
                   <div className="flex justify-center p-20">
-                    <Icon icon="mdi:trash" className=" text-8xl" />
+                    <Icon icon="mdi:trash" className="text-8xl" />
                   </div>
                 )}
                 <div className="flex overflow-x-scroll">
@@ -149,7 +149,7 @@ export default function Payment() {
                           />
                           <div className="relative">
                             <span
-                              className="bg-gray-400 p-1 rounded  absolute "
+                              className="absolute bg-gray-400 p-1 rounded"
                               style={{ right: "-30px", bottom: "0px" }}
                             >
                               {number}

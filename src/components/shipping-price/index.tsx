@@ -49,13 +49,13 @@ const ShippingPrice: React.FC<PropsType> = ({
 
     return (
         <>
-            {!loading && < div className="w-full text-xs mt-4 mx-0 md:mx-2 lg:mx-2 md:mt-0 lg:mt-0 md:w-1/2 lg:w-1/3">
+            {!loading && < div className="mx-0 md:mx-2 lg:mx-2 mt-4 md:mt-0 lg:mt-0 w-full md:w-1/2 lg:w-1/3 text-xs">
                 <Card className='mb-20 md:mb-0 lg:mb-0'>
-                    <div className="border w-full rounded-lg p-4">
+                    <div className="p-4 border rounded-lg w-full">
                         <div className="flex justify-between my-4">
                             <div>قیمت کالاها</div>
                             <div>
-                                <span className="px-1">{getToman(Number(purePrice) || 0)} </span> تومان
+                                <span className="px-1">{  getToman(Number(purePrice) || 0)} </span> تومان
                             </div>
                         </div>
                         <hr />
@@ -72,7 +72,7 @@ const ShippingPrice: React.FC<PropsType> = ({
                                 <span className="px-1">{getToman(Number(finalPrice) || 0)} </span> تومان
                             </div>
                         </div>
-                        <div className="mt-14 lg:flex md:flex justify-center hidden">
+                        <div className="hidden md:flex lg:flex justify-center mt-14">
                             {shippingPermision ? (
                                 <Button variant='contained' className="w-full" onClick={onClick}>
                                     ثبت سفارش
@@ -83,7 +83,7 @@ const ShippingPrice: React.FC<PropsType> = ({
                                 </Button>
                             )}
                         </div>
-                        <div className="fixed border rounded-lg lg:hidden md:hidden bottom-0 right-0 flex justify-between items-center bg-white w-full p-5 shadow-lg">
+                        <div className="md:hidden lg:hidden right-0 bottom-0 fixed flex justify-between items-center bg-white shadow-lg p-5 border rounded-lg w-full">
                             <div>
                                 {shippingPermision ? (
                                     <Button className="w-full" onClick={onClick}>
@@ -96,7 +96,7 @@ const ShippingPrice: React.FC<PropsType> = ({
                                 )}
                             </div>
                             <div className="text-center">
-                                <div className="text-xs text-gray-400">قیمت نهایی</div>
+                                <div className="text-gray-400 text-xs">قیمت نهایی</div>
                                 <span className="px-1 text-xs">{getToman(Number(finalPrice) || 0)} </span>
                                 <span className="text-xs">تومان</span>
                             </div>
