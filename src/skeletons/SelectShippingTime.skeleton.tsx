@@ -1,21 +1,34 @@
-
-import { Skeleton } from '@mui/material'
-import React from 'react'
+import { Skeleton } from "@mui/material";
 
 export default function SelectShippingTimeSkeleton() {
     return (
-        <div className="p-2 overflow-y-scroll text-xs">
-            {
-                Array(5).fill(0).map((item, index) => (
-                    <div
-                        className="flex gap-2 bg-gray-100 mt-2 p-4 px-5 rounded" style={{ paddingRight: 50 }}
-                        key={item.value + index}
-                    >
-                        <Skeleton variant='rounded' height={15} width={15} />
-                        <Skeleton variant='text' height={15} width={50} className='' />
-                    </div>
+        <div className="px-4 py-3">
+            {/* title */}
+            <Skeleton width={160} height={28} className="mb-4" />
 
+            <div className="gap-3 grid grid-cols-1 md:grid-cols-2">
+
+                {Array.from({ length: 5 }).map((_, index) => (
+                    <div
+                        key={index}
+                        className="flex justify-between items-center p-1 border rounded-xl"
+                    >
+                        {/* text */}
+                        <div className="space-y-2">
+                            <Skeleton width={140} height={20} />
+                            <Skeleton width={100} height={16} />
+                        </div>
+
+                        {/* radio */}
+                        <Skeleton
+                            variant="circular"
+                            width={22}
+                            height={22}
+                        />
+                    </div>
                 ))}
+
+            </div>
         </div>
-    )
+    );
 }

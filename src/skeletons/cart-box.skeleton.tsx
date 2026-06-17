@@ -1,56 +1,111 @@
-import { Skeleton } from '@mui/material';
-import React from 'react';
+import { Skeleton } from "@mui/material";
 
-
-const SkeletonText = ({ width, height, fontSize }: { width: number | string, height: number, fontSize?: string }) => (
-    <Skeleton variant="text" sx={{ fontSize: fontSize || '2rem' }} width={width} height={height} />
-);
-
-const SkeletonCircular = ({ size }: { size: number }) => (
-    <Skeleton variant="circular" width={size} height={size} className="mx-2" />
-);
-
-const SkeletonRectangular = ({ width, height }: { width: number, height: number }) => (
-    <Skeleton variant="rectangular" width={width} height={height} className="rounded-lg" />
-);
-
-export default function CartBoxSkeleton() {
+export default function CartItemSkeleton() {
     return (
-        <div>
-            {Array(2).fill(1).map((_, index) => (
-                <div key={index} className="mb-5">
-                    <div className="mt-5">
-                        <div className="flex border rounded-lg">
-                            <div className="flex flex-col justify-between py-5 px-5">
-                                <SkeletonRectangular width={96} height={96} />
-                                <div className="text-center">
-                                    <Skeleton variant="rounded" height={30} width={96} />
-                                </div>
-                            </div>
-                            <div className="pt-3">
-                                <div className="p-2 text-right w-full">
-                                    <SkeletonText width={100} height={20} fontSize="4rem" />
+        <div className="bg-white shadow-sm mt-3 border rounded-xl overflow-hidden">
+            <div className="flex sm:flex-row flex-col">
+                {/* Image */}
+                <div className="flex justify-center p-4 sm:border-l sm:w-48">
+                    <Skeleton
+                        variant="rounded"
+                        className="!w-24 sm:!w-32 !h-24 sm:!h-32"
+                    />
+                </div>
 
-                                    {Array(6).fill(0).map((_, idx) => (
-                                        <div key={idx} className="py-1">
-                                            <span className="flex invisible gap-10 items-center">
-                                                <SkeletonCircular size={10} />
-                                                <SkeletonText width={50} height={15.5} fontSize="2rem" />
-                                            </span>
-                                        </div>
-                                    ))}
-                                    <div className="py-2">
-                                        <span className="pl-2 flex gap-3 items-center">
-                                            <SkeletonCircular size={15} />
-                                            <SkeletonText width={50} height={20} fontSize="4rem" />
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                {/* Content */}
+                <div className="flex-1 p-4">
+                    <Skeleton
+                        variant="text"
+                        width="60%"
+                        height={35}
+                    />
+
+                    <div className="space-y-3 mt-4">
+                        <div className="flex items-center gap-2">
+                            <Skeleton
+                                variant="circular"
+                                width={18}
+                                height={18}
+                            />
+                            <Skeleton
+                                variant="text"
+                                width={180}
+                                height={25}
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <Skeleton
+                                variant="circular"
+                                width={18}
+                                height={18}
+                            />
+                            <Skeleton
+                                variant="text"
+                                width={150}
+                                height={25}
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <Skeleton
+                                variant="circular"
+                                width={18}
+                                height={18}
+                            />
+                            <Skeleton
+                                variant="text"
+                                width={120}
+                                height={25}
+                            />
                         </div>
                     </div>
+
+                    {/* Mobile */}
+                    <div className="sm:hidden flex justify-between items-center mt-4 pt-4 border-t">
+                        <div>
+                            <Skeleton
+                                variant="text"
+                                width={90}
+                                height={20}
+                            />
+                            <Skeleton
+                                variant="text"
+                                width={130}
+                                height={35}
+                            />
+                        </div>
+
+                        <Skeleton
+                            variant="rounded"
+                            width={110}
+                            height={40}
+                        />
+                    </div>
                 </div>
-            ))}
+
+                {/* Desktop */}
+                <div className="hidden sm:flex flex-col justify-center items-center gap-4 p-4 border-r min-w-[220px]">
+                    <div className="text-center">
+                        <Skeleton
+                            variant="text"
+                            width={100}
+                            height={20}
+                        />
+                        <Skeleton
+                            variant="text"
+                            width={140}
+                            height={40}
+                        />
+                    </div>
+
+                    <Skeleton
+                        variant="rounded"
+                        width={140}
+                        height={42}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

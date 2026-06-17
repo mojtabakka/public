@@ -1,43 +1,47 @@
+import { Card } from "@/components";
+import { Skeleton } from "@mui/material";
 
-import { Card } from '@/components'
-import { Skeleton } from '@mui/material'
-import React from 'react'
-
-export default function CalPricesBoxSkeleton() {
+export default function CartSummarySkeleton() {
     return (
-        <div className=" lg:w-1/3 md:w-1/2 mt-2 w-full ">
-            <Card className="rounded-lg ">
-                <div>
-                    <div className=" flex justify-between">
-                        <div className=' flex    items-center'>
-                            <Skeleton variant="circular" width={15} height={15} className=' mx-2' />
-                            <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={70} height={17} ></Skeleton>
+
+        <Card className="mt-2 rounded-xl w-full md:w-1/2 lg:w-1/3">
+            <div>
+                <div className="space-y-4 p-4">
+
+                    {/* row 1 */}
+                    <div className="flex justify-between items-center pb-4 border-b">
+                        <div className="flex items-center gap-2">
+                            <Skeleton variant="circular" width={20} height={20} />
+                            <Skeleton width={110} height={20} />
                         </div>
-                        <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={80} height={17} ></Skeleton>
-                    </div>
-                    <hr className="my-5" />
-                    <div className=" flex    justify-between  ">
-                        <div className=' flex items-center'>
-                            <Skeleton variant="circular" width={15} height={15} className=' mx-2' />
-                            <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={70} height={17} ></Skeleton>
-                        </div>
-                        <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={80} height={17} ></Skeleton>
-                    </div>
-                    <hr className="my-5" />
-                    <div className=" flex justify-between">
-                        <div className='flex    items-center' >
-                            <Skeleton variant="circular" width={15} height={15} className=' mx-2' />
-                            <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={70} height={17} ></Skeleton>
-                        </div>
-                        <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={80} height={17} ></Skeleton>
+                        <Skeleton width={80} height={20} />
                     </div>
 
-                    <div className="w-full mt-10  mb-3  flex justify-center">
-                        <Skeleton variant="rounded" sx={{ fontSize: '2rem' }} width={50} height={35} className=' !w-full' ></Skeleton>
+                    {/* row 2 */}
+                    <div className="flex justify-between items-center pb-4 border-b">
+                        <div className="flex items-center gap-2">
+                            <Skeleton variant="circular" width={20} height={20} />
+                            <Skeleton width={120} height={20} />
+                        </div>
+                        <Skeleton width={90} height={20} />
                     </div>
+
+                    {/* row 3 */}
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                            <Skeleton variant="circular" width={20} height={20} />
+                            <Skeleton width={110} height={20} />
+                        </div>
+                        <Skeleton width={100} height={20} />
+                    </div>
+
+                    {/* button */}
+                    <div className="pt-6">
+                        <Skeleton variant="rounded" width="100%" height={45} />
+                    </div>
+
                 </div>
-            </Card>
-            {/* <Loading show={loading} /> */}
-        </div>
-    )
+            </div>
+        </Card>
+    );
 }

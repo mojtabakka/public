@@ -1,104 +1,148 @@
-import { convertMiladiDateToJalaliDate } from '@/utils/function.utils';
-import { isEmpty, isFunction } from 'lodash';
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import moment from '@/utils/momentJalali.util';
-import { endpoints } from '@/utils/end-points';
-import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { fetchInstance } from '@/utils/fetch';
+"use client";
+
+import { convertMiladiDateToJalaliDate } from "@/utils/function.utils";
+import { isFunction } from "lodash";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import moment from "@/utils/momentJalali.util";
+import { endpoints } from "@/utils/end-points";
+import {
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+} from "@mui/material";
+import { fetchInstance } from "@/utils/fetch";
 
 interface PropsType {
     onSelectTime: (item: string) => void;
 }
 
-interface daysType {
+interface DaysType {
     value: string;
     dayNumber: number;
     dayName: string;
-    checked: boolean;
 }
 
-export default function SelectShippingTime(props: PropsType) {
-    const { onSelectTime } = props;
-    const [days, setDays] = useState<Array<daysType>>([]);
+export default function SelectShippingTime({
+    onSelectTime,
+}: PropsType) {
+    const [days, setDays] = useState<DaysType[]>([]);
+    const [selectedDate, setSelectedDate] = useState("");
+
     const currentOrder = async () => {
         try {
-            const currentOrder = await fetchInstance(endpoints.order.getCurrentOrder, { cache: "no-cache" });
+            const currentOrder = await fetchInstance(
+                endpoints.order.getCurrentOrder,
+                {
+                    cache: "no-cache",
+                }
+            );
+
             return currentOrder?.data?.shippingTime || null;
-        } catch (error) {
-            console.error('Error fetching current order:', error);
+        } catch {
             return null;
         }
     };
 
-    // Helper function to handle adding days
-    const generateDays = (today: moment.Moment, shippingTime: string | null) => {
-        const myDays: Array<daysType> = [];
+    const createDay = (
+        day: moment.Moment
+    ): DaysType => ({
+        value: day.format("jYYYY/jM/jD"),
+        dayNumber: day.jDate(),
+        dayName: day.format("dddd jD jMMMM"),
+    });
 
-        today.add(2, "day"); // Add 2 days initially
-        myDays.push(createDay(today, shippingTime));
+    const generateDays = () => {
+        const today = moment(
+            convertMiladiDateToJalaliDate(),
+            "jYYYY/jM/jD"
+        );
 
-        // Add the next few days, skipping Fridays
-        [1, 1, 1, 1].forEach(() => {
+        const result: DaysType[] = [];
+
+        today.add(2, "day");
+
+        result.push(createDay(today.clone()));
+
+        for (let i = 0; i < 4; i++) {
             today.add(1, "day");
-            if (today.format("ddddd") !== "جمعه") { // Skip Fridays
-                myDays.push(createDay(today, shippingTime));
+
+            if (today.format("ddddd") !== "جمعه") {
+                result.push(createDay(today.clone()));
             }
-        });
+        }
 
-        return myDays;
-    };
-
-    // Helper function to create a day object
-    const createDay = (day: moment.Moment, shippingTime: string | null) => {
-        return {
-            value: day.format("jYYYY/jM/jD"),
-            dayNumber: day.jDate(),
-            dayName: day.format("dddd jD jMMMM"),
-            checked: day.format("jYYYY/jM/jD") === shippingTime,
-        };
+        return result;
     };
 
     useEffect(() => {
-        const today = moment(convertMiladiDateToJalaliDate(), "jYYYY/jM/jD");
         const fetchData = async () => {
             const shippingTime = await currentOrder();
-            const myDays = generateDays(today, shippingTime);
-            setDays(myDays);
+
+            setDays(generateDays());
+
+            if (shippingTime) {
+                setSelectedDate(shippingTime);
+            }
         };
+
         fetchData();
-    }, []); // Empty dependency array to run only once when the component mounts
+    }, []);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const selectedDate = e.target.value;
-        const today = moment(convertMiladiDateToJalaliDate(), "jYYYY/jM/jD");
-        const myDays = generateDays(today, selectedDate);
+    const handleChange = (
+        e: ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = e.target.value;
 
-        setDays(myDays);
-        if (isFunction(onSelectTime)) onSelectTime(selectedDate);
+        setSelectedDate(value);
+
+        if (isFunction(onSelectTime)) {
+            onSelectTime(value);
+        }
     };
 
     return (
-        <div className="text-xs overflow-y-scroll">
-            {!isEmpty(days) &&
-                days.map((item, index) => (
-                    <span
-                        className="px-5 flex bsg-gray-100 mx-2 my-2 rounded items-center bg-gray-100"
-                        key={item.value + index}
-                    >
-                        <div className="mt-2">
-                            <FormControl>
-                                <RadioGroup name="day" onChange={handleChange}>
-                                    <FormControlLabel
-                                        value={item?.value}
-                                        control={<Radio checked={item.checked} />}
-                                        label=""
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-                        <div className="px-2 "> {item?.dayName} </div>
-                    </span>
-                ))}
+        <div className="px-4 py-3">
+            <h2 className="mb-4 font-bold text-sm md:text-base">
+                زمان ارسال سفارش
+            </h2>
+
+            <FormControl className="w-full">
+                <RadioGroup
+                    value={selectedDate}
+                    onChange={handleChange}
+                >
+                    <div className="gap-3 grid grid-cols-1 md:grid-cols-2">
+                        {days.map((item) => (
+                            <label
+                                key={item.value}
+                                className={`flex cursor-pointer items-center justify-between rounded-xl border p-2 transition-all
+                  ${selectedDate === item.value
+                                        ? "border-blue-500 bg-blue-50"
+                                        : "border-gray-200 hover:border-gray-300"
+                                    }`}
+                            >
+                                <div>
+                                    <div className="font-medium text-sm">
+                                        {item.dayName}
+                                    </div>
+
+                                    <div className="mt-1 text-gray-500 text-xs">
+                                        ارسال در این تاریخ
+                                    </div>
+                                </div>
+
+                                <FormControlLabel
+                                    value={item.value}
+                                    control={<Radio />}
+                                    label=""
+                                    className="m-0"
+                                />
+                            </label>
+                        ))}
+                    </div>
+                </RadioGroup>
+            </FormControl>
         </div>
     );
 }

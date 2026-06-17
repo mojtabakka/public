@@ -50,55 +50,87 @@ const ShippingPrice: React.FC<PropsType> = ({
     return (
         <>
             {!loading && < div className="mx-0 md:mx-2 lg:mx-2 mt-4 md:mt-0 lg:mt-0 w-full md:w-1/2 lg:w-1/3 text-xs">
-                <Card className='mb-20 md:mb-0 lg:mb-0'>
-                    <div className="p-4 border rounded-lg w-full">
-                        <div className="flex justify-between my-4">
-                            <div>قیمت کالاها</div>
-                            <div>
-                                <span className="px-1">{  getToman(Number(purePrice) || 0)} </span> تومان
+                <Card className="shadow-sm mb-20 md:mb-0 rounded-xl">
+                    <div className="p-5">
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center pb-4 border-b">
+                                <span className="text-gray-600 text-sm">
+                                    قیمت کالاها
+                                </span>
+
+                                <span className="font-semibold text-sm">
+                                    {getToman(Number(purePrice) || 0)} تومان
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between items-center pb-4 border-b">
+                                <span className="text-gray-600 text-sm">
+                                    هزینه ارسال
+                                </span>
+
+                                <span className="font-semibold text-sm">
+                                    {getToman(Number(shippingPrice) || 0)} تومان
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <span className="font-bold">
+                                    قابل پرداخت
+                                </span>
+
+                                <span className="font-bold text-green-600 text-lg">
+                                    {getToman(Number(finalPrice) || 0)} تومان
+                                </span>
                             </div>
                         </div>
-                        <hr />
-                        <div className="flex justify-between my-4">
-                            <div>هزینه ارسال</div>
-                            <div>
-                                <span className="px-1">{getToman(Number(shippingPrice) || 0)} </span> تومان
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="flex justify-between my-4">
-                            <div>قابل پرداخت</div>
-                            <div>
-                                <span className="px-1">{getToman(Number(finalPrice) || 0)} </span> تومان
-                            </div>
-                        </div>
-                        <div className="hidden md:flex lg:flex justify-center mt-14">
+
+                        {/* Desktop Button */}
+                        <div className="hidden md:block mt-6">
                             {shippingPermision ? (
-                                <Button variant='contained' className="w-full" onClick={onClick}>
+                                <Button
+                                    className="!rounded-lg w-full"
+                                    size="large"
+                                    onClick={onClick}
+                                >
                                     ثبت سفارش
                                 </Button>
                             ) : (
-                                <Button className="w-full" color="primary" variant='contained'>
+                                <Button
+                                    className="!rounded-lg w-full"
+                                    size="large"
+                                >
                                     {inValidTextButton}
                                 </Button>
                             )}
                         </div>
-                        <div className="md:hidden lg:hidden right-0 bottom-0 fixed flex justify-between items-center bg-white shadow-lg p-5 border rounded-lg w-full">
-                            <div>
+
+                        {/* Mobile Sticky Footer */}
+                        <div className="md:hidden right-0 bottom-0 left-0 z-50 fixed bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.08)] p-4 border-t">
+                            <div className="flex justify-between items-center gap-4">
+                                <div>
+                                    <div className="text-gray-400 text-xs">
+                                        مبلغ قابل پرداخت
+                                    </div>
+
+                                    <div className="font-bold text-green-600 text-sm">
+                                        {getToman(Number(finalPrice) || 0)} تومان
+                                    </div>
+                                </div>
+
                                 {shippingPermision ? (
-                                    <Button className="w-full" onClick={onClick}>
+                                    <Button
+                                        className="flex-1 !rounded-lg"
+                                        onClick={onClick}
+                                    >
                                         ثبت سفارش
                                     </Button>
                                 ) : (
-                                    <Button className="w-full" color="primary">
+                                    <Button
+                                        className="flex-1 !rounded-lg"
+                                    >
                                         {inValidTextButton}
                                     </Button>
                                 )}
-                            </div>
-                            <div className="text-center">
-                                <div className="text-gray-400 text-xs">قیمت نهایی</div>
-                                <span className="px-1 text-xs">{getToman(Number(finalPrice) || 0)} </span>
-                                <span className="text-xs">تومان</span>
                             </div>
                         </div>
                     </div>

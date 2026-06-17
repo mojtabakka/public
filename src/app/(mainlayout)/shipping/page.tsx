@@ -150,7 +150,6 @@ const Shipping = () => {
                         </div>
                     </div>
                     <div className="mt-3 border rounded-lg">
-                        <div className="px-2 py-2">انتخاب زمان ارسال</div>
                         <SelectShippingTime onSelectTime={handleSelectTime} />
                     </div>
                 </Card>}

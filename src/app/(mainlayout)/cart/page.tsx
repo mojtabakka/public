@@ -63,34 +63,76 @@ const Cart = () => {
             </Card>
             {!isEmpty(cartItems) && cartItems && (
                 <div className="mt-2 w-full md:w-1/2 lg:w-1/3">
-                    <Card className="rounded-lg">
-                        <div>
-                            <div className="flex justify-between">
-                                <div>
-                                    <Icon icon="ic:baseline-price-check" className="inline-block text-base md:text-xl" />
-                                    <span className="px-2 text-xs md:text-sm">قیمت کالاها</span>
+                    <Card className="shadow-sm border rounded-xl">
+                        <div className="p-4">
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center pb-4 border-b">
+                                    <div className="flex items-center gap-2">
+                                        <Icon
+                                            icon="ic:baseline-price-check"
+                                            className="text-lg md:text-xl"
+                                        />
+                                        <span className="text-xs md:text-sm">
+                                            قیمت کالاها
+                                        </span>
+                                    </div>
+
+                                    <span className="font-semibold text-xs md:text-sm">
+                                        {englishToPersianNumbers(
+                                            getToman(Number(sumPrice))
+                                        )}{" "}
+                                        تومان
+                                    </span>
                                 </div>
-                                <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(sumPrice)))} تومان</div>
-                            </div>
-                            <hr className="my-5" />
-                            <div className="flex justify-between text-xs md:text-sm">
-                                <div>
-                                    <Icon icon="ic:baseline-price-check" className="inline-block text-base md:text-xl" />
-                                    <span className="px-2 text-xs md:text-sm">جمع سبد خرید</span>
+
+                                <div className="flex justify-between items-center pb-4 border-b">
+                                    <div className="flex items-center gap-2">
+                                        <Icon
+                                            icon="ic:baseline-price-check"
+                                            className="text-lg md:text-xl"
+                                        />
+                                        <span className="text-xs md:text-sm">
+                                            جمع سبد خرید
+                                        </span>
+                                    </div>
+
+                                    <span className="font-semibold text-xs md:text-sm">
+                                        {englishToPersianNumbers(
+                                            getToman(Number(sumFinalPrice))
+                                        )}{" "}
+                                        تومان
+                                    </span>
                                 </div>
-                                <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(sumFinalPrice)))} تومان</div>
-                            </div>
-                            <hr className="my-5" />
-                            <div className="flex justify-between text-red-500">
-                                <div>
-                                    <Icon icon="game-icons:profit" className="inline-block text-base md:text-xl" />
-                                    <span className="px-2 text-xs md:text-sm">سود شما از خرید</span>
+
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-2 text-red-500">
+                                        <Icon
+                                            icon="game-icons:profit"
+                                            className="text-lg md:text-xl"
+                                        />
+                                        <span className="text-xs md:text-sm">
+                                            سود شما از خرید
+                                        </span>
+                                    </div>
+
+                                    <span className="font-bold text-red-500 text-xs md:text-sm">
+                                        {englishToPersianNumbers(
+                                            getToman(Number(benefit))
+                                        )}{" "}
+                                        تومان
+                                    </span>
                                 </div>
-                                <div className="text-xs md:text-sm">{englishToPersianNumbers(getToman(Number(benefit)))} تومان</div>
                             </div>
-                            <div className="mt-10 mb-3 w-full text-center">
-                                <Link href={"shipping"} >
-                                    <Button variant="contained" className="w-full"> ثبت سفارش</Button>
+
+                            <div className="mt-6">
+                                <Link href="/shipping">
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        className="!rounded-lg w-full"
+                                    >
+                                        ثبت سفارش
+                                    </Button>
                                 </Link>
                             </div>
                         </div>
