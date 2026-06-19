@@ -56,7 +56,7 @@ function ModalAddress({
     // ✨ EMPTY STATE (Elegant)
     // =========================
     const EmptyState = (
-        <div className="flex flex-col justify-center items-center px-6 h-[70vh] text-center">
+        <div className="flex flex-col justify-center items-center px-6 h-[70vh] md:h-[40vh] text-center">
             <div className="bg-blue-50 mb-3 p-4 rounded-full">
                 <Icon
                     icon="fluent:location-add-20-filled"

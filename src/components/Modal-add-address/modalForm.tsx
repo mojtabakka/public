@@ -153,6 +153,10 @@ export default function ModalForm(props: propsType) {
           />
         </div>
       </div>
+      <ModalFooter className='hidden md:flex md:justify-end' >
+        {!props.address && <Button variant='contained' className='w-full md:w-fit' type='submit' loading={isSubmitting}>افزودن</Button>}
+        {props.address && <Button variant='contained' className='w-full md:w-fit' type='submit' loading={isSubmitting}>ویرایش</Button>}
+      </ModalFooter>
     </Form >
   )
 }

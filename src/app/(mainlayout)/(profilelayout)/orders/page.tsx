@@ -7,11 +7,14 @@ import { Order } from "@/types/order.type";
 import { isEmpty } from "lodash";
 import { getCompleteDateToPersian, groupBy } from "@/utils/function.utils";
 import { TabType } from "@/types/client/tab.type";
-import { fetchInstance } from "@/utils/fetch";
-import { endpoints } from "@/utils/end-points";
 import { Icon } from "@iconify/react";
 import OrderBoxSkeleton from "@/skeletons/order-box.skeleton";
 import { Product } from "@/types/product.type";
+
+import {
+    getCurrentOrders,
+    getPreviousOrders,
+} from "@/actions/order.action";
 
 const ACTIONS = {
     CURRENT_ORDERS: "current-orders",
@@ -24,22 +27,30 @@ const TAB_ITEMS = [
 ];
 
 export default function OrderDetails() {
-    const [orders, setOrders] = useState<Array<Order>>();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [tabAction, setTabAction] = useState<string>();
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [tabAction, setTabAction] = useState<string>(ACTIONS.CURRENT_ORDERS);
+
     const router = useRouter();
 
     useEffect(() => {
-        init();
+        loadOrders(ACTIONS.CURRENT_ORDERS);
     }, []);
 
-    const init = async () => {
+    const loadOrders = async (action: string | undefined) => {
         try {
-            const res = await fetchInstance(endpoints.order.getCurrentOrders, {
-                cache: "no-cache",
-            });
+            setIsLoading(true);
 
-            setOrders(res.data);
+            let res;
+
+            if (action === ACTIONS.COMPLETED_ORDERS) {
+                res = await getPreviousOrders();
+            } else {
+                res = await getCurrentOrders();
+            }
+
+            setOrders(res.data || []);
+            if (action) setTabAction(action);
         } catch (error) {
             console.log(error);
         } finally {
@@ -48,41 +59,8 @@ export default function OrderDetails() {
     };
 
     const handleClickTabItem = async (item: TabType) => {
-        try {
-            setIsLoading(true);
-
-            let data;
-
-            switch (item.action) {
-                case ACTIONS.CURRENT_ORDERS:
-                    if (item.action !== tabAction) {
-                        data = (
-                            await fetchInstance(endpoints.order.getCurrentOrders, {
-                                cache: "no-cache",
-                            })
-                        ).data;
-                    }
-                    setTabAction(item.action);
-                    break;
-
-                case ACTIONS.COMPLETED_ORDERS:
-                    if (item.action !== tabAction) {
-                        data = (
-                            await fetchInstance(endpoints.order.getPreviousOrders, {
-                                cache: "no-cache",
-                            })
-                        ).data;
-                    }
-                    setTabAction(item.action);
-                    break;
-            }
-
-            if (item.action !== tabAction) setOrders(data);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
+        if (item.action === tabAction) return;
+        await loadOrders(item.action);
     };
 
     const handleClickOrder = (orderId: string | number) => {
@@ -115,16 +93,16 @@ export default function OrderDetails() {
             {!isEmpty(orders) && !isLoading && (
                 <div className="space-y-4 mt-4">
 
-                    {orders?.map((order, key) => {
-                        const products = order?.products
-                            ? groupBy<Product>(order?.products, "model")
+                    {orders.map((order, index) => {
+                        const products = order.products
+                            ? groupBy<Product>(order.products, "model")
                             : null;
 
                         return (
                             <div
-                                key={key}
+                                key={index}
                                 onClick={() => handleClickOrder(order.id)}
-                                className="bg-gray-50 hover:bg-gray-100 p-4 border rounded-xl transition cursor-pointer"
+                                className="bg-gray-50 hover:bg-gray-100 p-4 border rounded-xl cursor-pointer"
                             >
 
                                 {/* Header */}
@@ -132,7 +110,6 @@ export default function OrderDetails() {
 
                                     <div className="flex gap-3 w-full">
 
-                                        {/* Info icon column */}
                                         <div className="space-y-2 w-1/3 text-gray-500">
                                             <div className="flex items-center gap-1">
                                                 <Icon icon="mdi:calendar" width="16" />
@@ -150,11 +127,10 @@ export default function OrderDetails() {
                                             </div>
                                         </div>
 
-                                        {/* Values */}
                                         <div className="space-y-2 w-full text-gray-800">
                                             <div>{getCompleteDateToPersian(order.created_at)}</div>
                                             <div className="font-medium">{order.id}</div>
-                                            <div className="font-bold text-black">
+                                            <div className="font-bold">
                                                 {order.price} تومان
                                             </div>
                                         </div>
@@ -172,8 +148,7 @@ export default function OrderDetails() {
                                 <div className="flex gap-2 bg-white mt-4 p-2 rounded-lg overflow-x-auto">
 
                                     {!isEmpty(products) &&
-                                        products &&
-                                        products.map((item, index) => {
+                                        products && products.map((item: any, index) => {
                                             const key = Object.keys(item)[0];
                                             const data = item[key][0];
                                             const number = item[key].length;
@@ -186,11 +161,10 @@ export default function OrderDetails() {
                                                             process.env.NEXT_PUBLIC_BASE_URL_CLIENT +
                                                             data.photos[0].src
                                                         }
-                                                        className="rounded-lg w-16 md:w-20 h-16 md:h-20 object-cover"
+                                                        className="rounded-lg w-16 h-16 object-cover"
                                                     />
 
-                                                    {/* quantity badge */}
-                                                    <span className="-top-1 -right-1 absolute bg-blue-500 px-2 py-0.5 rounded-full text-white text-xs">
+                                                    <span className="-top-1 -right-1 absolute bg-blue-500 px-2 rounded-full text-white text-xs">
                                                         {number}
                                                     </span>
 
@@ -199,7 +173,7 @@ export default function OrderDetails() {
                                         })}
                                 </div>
 
-                                {/* Footer action */}
+                                {/* Footer */}
                                 <div className="flex justify-end items-center gap-1 mt-3 text-blue-500">
                                     <Icon icon="mdi:eye-outline" />
                                     <span>مشاهده جزئیات</span>

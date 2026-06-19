@@ -1,8 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { Button, Form, InputLable, TextFiled } from "@/components";
-import { fetchInstance } from "@/utils/fetch";
-import { endpoints } from "@/utils/end-points";
 import { z as zod } from 'zod'
 import { useForm } from "react-hook-form";
 import { User } from "@/types/user.type";
@@ -22,6 +20,7 @@ const INPUT_NAMES = {
 import moment from '@/utils/momentJalali.util'
 import { getUser } from "./actions";
 import toast from "react-hot-toast";
+import { editUser } from "@/actions/user.action";
 
 export default function Profile() {
     const [user, setUser] = useState<User>();
@@ -103,7 +102,7 @@ export default function Profile() {
     } = methods;
     const onSubmit = handleSubmit(async (data) => {
         data.birthDate = moment(data.birthDate, "jYYYY/jMM/jDD").format("YYYY/MM/DD");
-        const promise = fetchInstance(endpoints.user.user, { method: "PATCH", body: { ...data } })
+        const promise = editUser(data)
         toast.promise(promise, {
             loading: "لطفا منتظر بمانید",
             success: "ویرایش اطلاعات شما با موفقیت انجام شد ",
@@ -116,12 +115,12 @@ export default function Profile() {
         }
     });
     return (
-        <div className=" bg-white rounded w-full h-full p-5 mt-5">
+        <div className="bg-white mt-5 p-5 rounded w-full h-full">
             <Form
                 methods={methods}
                 onSubmit={onSubmit}>
-                <div className=" lg:flex  lg:justify-center md:flex  md:justify-center w-full">
-                    <div className="w-full px-3 ">
+                <div className="md:flex lg:flex md:justify-center lg:justify-center w-full">
+                    <div className="px-3 w-full">
                         <div className="py-1">
                             <InputLable>نام</InputLable>
                             <TextFiled
@@ -152,7 +151,7 @@ export default function Profile() {
                             />
                         </div>
                     </div>
-                    <div className="w-full px-3">
+                    <div className="px-3 w-full">
                         <div className="p-1">
                             <InputLable>نام خانوادگی</InputLable>
                             <TextFiled
@@ -178,7 +177,7 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
-                <div className=" text-left p-4">
+                <div className="p-4 text-left">
                     <Button type="submit" variant="contained" loading={isSubmitting}>تایید</Button>
                 </div>
             </Form>

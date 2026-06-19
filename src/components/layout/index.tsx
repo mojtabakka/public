@@ -1,7 +1,6 @@
 
 "use server"
 import React from "react";
-import SearchInput from "../searchInput";
 import LoginText from "../login-text";
 import Logo from "../logo";
 import { Catergory } from "@/types/catergory.type";
@@ -9,6 +8,12 @@ import CategoryBox from "./CategoryBox";
 import Sidebar from "./sidebar";
 import { endpoints } from "@/utils/end-points";
 import { fetchInstance } from "@/utils/fetch";
+import dynamic from "next/dynamic";
+
+const SearchInput = dynamic(() => import("../searchInput"), {
+  ssr: false,
+});
+
 export default async function Layout() {
   let categories: Array<Catergory> = []
   try {

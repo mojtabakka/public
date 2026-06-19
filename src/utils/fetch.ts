@@ -31,7 +31,6 @@ export async function fetchInstance<B = undefined>(
     };
     // console.log(`${baseURL}${url}`)
     const response = await fetch(`${baseURL}${url}`, requestConfig);
-    console.log(response)
     if (!response.ok) {
       let errorResponse: any;
 

@@ -4,14 +4,12 @@ import SearchBoxSkeleton from "@/skeletons/search-box.skeleton";
 import SearchBox from "../search-box";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { endpoints } from "@/utils/end-points";
-import { fetchInstance } from "@/utils/fetch";
-import { Sheet } from "react-modal-sheet";
+// import { fetchInstance } from "@/utils/fetch";
 import { debounce } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { Drawer } from "vaul";
 import {
-  IconButton,
   InputBase,
   Divider,
   useMediaQuery,
@@ -19,6 +17,7 @@ import {
 
 import { useTheme } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
+import { fetchInstanceClient } from "@/utils/fetch-client";
 
 export default function SearchInput() {
   const theme = useTheme();
@@ -44,7 +43,8 @@ export default function SearchInput() {
   const debouncedChangeHandler = useMemo(() => {
     const handler = debounce(async (newValue: string) => {
       try {
-        const response = await fetchInstance(
+        console.log(newValue)
+        const response = await fetchInstanceClient(
           `${endpoints.product.searchProduct}?search=${newValue}`,
           {
             cache: "no-cache",
@@ -150,7 +150,7 @@ export default function SearchInput() {
       {/* Mobile Bottom Sheet */}
       <Drawer.Root open={mobileOpen} onOpenChange={setMobileOpen}  >
 
-        <Drawer.Overlay className="fixed inset-0 bg-black/40" style={{zIndex:9000}} />
+        <Drawer.Overlay className="fixed inset-0 bg-black/40" style={{ zIndex: 9000 }} />
 
         <Drawer.Content className="right-0 bottom-0 left-0 fixed flex flex-col bg-white rounded-t-[32px] h-[90vh] overflow-hidden" style={{ zIndex: 10000 }}>
 

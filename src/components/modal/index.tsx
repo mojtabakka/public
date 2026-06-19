@@ -122,7 +122,7 @@ export default function Modal(props: propsType) {
                         {/* FOOTER (PRO VERSION) */}
                         {sheetFooter && (
                             <div
-                                className="bottom-0 z-10 sticky flex items-center gap-2 bg-white p-3"
+                                className="bottom-0 z-10 sticky flex items-center gap-2 bg-white p-3 border-t"
                                 style={{
                                     paddingBottom:
                                         "calc(12px + env(safe-area-inset-bottom))",

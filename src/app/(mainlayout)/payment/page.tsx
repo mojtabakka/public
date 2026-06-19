@@ -8,9 +8,6 @@ import ShippingPrice from "@/components/shipping-price";
 import { getMonthName, groupBy } from "@/utils/function.utils";
 import { Icon } from "@iconify/react";
 import { isEmpty } from "lodash";
-import { ORDER_STATUS } from "@/config/general.config";
-import { endpoints } from "@/utils/end-points";
-import { fetchInstance } from "@/utils/fetch";
 import {
   FormControl,
   FormControlLabel,
@@ -20,9 +17,15 @@ import {
 import { Product } from "@/types/product.type";
 import PaymentSkeleton from "@/skeletons/payment.skeleton";
 
+import {
+  getCurrentOrder,
+  getCurrentBasket,
+  changeOrderStatus,
+} from "@/actions/order.action";
+
 export default function Payment() {
   const [showPage, setShowPage] = useState(true);
-  const [cart, setCart] = useState<any>();
+  const [cart, setCart] = useState<any[]>([]);
   const [shippingTime, setShippingTime] = useState<string>();
   const [shippingPermision, setShippingPermission] = useState(false);
   const [orderId, setOrderId] = useState("");
@@ -35,27 +38,27 @@ export default function Payment() {
   }, []);
 
   const currentOrder = async () => {
-    setLoading(true);
     try {
-      const order = await fetchInstance(
-        endpoints.order.getCurrentOrder,
-        { cache: "no-cache" }
-      );
+      setLoading(true);
 
-      if (!order.data) return;
+      const order = await getCurrentOrder();
+
+      if (!order?.data) {
+        setShowPage(false);
+        return;
+      }
 
       setShowPage(true);
 
-      const response = await fetchInstance(
-        endpoints.order.getCurrentBasket.replace(
-          ":cartId",
-          localStorage.getItem("cartId") || ""
-        ),
-        { cache: "no-cache" }
-      );
+      const cartId =
+        typeof window !== "undefined"
+          ? localStorage.getItem("cartId") || ""
+          : "";
+
+      const basket = await getCurrentBasket(cartId);
 
       const grouped = groupBy<Product>(
-        response.data.products,
+        basket.data.products,
         "model"
       );
 
@@ -82,19 +85,7 @@ export default function Payment() {
 
   const handleClickOrder = async () => {
     try {
-      await fetchInstance(
-        endpoints.order.changeStatusorder.replace(
-          ":id",
-          orderId
-        ),
-        {
-          method: "PATCH",
-          body: {
-            paymentMethod: ORDER_STATUS.payed,
-            status: ORDER_STATUS.payed,
-          },
-        }
-      );
+      await changeOrderStatus(orderId);
 
       router.push("/payment/final-payment");
     } catch (err) {
@@ -113,7 +104,6 @@ export default function Payment() {
           <Card className="shadow-sm rounded-xl w-full">
             <div className="space-y-6">
 
-              {/* payment methods */}
               <div>
                 <h2 className="mb-4 font-semibold text-gray-500 text-sm">
                   روش پرداخت
@@ -124,14 +114,12 @@ export default function Payment() {
                     name="payment"
                     onChange={handlePaymentChange}
                   >
-                    <label className="flex justify-between items-center p-2 border hover:border-blue-400 rounded-xl cursor-pointer">
+                    <label className="flex justify-between items-center p-2 border rounded-xl cursor-pointer">
                       <div className="flex items-center gap-3">
-                        <Icon
-                          icon="fluent:payment-28-regular"
-                          className="text-2xl"
-                        />
+                        <Icon icon="fluent:payment-28-regular" className="text-2xl" />
                         <span>پرداخت اینترنتی</span>
                       </div>
+
                       <FormControlLabel
                         value="internet"
                         control={<Radio />}
@@ -139,14 +127,12 @@ export default function Payment() {
                       />
                     </label>
 
-                    <label className="flex justify-between items-center mt-3 p-2 border hover:border-blue-400 rounded-xl cursor-pointer">
+                    <label className="flex justify-between items-center mt-3 p-2 border rounded-xl cursor-pointer">
                       <div className="flex items-center gap-3">
-                        <Icon
-                          icon="mingcute:home-7-line"
-                          className="text-2xl"
-                        />
+                        <Icon icon="mingcute:home-7-line" className="text-2xl" />
                         <span>پرداخت در محل</span>
                       </div>
+
                       <FormControlLabel
                         value="local"
                         control={<Radio />}
@@ -157,22 +143,17 @@ export default function Payment() {
                 </FormControl>
               </div>
 
-              {/* shipping time */}
               <div className="text-gray-500 text-sm">
-                <span>زمان ارسال:</span>{" "}
+                زمان ارسال:{" "}
                 <span className="font-semibold text-black">
                   {shippingTime}
                 </span>
               </div>
 
-              {/* cart preview */}
               <div className="p-3 border rounded-xl">
                 {isEmpty(cart) ? (
                   <div className="flex justify-center py-10">
-                    <Icon
-                      icon="mdi:trash"
-                      className="text-gray-300 text-6xl"
-                    />
+                    <Icon icon="mdi:trash" className="text-gray-300 text-6xl" />
                   </div>
                 ) : (
                   <div className="gap-3 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8">
@@ -182,16 +163,13 @@ export default function Payment() {
                       const count = item[key].length;
 
                       return (
-                        <div
-                          key={index}
-                          className="relative flex justify-center"
-                        >
+                        <div key={index} className="relative flex justify-center">
                           <img
                             src={
                               process.env.NEXT_PUBLIC_BASE_URL_CLIENT +
                               data.photos[0].src
                             }
-                            className="w-16 sm:w-20 h-16 sm:h-20 object-contain"
+                            className="w-16 h-16 object-contain"
                           />
 
                           <span className="-right-1 -bottom-1 absolute bg-gray-500 px-2 rounded-full text-white text-xs">
@@ -203,11 +181,11 @@ export default function Payment() {
                   </div>
                 )}
               </div>
+
             </div>
           </Card>
         )}
 
-        {/* RIGHT SIDE */}
         <ShippingPrice
           shippingPermision={shippingPermision}
           onCartItem={() => { }}
