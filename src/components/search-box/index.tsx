@@ -23,14 +23,14 @@ export default function SearchBox({
     onClick,
 }: PropsType) {
     return (
-        <div className="space-y-6 md:p-4">
+        <div className="space-y-6 md:p-4 px-3">
             {/* Products */}
             {!isEmpty(items.products) && (
                 <div>
-                    <div className="mb-3 flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-3">
                         <Icon
                             icon="solar:box-linear"
-                            className="text-xl text-blue-500"
+                            className="text-blue-500 text-xl"
                         />
                         <h3 className="font-bold text-gray-800">
                             محصولات
@@ -43,61 +43,27 @@ export default function SearchBox({
                                 key={index}
                                 href={`/product-detail/${item.product_model}`}
                                 onClick={onClick}
-                                className="
-                  group
-                  flex
-                  items-center
-                  gap-3
-                  rounded-2xl
-                  border
-                  border-gray-100
-                  bg-white
-                  p-3
-                  transition-all
-                  duration-200
-                  hover:border-blue-100
-                  hover:bg-blue-50/40
-                  hover:shadow-md
-                "
+                                className="group flex items-center gap-3 bg-white hover:bg-blue-50/40 hover:shadow-md p-3 border border-gray-100 hover:border-blue-100 rounded-2xl transition-all duration-200"
                             >
                                 <div
-                                    className="
-                    flex
-                    h-10
-                    w-10
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-gray-100
-                    transition-all
-                    group-hover:bg-blue-100
-                  "
+                                    className="flex justify-center items-center bg-gray-100 group-hover:bg-blue-100 rounded-full w-10 h-10 transition-all"
                                 >
                                     <Icon
                                         icon="solar:magnifer-linear"
-                                        className="text-lg text-gray-600"
+                                        className="text-gray-600 text-lg"
                                     />
                                 </div>
 
                                 <div className="flex-1">
                                     <p
-                                        className="
-                      text-sm
-                      font-medium
-                      text-gray-800
-                    "
+                                        className="font-medium text-gray-800 text-sm"
                                     >
                                         {item.product_model}
                                     </p>
 
                                     {item.brand && (
                                         <span
-                                            className="
-                        mt-1
-                        inline-block
-                        text-xs
-                        text-gray-500
-                      "
+                                            className="inline-block mt-1 text-gray-500 text-xs"
                                         >
                                             {item.brand}
                                         </span>
@@ -106,12 +72,7 @@ export default function SearchBox({
 
                                 <Icon
                                     icon="solar:alt-arrow-left-linear"
-                                    className="
-                    text-lg
-                    text-gray-400
-                    transition-transform
-                    group-hover:-translate-x-1
-                  "
+                                    className="text-gray-400 text-lg transition-transform group-hover:-translate-x-1"
                                 />
                             </Link>
                         ))}
@@ -122,10 +83,10 @@ export default function SearchBox({
             {/* Categories */}
             {!isEmpty(items.category) && (
                 <div>
-                    <div className="mb-3 flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-3">
                         <Icon
                             icon="solar:widget-2-linear"
-                            className="text-xl text-emerald-500"
+                            className="text-emerald-500 text-xl"
                         />
                         <h3 className="font-bold text-gray-800">
                             دسته‌بندی‌ها
@@ -138,49 +99,20 @@ export default function SearchBox({
                                 key={index}
                                 href={`/products?category=${item.id}`}
                                 onClick={onClick}
-                                className="
-                  group
-                  flex
-                  items-center
-                  gap-3
-                  rounded-2xl
-                  border
-                  border-gray-100
-                  bg-white
-                  p-3
-                  transition-all
-                  duration-200
-                  hover:border-emerald-100
-                  hover:bg-emerald-50/50
-                  hover:shadow-md
-                "
+                                className="group flex items-center gap-3 bg-white hover:bg-emerald-50/50 hover:shadow-md p-3 border border-gray-100 hover:border-emerald-100 rounded-2xl transition-all duration-200"
                             >
                                 <div
-                                    className="
-                    flex
-                    h-10
-                    w-10
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-gray-100
-                    transition-all
-                    group-hover:bg-emerald-100
-                  "
+                                    className="flex justify-center items-center bg-gray-100 group-hover:bg-emerald-100 rounded-full w-10 h-10 transition-all"
                                 >
                                     <Icon
                                         icon="solar:widget-2-linear"
-                                        className="text-lg text-gray-600"
+                                        className="text-gray-600 text-lg"
                                     />
                                 </div>
 
                                 <div className="flex-1">
                                     <p
-                                        className="
-                      text-sm
-                      font-medium
-                      text-gray-800
-                    "
+                                        className="font-medium text-gray-800 text-sm"
                                     >
                                         {item.title}
                                     </p>
@@ -188,12 +120,7 @@ export default function SearchBox({
 
                                 <Icon
                                     icon="solar:alt-arrow-left-linear"
-                                    className="
-                    text-lg
-                    text-gray-400
-                    transition-transform
-                    group-hover:-translate-x-1
-                  "
+                                    className="text-gray-400 text-lg transition-transform group-hover:-translate-x-1"
                                 />
                             </Link>
                         ))}
@@ -205,25 +132,18 @@ export default function SearchBox({
             {isEmpty(items.category) &&
                 isEmpty(items.products) && (
                     <div
-                        className="
-              flex
-              flex-col
-              items-center
-              justify-center
-              py-12
-              text-center
-            "
+                        className="flex flex-col justify-center items-center py-12 text-center"
                     >
                         <Icon
                             icon="solar:magnifer-broken"
-                            className="mb-3 text-6xl text-gray-300"
+                            className="mb-3 text-gray-300 text-6xl"
                         />
 
                         <h3 className="font-medium text-gray-700">
                             نتیجه‌ای پیدا نشد
                         </h3>
 
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-gray-500 text-sm">
                             عبارت دیگری را جستجو کنید
                         </p>
                     </div>

@@ -52,32 +52,32 @@ export default function Addresses() {
     };
 
     return (
-        <div className=" bg-white mt-5 p-3  rounded">
-            {!loading && <div className="border p-2 rounde4">
+        <div className="bg-white mt-5 p-3 rounded">
+            {!loading && <div className="p-2 border rounde4">
                 <div className="mb-5">آدرس ها </div>
                 {!isEmpty(addresses) &&
                     addresses.map((item, index) => (
-                        <div key={index} className="flex justify-between border p-4 mb-2 rounded">
+                        <div key={index} className="flex justify-between mb-2 p-4 border rounded">
                             <div className="w-full">
-                                <div className=" w-full">
+                                <div className="w-full">
                                     {item.address}
                                     <div className="mt-3">
-                                        <Icon icon="mdi:city" className=" inline-block text-base text-gray-400" />
+                                        <Icon icon="mdi:city" className="inline-block text-gray-400 text-base" />
                                         <span className="px-3 text-gray-400">{item.city}</span>
                                     </div>
                                     <div className="mt-1">
-                                        <Icon icon="ic:outline-email" className=" inline-block text-base text-gray-400 " />
+                                        <Icon icon="ic:outline-email" className="inline-block text-gray-400 text-base" />
                                         <span className="px-3 text-gray-400">
                                             {item.postalCode}
                                         </span>
                                     </div>
                                     <div className="my-1">
-                                        <Icon icon="proicons:person" className=" inline-block text-base text-gray-400" />
-                                        <span className=" mx-2 text-gray-400 "> hdlld</span>
+                                        <Icon icon="proicons:person" className="inline-block text-gray-400 text-base" />
+                                        <span className="mx-2 text-gray-400"> hdlld</span>
                                     </div>
                                 </div>
                             </div>
-                            <div className=" relative">
+                            <div className="relative">
                                 <PopoverListIcon
                                     icon="ph:dots-three"
                                     items={[
@@ -121,10 +121,10 @@ export default function Addresses() {
                         </div>
                     ))}
                 <div
-                    className="border rounded p-2 text-center text-blue-400 bg-gray-200 cursor-pointer font-black"
+                    className="bg-gray-200 p-2 border rounded font-black text-blue-400 text-center cursor-pointer"
                     onClick={() => setShowAddModal(true)}
                 >
-                    <Icon icon="mdi:location-add-outline" className=" inline-block text-base" />
+                    <Icon icon="mdi:location-add-outline" className="inline-block text-base" />
                     <span className="px-2">افزودن آدرس جدید</span>
                 </div>
             </div>

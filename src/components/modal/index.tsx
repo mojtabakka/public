@@ -1,20 +1,21 @@
+import React, { ReactNode } from "react";
+import MuiModal from "@mui/material/Modal";
+import { useMediaQuery, useTheme } from "@mui/material";
+import { Drawer } from "vaul";
 
-
-import { Drawer, useMediaQuery, useTheme } from '@mui/material'
-import React, { ReactNode } from 'react'
-import MuiModal from '@mui/material/Modal';
 interface propsType {
-    anchor?: "bottom" | "left" | "top" | "right" | undefined,
-    title: string | ReactNode,
-    onClose?: () => void,
-    modalContent?: ReactNode,
-    modalFooter?: ReactNode,
-    className?: string,
-    show?: boolean,
-    sheetSubtitle?: string,
-    sheetContent?: ReactNode,
-    sheetFooter?: ReactNode
+    anchor?: "bottom" | "left" | "top" | "right";
+    title: string | ReactNode;
+    onClose?: () => void;
+    modalContent?: ReactNode;
+    modalFooter?: ReactNode;
+    className?: string;
+    show?: boolean;
+    sheetSubtitle?: string;
+    sheetContent?: ReactNode;
+    sheetFooter?: ReactNode;
 }
+
 export default function Modal(props: propsType) {
     const {
         sheetContent,
@@ -26,7 +27,6 @@ export default function Modal(props: propsType) {
         modalFooter,
         className,
         show,
-        anchor = "bottom",
     } = props;
 
     const theme = useTheme();
@@ -34,37 +34,36 @@ export default function Modal(props: propsType) {
 
     return (
         <>
-            {/* DESKTOP MODAL */}
+            {/* ================= DESKTOP MODAL ================= */}
             {!isMobile && (
                 <MuiModal
                     open={show || false}
                     onClose={onClose}
-                    className="fixed inset-0 flex items-center justify-center z-[100000]"
+                    className="z-[100000] fixed inset-0 flex justify-center items-center"
                 >
                     <>
+                        {/* BACKDROP */}
                         <div
                             className="absolute inset-0 bg-black/40"
                             onClick={onClose}
                         />
 
-                        <div className="relative w-full max-w-2xl mx-4 bg-white dark:bg-gray-700 rounded-lg shadow-lg flex flex-col max-h-[90vh]">
+                        {/* MODAL */}
+                        <div className="relative flex flex-col bg-white dark:bg-gray-700 shadow-lg mx-4 rounded-lg w-full max-w-2xl max-h-[90vh]">
                             {/* HEADER */}
-                            <div className="flex items-center justify-between p-4 border-b">
-                                <h3 className="text-xl font-semibold">
-                                    {title}
-                                </h3>
-
+                            <div className="flex justify-between items-center p-4 border-b">
+                                <h3 className="font-semibold text-xl">{title}</h3>
                                 <button onClick={onClose}>✕</button>
                             </div>
 
                             {/* CONTENT */}
-                            <div className="p-4 overflow-y-auto flex-1">
+                            <div className="flex-1 p-4 overflow-y-auto">
                                 {modalContent}
                             </div>
 
                             {/* FOOTER */}
                             {modalFooter && (
-                                <div className="p-4 border-t flex gap-2">
+                                <div className="flex gap-2 p-4 border-t">
                                     {modalFooter}
                                 </div>
                             )}
@@ -73,38 +72,67 @@ export default function Modal(props: propsType) {
                 </MuiModal>
             )}
 
-            {/* MOBILE DRAWER */}
+            {/* ================= MOBILE BOTTOM SHEET (VAUL) ================= */}
             {isMobile && (
-                <Drawer
-                    className="lg:hidden"
+                <Drawer.Root
                     open={show}
-                    onClose={onClose}
-                    anchor={anchor}
+                    onOpenChange={(open) => !open && onClose?.()}
                 >
-                    <div style={{ height: "80vh" }}>
-                        <header>
-                            <div className="p-3">
-                                <div>{title}</div>
-                                <span className="text-xs text-gray-400">
+                    {/* BACKDROP */}
+                    <Drawer.Overlay
+                        className="fixed inset-0 bg-black/40"
+                        style={{ zIndex: 9000 }}
+                    />
+
+                    {/* SHEET */}
+                    <Drawer.Content
+                        style={{
+                            zIndex: 10000,
+                            WebkitTapHighlightColor: "transparent",
+                        }}
+                        className="right-0 bottom-0 left-0 fixed flex flex-col bg-white rounded-t-[28px] outline-none focus:outline-none h-[85vh] overflow-hidden"
+                    >
+                        {/* HANDLE */}
+                        <div className="flex justify-center py-3">
+                            <div className="bg-gray-300 rounded-full w-12 h-1.5" />
+                        </div>
+
+                        {/* HEADER */}
+                        <div className="px-4 pb-2">
+                            <div className="font-semibold text-base">
+                                {title}
+                            </div>
+
+                            {sheetSubtitle && (
+                                <div className="text-gray-400 text-xs">
                                     {sheetSubtitle}
-                                </span>
-                            </div>
-                            <hr />
-                        </header>
-
-                        <div className="bg-gray-100 h-full overflow-y-auto">
-                            <div className={className}>
-                                {sheetContent}
-                            </div>
-
-                            {sheetFooter && (
-                                <div className="fixed bottom-0 w-full bg-white p-3 border flex justify-end">
-                                    {sheetFooter}
                                 </div>
                             )}
                         </div>
-                    </div>
-                </Drawer>
+
+                        <hr />
+
+                        {/* CONTENT */}
+                        <div className="flex-1 pb-4 overflow-y-auto">
+                            <div className={className}>
+                                {sheetContent}
+                            </div>
+                        </div>
+
+                        {/* FOOTER (PRO VERSION) */}
+                        {sheetFooter && (
+                            <div
+                                className="bottom-0 z-10 sticky flex items-center gap-2 bg-white p-3"
+                                style={{
+                                    paddingBottom:
+                                        "calc(12px + env(safe-area-inset-bottom))",
+                                }}
+                            >
+                                {sheetFooter}
+                            </div>
+                        )}
+                    </Drawer.Content>
+                </Drawer.Root>
             )}
         </>
     );

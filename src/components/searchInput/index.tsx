@@ -5,15 +5,14 @@ import SearchBox from "../search-box";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { endpoints } from "@/utils/end-points";
 import { fetchInstance } from "@/utils/fetch";
-
+import { Sheet } from "react-modal-sheet";
 import { debounce } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 
+import { Drawer } from "vaul";
 import {
-  Drawer,
   IconButton,
   InputBase,
-  Box,
   Divider,
   useMediaQuery,
 } from "@mui/material";
@@ -149,80 +148,43 @@ export default function SearchInput() {
       </div>
 
       {/* Mobile Bottom Sheet */}
-      <Drawer
-        anchor="bottom"
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        PaperProps={{
-          sx: {
-            height: "90vh",
-            borderTopLeftRadius: "32px",
-            borderTopRightRadius: "32px",
-            overflow: "hidden",
-            backdropFilter: "blur(20px)",
-            boxShadow:
-              "0 -10px 40px rgba(0,0,0,.12)",
-          },
-        }}
-      >
-        <Box className="flex flex-col h-full">
+      <Drawer.Root open={mobileOpen} onOpenChange={setMobileOpen}  >
+
+        <Drawer.Overlay className="fixed inset-0 bg-black/40" style={{zIndex:9000}} />
+
+        <Drawer.Content className="right-0 bottom-0 left-0 fixed flex flex-col bg-white rounded-t-[32px] h-[90vh] overflow-hidden" style={{ zIndex: 10000 }}>
+
           {/* Handle */}
-          <Box className="flex justify-center py-3">
-            <Box
-              sx={{
-                width: 48,
-                height: 5,
-                borderRadius: 999,
-                backgroundColor: "#d1d5db",
-              }}
-            />
-          </Box>
+          <div className="flex justify-center py-3">
+            <div className="bg-gray-300 rounded-full w-12 h-1.5" />
+          </div>
 
           {/* Header */}
-          <Box className="flex justify-between items-center px-4 pb-3">
-            <h2 className="font-bold text-sm">
-              جستجوی محصولات
-            </h2>
+          <div className="flex justify-between items-center px-4 pb-3">
+            <h2 className="font-bold text-sm">جستجوی محصولات</h2>
 
-            <IconButton
-              onClick={() => setMobileOpen(false)}
-            >
-              <Icon
-                icon="solar:close-circle-linear"
-                width={24}
-              />
-            </IconButton>
-          </Box>
+            {/* <IconButton onClick={() => setMobileOpen(false)}>
+                <Icon icon="solar:close-circle-linear" width={24} />
+              </IconButton> */}
+          </div>
 
           <Divider />
 
-          {/* Search Input */}
-          <Box className="p-4">
-            <Box
-              className="flex items-center bg-gray-100 px-3 py-2 rounded-2xl"
-            >
-              <Icon
-                icon="solar:magnifer-linear"
-                className="text-gray-500 text-2xl"
-              />
-
+          {/* Search */}
+          <div className="p-4">
+            <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-2xl">
+              <Icon icon="solar:magnifer-linear" className="text-gray-500 text-2xl" />
               <InputBase
-                autoFocus
                 fullWidth
                 value={value}
                 onChange={handleChange}
                 placeholder="نام محصول را جستجو کنید..."
-                sx={{
-                  mr: 1,
-                }}
               />
-            </Box>
-          </Box>
+            </div>
+          </div>
 
           {/* Results */}
-          <Box
-            className="flex-1 px-4 pb-10 overflow-y-auto"
-          >
+          <div className="flex-1 px-4 pb-10 overflow-y-auto">
             {loading ? (
               <SearchBoxSkeleton />
             ) : (
@@ -233,9 +195,9 @@ export default function SearchInput() {
                 />
               )
             )}
-          </Box>
-        </Box>
-      </Drawer>
+          </div>
+        </Drawer.Content>
+      </Drawer.Root>
     </>
   );
 }

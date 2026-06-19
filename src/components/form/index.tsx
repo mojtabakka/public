@@ -9,12 +9,13 @@ export type FormProps = {
   children: React.ReactNode;
   methods: UseFormReturn<any>;
   style?: any;
+  id?: string;
 };
 
-export default function Form({ children, onSubmit, methods, style }: FormProps) {
+export default function Form({ children, onSubmit, methods, style, id }: FormProps) {
   return (
     <RHFForm {...methods}>
-      <form style={{ ...style }} onSubmit={onSubmit} noValidate autoComplete="off">
+      <form style={{ ...style }} onSubmit={onSubmit} noValidate autoComplete="off" id={id}>
         {children}
       </form>
     </RHFForm>

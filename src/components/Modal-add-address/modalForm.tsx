@@ -44,36 +44,10 @@ export default function ModalForm(props: propsType) {
   };
   const UserQuickEditSchema = zod.object({
     plaque: zod.string().trim().min(1, { message: "پلاک را وارد کنید" }),
-
     state: zod.string().trim().min(1, { message: "استان را وارد کنید" }),
-
     city: zod.string().trim().min(1, { message: "لطفا شهر را وارد کنید" }),
-
-    postalCode: zod
-      .string()
-      .trim()
-      .regex(/^\d{10}$/, {
-        message: "کد پستی باید ۱۰ رقم عددی باشد",
-      }),
-
-    address: zod
-      .string()
-      .trim()
-      .min(1, { message: "لطفا نشانی پستی را وارد کنید" }),
-
-    receivername: zod.string().trim().min(1, { message: "نام گیرنده را وارد کنید" }),
-
-    receiverlastname: zod
-      .string()
-      .trim()
-      .min(1, { message: "نام خانوادگی گیرنده را وارد کنید" }),
-
-    recivermobile: zod
-      .string()
-      .trim()
-      .regex(/^09\d{9}$/, {
-        message: "شماره موبایل باید با 09 شروع شود و 11 رقم باشد",
-      }),
+    postalCode: zod.string().trim().min(1, { message: "لطفا کد پستی را وارد کنید" }),
+    address: zod.string().trim().min(1, { message: "لطفا نشانی پستی را وارد کنید" }),
   });
   const methods = useForm({
     mode: 'all',
@@ -101,8 +75,8 @@ export default function ModalForm(props: propsType) {
     }
   });
   return (
-    <Form methods={methods} onSubmit={onSubmit}>
-      <div className="mb-4 px-6 pt-5 pb-3 lg:pb-0 overflow-scroll">
+    <Form methods={methods} onSubmit={onSubmit} id="add-address-form-id">
+      <div className="mb-4 px-6 pt-5 pb-3 lg:pb-0 overflow-scrollf">
 
         <InputLable>نشانی پستی</InputLable>
         <TextFiled
@@ -149,7 +123,7 @@ export default function ModalForm(props: propsType) {
             <InputLable>کدپستی</InputLable>
             <TextFiled
               name={INPUT_NAMES.postalCode}
-              mask='9999999999'
+              mask='99999999999'
               textAlign='right'
             // subText="کدپستی باید ۱۰ رقم و بدون خط خوردگی باشد"
             />
@@ -179,12 +153,6 @@ export default function ModalForm(props: propsType) {
           />
         </div>
       </div>
-
-      <ModalFooter className='justify-end' >
-        {!props.address && <Button variant='contained' type='submit' loading={isSubmitting}>افزودن</Button>}
-        {props.address && <Button variant='contained' type='submit' loading={isSubmitting}>ویرایش</Button>}
-
-      </ModalFooter>
     </Form >
   )
 }

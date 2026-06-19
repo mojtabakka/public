@@ -7,7 +7,7 @@ export default function PaymentSkeleton() {
             {/* LEFT SIDE */}
             <div className="w-full">
                 <div className="rounded-xl">
-                    <div className="space-y-6 p-5">
+                    <div className="space-y-6 p-2">
 
                         {/* title */}
                         <Skeleton width={120} height={24} />

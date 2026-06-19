@@ -104,14 +104,14 @@ export default function Payment() {
 
   return (
     showPage && (
-      <div className="md:flex lg:flex gap-4 px-2 pt-5">
+      <div className="md:flex lg:flex gap-4">
 
         {/* LEFT SIDE */}
         {loading ? (
           <PaymentSkeleton />
         ) : (
           <Card className="shadow-sm rounded-xl w-full">
-            <div className="space-y-6 p-5">
+            <div className="space-y-6">
 
               {/* payment methods */}
               <div>
@@ -124,7 +124,7 @@ export default function Payment() {
                     name="payment"
                     onChange={handlePaymentChange}
                   >
-                    <label className="flex justify-between items-center p-4 border hover:border-blue-400 rounded-xl cursor-pointer">
+                    <label className="flex justify-between items-center p-2 border hover:border-blue-400 rounded-xl cursor-pointer">
                       <div className="flex items-center gap-3">
                         <Icon
                           icon="fluent:payment-28-regular"
@@ -139,7 +139,7 @@ export default function Payment() {
                       />
                     </label>
 
-                    <label className="flex justify-between items-center mt-3 p-4 border hover:border-blue-400 rounded-xl cursor-pointer">
+                    <label className="flex justify-between items-center mt-3 p-2 border hover:border-blue-400 rounded-xl cursor-pointer">
                       <div className="flex items-center gap-3">
                         <Icon
                           icon="mingcute:home-7-line"

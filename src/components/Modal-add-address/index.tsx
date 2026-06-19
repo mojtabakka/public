@@ -4,6 +4,7 @@ import Modal from '../modal';
 import { isFunction } from 'lodash';
 import ModalForm from './modalForm';
 import { Address } from '@/types/address.type';
+import Button from '../button';
 interface PropsType {
     address?: Address
     show: boolean
@@ -24,6 +25,7 @@ export default function ModalAddAddress(props: PropsType) {
             onClose={() => { if (isFunction(onClose)) onClose() }}
             modalContent={<ModalForm onResult={(item) => onResult(item)} address={props.address} />}
             sheetContent={<ModalForm onResult={(item) => onResult(item)} address={props.address} />}
+            sheetFooter={<Button className='w-full' form='add-address-form-id' type='submit'>{!props.address && "افزودن"} {props.address && "افزودن"}</Button>}
         />
 
     );

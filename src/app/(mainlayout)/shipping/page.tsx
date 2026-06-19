@@ -92,7 +92,7 @@ const Shipping = () => {
     return (
         <div className="mt-5">
             <div className="md:flex lg:flex justify-between">
-                {!addressLoading && <Card className="w-full">
+                {!addressLoading && <Card className="rounded-xl w-full">
                     <div className="p-3 border rounded-lg">
                         <div className="text-gray-400 text-medium">آدرس تحویل سفارش</div>
                         {isEmpty(address) && (
