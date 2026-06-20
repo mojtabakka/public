@@ -78,8 +78,8 @@ export default function OrderDetails() {
 
             {/* Empty state */}
             {isEmpty(orders) && !isLoading && (
-                <div className="flex justify-center p-20 text-gray-500">
-                    <div className="text-center">
+                <div className="flex justify-center items-center p-20 text-gray-500">
+                    <div className="flex flex-col justify-center items-center text-center">
                         <Icon
                             icon="solar:trash-bin-minimalistic-outline"
                             className="text-7xl"

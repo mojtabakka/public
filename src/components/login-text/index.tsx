@@ -6,7 +6,6 @@ import { Icon } from '@iconify/react'
 import CartIcon from "../cart-icon";
 import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
 import { jwtDecode } from 'jwt-decode';
-import { englishToPersianNumbers } from "@/utils/function.utils";
 import LoginButton from "./login-button";
 
 export default function LoginText() {
@@ -25,15 +24,15 @@ export default function LoginText() {
   const popoverItems: Array<PopoverListIconType> = [
     {
       id: 1,
-      title: <div className="font-extrabold text-lg">
-        <span> {englishToPersianNumbers(userInfo.phoneNumber || '')}</span>
+      title: <div className="!p-0 rounded-lg font-extrabold">
+        <span> {userInfo.phoneNumber}</span>
         <span className="font-medium text-gray-500 text-sm"> {userInfo?.fullName}</span>
       </div>,
       bgColor: "white",
-      border: true,
+
       href: "/profile",
       icon: <Icon icon="iconamoon:profile-circle" width="30" height="30" />,
-      secondIcon: <Icon icon="ep:arrow-left" className="text-xl" />
+      className: "!bg-gray-50 mx-3  rounded-xl border !p-0 !py-2 !px-1 ",
     },
 
     {
@@ -42,7 +41,6 @@ export default function LoginText() {
       bgColor: "white",
       href: "/orders",
       icon: <Icon icon="lsicon:order-outline" width="30" height="30" />,
-      secondIcon: <Icon icon="ep:arrow-left" className="text-xl" />
     },
 
     {
@@ -51,7 +49,6 @@ export default function LoginText() {
       bgColor: "white",
       href: "/address",
       icon: <Icon icon="pepicons-pencil:map" width="30" height="30" />,
-      secondIcon: <Icon icon="ep:arrow-left" className="text-xl" />
     },
 
 
@@ -61,7 +58,6 @@ export default function LoginText() {
       bgColor: "white",
       // href: "/address",
       icon: <Icon icon="pepicons-pencil:map" width="30" height="30" />,
-      secondIcon: <Icon icon="ep:arrow-left" className="text-xl" />
     },
 
 
@@ -95,23 +91,24 @@ export default function LoginText() {
   ];
   return (
     <>
-      {!!!token ? (
-        <div
-          className="flex items-center gap-2 md:p-2 lg:p-4"
-        >
+      {!token ? (
+        <div className="flex items-center gap-3 md:p-2 lg:p-4">
           <CartIcon />
           <LoginButton />
         </div>
       ) : (
-        <div className="flex gap-2 lg:gap-4">
+        <div className="flex items-center gap-3 lg:gap-5">
           <CartIcon />
+
           <PopoverListIcon
             sheetTitle={
-              <IconTitleSubtitle
-                icon={"healthicons:ui-user-profile"}
-                title={userInfo.fullName || ''}
-                subTitle={englishToPersianNumbers(userInfo.phoneNumber || '')}
-              />
+              <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
+                <IconTitleSubtitle
+                  icon={"healthicons:ui-user-profile"}
+                  title={userInfo.fullName || ""}
+                  subTitle={userInfo.phoneNumber || ""}
+                />
+              </div>
             }
             icon="iconamoon:profile-circle-fill"
             items={popoverItems}

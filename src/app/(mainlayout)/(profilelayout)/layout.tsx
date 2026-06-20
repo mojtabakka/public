@@ -17,7 +17,7 @@ export default function layout({ children }: { children: ReactNode }) {
     return (
         <div className="right-0 gap-1 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 w-full h-full overflow-x-scroll">
             <div className="hidden sm:hidden lg:block md:inline-block">
-                <div className="top-2 z-0 bg-white shadow-sm mt-5 mr-3 pb-40 rounded stickyz-0">
+                <div className="top-2 z-0 bg-white shadow-sm mt-5 mr-3 pb-40 rounded-xl stickyz-0">
                     <div className="flex justify-between items-center p-3">
                         <div>
                             <div className="flex items-center p-3">

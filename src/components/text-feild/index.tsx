@@ -52,6 +52,9 @@ export default function RHFTextField({
                     inputMode,
                   }}
                   sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "12px", // مقدار دلخواه
+                    },
                     input: {
                       textAlign,
                       direction: "ltr",
@@ -82,6 +85,9 @@ export default function RHFTextField({
               inputMode,
             }}
             sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "12px", // مقدار دلخواه
+              },
               input: {
                 textAlign,
               },

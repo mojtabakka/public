@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
-import { Drawer, Popover } from "@mui/material";
-import React, { ReactElement, useState } from "react";
+import { Drawer } from "vaul";
+import { Popover } from "@mui/material";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { isEmpty } from "lodash";
 import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
@@ -20,15 +21,23 @@ interface PropsType {
 export default function PopoverListIcon(props: PropsType) {
   const { items, icon, sheetTitle, sheetItems, onClick } = props;
 
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleOpen = (event: React.MouseEvent<any>) => {
     setAnchorEl(event.currentTarget as HTMLElement);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const siteLogout = async () => {
     try {
@@ -40,10 +49,10 @@ export default function PopoverListIcon(props: PropsType) {
         error: (error) =>
           Array.isArray(error?.message)
             ? error?.message[0]
-            : error?.message ||
-            "مشکلی پیش آمده لطفا بعدا امتحان کنید",
+            : error?.message || "مشکلی پیش آمده لطفا بعدا امتحان کنید",
       });
-      localStorage.clear()
+
+      localStorage.clear();
       window.location.reload();
     } catch (error) {
       console.log("logout error:", error);
@@ -54,110 +63,142 @@ export default function PopoverListIcon(props: PropsType) {
 
   return (
     <div className="relative">
+      {/* ICON */}
       <Icon
         icon={icon}
-        className="cursor-pointer lg:text-3xl text-3xl"
+        className="text-3xl cursor-pointer"
         onClick={handleOpen}
       />
 
-      <Popover
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        sx={{ display: { xs: "none", md: "none", lg: "block" } }}
-      >
-        <div
-          dir="rtl"
-          id="dropdown"
-          className="z-10 bg-white divide-y divide-gray-100 rounded shadow-xl w-52 dark:bg-gray-700"
+      {/* ================= DESKTOP → POPOVER ================= */}
+      {!isMobile && (
+        <Popover
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          PaperProps={{
+            sx: {
+              borderRadius: 3,
+              overflow: "hidden",
+              boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
+              border: "1px solid rgba(0,0,0,0.06)",
+              minWidth: 220,
+            },
+          }}
         >
-          <ul className="text-sm text-gray-700 dark:text-gray-200 w-full">
-            {!isEmpty(items) &&
-              items.map((item, index) => (
-                <span key={item?.id ? `${index}${item?.id}` : ""}>
+          <div dir="rtl" className="py-2">
+            <ul className="text-gray-700 dark:text-gray-200 text-sm">
+              {!isEmpty(items) &&
+                items.map((item, index) => (
+                  <li key={item?.id ? `${index}${item.id}` : index}>
+                    <Link
+
+                      href={item?.href || ""}
+                      onClick={() => {
+                        onClick?.(item);
+                        if (item.title === "خروج") siteLogout();
+                        handleClose();
+                      }}
+                      className={`flex justify-between items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-3 transition-colors duration-200 ${item.className}`}
+                      style={{
+                        color: item?.color,
+                        backgroundColor: item?.bgColor,
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg">{item?.icon}</span>
+
+                        <div className="flex flex-col">
+                          <span className="font-medium">{item?.title}</span>
+                          {item?.subTitle && (
+                            <span className="text-gray-400 text-xs">
+                              {item.subTitle}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {item?.secondIcon && (
+                        <span className="text-gray-400">{item.secondIcon}</span>
+                      )}
+                    </Link>
+
+                    {item?.border && (
+                      <div className="bg-gray-100 dark:bg-gray-700 mx-3 h-px" />
+                    )}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </Popover>
+      )}
+
+      {/* ================= MOBILE → VAUL DRAWER ================= */}
+      {isMobile && (
+        <Drawer.Root open={open} onOpenChange={handleClose}>
+          <Drawer.Portal>
+            <Drawer.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm" style={{ zIndex: 8000 }} />
+
+            <Drawer.Content
+              className="right-0 bottom-0 left-0 fixed bg-white dark:bg-gray-900 shadow-2xl p-4 rounded-t-2xl focus:outline-none"
+              style={{ zIndex: 8001 }}
+            >
+              {/* handle */}
+              <div className="bg-gray-300 dark:bg-gray-700 mx-auto mb-4 rounded-full w-12 h-1.5" />
+
+              {/* title */}
+              {sheetTitle && (
+                <div className="mb-4 font-semibold text-gray-700 dark:text-gray-200 text-sm text-center">
+                  {sheetTitle}
+                </div>
+              )}
+
+              {/* items */}
+              <div className="space-y-2">
+                {sheetItems.map((item, index) => (
                   <Link
-                    href={item?.href || ""}
+                    key={item.id ? `${index}${item.id}` : index}
+                    href={item.href || ""}
                     onClick={() => {
-                      if (onClick) onClick(item);
-                      if (item.title === "خروج") {
-                        siteLogout()
-                      }
+                      if (item.title === "خروج") siteLogout();
+                      onClick?.(item);
                       handleClose();
                     }}
-                    style={{
-                      backgroundColor: item?.bgColor,
-                      color: item?.color,
-                    }}
-                    className="rounded w-100 w-full"
-                    key={item.id}
+                    className={`
+                      flex items-center justify-between gap-3
+                      p-4 rounded-xl border
+                      bg-white dark:bg-gray-800
+                      hover:shadow-md hover:scale-[1.01]
+                      active:scale-[0.98]
+                      transition-all duration-200
+                      ${item.className}
+                    `}
                   >
-                    <div className="w-full" key={item.id}>
-                      <a
-                        href="#"
-                        className="block rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-right"
-                      >
-                        <div className="flex items-center w-full py-4 justify-between">
-                          <div className="flex items-center">
-                            <span className="px-2">{item?.icon}</span>
-                            <div>
-                              <span> {item?.title} </span>
-                              {item?.subTitle && (
-                                <div className="text-right text-xs">
-                                  {item?.subTitle}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          <div className="px-2"> {item?.secondIcon} </div>
-                        </div>
-                      </a>
+                    <div className="flex flex-col">
+                      <span className="font-medium text-sm">{item.title}</span>
+                      {item.subTitle && (
+                        <span className="text-gray-400 text-xs">
+                          {item.subTitle}
+                        </span>
+                      )}
                     </div>
-                  </Link>
-                  {item?.border && <div className="border"></div>}
-                </span>
-              ))}
-          </ul>
-        </div>
-      </Popover >
 
-      <Drawer
-        open={open}
-        anchor="bottom"
-        onClose={handleClose}
-        sx={{ display: { xs: "block", md: "block", lg: "none" } }}
-      >
-        <div className="p-3">
-          {sheetTitle}
-          {sheetItems.map((item, index) => (
-            <Link
-              href={item.href || ""}
-              key={item.id ? `${index}${item?.id}` : index}
-              className={`flex w-full mt-3 rounded cursor-pointer p-4 items-center border ${item.className}`}
-              onClick={() => {
-                if (item.title == 'خروج') {
-                  siteLogout()
-                }
-                if (onClick) onClick(item);
-                handleClose();
-              }}
-            >
-              <div className="rounded text-sm w-full">
-                <div className="text-sm">{item.title}</div>
-                <span className="text-gray-400 text-xs">{item.subTitle}</span>
+                    <span className="text-lg">{item.icon}</span>
+                  </Link>
+                ))}
               </div>
-              <div>{item.icon}</div>
-            </Link>
-          ))}
-        </div>
-      </Drawer>
-    </div >
+            </Drawer.Content>
+          </Drawer.Portal>
+        </Drawer.Root>
+      )}
+    </div>
   );
 }

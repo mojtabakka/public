@@ -44,26 +44,34 @@ export default function Modal(props: propsType) {
                     <>
                         {/* BACKDROP */}
                         <div
-                            className="absolute inset-0 bg-black/40"
+                            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
                             onClick={onClose}
                         />
 
                         {/* MODAL */}
-                        <div className="relative flex flex-col bg-white dark:bg-gray-700 shadow-lg mx-4 rounded-lg w-full max-w-2xl max-h-[90vh]">
+                        <div className="relative flex flex-col bg-white dark:bg-gray-800 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+
                             {/* HEADER */}
-                            <div className="flex justify-between items-center p-4 border-b">
-                                <h3 className="font-semibold text-xl">{title}</h3>
-                                <button onClick={onClose}>✕</button>
+                            <div className="flex justify-between items-center px-5 py-4 border-black/5 dark:border-white/10 border-b">
+                                <h3 className="font-semibold text-gray-900 dark:text-white text-lg tracking-tight">
+                                    {title}
+                                </h3>
+                                <button
+                                    onClick={onClose}
+                                    className="hover:bg-black/5 dark:hover:bg-white/10 p-2 rounded-full transition"
+                                >
+                                    ✕
+                                </button>
                             </div>
 
                             {/* CONTENT */}
-                            <div className="flex-1 p-4 overflow-y-auto">
+                            <div className="flex-1 px-5 py-4 overflow-y-auto text-gray-700 dark:text-gray-200">
                                 {modalContent}
                             </div>
 
                             {/* FOOTER */}
                             {modalFooter && (
-                                <div className="flex gap-2 p-4 border-t">
+                                <div className="flex justify-end items-center gap-2 bg-gray-50/50 dark:bg-gray-900/30 px-5 py-4 border-black/5 dark:border-white/10 border-t">
                                     {modalFooter}
                                 </div>
                             )}
@@ -79,50 +87,42 @@ export default function Modal(props: propsType) {
                     onOpenChange={(open) => !open && onClose?.()}
                 >
                     {/* BACKDROP */}
-                    <Drawer.Overlay
-                        className="fixed inset-0 bg-black/40"
-                        style={{ zIndex: 9000 }}
-                    />
+                    <Drawer.Overlay className="z-[9000] fixed inset-0 bg-black/50 backdrop-blur-sm" />
 
                     {/* SHEET */}
                     <Drawer.Content
-                        style={{
-                            zIndex: 10000,
-                            WebkitTapHighlightColor: "transparent",
-                        }}
-                        className="right-0 bottom-0 left-0 fixed flex flex-col bg-white rounded-t-[28px] outline-none focus:outline-none h-[85vh] overflow-hidden"
+                        className="right-0 bottom-0 left-0 z-[10000] fixed flex flex-col bg-white dark:bg-gray-800 shadow-2xl rounded-t-3xl outline-none h-[85vh] overflow-hidden"
+                        style={{ WebkitTapHighlightColor: "transparent" }}
                     >
                         {/* HANDLE */}
                         <div className="flex justify-center py-3">
-                            <div className="bg-gray-300 rounded-full w-12 h-1.5" />
+                            <div className="bg-gray-300 dark:bg-gray-600 rounded-full w-12 h-1.5" />
                         </div>
 
                         {/* HEADER */}
-                        <div className="px-4 pb-2">
-                            <div className="font-semibold text-base">
+                        <div className="px-5 pb-3">
+                            <div className="font-semibold text-gray-900 dark:text-white text-base">
                                 {title}
                             </div>
 
                             {sheetSubtitle && (
-                                <div className="text-gray-400 text-xs">
+                                <div className="mt-1 text-gray-500 dark:text-gray-400 text-xs">
                                     {sheetSubtitle}
                                 </div>
                             )}
                         </div>
 
-                        <hr />
+                        <div className="border-black/5 dark:border-white/10 border-t" />
 
                         {/* CONTENT */}
-                        <div className="flex-1 pb-4 overflow-y-auto">
-                            <div className={className}>
-                                {sheetContent}
-                            </div>
+                        <div className="flex-1 px-5 py-4 overflow-y-auto text-gray-700 dark:text-gray-200">
+                            <div className={className}>{sheetContent}</div>
                         </div>
 
-                        {/* FOOTER (PRO VERSION) */}
+                        {/* FOOTER */}
                         {sheetFooter && (
                             <div
-                                className="bottom-0 z-10 sticky flex items-center gap-2 bg-white p-3 border-t"
+                                className="bottom-0 sticky flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur px-4 py-3 border-black/5 dark:border-white/10"
                                 style={{
                                     paddingBottom:
                                         "calc(12px + env(safe-area-inset-bottom))",
