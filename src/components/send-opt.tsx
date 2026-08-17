@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { isArray } from 'lodash';
 import { endpoints } from '@/utils/end-points';
 import { fetchInstanceClient } from '@/utils/fetch-client';
+import { Icon } from "@iconify/react";
 import toast from 'react-hot-toast';
 
 export default function SendOtp() {
@@ -43,7 +44,6 @@ export default function SendOtp() {
         try {
             const result = await promise;
             const cartId = localStorage.getItem("cartId") || "0"
-            console.log('hello')
             if (cartId) {
                 const response = await fetchInstance(endpoints.order.addtoCartAfterLogin.replace(":id", cartId))
                 localStorage.setItem("cartId", response.data.cartId)
@@ -55,40 +55,64 @@ export default function SendOtp() {
                 router.replace(decodeURIComponent(back_url || "/"))
             else router.replace("/");
         } catch (error) {
-            console.log('errrororor', error)
+            console.error('verify error:', error)
         }
     });
     return (
-        phoneNumber && <div className="place-items-center grid h-screen">
-            <div className="justify-center items-center gap-6 bg-white px-4 py-4 rounded-lg w-full md:w-1/2 lg:w-1/5">
-                <div className="">
-                    <Logo />
-                </div>
-                <h1 className="mt-2 font-extrabold text-lg text-center">کد تایید</h1>
-                <Form onSubmit={onSubmit} methods={methods}>
-                    <div className="mt-6">
-                        <span className="opacity-50 text-sm leading-10">
-                            لطفا کد تایید را وارد کنید
-                        </span>
-                        <TextFiled inputMode='numeric' name="otp" mask='9     9     9     9 ' />
-                    </div>
-                    <div className="mt-10 py-4 text-center">
-                        <Button
-                            loading={isSubmitting}
-                            fullWidth
-                            variant='contained'
-                            className="!w-full"
-                            type="submit"
+        phoneNumber && (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+                <div className="w-full max-w-md">
+                    <div className="bg-white dark:bg-gray-800 shadow-xl border border-slate-200 dark:border-gray-700 rounded-xl p-6 w-full animate-in fade-in-0 duration-300 relative">
+                        <button
+                            onClick={() => router.back()}
+                            className="absolute top-4 right-4 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 hover:bg-[#423CAD]/10 hover:text-[#423CAD] transition-all duration-200"
                         >
-                            تایید
-                        </Button>
+                            <Icon icon="ep:arrow-left" className="text-lg" />
+                        </button>
 
+                        <div className="flex justify-center pt-2">
+                            <Logo />
+                        </div>
+
+                        <h1 className="mt-2 font-extrabold text-lg text-center text-gray-900 dark:text-white">
+                            کد تایید
+                        </h1>
+
+                        <Form onSubmit={onSubmit} methods={methods}>
+                            <div className="mt-6">
+                                <span className="block opacity-60 text-sm text-gray-500 dark:text-gray-400 leading-10 text-center">
+                                    لطفا کد تایید را وارد کنید
+                                </span>
+
+                                <TextFiled
+                                    inputMode='numeric'
+                                    name="otp"
+                                    mask='9     9     9     9 '
+                                    className="!text-center"
+                                />
+                            </div>
+
+                            <div className="mt-10 py-4 text-center">
+                                <Button
+                                    loading={isSubmitting}
+                                    fullWidth
+                                    variant='contained'
+                                    className="!rounded-xl"
+                                    type="submit"
+                                >
+                                    تایید
+                                </Button>
+                            </div>
+
+                            <div className='text-center mt-4'>
+                                <Link href="/login" replace className='text-[#423CAD] text-xs hover:text-[#423CAD]/80 transition-colors underline'>
+                                    اطلاح شماره همراه
+                                </Link>
+                            </div>
+                        </Form>
                     </div>
-                    <div className='text-center'>
-                        <Link href="/login" replace className='w-full text-blue-400 text-xs text-center underline'>اطلاح شماره همراه</Link>
-                    </div>
-                </Form>
-            </div>
-        </div >
-    )
+                </div>
+            </div >
+        )
+    );
 }
