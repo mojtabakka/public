@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from '@iconify/react'
 import { ThreeDots } from "react-loader-spinner";
-import style from "./OrderButton.module.scss";
 import { useDispatch } from "react-redux";
 import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
@@ -10,7 +9,6 @@ import { Button } from "..";
 import { setSumOfCart } from "@/redux/slices/generalSlice";
 import { isFunction } from "lodash";
 import { englishToPersianNumbers } from "@/utils/function.utils";
-import { Skeleton } from "@mui/material";
 
 interface propsType {
     model: string,
@@ -36,16 +34,12 @@ export default function OrderButton(props: propsType) {
         if (CartId) {
             setLoading2(true)
             try {
-                console.log(props.model)
                 const response = await fetchInstance(`${endpoints.order.getCurrentCartWithProductModel.replace(":id", CartId)}?model=${props.model}`)
                 setNumberOfOrder(response.data.total || 0)
                 if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
-                // dispatch(setSumOfCart(response.data.total));
-
             } catch (error) {
-                console.log('error', error)
+                console.error('error', error)
             } finally {
-                console.log('hello')
                 setLoading2(false)
             }
         }
@@ -67,7 +61,7 @@ export default function OrderButton(props: propsType) {
             dispatch(setSumOfCart(response.data.total));
 
         } catch (error) {
-            console.log(error)
+            console.error(error)
         } finally {
             setLoading(false)
         }
@@ -89,7 +83,7 @@ export default function OrderButton(props: propsType) {
             if (isFunction(props.onNumberOfOrder)) props.onNumberOfOrder(response.data.count || 0)
             dispatch(setSumOfCart(response.data.total));
         } catch (error) {
-            console.log("error", error);
+            console.error("error", error);
         } finally {
             setLoading(false);
         }
@@ -97,36 +91,46 @@ export default function OrderButton(props: propsType) {
 
     return (
         <>
-            {numberOfOrder > 0 && <span className={` border p-2 rounded ${style.button__shodow}`}>
-                <button className="relative border-0 w-[80px]">
-                    <span className="right-0 absolute px-2" onClick={handleClickPlus} >
-                        <Icon icon="ic:baseline-plus" className="inline-block text-blue-400" />
-                    </span>
-                    <span className="px-2">
+            {numberOfOrder > 0 && (
+                <div className="inline-flex items-center bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl px-1.5 py-1 shadow-sm transition-all duration-200">
+                    <button
+                        className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 dark:text-gray-400 hover:text-[#423CAD] hover:bg-[#423CAD]/5 transition-all duration-200"
+                        onClick={handleClickPlus}
+                    >
+                        <Icon icon="ic:baseline-plus" className="text-lg" />
+                    </button>
+
+                    <span className="w-10 text-center text-sm font-medium text-gray-900 dark:text-white">
                         {loading ? (
-                            <div className="inline-block">
-                                <ThreeDots
-                                    height="10"
-                                    width="10"
-                                    radius="9"
-                                    color="#5FA4F9"
-                                    ariaLabel="three-dots-loading"
-                                    visible={loading}
-                                />
-                            </div>
+                            <ThreeDots
+                                height="12"
+                                width="12"
+                                radius="9"
+                                color="#9CA3AF"
+                                ariaLabel="three-dots-loading"
+                                visible={loading}
+                            />
                         ) : (
-                            <span className="text -blue-400">{englishToPersianNumbers(numberOfOrder)}</span>
+                            englishToPersianNumbers(numberOfOrder)
                         )}
                     </span>
-                    <span className="left-0 absolute px-2" onClick={handleClickBin}>
-                        <Icon icon="gravity-ui:trash-bin" className="inline-block text-red-400" />
-                    </span>
-                </button>
-            </span>}
+
+                    <button
+                        className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 dark:text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200"
+                        onClick={handleClickBin}
+                    >
+                        <Icon icon="gravity-ui:trash-bin" className="text-base" />
+                    </button>
+                </div>
+            )}
             {
-                numberOfOrder === 0 && !loading2 && showAddButton && <Button variant="contained" className="w-full" onClick={handleClickPlus}>افزودن به سب خرید</Button>
+                numberOfOrder === 0 && !loading2 && showAddButton && <Button variant="contained" className="!rounded-xl w-full" onClick={handleClickPlus}>افزودن به سبد خرید</Button>
             }
-            {loading2 && <Skeleton variant="rectangular" className="rounded w-full" height={40}></Skeleton>}
+            {loading2 && (
+                <div className="animate-pulse">
+                    <div className="bg-slate-200 dark:bg-gray-600 rounded-xl h-10 w-full"></div>
+                </div>
+            )}
 
         </>
     );
