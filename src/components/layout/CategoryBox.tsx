@@ -74,18 +74,18 @@ export default function CategoryBox(props: PropsType) {
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <>
-      <div className="lg:hidden">
+      <div className="lg:hidden bg-white mt-[-4px]">
         {category && pathname === "/products" && (
           <button
             onClick={() => setShowFilter(true)}
-            className="flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-[#423CAD]/5 text-slate-700 hover:text-[#423CAD] rounded-xl transition-all duration-250"
+            className="flex items-center gap-1.5 bg-slate-50 hover:bg-[#423CAD]/5 px-4 py-2 rounded-xl text-slate-700 hover:text-[#423CAD] transition-all duration-250"
           >
             <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
             <span className="font-medium text-sm">فیلترها</span>
           </button>
         )}
       </div>
-      <div className="flex items-center shadow-lg">
+      <div className="flex items-center bg-white mt-[-4px]">
         <div className="w-fit" ref={ref}>
           <span className="group hidden lg:inline-flex items-center gap-1.5 px-4 text-slate-700 hover:text-[#423CAD] text-sm lg:text-base transition-all duration-250 cursor-pointer" onMouseOver={() => setMenustatus(true)}>
             <Icon icon="gg:menu" className="text-lg group-hover:rotate-180 transition-transform duration-250" />
@@ -102,11 +102,10 @@ export default function CategoryBox(props: PropsType) {
                   <div
                     key={index}
                     onClick={() => { router.push(`products?category=${item.id}`); setMenustatus(false) }}
-                    className={`flex items-center justify-between cursor-pointer px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                      catId === item.id
-                        ? "bg-[#423CAD]/10 text-[#423CAD]"
-                        : "text-slate-700 hover:bg-slate-50 hover:text-[#423CAD]"
-                    } first:rounded-t-lg last:rounded-b-lg`}
+                    className={`flex items-center justify-between cursor-pointer px-4 py-3 text-sm font-medium transition-all duration-200 ${catId === item.id
+                      ? "bg-[#423CAD]/10 text-[#423CAD]"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-[#423CAD]"
+                      } first:rounded-t-lg last:rounded-b-lg`}
                     onMouseOver={() => { handleMouseOverCat(item?.id) }}
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
@@ -186,7 +185,7 @@ export default function CategoryBox(props: PropsType) {
             </span>
           </div>}
 
-         </span>
+        </span>
       </div>
 
       <Modal
