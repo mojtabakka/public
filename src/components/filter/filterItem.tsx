@@ -57,7 +57,7 @@ const FilterItem = ({
         <>
             <div
                 {...rest}
-                className={`cursor-pointer py-2.5 px-3 rounded-lg text-slate-700 text-sm font-medium transition-all duration-200 hover:bg-[#423CAD]/5 hover:text-[#423CAD]`}
+                className={`cursor-pointer py-2.5 px-3 rounded-lg text-slate-700 dark:text-gray-200 text-sm font-medium transition-all duration-200 hover:bg-[#423CAD]/5 hover:text-[#423CAD]`}
                 style={{ paddingLeft: `${paddingLeft}px` }}
             >
                 <div
@@ -88,18 +88,17 @@ const FilterItem = ({
                     </div>
 
                     {hasChildren && (
-                        <div
-                            className="flex-shrink-0 pr-2 cursor-pointer"
+                        <div className="flex-shrink-0 pr-2 cursor-pointer"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 showSubNav();
                             }}
-                        >
+                            >
                             <Icon
                                 icon="hugeicons:arrow-left-01"
                                 width="20"
                                 height="20"
-                                className={`text-slate-400 transition-transform duration-250 ${subNav ? "rotate-[-90deg]" : "rotate-0"}`}
+                                className={`text-slate-400 dark:text-gray-500 transition-transform duration-250 ${subNav ? "rotate-[-90deg]" : "rotate-0"}`}
                             />
                         </div>
                     )}
@@ -107,10 +106,10 @@ const FilterItem = ({
             </div>
 
             {hasChildren && (
-                <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${subNav ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
-                >
-                    <div className="border-r border-slate-100 mr-[48px]">
+                        <div
+                            className={`overflow-hidden transition-all duration-300 ease-in-out ${subNav ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
+                        >
+                            <div className="border-t border-slate-200 dark:border-gray-600/30 mr-[48px]">
                         {items!.map((subItem, index) => (
                             <div key={`${subItem.name}-${index}`}>
                                 <FilterItem

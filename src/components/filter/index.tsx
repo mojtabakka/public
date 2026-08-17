@@ -112,15 +112,15 @@ const Filter = (props: PropsType) => {
     return (
         <>
             {!isEmpty(menuItems) && (
-                <div className="bg-white">
+                <div className="bg-white dark:bg-gray-800">
                     {/* Selected Filters Chips */}
                     {selectedIds.length > 0 && (
-                        <div className="p-4 border-b border-slate-100">
+                        <div className="p-4 border-b border-slate-200 dark:border-gray-700">
                             <div className="flex flex-wrap items-center gap-1.5">
                                 {selectedIds.map((id) => (
                                     <span
                                         key={id}
-                                        className="flex items-center gap-1 px-2.5 py-1 bg-[#423CAD]/10 text-[#423CAD] text-xs rounded-full"
+                                        className="flex items-center gap-1 px-2.5 py-1 bg-[#423CAD]/10 text-[#423CAD] text-xs rounded-full transition-all duration-200 animate-in fade-in-0 zoom-in-95"
                                     >
                                         <span className="truncate max-w-[120px]">{labelMap[id] || id}</span>
                                         <button
@@ -147,10 +147,10 @@ const Filter = (props: PropsType) => {
                         />
                     ))}
 
-                    <div className="p-4 border-t border-slate-100">
+                    <div className="p-4 border-t border-slate-200 dark:border-gray-700">
                         <button
                             onClick={handleReset}
-                            className="w-full py-2 text-sm text-slate-600 hover:text-[#423CAD] transition-colors"
+                            className="w-full py-2 text-sm text-slate-600 dark:text-gray-300 hover:text-[#423CAD] transition-colors"
                         >
                             <span className="ml-1">↺</span>
                             بازنشانی فیلترها
