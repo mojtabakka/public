@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FilterItem from "./filterItem";
 import { isEmpty, isFunction, uniq, without } from "lodash";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,9 +21,8 @@ interface DataType {
 }
 
 const Filter = (props: PropsType) => {
-    const [filterItems, setFilterItems] = useState<Array<string>>([]);
     const [menuItems, setMenuItems] = useState<Array<DataType>>([]);
-    const [sidebarStatus, setSidebarStatus] = useState(true);
+    const filterItemsRef = useRef<Array<string>>([]);
 
     const searchParams = useSearchParams();
     const category = searchParams.get("category");
@@ -37,11 +36,11 @@ const Filter = (props: PropsType) => {
         try {
             const result = await fetchInstance(`${endpoints.category.getCatergory}?id=${category}`);
             const propertyTitles = result.data?.propertyTitles || [];
-            const menuItems = propertyTitles.map((item) => ({
+            const menuItems = propertyTitles.map((item: any) => ({
                 id: item.id,
                 name: item.property,
                 label: item.title,
-                items: item.properties?.map((el) => ({
+                items: item.properties?.map((el: any) => ({
                     id: el.id,
                     name: el.title,
                     label: el.property,
@@ -53,47 +52,55 @@ const Filter = (props: PropsType) => {
         }
     };
 
-    const handleChangeCheckbox = (e) => {
+    const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { checked, value } = e.target;
-        console.log(filterItems)
-        setFilterItems((prevItems) => {
-            const updatedItems = checked
-                ? uniq([...prevItems, value])
-                : without(prevItems, value);
+        const updatedItems = checked
+            ? uniq([...filterItemsRef.current, value])
+            : without(filterItemsRef.current, value);
 
-            const ids = updatedItems.join(",");
-            const currentParams = Object.fromEntries(searchParams.entries());
-            const updatedParams = { ...currentParams, properties: ids };
-            const queryString = new URLSearchParams(updatedParams).toString();
+        filterItemsRef.current = updatedItems;
 
-            router.push(`?${queryString}`);
-            if (isFunction(props.onChangeFilter)) props.onChangeFilter(updatedItems);
+        const ids = updatedItems.join(",");
+        const currentParams = Object.fromEntries(searchParams.entries());
+        const updatedParams = { ...currentParams, properties: ids };
+        const queryString = new URLSearchParams(updatedParams).toString();
 
-            return updatedItems;
-        });
+        router.push(`?${queryString}`);
+        if (isFunction(props.onChangeFilter)) props.onChangeFilter(updatedItems);
     };
 
-    const handleOpneSidebarFromChild = () => {
-        if (!sidebarStatus) setSidebarStatus(true);
+    const handleReset = () => {
+        filterItemsRef.current = [];
+        const params = Object.fromEntries(searchParams.entries());
+        delete params.properties;
+        const queryString = new URLSearchParams(params).toString();
+        router.push(`?${queryString}`);
     };
 
     return (
         <>
             {!isEmpty(menuItems) && (
-                <div className="overflow-hidden bg-white text-white">
+                <div className="bg-white">
                     {menuItems.map((sidebarItem) => (
-                        <div key={sidebarItem.id}>
-                            <FilterItem
-                                onOpenSidebar={handleOpneSidebarFromChild}
-                                sidebarStatus={sidebarStatus}
-                                id={sidebarItem.id}
-                                label={sidebarItem.label}
-                                items={sidebarItem.items}
-                                onChangeCheckbox={handleChangeCheckbox}
-                                name={sidebarItem.name}
-                            />
-                        </div>
+                        <FilterItem
+                            key={`${sidebarItem.id}-${sidebarItem.name}`}
+                            id={sidebarItem.id}
+                            label={sidebarItem.label}
+                            name={sidebarItem.name}
+                            items={sidebarItem.items}
+                            onChangeCheckbox={handleChangeCheckbox}
+                        />
                     ))}
+
+                    <div className="p-4 border-t border-slate-100">
+                        <button
+                            onClick={handleReset}
+                            className="w-full py-2 text-sm text-slate-600 hover:text-[#423CAD] transition-colors"
+                        >
+                            <span className="ml-1">↺</span>
+                            بازنشانی فیلترها
+                        </button>
+                    </div>
                 </div>
             )}
         </>

@@ -1,139 +1,130 @@
-import React, { ChangeEvent, ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from '@iconify/react'
-import { isEmpty, isFunction } from "lodash";
-import { colors } from "@/config/sibarMenu.config";
-interface propTyeps {
-  onChangeCheckbox: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  depth?: number,
-  depthStep?: number,
-  icon?: ReactNode,
-  items?: Array<dataType>,
-  label?: string,
-  onOpenSidebar?: (item: any) => void,
-  path?: string,
-  sidebarStatus?: boolean,
-  id?: string | number,
-  name: string
+import { isFunction } from "lodash";
+
+interface DataType {
+    id?: string,
+    name?: string,
+    label?: string,
+    items?: Array<{
+        id: string,
+        name: string,
+        label: string,
+    }>
+}
+interface PropsType {
+    onChangeCheckbox?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    depth?: number,
+    icon?: React.ReactNode,
+    items?: Array<DataType>,
+    label?: string,
+    onOpenSidebar?: (item: any) => void,
+    path?: string,
+    sidebarStatus?: boolean,
+    id?: string | number,
+    name?: string
 }
 
-interface dataType {
-  id?: string,
-  name?: string,
-  label?: string,
-  items?: {
-    id: string,
-    name: string,
-    label: string,
-  }
-}
 const FilterItem = ({
-  onChangeCheckbox,
-  depth = 0,
-  depthStep = 10,
-  icon,
-  items,
-  label,
-  onOpenSidebar,
-  sidebarStatus = false,
-  id,
+    onChangeCheckbox,
+    depth = 0,
+    icon,
+    items,
+    label,
+    onOpenSidebar,
+    sidebarStatus = false,
+    id,
+    ...rest
+}: PropsType) => {
+    const [subNav, setSubNav] = useState(false);
 
-  ...rest
-}: propTyeps) => {
-  const [subNav, setSubNav] = useState(false);
-  useEffect(() => {
-    if (sidebarStatus === false) {
-      setSubNav(false);
-    }
-  }, [sidebarStatus]);
-  const showSubNav = () => {
-    setSubNav(!subNav);
-  };
+    useEffect(() => {
+        if (sidebarStatus === false) {
+            setSubNav(false);
+        }
+    }, [sidebarStatus]);
 
-  return (
-    <>
-      <div >
-        <div
-          {...rest}
-          className={`cursor-pointer  p-1 text-xs   ${sidebarStatus ? " h-12  mx-2" : null
-            }`}
-        >
-          <div
-            style={{
-              marginLeft: depth * depthStep,
-              backgroundColor: colors[depth].backgroundColor,
-              color: colors[depth].color,
-            }}
-            className={`p-1 rounded justify-between flex items-center`}
-            onClick={() => {
-              if (!isEmpty(items)) {
-                showSubNav();
-                if (isFunction(onOpenSidebar)) onOpenSidebar("");
-              }
-            }}
-          >
-            <div className="flex items-center ">
-              {isEmpty(items) && (
-                <input type="checkbox" className="w-5 h-6" value={id} onChange={onChangeCheckbox} />
-              )}
-              <span
-                className={`pl-4 text-center inline-block ${sidebarStatus ? "inline-block text-base  " : "text-4xl"
-                  } `}
-                style={{ transition: "200ms linear" }}
-              >
-                {icon}
-              </span>
+    const showSubNav = () => {
+        setSubNav(!subNav);
+    };
 
-              <span className={` ${sidebarStatus ? "text-base" : "text-xs"} `}>
-                {label}
-              </span>
+    const hasChildren = Array.isArray(items) && items.length > 0;
+    const paddingLeft = 16 + depth * 12;
+
+    return (
+        <>
+            <div
+                {...rest}
+                className={`cursor-pointer py-2.5 px-3 rounded-lg text-slate-700 text-sm font-medium transition-all duration-200 hover:bg-[#423CAD]/5 hover:text-[#423CAD]`}
+                style={{ paddingLeft: `${paddingLeft}px` }}
+            >
+                <div
+                    className="flex items-center justify-between w-full"
+                    onClick={() => {
+                        if (hasChildren && isFunction(onOpenSidebar)) onOpenSidebar("");
+                    }}
+                >
+                    <div className="flex items-center gap-2 truncate">
+                        {!hasChildren && (
+                            <input
+                                type="checkbox"
+                                className="w-4 h-4 rounded border-slate-300 text-[#423CAD] focus:ring-[#423CAD] cursor-pointer transition-colors"
+                                value={id}
+                                onChange={onChangeCheckbox}
+                            />
+                        )}
+                        {icon && (
+                            <span className={`flex-shrink-0 ${depth > 0 ? "text-sm" : "text-base"}`}>
+                                {icon}
+                            </span>
+                        )}
+                        <span className="truncate">{label}</span>
+                    </div>
+
+                    {hasChildren && (
+                        <div
+                            className="flex-shrink-0 pr-2 cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                showSubNav();
+                            }}
+                        >
+                            <Icon
+                                icon="hugeicons:arrow-left-01"
+                                width="20"
+                                height="20"
+                                className={`text-slate-400 transition-transform duration-250 ${subNav ? "rotate-[-90deg]" : "rotate-0"}`}
+                            />
+                        </div>
+                    )}
+                </div>
             </div>
-            {Array.isArray(items) ? (
-              <div
-                onClick={() => {
-                  showSubNav();
-                  if (isFunction(onOpenSidebar)) onOpenSidebar("");
-                }}
-              >
-                <Icon icon="hugeicons:arrow-left-01"
-                  width="24" height="24"
-                  style={{ transition: "200ms linear" }}
-                  className={`text-lg ${subNav ? "-rotate-90" : "rotate-0"
-                    }  transform-gpu"  ${sidebarStatus ? "null" : "mt-6 "} `}
-                />
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </div>
 
-      {Array.isArray(items) ? (
-        <div
-          style={{
-            maxHeight: `${subNav ? items.length * 110 + "px" : "0px"}`,
-            overflow: "hidden",
-            transition: "200ms linear",
-          }}
-        >
-          <div>
-            {items.map((subItem, index) => (
-              <div key={index}>
-                <FilterItem
-                  onChangeCheckbox={onChangeCheckbox}
-                  sidebarStatus={sidebarStatus}
-                  key={subItem.name}
-                  depth={depth + 1}
-                  depthStep={depthStep}
-                  id={subItem.id}
-                  label={subItem.label}
-                  name={subItem.name || ''}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
+            {hasChildren && (
+                <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${subNav ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
+                >
+                    <div className="border-r border-slate-100 mr-[48px]">
+                        {items!.map((subItem, index) => (
+                            <div key={`${subItem.name}-${index}`}>
+                                <FilterItem
+                                    onChangeCheckbox={onChangeCheckbox}
+                                    sidebarStatus={sidebarStatus}
+                                    key={subItem.name}
+                                    depth={depth + 1}
+                                    id={subItem.id}
+                                    label={subItem.label}
+                                    name={subItem.name || ''}
+                                    items={subItem.items}
+                                    onOpenSidebar={onOpenSidebar}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </>
+    );
 };
 
 export default FilterItem;
