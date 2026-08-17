@@ -100,46 +100,53 @@ export default function CategoryBox(props: PropsType) {
               دسته بندی‌ها
             </span>
           </span>
-          <div className={`absolute top-12 right-0 z-50 flex ${menustatus ? "visible opacity-100 translate-y-0" : "invisible opacity-0 translate-y-2 pointer-events-none"} transition-all duration-250`}>
-            <div className="flex bg-white shadow-2xl border border-slate-200/50 rounded-xl min-h-[280px] overflow-hidden">
+          <div className={`absolute top-12 right-0 z-50 transition-all duration-300 ${menustatus ? "visible opacity-100 translate-y-0 scale-100" : "invisible opacity-0 translate-y-3 scale-95 pointer-events-none"}`}>
+            <div className="flex overflow-hidden bg-white/95 backdrop-blur-xl border border-slate-200/50 rounded-xl shadow-2xl min-h-[220px] border-l-3 border-[#423CAD]">
 
               {/* Category List */}
-              <div className="w-48 min-w-[180px]">
+              <nav className="w-48 min-w-[180px]">
                 {cats && isArray(cats) && cats.map((item, index) => (
                   <div
                     key={index}
                     onClick={() => { router.push(`products?category=${item.id}`); setMenustatus(false) }}
-                    className={`flex items-center justify-between cursor-pointer px-4 py-3 text-sm transition-all duration-150 ${
+                    className={`flex items-center justify-between cursor-pointer px-4 py-3 text-sm font-medium transition-all duration-200 ${
                       catId === item.id
-                        ? "bg-[#423CAD]/10 text-[#423CAD] font-semibold"
+                        ? "bg-[#423CAD]/10 text-[#423CAD]"
                         : "text-slate-700 hover:bg-slate-50 hover:text-[#423CAD]"
-                    }`}
+                    } first:rounded-t-lg last:rounded-b-lg`}
                     onMouseOver={() => { handleMouseOverCat(item?.id) }}
+                    style={{ animationDelay: `${index * 30}ms` }}
                   >
                     <span>{item.title}</span>
                     <Icon icon="ep:arrow-left-bold" className="text-xs" />
                   </div>
                 ))}
-              </div>
+              </nav>
 
-              {/* Brands / Types Panel — two columns side by side */}
-              <div className="bg-slate-50 p-4 min-w-[360px]">
+              {/* Vertical Divider */}
+              <div className="w-px bg-slate-200/60"></div>
+
+              {/* Brands / Types Panel */}
+              <div className="bg-slate-50/80 p-4 min-w-[360px]">
                 <div className="gap-6 grid grid-cols-2">
                   {!isEmpty(brands) && (
                     <div>
-                      <h4 className="mb-3 font-bold text-slate-400 text-xs uppercase tracking-wider">برندها</h4>
+                      <h4 className="mb-3 flex items-center gap-1.5 font-bold text-slate-400 text-xs uppercase tracking-wider">
+                        <span className="w-1 h-4 bg-[#423CAD] rounded-full"></span>
+                        برندها
+                      </h4>
                       <div className="flex flex-col gap-1.5">
                         {brands.map((item, index) => (
                           <Link
                             key={index}
                             onClick={() => setMenustatus(false)}
-                            className="block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150"
+                            className="block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150 group"
                             href={{
                               pathname: "products",
                               query: { category: catId, brand: item.id },
                             }}
                           >
-                            <span className="font-medium">{item.brand}</span>
+                            <span className="font-medium group-hover:font-semibold">{item.brand}</span>
                             <span className="text-slate-400 text-xs"> ({item.title})</span>
                           </Link>
                         ))}
@@ -148,13 +155,16 @@ export default function CategoryBox(props: PropsType) {
                   )}
                   {!isEmpty(types) && (
                     <div>
-                      <h4 className="mb-3 font-bold text-slate-400 text-xs uppercase tracking-wider">انواع</h4>
+                      <h4 className="mb-3 flex items-center gap-1.5 font-bold text-slate-400 text-xs uppercase tracking-wider">
+                        <span className="w-1 h-4 bg-[#423CAD] rounded-full"></span>
+                        انواع
+                      </h4>
                       <div className="flex flex-col gap-1.5">
                         {types.map((item, index) => (
                           <Link
                             key={index}
                             onClick={() => setMenustatus(false)}
-                            className="block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150"
+                            className="block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150 group"
                             href={{
                               pathname: "products",
                               query: { category: catId, type: item.id },
