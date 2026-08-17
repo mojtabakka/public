@@ -14,6 +14,7 @@ import OrderButton from "./order-button";
 import CartBox from "./card-box";
 import ProductImages from "./product-images";
 import ProductFeatures from "./product-features";
+import CountDownTimer from "./count-down-timer";
 import InputLable from "./input-label";
 import Tab from "./tab";
 export {
@@ -35,4 +36,5 @@ export {
   Button,
   CartBox,
   ProductImages,
+  CountDownTimer,
 };

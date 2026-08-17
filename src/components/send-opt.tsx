@@ -1,6 +1,5 @@
-
 'use client'
-import { Button, Form, Logo, TextFiled } from '@/components'
+import { Button, CountDownTimer, Form, Logo, TextFiled } from '@/components'
 import { fetchInstance } from '@/utils/fetch';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -57,6 +56,26 @@ export default function SendOtp() {
             console.error('verify error:', error)
         }
     });
+
+    const handleResendOtp = async () => {
+        try {
+            const promise = fetchInstance(endpoints.auth.sendOtp, {
+                method: 'POST',
+                body: { phoneNumber },
+            });
+
+            toast.promise(promise, {
+                loading: 'در حال ارسال مجدد کد...',
+                success: 'کد تأیید مجدداً ارسال شد',
+                error: 'خطا در ارسال کد. لطفاً دوباره سعی کنید',
+            });
+
+            await promise;
+        } catch (error) {
+            console.error('resend error:', error);
+        }
+    };
+
     return (
         phoneNumber && (
             <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
@@ -84,7 +103,12 @@ export default function SendOtp() {
                                 />
                             </div>
 
-                            <div className="mt-10 py-4 text-center">
+                            <CountDownTimer
+                                initialSeconds={120}
+                                onResend={handleResendOtp}
+                            />
+
+                            <div className="py-4 text-center">
                                 <Button
                                     loading={isSubmitting}
                                     fullWidth
