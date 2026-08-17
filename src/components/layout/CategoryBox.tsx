@@ -78,7 +78,7 @@ export default function CategoryBox(props: PropsType) {
         {category && pathname === "/products" && (
           <button
             onClick={() => setShowFilter(true)}
-            className="flex items-center gap-1.5 bg-slate-50 hover:bg-[#423CAD]/5 px-4 py-2 rounded-xl text-slate-700 hover:text-[#423CAD] transition-all duration-250"
+            className="flex items-center gap-1.5 hover:bg-[#423CAD]/5 px-4 py-2 rounded-xl text-slate-700 hover:text-[#423CAD] transition-all duration-250"
           >
             <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
             <span className="font-medium text-sm">فیلترها</span>
