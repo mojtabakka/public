@@ -92,9 +92,13 @@ const SidebarItem = (props: PropsType) => {
                 <div
                     className={`overflow-hidden transition-all duration-250 ease-in-out ${subNav ? "max-h-full opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
                 >
-                    <div className="border-r border-slate-100 mr-[48px]">
+                    <div className="mr-4 space-y-0.5">
                         {items.map((subItem: any, index: string | number) => (
-                            <div key={`${subItem.name}-${index}`}>
+                            <div
+                                key={`${subItem.name}-${index}`}
+                                className={`transition-all duration-300 ease-in-out ${subNav ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`}
+                                style={{ transitionDelay: `${(index as number) * 50}ms` }}
+                            >
                                 <SidebarItem
                                     sidebarStatus={sidebarStatus}
                                     key={subItem.name}
