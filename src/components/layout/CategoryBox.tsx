@@ -74,18 +74,19 @@ export default function CategoryBox(props: PropsType) {
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <>
-      <div className="lg:hidden">
-        {category && pathname === "/products" && (
-          <button
-            onClick={() => setShowFilter(true)}
-            className="flex items-center gap-1 px-2.5 py-1 text-slate-600 hover:text-[#423CAD] hover:bg-[#423CAD]/5 rounded-lg transition-all duration-200 text-xs"
-          >
-            <Icon icon="mdi-filter" width="14" height="14" className="text-slate-600" />
-            <span>فیلتر</span>
-          </button>
-        )}
-      </div>
-      <div className="flex items-center shadow-lg">
+      <div className="sticky top-0 z-30 w-full shadow-md lg:static lg:z-auto lg:shadow-none bg-white lg:bg-transparent">
+        <div className="lg:hidden">
+          {category && pathname === "/products" && (
+            <button
+              onClick={() => setShowFilter(true)}
+              className="flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-[#423CAD]/5 text-slate-700 hover:text-[#423CAD] rounded-xl transition-all duration-250"
+            >
+              <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
+              <span className="font-medium text-sm">فیلترها</span>
+            </button>
+          )}
+        </div>
+        <div className="flex items-center">
         <div className="w-fit" ref={ref}>
           <span className="group hidden lg:inline-flex items-center gap-1.5 px-4 text-slate-700 hover:text-[#423CAD] text-sm lg:text-base transition-all duration-250 cursor-pointer" onMouseOver={() => setMenustatus(true)}>
             <Icon icon="gg:menu" className="text-lg group-hover:rotate-180 transition-transform duration-250" />
@@ -94,7 +95,7 @@ export default function CategoryBox(props: PropsType) {
             </span>
           </span>
           <div className={`absolute top-12 right-0 z-50 transition-all duration-300 ${menustatus ? "visible opacity-100 translate-y-0 scale-100" : "invisible opacity-0 translate-y-3 scale-95 pointer-events-none"}`}>
-            <div className="flex overflow-hidden bg-white/95 backdrop-blur-xl border border-slate-200/50 rounded-xl shadow-2xl min-h-[220px] border-l-3 border-[#423CAD]">
+            <div className="flex bg-white/95 shadow-2xl backdrop-blur-xl border border-[#423CAD] border-slate-200/50 border-l-3 rounded-xl min-h-[220px] overflow-hidden">
 
               {/* Category List */}
               <nav className="w-48 min-w-[180px]">
@@ -117,15 +118,15 @@ export default function CategoryBox(props: PropsType) {
               </nav>
 
               {/* Vertical Divider */}
-              <div className="w-px bg-slate-200/60"></div>
+              <div className="bg-slate-200/60 w-px"></div>
 
               {/* Brands / Types Panel */}
               <div className="bg-slate-50/80 p-4 min-w-[360px]">
                 <div className="gap-6 grid grid-cols-2">
                   {!isEmpty(brands) && (
                     <div>
-                      <h4 className="mb-3 flex items-center gap-1.5 font-bold text-slate-400 text-xs uppercase tracking-wider">
-                        <span className="w-1 h-4 bg-[#423CAD] rounded-full"></span>
+                      <h4 className="flex items-center gap-1.5 mb-3 font-bold text-slate-400 text-xs uppercase tracking-wider">
+                        <span className="bg-[#423CAD] rounded-full w-1 h-4"></span>
                         برندها
                       </h4>
                       <div className="flex flex-col gap-1.5">
@@ -133,7 +134,7 @@ export default function CategoryBox(props: PropsType) {
                           <Link
                             key={index}
                             onClick={() => setMenustatus(false)}
-                            className="block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150 group"
+                            className="group block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150"
                             href={{
                               pathname: "products",
                               query: { category: catId, brand: item.id },
@@ -148,8 +149,8 @@ export default function CategoryBox(props: PropsType) {
                   )}
                   {!isEmpty(types) && (
                     <div>
-                      <h4 className="mb-3 flex items-center gap-1.5 font-bold text-slate-400 text-xs uppercase tracking-wider">
-                        <span className="w-1 h-4 bg-[#423CAD] rounded-full"></span>
+                      <h4 className="flex items-center gap-1.5 mb-3 font-bold text-slate-400 text-xs uppercase tracking-wider">
+                        <span className="bg-[#423CAD] rounded-full w-1 h-4"></span>
                         انواع
                       </h4>
                       <div className="flex flex-col gap-1.5">
@@ -157,7 +158,7 @@ export default function CategoryBox(props: PropsType) {
                           <Link
                             key={index}
                             onClick={() => setMenustatus(false)}
-                            className="block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150 group"
+                            className="group block py-1.5 text-slate-600 hover:text-[#423CAD] text-sm transition-all hover:translate-x-0.5 duration-150"
                             href={{
                               pathname: "products",
                               query: { category: catId, type: item.id },
@@ -186,8 +187,9 @@ export default function CategoryBox(props: PropsType) {
             </span>
           </div>}
 
-        </span>
-      </div >
+         </span>
+      </div>
+    </div>
 
       <Modal
         onClose={() => setShowFilter(false)}

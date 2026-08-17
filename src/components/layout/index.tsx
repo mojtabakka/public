@@ -51,7 +51,7 @@ export default async function Layout() {
         </div>
       </header>
 
-      <div className="sticky top-0 z-30 bg-white shadow-md md:shadow-none md:static md:z-auto pt-1">
+      <div className="pt-1">
         <CategoryBox categories={categories} />
       </div>
     </div>
