@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import FilterItem from "./filterItem";
 import { isEmpty, isFunction, uniq, without } from "lodash";
 import { useRouter, useSearchParams } from "next/navigation";
 import { fetchInstance } from "@/utils/fetch";
 import { endpoints } from "@/utils/end-points";
+import { Icon } from "@iconify/react";
 
 interface PropsType {
     onChangeFilter?: (item: Array<string>) => void;
@@ -22,7 +23,7 @@ interface DataType {
 
 const Filter = (props: PropsType) => {
     const [menuItems, setMenuItems] = useState<Array<DataType>>([]);
-    const filterItemsRef = useRef<Array<string>>([]);
+    const [selectedIds, setSelectedIds] = useState<Array<string>>([]);
 
     const searchParams = useSearchParams();
     const category = searchParams.get("category");
@@ -31,6 +32,14 @@ const Filter = (props: PropsType) => {
     useEffect(() => {
         init();
     }, [category]);
+
+    useEffect(() => {
+        const params = Object.fromEntries(searchParams.entries());
+        if (params.properties) {
+            const ids = params.properties.split(",").map(p => p.trim()).filter(Boolean);
+            setSelectedIds(ids);
+        }
+    }, [searchParams]);
 
     const init = async () => {
         try {
@@ -52,35 +61,79 @@ const Filter = (props: PropsType) => {
         }
     };
 
+    const labelMap = useMemo(() => {
+        const map: Record<string, string> = {};
+        const build = (items: Array<DataType> | undefined) => {
+            if (!items) return;
+            items.forEach((item) => {
+                map[item.id] = item.label;
+                build(item.items);
+            });
+        };
+        build(menuItems);
+        return map;
+    }, [menuItems]);
+
+    const updateUrl = (ids: Array<string>) => {
+        const params = Object.fromEntries(searchParams.entries());
+        if (ids.length > 0) {
+            params.properties = ids.join(",");
+        } else {
+            delete params.properties;
+        }
+        const queryString = new URLSearchParams(params).toString();
+        router.push(`?${queryString}`);
+    };
+
     const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { checked, value } = e.target;
-        const updatedItems = checked
-            ? uniq([...filterItemsRef.current, value])
-            : without(filterItemsRef.current, value);
+        const updatedIds = checked
+            ? uniq([...selectedIds, value])
+            : without(selectedIds, value);
 
-        filterItemsRef.current = updatedItems;
+        setSelectedIds(updatedIds);
+        updateUrl(updatedIds);
+        if (isFunction(props.onChangeFilter)) props.onChangeFilter(updatedIds);
+    };
 
-        const ids = updatedItems.join(",");
-        const currentParams = Object.fromEntries(searchParams.entries());
-        const updatedParams = { ...currentParams, properties: ids };
-        const queryString = new URLSearchParams(updatedParams).toString();
-
-        router.push(`?${queryString}`);
-        if (isFunction(props.onChangeFilter)) props.onChangeFilter(updatedItems);
+    const removeItem = (id: string) => {
+        const updatedIds = without(selectedIds, id);
+        setSelectedIds(updatedIds);
+        updateUrl(updatedIds);
+        if (isFunction(props.onChangeFilter)) props.onChangeFilter(updatedIds);
     };
 
     const handleReset = () => {
-        filterItemsRef.current = [];
-        const params = Object.fromEntries(searchParams.entries());
-        delete params.properties;
-        const queryString = new URLSearchParams(params).toString();
-        router.push(`?${queryString}`);
+        setSelectedIds([]);
+        updateUrl([]);
     };
 
     return (
         <>
             {!isEmpty(menuItems) && (
                 <div className="bg-white">
+                    {/* Selected Filters Chips */}
+                    {selectedIds.length > 0 && (
+                        <div className="p-4 border-b border-slate-100">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                                {selectedIds.map((id) => (
+                                    <span
+                                        key={id}
+                                        className="flex items-center gap-1 px-2.5 py-1 bg-[#423CAD]/10 text-[#423CAD] text-xs rounded-full"
+                                    >
+                                        <span className="truncate max-w-[120px]">{labelMap[id] || id}</span>
+                                        <button
+                                            onClick={() => removeItem(id)}
+                                            className="flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center hover:bg-[#423CAD]/20 transition-colors"
+                                        >
+                                            <Icon icon="ep:close" width="10" height="10" />
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     {menuItems.map((sidebarItem) => (
                         <FilterItem
                             key={`${sidebarItem.id}-${sidebarItem.name}`}
@@ -89,6 +142,7 @@ const Filter = (props: PropsType) => {
                             name={sidebarItem.name}
                             items={sidebarItem.items}
                             onChangeCheckbox={handleChangeCheckbox}
+                            selectedIds={selectedIds}
                         />
                     ))}
 

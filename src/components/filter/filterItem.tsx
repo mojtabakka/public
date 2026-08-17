@@ -22,7 +22,8 @@ interface PropsType {
     path?: string,
     sidebarStatus?: boolean,
     id?: string | number,
-    name?: string
+    name?: string,
+    selectedIds?: Array<string>
 }
 
 const FilterItem = ({
@@ -34,6 +35,7 @@ const FilterItem = ({
     onOpenSidebar,
     sidebarStatus = false,
     id,
+    selectedIds = [],
     ...rest
 }: PropsType) => {
     const [subNav, setSubNav] = useState(false);
@@ -70,6 +72,7 @@ const FilterItem = ({
                                 type="checkbox"
                                 className="w-4 h-4 rounded border-slate-300 text-[#423CAD] focus:ring-[#423CAD] cursor-pointer transition-colors"
                                 value={id}
+                                checked={selectedIds.includes(id as string)}
                                 onChange={onChangeCheckbox}
                             />
                         )}
@@ -117,6 +120,7 @@ const FilterItem = ({
                                     name={subItem.name || ''}
                                     items={subItem.items}
                                     onOpenSidebar={onOpenSidebar}
+                                    selectedIds={selectedIds}
                                 />
                             </div>
                         ))}
