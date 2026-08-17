@@ -74,19 +74,25 @@ export default function CategoryBox(props: PropsType) {
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <>
-      <div className="md:hidden bg-gray-200 px-2 w-full h-[0.5px]">
-      </div>
-      <div className="flex shadow-lg">
-        {category && pathname === "/products" && <div className="lg:hidden flex items-center px-4 pb-3"
-          onClick={() => setShowFilter(true)}
-        >
-          <span className="flex items-center gap-1.5 text-slate-700 hover:text-[#423CAD] transition-all duration-250 cursor-pointer">
-            <Icon icon="mdi:filter" width="20" height="20" className="text-gray-700" />
-            <span className="after:-bottom-0.5 after:left-0 after:absolute relative after:bg-[#423CAD] after:w-0 hover:after:w-full after:h-0.5 font-medium after:transition-all after:duration-250">
-              فیلترها
-            </span>
+      <div className="md:hidden mx-2 mb-3">
+        <div className="flex items-center justify-between bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-100 px-3 py-2">
+          {category && pathname === "/products" && (
+            <button
+              onClick={() => setShowFilter(true)}
+              className="flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-[#423CAD]/5 text-slate-700 hover:text-[#423CAD] rounded-xl transition-all duration-250"
+            >
+              <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
+              <span className="font-medium text-sm">فیلترها</span>
+            </button>
+          )}
+
+          <span className="flex items-center gap-1 text-slate-700 text-sm cursor-pointer hover:text-[#423CAD] transition-colors duration-200">
+            <Icon icon="gg:menu" className="text-lg" />
+            <span>دسته بندی‌ها</span>
           </span>
-        </div>}
+        </div>
+      </div>
+      <div className="flex items-center shadow-lg">
         <div className="w-fit" ref={ref}>
           <span className="group hidden lg:inline-flex items-center gap-1.5 px-4 text-slate-700 hover:text-[#423CAD] text-sm lg:text-base transition-all duration-250 cursor-pointer" onMouseOver={() => setMenustatus(true)}>
             <Icon icon="gg:menu" className="text-lg group-hover:rotate-180 transition-transform duration-250" />
