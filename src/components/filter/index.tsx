@@ -86,10 +86,11 @@ const Filter = (props: PropsType) => {
     };
 
     const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { checked, value } = e.target;
-        const updatedIds = checked
-            ? uniq([...selectedIds, value])
-            : without(selectedIds, value);
+        const { value } = e.target;
+        const isCurrentlySelected = selectedIds.includes(value);
+        const updatedIds = isCurrentlySelected
+            ? without(selectedIds, value)
+            : uniq([...selectedIds, value]);
 
         setSelectedIds(updatedIds);
         updateUrl(updatedIds);
