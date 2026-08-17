@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { colors } from "@/config/sibarMenu.config";
 import { Icon } from '@iconify/react'
 import { isFunction } from "lodash";
 import { useRouter } from "next/navigation";
@@ -50,62 +49,52 @@ const SidebarItem = (props: PropsType) => {
         router.push(`${path.pathname}`);
         if (isFunction(onClickSidbarItem)) onClickSidbarItem(path);
     };
+
+    const depthPadding = depth * 12;
+
     return (
         <>
             <div onClick={handleClickTitle}>
-                <div  {...rest} className="cursor-pointer w-full  ">
-                    <div
-                        style={{
-                            marginLeft: depth * depthStep,
-                            backgroundColor: colors[depth].backgroundColor,
-                            color: colors[depth].color,
-                        }}
-                        className={`p-2 rounded justify-between flex bg-red-50 w-full`}
-                    >
-                        <div>
-                            <span
-                                className={`pl-4 text-center inline-block ${sidebarStatus ? "inline-block text-base  " : "text-4xl"
-                                    } `}
-                                style={{ transition: "200ms linear" }}
-                            >
-                                {icon}
+                <div
+                    {...rest}
+                    className={`flex items-center justify-between w-full cursor-pointer py-3 pr-4 pl-6 text-slate-700 hover:bg-[#423CAD]/5 hover:text-[#423CAD] transition-all duration-200 ${
+                        depth > 0 ? "text-sm" : "text-sm font-medium"
+                    }`}
+                    style={{ paddingLeft: `${48 + depthPadding}px` }}
+                >
+                    <div className="flex items-center gap-2 truncate">
+                        {icon && (
+                            <span className="flex-shrink-0 text-base">
+                                <Icon icon={icon} />
                             </span>
-                            <span className="text-xs" onClick={() => {
-
-
-                            }}>{label}</span>
-                        </div>
-                        {Array.isArray(items) ? (
-                            <div
-                            className="pr-4"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    showSubNav();
-                                }}
-                            >
-                                <Icon icon="ep:arrow-left"
-                                    style={{ transition: "200ms linear" }}
-                                    className={`${subNav ? "-rotate-90" : "rotate-0"
-                                        }  transform-gpu"  ${sidebarStatus ? "null" : "mt-6 "
-                                        } text-xl `}
-                                />
-                            </div>
-                        ) : null}
+                        )}
+                        <span className="truncate">{label}</span>
                     </div>
+
+                    {Array.isArray(items) && items.length > 0 && (
+                        <div
+                            className="flex-shrink-0 pr-2 cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                showSubNav();
+                            }}
+                        >
+                            <Icon
+                                icon="ep:arrow-left"
+                                className={`text-slate-400 transition-transform duration-200 ${subNav ? "rotate-[-90deg]" : "rotate-0"}`}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {Array.isArray(items) ? (
+            {Array.isArray(items) && items.length > 0 && (
                 <div
-                    style={{
-                        maxHeight: `${subNav ? items.length * 200 + "px" : "0px"}`,
-                        overflow: "hidden",
-                        transition: "200ms linear",
-                    }}
+                    className={`overflow-hidden transition-all duration-250 ease-in-out ${subNav ? "max-h-full opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
                 >
-                    <div>
-                        {items.map((subItem, index: string | number) => (
-                            <div key={index}>
+                    <div className="border-r border-slate-100 mr-[48px]">
+                        {items.map((subItem: any, index: string | number) => (
+                            <div key={`${subItem.name}-${index}`}>
                                 <SidebarItem
                                     sidebarStatus={sidebarStatus}
                                     key={subItem.name}
@@ -118,8 +107,7 @@ const SidebarItem = (props: PropsType) => {
                         ))}
                     </div>
                 </div>
-            ) : null}
-            {/* <Loading show={true} /> */}
+            )}
         </>
     );
 };

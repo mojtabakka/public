@@ -1,5 +1,3 @@
-
-
 'use client'
 import { isEmpty } from 'lodash'
 import React, { useEffect, useState } from 'react'
@@ -130,41 +128,61 @@ export default function Sidebar(props: propsType) {
     };
     return (
 
-        <div  className="lg:hidden">
-            <Icon icon="gg:menu" className='cursor-pointer' onClick={() => SetSidebarStatus(true)} />
-            <Drawer open={SidebarStatus} onClose={() => SetSidebarStatus(false)} anchor='right' sx={{
-                width: "50%",
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                    width: " 50%",
-                    boxSizing: 'border-box',
-                },
-            }}>
-                <div className="mt-2 text-left">
-                    <div className="shadow-lg border-b-1 text-center">
-                        <Logo />
+        <div className="lg:hidden">
+            <button
+                onClick={() => SetSidebarStatus(true)}
+                className="group flex justify-center items-center w-10 h-10 rounded-xl bg-slate-100/80 hover:bg-[#423CAD]/10 text-slate-700 hover:text-[#423CAD] transition-all duration-250"
+            >
+                <Icon
+                    icon="gg:menu"
+                    className="text-2xl group-hover:scale-110 transition-transform duration-250"
+                />
+            </button>
+
+            <Drawer
+                open={SidebarStatus}
+                onClose={() => SetSidebarStatus(false)}
+                anchor="right"
+                PaperProps={{
+                    className: "rounded-l-3xl border-l-0 shadow-2xl",
+                }}
+                sx={{
+                    width: "320px",
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: "320px",
+                        boxSizing: 'border-box',
+                        backgroundColor: '#ffffff',
+                    },
+                }}
+            >
+                <div className="flex flex-col h-full">
+                    {/* Header */}
+                    <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                        <Logo imgClassName="w-[80px]" />
+                        <button
+                            onClick={() => SetSidebarStatus(false)}
+                            className="flex justify-center items-center w-8 h-8 text-slate-500 hover:text-[#423CAD] hover:bg-slate-100 rounded-lg transition-all duration-250"
+                        >
+                            <Icon icon="ep:close" className="text-xl" />
+                        </button>
                     </div>
 
-                    <div className="z-0">
-                        <div style={{ height: "100%" }}>
-                            <div className={` w-full `}>
-                                {(!isEmpty(sidbarItems)) &&
-                                    sidbarItems.map((sidebarItem, index) => (
-                                        <SidebarItem
-                                            onOpenSidebar={handleOpneSidebarFromChild}
-                                            sidebarStatus={SidebarStatus}
-                                            key={`${sidebarItem.name}${index}`}
-                                            {...sidebarItem}
-                                            onClickSidbarItem={() => SetSidebarStatus(false)}
-                                        />
-                                    ))
-                                }
-                            </div>
-                        </div>
+                    {/* Menu Items */}
+                    <div className="flex-1 overflow-y-auto">
+                        {(!isEmpty(sidbarItems)) &&
+                            sidbarItems.map((sidebarItem, index) => (
+                                <SidebarItem
+                                    onOpenSidebar={handleOpneSidebarFromChild}
+                                    sidebarStatus={SidebarStatus}
+                                    key={`${sidebarItem.name}${index}`}
+                                    {...sidebarItem}
+                                    onClickSidbarItem={() => SetSidebarStatus(false)}
+                                />
+                            ))
+                        }
                     </div>
                 </div>
-
-
             </Drawer>
         </div>
     )
