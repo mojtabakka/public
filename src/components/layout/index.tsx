@@ -25,10 +25,10 @@ export default async function Layout() {
   }
 
   return (
-    <div className="">
-      <header className="top-0 bg-white shadow-lg px-4 md:py-0" >
+    <div className="bg-gray-50">
+      <header className="bg-white shadow-lg px-4 mt-3">
         <div className="flex flex-col p-1">
-          <div className="flex justify-between items-center mt-3 text-2xl">
+          <div className="flex justify-between items-center text-2xl">
             <div className="flex items-center gap-2 w-full">
               <Sidebar categories={categories} />
               <div>
@@ -51,7 +51,7 @@ export default async function Layout() {
         </div>
       </header>
 
-      <div className="top-0 z-20 sticky bg-white shadow-md lg:shadow-none pt-2">
+      <div className="sticky top-0 z-30 bg-white shadow-md md:shadow-none md:static md:z-auto pt-1">
         <CategoryBox categories={categories} />
       </div>
     </div>
