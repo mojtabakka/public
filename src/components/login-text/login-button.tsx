@@ -16,13 +16,15 @@ export default function LoginButton() {
     return (
 
         <Link
-            className="flex items-center gap-2 px-4 border-x font-bold text-xs sm:text-sm md:text-base lg:text-base text"
+            className="flex items-center gap-2 font-bold text-xs sm:text-sm md:text-base lg:text-base text"
             href={`/login?back_url=${encodeURIComponent(backUrl)}`}
         >
-            <Icon icon="tabler:login" className="font-extrabold text-2xl" />
-            <h1>
-                <span className="hidden md:inline-block">ثبت نام |</span>
-                ورود
+
+            <h1 className="text-sm">
+                <span className="hidden md:inline-block px-2 border-gray-300 border-l-2 text-sm">ثبت نام </span>
+                <span className="hidden md:inline-block px-2">ورود</span>
+                <Icon icon="icon-park-outline:login" className="md:hidden" width="20" height="20" />
+
             </h1>
         </Link>
     );

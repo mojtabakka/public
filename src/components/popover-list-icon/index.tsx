@@ -66,7 +66,7 @@ export default function PopoverListIcon(props: PropsType) {
       {/* ICON */}
       <Icon
         icon={icon}
-        className="text-3xl cursor-pointer"
+        className="text-2xl md:text-3xl cursor-pointer"
         onClick={handleOpen}
       />
 
@@ -156,7 +156,7 @@ export default function PopoverListIcon(props: PropsType) {
 
               {/* title */}
               {sheetTitle && (
-                <div className="mb-4 font-semibold text-gray-700 dark:text-gray-200 text-sm text-center">
+                <div className="mb-4 font-semibold text-gray-700 dark:text-gray-200 text-sm text-center" onClick={() => handleClose()}>
                   {sheetTitle}
                 </div>
               )}

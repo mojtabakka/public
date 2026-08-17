@@ -130,8 +130,8 @@ export default function Sidebar(props: propsType) {
     };
     return (
 
-        <div>
-            <Icon icon="gg:menu" className=' cursor-pointer' onClick={() => SetSidebarStatus(true)} />
+        <div  className="lg:hidden">
+            <Icon icon="gg:menu" className='cursor-pointer' onClick={() => SetSidebarStatus(true)} />
             <Drawer open={SidebarStatus} onClose={() => SetSidebarStatus(false)} anchor='right' sx={{
                 width: "50%",
                 flexShrink: 0,
@@ -140,12 +140,12 @@ export default function Sidebar(props: propsType) {
                     boxSizing: 'border-box',
                 },
             }}>
-                <div className="text-left mt-2 ">
-                    <div className="text-center  shadow-lg  border-b-1">
+                <div className="mt-2 text-left">
+                    <div className="shadow-lg border-b-1 text-center">
                         <Logo />
                     </div>
 
-                    <div className="   z-0">
+                    <div className="z-0">
                         <div style={{ height: "100%" }}>
                             <div className={` w-full `}>
                                 {(!isEmpty(sidbarItems)) &&

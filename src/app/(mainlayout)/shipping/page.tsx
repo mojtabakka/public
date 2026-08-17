@@ -90,89 +90,118 @@ const Shipping = () => {
         setCart(products);
     };
     return (
-        <div className="mt-5">
-            <div className="md:flex lg:flex justify-between">
-                {!addressLoading && <Card className="rounded-xl w-full">
-                    <div className="p-3 border rounded-lg">
-                        <div className="text-gray-400 text-medium">آدرس تحویل سفارش</div>
-                        {isEmpty(address) && (
-                            <>
-                                <div>هیچ آدرسی وجود ندارد</div>
-                            </>
-                        )}
-                        {!isEmpty(address) && (
-                            <div className="flex items-center text-base">
-                                <span>
+        <div >
+            <div className="flex lg:flex-row flex-col justify-between">
+                {!addressLoading && (
+                    <Card className="bg-white shadow-lg border border-gray-100 rounded-xl w-full overflow-hidden">
+                        {/* Address Section */}
+                        <div className="">
+                            <div className="bg-white shadow-sm p-5 border border-gray-100 rounded-2xl">
+                                <div className="mb-4 font-bold text-xs md:text-sm">
+                                    آدرس تحویل سفارش
+                                </div>
 
-                                    <Icon className="inline-block text-lg" icon="carbon:location-filled" />
-                                </span>
-                                <div className="my-5"> {address?.address} </div>
-                            </div>
-                        )}
+                                {isEmpty(address) && (
+                                    <div className="flex flex-col justify-center items-center py-8 text-gray-400">
+                                        <span className="text-xs md:text-base">هیچ آدرسی ثبت نشده است</span>
+                                    </div>
+                                )}
 
-                        <span className="flex justify-end">
-                            <span
-                                onClick={handleClickAddNewAddress}
-                                className="text-blue-400 cursor-pointer"
-                            >
-                                تغییر یا ویرایش آدرس
-                                <Icon icon="ep:arrow-left-bold" className="inline-block mx-1" />
-                            </span>
-                        </span>
-                        {/* </div> */}
-                    </div>
-                    <div className="mt-5 p-3 border rounded-lg">
-                        {isEmpty(cart) && (
-                            <div className="flex justify-center p-20">
-                                <Icon icon="mdi:bin-outline" className="text-8xl" />
-                            </div>
-                        )}
-                        <div className="flex overflow-x-scroll">
-                            {!isEmpty(cart) && cart &&
-                                cart.map((item, index) => {
-                                    const key = Object.keys(item)[0];
-                                    const data = item[key][0];
-                                    const len = item[key].length;
-                                    return (
-                                        <div className="flex" key={index}>
-                                            <img src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT  + data.photos[0].src} width={100} height={100} />
-                                            <div className="relative">
-                                                <span
-                                                    className="absolute bg-gray-400 p-1 rounded"
-                                                    style={{ right: "-30px", bottom: "0px" }}
-                                                >
-                                                    {len}
-                                                </span>
-                                            </div>
+                                {!isEmpty(address) && (
+                                    <div className="flex items-start gap-3">
+                                        <Icon
+                                            className="mt-1 text-primary text-2xl"
+                                            icon="carbon:location-filled"
+                                        />
+
+                                        <div className="text-gray-700 text-xs md:text-sm leading-7">
+                                            {address?.address}
                                         </div>
-                                    );
-                                })}
+                                    </div>
+                                )}
+
+                                <div className="flex justify-end mt-4">
+                                    <span
+                                        onClick={handleClickAddNewAddress}
+                                        className="inline-flex items-center gap-2 hover:opacity-80 font-medium text-primary text-xs md:text-sm transition-all cursor-pointer"
+                                    >
+                                        تغییر یا ویرایش آدرس
+                                        <Icon icon="ep:arrow-left-bold" className="text-xs" />
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Products Section */}
+                            <div className="bg-white shadow-sm mt-6 p-5 border border-gray-100 rounded-2xl">
+                                <div className="mb-4 font-bold text-xs md:text-sm">
+                                    محصولات سفارش
+                                </div>
+
+                                {isEmpty(cart) && (
+                                    <div className="flex flex-col justify-center items-center py-10 text-gray-400">
+                                        <Icon icon="mdi:cart-outline" className="mb-2 text-7xl" />
+                                        <span>محصولی برای نمایش وجود ندارد</span>
+                                    </div>
+                                )}
+
+                                <div className="flex gap-4 pb-2 overflow-x-auto">
+                                    {!isEmpty(cart) &&
+                                        cart &&
+                                        cart.map((item, index) => {
+                                            const key = Object.keys(item)[0];
+                                            const data = item[key][0];
+                                            const len = item[key].length;
+
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className="group relative flex-shrink-0"
+                                                >
+                                                    <div className="bg-gray-50 shadow-sm group-hover:shadow-md border border-gray-100 rounded-2xl w-28 h-28 overflow-hidden transition-all">
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_BASE_URL_CLIENT + data.photos[0].src}
+                                                            width={112}
+                                                            height={112}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+
+                                                    <span className="-right-2 -bottom-2 absolute flex justify-center items-center bg-primary shadow-md px-2 rounded-full min-w-7 h-7 text-white text-xs">
+                                                        {len}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+
+                            {/* Shipping Time */}
+                            <div className="bg-white shadow-sm mt-6 border border-gray-100 rounded-2xl">
+                                <SelectShippingTime onSelectTime={handleSelectTime} />
+                            </div>
                         </div>
-                    </div>
-                    <div className="mt-3 border rounded-lg">
-                        <SelectShippingTime onSelectTime={handleSelectTime} />
-                    </div>
-                </Card>}
-                {
-                    addressLoading && <ShippingSkeleton />
-                }
+                    </Card>
+                )}
+
+                {addressLoading && <ShippingSkeleton />}
 
                 <ShippingPrice
                     shippingPermision={shippingTime ? true : false}
                     onCartItem={handleCartItem}
                     onClick={addProductsOrder}
                 />
-
-
             </div>
-            <div className="flex justify-between">
+
+            <div className="flex justify-between mt-6">
                 <div className="mx-1 w-full"></div>
             </div>
+
             <ModalAddAddress
                 show={showAddModal}
                 onClose={() => setShowAddModal(false)}
                 onResult={handleResult}
             />
+
             <ModalAddress
                 onChangeActiveAddress={() => getAllAddresses()}
                 addresses={addresses}
@@ -180,7 +209,6 @@ const Shipping = () => {
                 show={showModal}
                 onClose={() => setShowModal(false)}
             />
-            {/* <Loading show={loading} /> */}
         </div>
     );
 };

@@ -15,18 +15,17 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang="en" className='bg-[#EEEEEE]'>
-            <body>
-                <MuiConfig>
-                    <CssBaseline />
-                    <Toaster position='bottom-right' />
-                    <ReduxProvider>
-                        <div className="bg-[#EEEEEE] p-4" dir="rtl">
-                            {children}
-                        </div>
-                    </ReduxProvider>
-                </MuiConfig>
-            </body>
-        </html>
+
+        <body>
+            <MuiConfig>
+                <CssBaseline />
+                <Toaster position='bottom-right' />
+                <ReduxProvider>
+                    <div className="bg-gray-100 h-screen" dir="rtl" >
+                        {children}
+                    </div>
+                </ReduxProvider>
+            </MuiConfig>
+        </body>
     );
 }

@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
 
+
 export const viewport = {
     width: "device-width",
     initialScale: 1,
@@ -51,13 +52,6 @@ export default function layout({ children }: { children: ReactNode }) {
                             آدرس ها
                         </div>
                     </Link>
-                    <hr />
-                    <div className="p-3 cursor-pointer">
-                        <span className="p-3">
-                            <Icon icon="fluent:arrow-exit-20-regular" className="inline-block text-xl" />
-                        </span>
-                        خروج
-                    </div>
                 </div>
             </div>
             <div className="col-span-3 rounded">{children}</div>

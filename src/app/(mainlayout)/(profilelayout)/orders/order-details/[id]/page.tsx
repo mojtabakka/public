@@ -59,8 +59,8 @@ export default function OrderDetails(props: any) {
                 <div className="space-y-3">
 
                     {/* Order Info */}
-                    <Card className="shadow-sm mt-5 !p-4 rounded-xl">
-                        <div className="space-y-3">
+                    <Card className="shadow-sm mt-5 !p-4 rounded-xl text-xs">
+                        <div className="space-y-3 text-xs md:text-sm">
 
                             <div className="flex items-center gap-2 text-gray-600">
                                 <Icon icon="mdi:calendar-check" width="18" />
@@ -85,7 +85,7 @@ export default function OrderDetails(props: any) {
 
                     {/* User Info */}
                     <Card className="shadow-sm !p-4 rounded-xl">
-                        <div className="space-y-3">
+                        <div className="space-y-3 text-xs md:text-sm">
 
                             <div className="flex items-center gap-2 text-gray-600">
                                 <Icon icon="mdi:phone" width="18" />
@@ -108,7 +108,7 @@ export default function OrderDetails(props: any) {
 
                     {/* Price Info */}
                     <Card className="shadow-md !p-5 rounded-xl">
-                        <div className="space-y-3">
+                        <div className="space-y-3 text-xs md:text-sm">
 
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-2 text-gray-600">
@@ -146,7 +146,7 @@ export default function OrderDetails(props: any) {
 
                         {/* Status */}
                         {order?.status && (
-                            <div className="mt-5">
+                            <div className="mt-5 text-xs md:text-sm">
                                 <div
                                     className="mb-2 font-medium"
                                     style={{ color: ORDER_STATUS[order.status].color }}
@@ -163,7 +163,7 @@ export default function OrderDetails(props: any) {
                     </Card>
 
                     {/* Products */}
-                    <div className="space-y-3">
+                    <div className="space-y-3 text-xs md:text-sm">
                         {!isEmpty(products) &&
                             products &&
                             products.map((item, index) => {
@@ -174,7 +174,7 @@ export default function OrderDetails(props: any) {
                                 return (
                                     <Card key={index} className="shadow-sm !p-4 rounded-xl">
 
-                                        <div className="flex items-center gap-2 mb-3 text-gray-500 text-sm">
+                                        <div className="flex items-center gap-2 mb-3 text-gray-500 text-xs md:text-sm">
                                             <Icon icon="mdi:percent" width="18" />
                                             سود شما:
                                             <span className="font-bold text-green-600">
@@ -194,14 +194,14 @@ export default function OrderDetails(props: any) {
                                             />
 
                                             <div className="w-full">
-                                                <h2 className="font-bold text-lg">{data.model}</h2>
+                                                <h2 className="font-bold text-base md:text-lg">{data.model}</h2>
 
-                                                <div className="flex items-center gap-1 mt-1 text-gray-500 text-sm">
+                                                <div className="flex items-center gap-1 mt-1 text-gray-500 text-xs md:text-sm">
                                                     <Icon icon="mdi:counter" width="16" />
                                                     تعداد: {englishToPersianNumbers(number)}
                                                 </div>
 
-                                                <div className="mt-3 font-black text-lg">
+                                                <div className="mt-3 font-black text-base md:text-lg">
                                                     {englishToPersianNumbers(
                                                         getToman(
                                                             Number(data.priceForUser) -

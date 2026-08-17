@@ -12,6 +12,7 @@ import { Address } from "@/types/address.type";
 import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
 
 import { getAddresses, deleteAddress } from "@/actions/address.action";
+import { Button } from "@/components";
 
 export default function Addresses() {
     const [addresses, setAddresses] = useState<Array<Address>>([]);
@@ -198,12 +199,11 @@ export default function Addresses() {
                             </div>
 
                             {/* Add New Address */}
-                            <button
+                            <Button
                                 onClick={() => {
                                     setAddress(undefined);
                                     setShowAddModal(true);
                                 }}
-                                className="flex justify-center items-center gap-2 bg-blue-50 hover:bg-blue-100 mt-5 p-3 sm:p-4 border-2 border-blue-300 border-dashed rounded-xl sm:rounded-2xl w-full font-medium text-blue-600 text-sm sm:text-base transition"
                             >
                                 <Icon
                                     icon="mdi:location-plus"
@@ -211,14 +211,14 @@ export default function Addresses() {
                                 />
 
                                 <span>افزودن آدرس جدید</span>
-                            </button>
+                            </Button>
                         </>
                     ) : (
                         <div className="flex flex-col items-center py-10 sm:py-14 text-center">
                             <div className="flex justify-center items-center bg-blue-50 rounded-full w-20 sm:w-24 h-20 sm:h-24">
                                 <Icon
                                     icon="mdi:map-marker-off-outline"
-                                    className="text-blue-400 text-4xl sm:text-5xl"
+                                    className="text-primary text-4xl sm:text-5xl"
                                 />
                             </div>
 
@@ -231,12 +231,12 @@ export default function Addresses() {
                                 اولین آدرس خود را اضافه کنید.
                             </p>
 
-                            <button
+                            <Button
                                 onClick={() => {
                                     setAddress(undefined);
                                     setShowAddModal(true);
                                 }}
-                                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 mt-6 px-5 sm:px-6 py-3 rounded-xl text-white text-sm sm:text-base transition"
+                                
                             >
                                 <Icon
                                     icon="mdi:plus"
@@ -244,7 +244,7 @@ export default function Addresses() {
                                 />
 
                                 <span>افزودن آدرس جدید</span>
-                            </button>
+                            </Button>
                         </div>
                     )}
                 </div>

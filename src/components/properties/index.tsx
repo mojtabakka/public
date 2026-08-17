@@ -1,28 +1,43 @@
-import { Property } from '@/types/property.type';
-import { englishToPersianNumbers } from '@/utils/function.utils';
-import React from 'react';
+import { Property } from "@/types/property.type";
+import { englishToPersianNumbers } from "@/utils/function.utils";
+import clsx from "clsx";
 
 interface PropsType {
     properties: Array<Property>;
     className?: string;
 }
 
-export default function Properties({ properties, className }: PropsType) {
-
+export default function Properties({
+    properties,
+    className,
+}: PropsType) {
     return (
-        <div className={className}>
-            {properties.map((item, index) => {
-                return <div key={index} className="grid grid-cols-12 gap-4">
-                    <div className=" lg:col-span-2 md:col-span-4 col-span-6">
-                        <div className="p-4 font-extrabold"> {englishToPersianNumbers(item.title)} </div>
-                        {properties.length - 1 !== index && < hr />}
+        <div
+            className={clsx(
+                "bg-white shadow-sm rounded-3xl overflow-hidden",
+                className
+            )}
+        >
+            <div className="divide-y divide-slate-100">
+                {properties.map((item, index) => (
+                    <div
+                        key={index}
+                        className="gap-4 grid grid-cols-12 hover:bg-slate-50 px-5 py-4 transition-colors duration-200"
+                    >
+                        <div className="col-span-5 md:col-span-4 lg:col-span-3">
+                            <span className="text-slate-500 text-sm">
+                                {englishToPersianNumbers(item.title)}
+                            </span>
+                        </div>
+
+                        <div className="col-span-7 md:col-span-8 lg:col-span-9">
+                            <span className="font-medium text-slate-900">
+                                {englishToPersianNumbers(item.property)}
+                            </span>
+                        </div>
                     </div>
-                    <div className="lg:col-span-10 md:col-span-8 col-span-6">
-                        <div className="p-4 text-gray-500"> {englishToPersianNumbers(item.property)} </div>
-                        {properties.length - 1 !== index && < hr />}
-                    </div>
-                </div>
-            })}
+                ))}
+            </div>
         </div>
     );
 }

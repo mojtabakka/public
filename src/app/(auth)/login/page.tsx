@@ -74,12 +74,12 @@ export default function Login({
   });
 
   return (
-    <div className="place-items-center grid h-[90vh]">
+    <div className="place-items-center grid p-4 h-full">
       <div className="justify-center items-center gap-6 bg-white px-4 py-4 rounded-lg w-full md:w-1/2 lg:w-1/5">
 
         <Logo />
 
-        <h1 className="mt-2 font-extrabold text-lg text-center">
+        <h1 className="mt-2 w-full font-extrabold text-lg text-center">
           ورود | ثبت نام
         </h1>
 

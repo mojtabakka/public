@@ -103,8 +103,8 @@ export default function SelectShippingTime({
 
     return (
         <div className="px-4 py-3">
-            <h2 className="mb-4 font-bold text-sm md:text-base">
-                زمان ارسال سفارش
+            <h2 className="mb-4 font-bold text-xs md:text-sm">
+                انتخاب زمان ارسال سفارش 
             </h2>
 
             <FormControl className="w-full">

@@ -138,7 +138,7 @@ export default function ModalForm(props: PropsType) {
       onSubmit={onSubmit}
       id="add-address-form-id"
     >
-      <div className="space-y-6 px-6 py-5">
+      <div className="space-y-6 md:px-6 py-0 md:py-5">
         {/* Address Section */}
         <div className="bg-gray-50/50 p-5 border border-gray-100 rounded-2xl">
           <div className="flex items-center gap-2 mb-5">

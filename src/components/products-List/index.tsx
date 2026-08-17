@@ -79,12 +79,12 @@ export default function ProductList(props: propsType) {
                 <div className="gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-0 md:mt-1 w-full h-full">
                     {!isEmpty(items) &&
                         items.map((item, index) => (
-                            <span key={`${index}${item.product_id}`}>
+                            <div key={`${index}${item.product_id}`} className="w-full h-full">
                                 <ProductCard
                                     items={item}
                                     key={item.product_id}
                                 />
-                            </span>
+                            </div>
                         ))}
 
                     {

@@ -1,52 +1,76 @@
 import { TabType } from "@/types/client/tab.type";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface PropsType {
     items: Array<TabType>;
     onClick: (item: TabType) => void;
-    defaultTab?: TabType; // Optional prop for default tab
+    defaultTab?: TabType;
 }
 
-export default function Tab(props: PropsType) {
-    const { items, onClick, defaultTab } = props;
+export default function Tab({
+    items,
+    onClick,
+    defaultTab,
+}: PropsType) {
+    const [selectedTab, setSelectedTab] = useState<TabType | null>(
+        defaultTab ?? items[0] ?? null
+    );
 
-    // Set the initial selected tab to the defaultTab prop (if provided)
-    const [selectedTab, setSelectedTab] = useState<TabType | null>(defaultTab || items[0] || null);
+    useEffect(() => {
+        if (defaultTab) {
+            setSelectedTab(defaultTab);
+        }
+    }, [defaultTab]);
 
     const handleTabClick = (item: TabType) => {
-        setSelectedTab(item); // Update the selected tab
-        onClick(item); // Call the onClick handler passed in props
+        setSelectedTab(item);
+        onClick(item);
     };
 
-    // Optionally, if you want to update the selectedTab when the items array changes
-    useEffect(() => {
-        if (items.length > 0 && !selectedTab) {
-            setSelectedTab(items[0]); // Set the default tab if it's not set yet
-        }
-    }, [items, selectedTab]);
-
     return (
-        <div className="font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 text-xs md:text-sm lg:text-base">
-            <ul className="flex flex-wrap -mb-px" role="tablist">
-                {items.map((item) => (
-                    <li
-                        key={item.id}  // Assuming `item.id` exists
-                        className={`mr-2 cursor-pointer ${selectedTab?.id === item.id
-                            ? "text-blue-600 border-b-2 border-blue-300 font-bold"  // Apply blue underline and bold font on active tab
-                            : "text-gray-500 border-b-2 border-transparent font-normal" // Default tab style
-                            }`}
-                        onClick={() => handleTabClick(item)}
-                        role="tab"
-                        aria-selected={selectedTab?.id === item.id ? "true" : "false"}
-                    >
-                        <span
-                            className="inline-block p-4 rounded-t-lg  dark:hover:text-gray-300"
+        <div className="border-slate-200 border-b">
+            <div
+                className="flex gap-6 overflow-x-auto scrollbar-none"
+                role="tablist"
+            >
+                {items.map((item) => {
+                    const isActive = selectedTab?.id === item.id;
+
+                    return (
+                        <button
+                            key={item.id}
+                            type="button"
+                            role="tab"
+                            aria-selected={isActive}
+                            onClick={() => handleTabClick(item)}
+                            className={`
+                                relative shrink-0 py-4
+                                text-sm md:text-base
+                                transition-all duration-200
+                                whitespace-nowrap
+                                ${isActive
+                                    ? "text-slate-900 font-semibold"
+                                    : "text-slate-500 hover:text-slate-700"
+                                }
+                            `}
                         >
                             {item.title}
-                        </span>
-                    </li>
-                ))}
-            </ul>
+
+                            <span
+                                className={`
+                                    absolute bottom-0 left-0 h-[3px]
+                                    rounded-full bg-blue-500
+                                    transition-all duration-300
+                                    ${isActive
+                                        ? "w-full opacity-100"
+                                        : "w-0 opacity-0"
+                                    }
+                                `}
+                            />
+                        </button>
+                    );
+                })}
+            </div>
         </div>
     );
 }

@@ -100,8 +100,8 @@ export default function SearchInput() {
   return (
     <>
       {/* Desktop Search */}
-      <div className="hidden md:block relative w-1/2">
-        <div className="relative">
+      <div className="hidden md:block relative rounded-lg w-full">
+        <div className="relative rounded-md">
           <input
             type="search"
             value={value}
@@ -147,12 +147,13 @@ export default function SearchInput() {
         </button>
       </div>
 
+
       {/* Mobile Bottom Sheet */}
       <Drawer.Root open={mobileOpen} onOpenChange={setMobileOpen}  >
 
-        <Drawer.Overlay className="fixed inset-0 bg-black/40" style={{ zIndex: 9000 }} />
+        <Drawer.Overlay className="z-[9000] fixed inset-0 bg-black/50 backdrop-blur-sm" />
 
-        <Drawer.Content className="right-0 bottom-0 left-0 fixed flex flex-col bg-white rounded-t-[32px] h-[90vh] overflow-hidden" style={{ zIndex: 10000 }}>
+        <Drawer.Content className="right-0 bottom-0 left-0 fixed flex flex-col bg-white rounded-t-[32px] h-[90vh] overflow-hidden" style={{ zIndex: 90000000000000000 }}>
 
           {/* Handle */}
           <div className="flex justify-center py-3">

@@ -83,6 +83,7 @@ export default function Modal(props: propsType) {
             {/* ================= MOBILE BOTTOM SHEET (VAUL) ================= */}
             {isMobile && (
                 <Drawer.Root
+
                     open={show}
                     onOpenChange={(open) => !open && onClose?.()}
                 >
@@ -91,7 +92,7 @@ export default function Modal(props: propsType) {
 
                     {/* SHEET */}
                     <Drawer.Content
-                        className="right-0 bottom-0 left-0 z-[10000] fixed flex flex-col bg-white dark:bg-gray-800 shadow-2xl rounded-t-3xl outline-none h-[85vh] overflow-hidden"
+                        className="right-0 bottom-0 left-0 !z-[10000000000] fixed flex flex-col bg-white dark:bg-gray-800 shadow-2xl rounded-t-3xl outline-none h-[85vh] overflow-hidden"
                         style={{ WebkitTapHighlightColor: "transparent" }}
                     >
                         {/* HANDLE */}

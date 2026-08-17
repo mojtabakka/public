@@ -7,6 +7,7 @@ import CartIcon from "../cart-icon";
 import { PopoverListIconType } from "@/types/client/PopoverListIcon.type";
 import { jwtDecode } from 'jwt-decode';
 import LoginButton from "./login-button";
+import Link from "next/link";
 
 export default function LoginText() {
   let userInfo: {
@@ -24,9 +25,9 @@ export default function LoginText() {
   const popoverItems: Array<PopoverListIconType> = [
     {
       id: 1,
-      title: <div className="!p-0 rounded-lg font-extrabold">
+      title: <div className="flex flex-col !p-0 rounded-lg font-extrabold">
         <span> {userInfo.phoneNumber}</span>
-        <span className="font-medium text-gray-500 text-sm"> {userInfo?.fullName}</span>
+        <span className="font-medium text-gray-500 text-xs"> {userInfo?.fullName}</span>
       </div>,
       bgColor: "white",
 
@@ -57,7 +58,7 @@ export default function LoginText() {
       title: "خروج",
       bgColor: "white",
       // href: "/address",
-      icon: <Icon icon="pepicons-pencil:map" width="30" height="30" />,
+      icon: <Icon icon="fluent:arrow-exit-20-regular" width="30" height="30" />,
     },
 
 
@@ -85,14 +86,14 @@ export default function LoginText() {
       id: 4,
       title: "خروج",
       bgColor: "white",
-      icon: <Icon icon="pepicons-pencil:map" width="30" height="30" />,
-      secondIcon: <Icon icon="ep:arrow-left" className="text-xl" />
+      icon: <Icon icon="fluent:arrow-exit-20-regular" width="30" height="30" />,
+      secondIcon: <Icon icon="fluent:arrow-exit-20-regular" className="text-xl" />
     },
   ];
   return (
     <>
       {!token ? (
-        <div className="flex items-center gap-3 md:p-2 lg:p-4">
+        <div className="flex justify-end gap-3 md:p-2 lg:p-4 w-full">
           <CartIcon />
           <LoginButton />
         </div>
@@ -102,13 +103,13 @@ export default function LoginText() {
 
           <PopoverListIcon
             sheetTitle={
-              <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
+              <Link href="/profile" className="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
                 <IconTitleSubtitle
                   icon={"healthicons:ui-user-profile"}
                   title={userInfo.fullName || ""}
                   subTitle={userInfo.phoneNumber || ""}
                 />
-              </div>
+              </Link>
             }
             icon="iconamoon:profile-circle-fill"
             items={popoverItems}

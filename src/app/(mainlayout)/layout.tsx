@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Layout from "@/components/layout";
 import ReduxProvider from "@/components/redux-provider";
+
 import MuiConfig from "@/components/mui-config";
 import { Toaster } from 'react-hot-toast';
 
@@ -19,17 +20,16 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className='bg-[#EEEEEE]'>
-      <body>
-        <MuiConfig >
-          <CssBaseline />
-          <Toaster />
-          <ReduxProvider>
-            <Layout />
-            <div className="bg-[#EEEEEE] p-4" dir="rtl">{children}</div>
-          </ReduxProvider>
-        </MuiConfig>
-      </body>
-    </html>
+
+    <body  >
+      <MuiConfig >
+        <CssBaseline />
+        <Toaster />
+        <ReduxProvider>
+          <Layout />
+          <div className="p-4" dir="rtl">{children}</div>
+        </ReduxProvider>
+      </MuiConfig>
+    </body>
   );
 }
