@@ -54,10 +54,15 @@ export default function Properties({
                 <div className="flex justify-center py-4 border-t border-slate-100 dark:border-gray-700">
                     <button
                         onClick={loadMore}
-                        className="flex items-center gap-1.5 text-sm font-medium text-[#423CAD] hover:text-[#423CAD]/80 transition-colors duration-200"
+                        className="group flex items-center gap-1.5 bg-[#423CAD]/10 hover:bg-[#423CAD]/20 border border-[#423CAD]/30 hover:border-[#423CAD]/40 text-[#423CAD] font-medium text-sm px-5 py-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:shadow-md"
                     >
-                        <Icon icon="ep:arrow-down" className="text-base" />
-                        مشاهده بیشتر
+                        <span className="group-hover:translate-y-0.5 transition-transform duration-200">
+                            مشاهده بیشتر
+                        </span>
+                        <Icon
+                            icon="ep:arrow-down"
+                            className="text-base group-hover:translate-y-0.5 transition-transform duration-300"
+                        />
                     </button>
                 </div>
             )}
