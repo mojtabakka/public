@@ -20,16 +20,13 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-
-    <body  >
-      <MuiConfig >
-        <CssBaseline />
-        <Toaster />
-        <ReduxProvider>
-          <Layout />
-          <div className="p-4" dir="rtl">{children}</div>
-        </ReduxProvider>
-      </MuiConfig>
-    </body>
+    <MuiConfig >
+      <CssBaseline />
+      <Toaster />
+      <ReduxProvider>
+        <Layout />
+        <div className="p-4" dir="rtl">{children}</div>
+      </ReduxProvider>
+    </MuiConfig>
   );
 }
