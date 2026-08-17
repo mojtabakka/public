@@ -74,23 +74,16 @@ export default function CategoryBox(props: PropsType) {
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <>
-      <div className="md:hidden mx-2 mb-3">
-        <div className="flex items-center justify-between bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-100 px-3 py-2">
-          {category && pathname === "/products" && (
-            <button
-              onClick={() => setShowFilter(true)}
-              className="flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-[#423CAD]/5 text-slate-700 hover:text-[#423CAD] rounded-xl transition-all duration-250"
-            >
-              <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
-              <span className="font-medium text-sm">فیلترها</span>
-            </button>
-          )}
-
-          <span className="flex items-center gap-1 text-slate-700 text-sm cursor-pointer hover:text-[#423CAD] transition-colors duration-200">
-            <Icon icon="gg:menu" className="text-lg" />
-            <span>دسته بندی‌ها</span>
-          </span>
-        </div>
+      <div className="lg:hidden">
+        {category && pathname === "/products" && (
+          <button
+            onClick={() => setShowFilter(true)}
+            className="flex items-center gap-1 px-2.5 py-1 text-slate-600 hover:text-[#423CAD] hover:bg-[#423CAD]/5 rounded-lg transition-all duration-200 text-xs"
+          >
+            <Icon icon="mdi-filter" width="14" height="14" className="text-slate-600" />
+            <span>فیلتر</span>
+          </button>
+        )}
       </div>
       <div className="flex items-center shadow-lg">
         <div className="w-fit" ref={ref}>
