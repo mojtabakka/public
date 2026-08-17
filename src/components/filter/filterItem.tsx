@@ -81,7 +81,10 @@ const FilterItem = ({
                                 {icon}
                             </span>
                         )}
-                        <span className="truncate">{label}</span>
+                        <span className={`truncate ${!hasChildren && selectedIds.includes(id as string) ? "text-[#423CAD] font-semibold" : ""}`}>{label}</span>
+                        {!hasChildren && selectedIds.includes(id as string) && (
+                            <Icon icon="ep:check" width="14" height="14" className="text-[#423CAD] flex-shrink-0" />
+                        )}
                     </div>
 
                     {hasChildren && (
