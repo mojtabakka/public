@@ -2,10 +2,10 @@ import { Skeleton } from "@mui/material";
 
 export default function CartItemSkeleton() {
     return (
-        <div className="bg-white shadow-sm mt-3 border rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 shadow-sm border border-slate-200 dark:border-gray-700 rounded-xl overflow-hidden">
             <div className="flex sm:flex-row flex-col">
                 {/* Image */}
-                <div className="flex justify-center p-4 sm:border-l sm:w-48">
+                <div className="flex justify-center p-4 sm:border-l sm:border-slate-200 dark:sm:border-gray-700 sm:w-48">
                     <Skeleton
                         variant="rounded"
                         className="!w-24 sm:!w-32 !h-24 sm:!h-32"
@@ -62,7 +62,7 @@ export default function CartItemSkeleton() {
                     </div>
 
                     {/* Mobile */}
-                    <div className="sm:hidden flex justify-between items-center mt-4 pt-4 border-t">
+                    <div className="sm:hidden flex justify-between items-center mt-4 pt-4 border-t border-slate-200 dark:border-gray-700">
                         <div>
                             <Skeleton
                                 variant="text"
@@ -85,7 +85,7 @@ export default function CartItemSkeleton() {
                 </div>
 
                 {/* Desktop */}
-                <div className="hidden sm:flex flex-col justify-center items-center gap-4 p-4 border-r min-w-[220px]">
+                <div className="hidden sm:flex flex-col justify-center items-center gap-4 p-4 sm:border-l sm:border-slate-200 dark:sm:border-gray-700 min-w-[220px]">
                     <div className="text-center">
                         <Skeleton
                             variant="text"

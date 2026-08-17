@@ -1,4 +1,5 @@
 import { getToman } from "@/utils/function.utils";
+import { englishToPersianNumbers } from "@/utils/function.utils";
 
 interface Props {
   priceForUser: number;
@@ -13,16 +14,16 @@ export default function CartItemPrice({
   const finalPrice = priceForUser - discount;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-end">
       {!!off && (
         <div className="mt-3 text-red-400 text-xs lg:text-sm">
-          {getToman(discount)}
+          {englishToPersianNumbers(getToman(discount))}
           <span className="px-1">تومان تخفیف</span>
         </div>
       )}
 
-      <div className="mt-1 font-black text-sm lg:text-sm">
-        {getToman(finalPrice)}
+      <div className="mt-1 font-black text-sm lg:text-sm text-gray-900 dark:text-white">
+        {englishToPersianNumbers(getToman(finalPrice))}
         <span className="px-1">تومان</span>
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import { isEmpty } from "lodash";
 
-
 import CartBoxSkeleton from "@/skeletons/cart-box.skeleton";
 import CartHeader from "./cart-header";
 import CartEmpty from "./cart-empty";
@@ -29,10 +28,10 @@ export default function CartBox({ items }: Props) {
         .filter(Boolean);
 
     return (
-        <div>
-            <CartHeader loading={false} />
+        <div className="w-full">
+            <CartHeader loading={false} itemCount={cartItems.length} />
 
-            <div className="mb-5">
+            <div className="mb-5 space-y-3">
                 {isEmpty(cartItems) ? (
                     <CartEmpty />
                 ) : (
