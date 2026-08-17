@@ -74,19 +74,18 @@ export default function CategoryBox(props: PropsType) {
   const ref = useOutsideClick(handleClickOutside) as React.RefObject<HTMLDivElement>;
   return (
     <>
-      <div className="sticky top-0 z-30 w-full shadow-md lg:static lg:z-auto lg:shadow-none bg-white lg:bg-transparent">
-        <div className="lg:hidden">
-          {category && pathname === "/products" && (
-            <button
-              onClick={() => setShowFilter(true)}
-              className="flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-[#423CAD]/5 text-slate-700 hover:text-[#423CAD] rounded-xl transition-all duration-250"
-            >
-              <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
-              <span className="font-medium text-sm">فیلترها</span>
-            </button>
-          )}
-        </div>
-        <div className="flex items-center">
+      <div className="lg:hidden">
+        {category && pathname === "/products" && (
+          <button
+            onClick={() => setShowFilter(true)}
+            className="flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-[#423CAD]/5 text-slate-700 hover:text-[#423CAD] rounded-xl transition-all duration-250"
+          >
+            <Icon icon="mdi:filter" width="20" height="20" className="text-slate-600" />
+            <span className="font-medium text-sm">فیلترها</span>
+          </button>
+        )}
+      </div>
+      <div className="flex items-center shadow-lg">
         <div className="w-fit" ref={ref}>
           <span className="group hidden lg:inline-flex items-center gap-1.5 px-4 text-slate-700 hover:text-[#423CAD] text-sm lg:text-base transition-all duration-250 cursor-pointer" onMouseOver={() => setMenustatus(true)}>
             <Icon icon="gg:menu" className="text-lg group-hover:rotate-180 transition-transform duration-250" />
@@ -189,7 +188,6 @@ export default function CategoryBox(props: PropsType) {
 
          </span>
       </div>
-    </div>
 
       <Modal
         onClose={() => setShowFilter(false)}
