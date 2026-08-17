@@ -72,7 +72,7 @@ const FilterItem = ({
                                 type="checkbox"
                                 className="w-4 h-4 rounded border-slate-300 text-[#423CAD] focus:ring-[#423CAD] cursor-pointer transition-colors"
                                 value={id}
-                                checked={selectedIds.includes(id as string)}
+                                checked={selectedIds.includes(String(id))}
                                 onChange={onChangeCheckbox}
                             />
                         )}
@@ -81,8 +81,8 @@ const FilterItem = ({
                                 {icon}
                             </span>
                         )}
-                        <span className={`truncate ${!hasChildren && selectedIds.includes(id as string) ? "text-[#423CAD] font-semibold" : ""}`}>{label}</span>
-                        {!hasChildren && selectedIds.includes(id as string) && (
+                        <span className={`truncate ${!hasChildren && selectedIds.includes(String(id)) ? "text-[#423CAD] font-semibold" : ""}`}>{label}</span>
+                        {!hasChildren && selectedIds.includes(String(id)) && (
                             <Icon icon="ep:check" width="14" height="14" className="text-[#423CAD] flex-shrink-0" />
                         )}
                     </div>
