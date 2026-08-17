@@ -18,7 +18,7 @@ export default function MoreDetails(props: PropsType) {
         key: "properties",
         title: "مشخصات",
         action: "properties",
-    },)
+    })
     const tabItems: Array<TabType> = [
         {
             id: 1,
@@ -34,9 +34,14 @@ export default function MoreDetails(props: PropsType) {
         }
     ]
     return (
-        <Card className='mt-2 mb-28 lg:mb-0 !rounded-lg' >
+        <Card className="mt-2 mb-28 lg:mb-0 !rounded-xl dark:bg-gray-800 dark:border dark:border-gray-700 shadow-sm">
             <Tab items={tabItems} onClick={(item) => setTabValue(item)} />
-            {tabValue?.action === "properties" && <Properties className='mt-4 text-xs md:text-sm lg:text-base'   properties={product.properties} />}
-        </Card >
+            {tabValue?.action === "properties" && (
+                <Properties
+                    className="mt-4 text-xs md:text-sm lg:text-base"
+                    properties={product.properties}
+                />
+            )}
+        </Card>
     )
-} 
+}
