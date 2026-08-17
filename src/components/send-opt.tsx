@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { isArray } from 'lodash';
 import { endpoints } from '@/utils/end-points';
 import { fetchInstanceClient } from '@/utils/fetch-client';
-import { Icon } from "@iconify/react";
 import toast from 'react-hot-toast';
 
 export default function SendOtp() {
@@ -62,15 +61,8 @@ export default function SendOtp() {
         phoneNumber && (
             <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
                 <div className="w-full max-w-md">
-                    <div className="bg-white dark:bg-gray-800 shadow-xl border border-slate-200 dark:border-gray-700 rounded-xl p-6 w-full animate-in fade-in-0 duration-300 relative">
-                        <button
-                            onClick={() => router.back()}
-                            className="absolute top-4 right-4 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 hover:bg-[#423CAD]/10 hover:text-[#423CAD] transition-all duration-200"
-                        >
-                            <Icon icon="ep:arrow-left" className="text-lg" />
-                        </button>
-
-                        <div className="flex justify-center pt-2">
+                    <div className="bg-white dark:bg-gray-800 shadow-xl border border-slate-200 dark:border-gray-700 rounded-xl p-6 w-full animate-in fade-in-0 duration-300">
+                        <div className="flex justify-center">
                             <Logo />
                         </div>
 
