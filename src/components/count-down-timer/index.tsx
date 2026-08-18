@@ -43,7 +43,7 @@ export default function CountDownTimer({
             {!isExpired ? (
                 <>
                     <div
-                        className={`text-2xl font-mono font-bold transition-colors duration-300 ${
+                        className={`text-xl font-mono font-bold transition-colors duration-300 ${
                             isUrgent
                                 ? "text-red-500 animate-pulse"
                                 : "text-slate-700 dark:text-gray-300"
@@ -60,7 +60,7 @@ export default function CountDownTimer({
                     onClick={handleResend}
                     className="flex items-center gap-2 text-sm font-medium text-[#423CAD] hover:text-[#423CAD]/80 hover:bg-[#423CAD]/5 rounded-xl px-4 py-2 transition-all duration-200 hover:scale-105"
                 >
-                    <Icon icon="mdi:refresh" className="text-lg" />
+                    <Icon icon="mdi:refresh" className="text-base" />
                     ارسال مجدد کد تایید
                 </button>
             )}
