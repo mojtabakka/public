@@ -57,7 +57,7 @@ const Cart = () => {
         }
     };
     return (
-        <div className="md:flex lg:flex p-2 w-full text-xs">
+        <div className="md:flex lg:flex p-2 w-full text-xs overflow-x-hidden min-h-screen">
             <Card className="md:m-2 rounded-lg w-full">
                 <CartBox items={cartItems} />
             </Card>
