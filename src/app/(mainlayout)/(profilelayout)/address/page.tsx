@@ -198,20 +198,22 @@ export default function Addresses() {
                             </div>
 
                             {/* Add New Address */}
-                            <Button
-                                onClick={() => {
-                                    setAddress(undefined);
-                                    setShowAddModal(true);
-                                }}
-                                className="w-full sm:w-auto"
-                            >
-                                <Icon
-                                    icon="mdi:location-plus"
-                                    className="text-white text-lg sm:text-xl"
-                                />
+                            <div className="mt-4 text-center">
+                                <Button
+                                    onClick={() => {
+                                        setAddress(undefined);
+                                        setShowAddModal(true);
+                                    }}
+                                    className="w-full sm:w-auto"
+                                >
+                                    <Icon
+                                        icon="mdi:location-plus"
+                                        className="mx-2 text-white text-lg sm:text-xl"
+                                    />
 
-                                <span className="font-medium text-white">افزودن آدرس جدید</span>
-                            </Button>
+                                    <span className="font-medium text-white">افزودن آدرس جدید</span>
+                                </Button>
+                            </div>
                         </>
                     ) : (
                         <div className="flex flex-col items-center py-10 sm:py-14 text-center">
@@ -240,10 +242,10 @@ export default function Addresses() {
                             >
                                 <Icon
                                     icon="mdi:plus"
-                                    className="text-lg sm:text-xl"
+                                    className="mx-2 text-white text-lg sm:text-xl"
                                 />
 
-                                <span className="font-medium">افزودن آدرس جدید</span>
+                                <span className="font-medium text-white">افزودن آدرس جدید</span>
                             </Button>
                         </div>
                     )}
