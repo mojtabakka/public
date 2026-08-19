@@ -16,7 +16,7 @@ export const viewport = {
 
 export default function layout({ children }: { children: ReactNode }) {
     return (
-        <div className="right-0 gap-1 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 w-full min-h-screen overflow-x-scroll">
+        <div className="right-0 gap-1 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 w-full min-h-screen overflow-x-hidden">
             <div className="hidden sm:hidden lg:block md:inline-block p-1">
                 <div className="sticky top-5 z-10 bg-white dark:bg-gray-800 shadow-sm mr-3 pb-40 rounded-xl transition-colors duration-200">
                     <div className="flex justify-between items-center p-3">
