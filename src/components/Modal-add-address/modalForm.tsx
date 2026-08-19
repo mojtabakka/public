@@ -286,12 +286,12 @@ export default function ModalForm(props: PropsType) {
         </div>
       </div>
 
-      <ModalFooter className="hidden md:flex justify-end bg-white dark:bg-gray-800 px-6 py-4 border-t border-slate-200 dark:border-gray-700">
+      <ModalFooter className="hidden md:flex justify-end bg-white dark:bg-gray-800 px-6 py-3.5 border-t border-slate-200 dark:border-gray-700">
         <Button
           variant="contained"
           type="submit"
           loading={isSubmitting}
-          className="w-full md:w-auto min-w-[160px]"
+          className="w-full md:w-auto min-w-[160px] !text-white"
         >
           {props.address
             ? "ذخیره تغییرات"
