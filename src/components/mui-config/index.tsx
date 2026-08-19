@@ -28,10 +28,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: 'white',
-          borderRadius: '4px',
-          border: "1px soid red",
+          borderRadius: '12px',
+          transition: 'background-color 0.2s ease',
           '&.Mui-focused': {
-            backgroundColor: 'white', // Background when focused
+            backgroundColor: 'white',
+          },
+          '&:where(.dark) .MuiOutlinedInput-root': {
+            backgroundColor: '#1f2937',
+          },
+          '&.Mui-focused:where(.dark)': {
+            backgroundColor: '#1f2937',
           },
         }
       }
