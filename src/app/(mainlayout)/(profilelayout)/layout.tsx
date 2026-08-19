@@ -16,9 +16,9 @@ export const viewport = {
 
 export default function layout({ children }: { children: ReactNode }) {
     return (
-        <div className="right-0 gap-1 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 w-full h-full overflow-x-scroll">
-            <div className="hidden sm:hidden lg:block md:inline-block">
-                <div className="top-2 z-0 bg-white dark:bg-gray-800 shadow-sm mt-5 mr-3 pb-40 rounded-xl sticky z-0 transition-colors duration-200">
+        <div className="right-0 gap-1 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 w-full min-h-screen overflow-x-scroll">
+            <div className="hidden sm:hidden lg:block md:inline-block p-1">
+                <div className="sticky top-5 z-10 bg-white dark:bg-gray-800 shadow-sm mr-3 pb-40 rounded-xl transition-colors duration-200">
                     <div className="flex justify-between items-center p-3">
                         <div>
                             <div className="flex items-center p-3">
@@ -29,7 +29,7 @@ export default function layout({ children }: { children: ReactNode }) {
                         </div>
                         <div className="p-3">
                             <Link href="/profile">
-                                <Icon icon="lucide:edit-2" className="text-[#423CAD] text-2xl cursor-pointer transition-transform duration-200 hover:scale-110" />
+                                <Icon icon="lucide:edit-2" className="text-[#423CAD] text-2xl hover:scale-110 transition-transform duration-200 cursor-pointer" />
                                 <span className="text-[#423CAD] text-xs transition-colors">ویرایش</span>
                             </Link>
                         </div>
@@ -54,7 +54,7 @@ export default function layout({ children }: { children: ReactNode }) {
                     </Link>
                 </div>
             </div>
-            <div className="col-span-3 mt-5 pt-1">{children}</div>
+            <div className="col-span-3 mt-5">{children}</div>
         </div>
     )
 }

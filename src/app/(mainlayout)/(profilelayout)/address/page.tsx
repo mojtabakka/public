@@ -93,7 +93,7 @@ export default function Addresses() {
                                 {addresses.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="group flex justify-between gap-3 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-sm hover:shadow-md p-4 sm:p-5 border border-slate-200 dark:border-gray-700 rounded-xl transition-all"
+                                        className="group flex justify-between gap-3 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md p-4 sm:p-5 border border-slate-200 dark:border-gray-700 dark:border-gray-700 rounded-xl transition-all"
                                     >
                                         <div className="flex flex-1 gap-3 sm:gap-4">
                                             <div className="flex justify-center items-center bg-[#423CAD]/10 rounded-full w-9 sm:w-11 h-9 sm:h-11 shrink-0">
@@ -144,7 +144,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mynaui:edit"
-                                                            className="text-lg sm:text-xl text-[#423CAD]"
+                                                            className="text-[#423CAD] text-lg sm:text-xl"
                                                         />
                                                     ),
                                                     key: "edit",
@@ -155,7 +155,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mdi:bin"
-                                                            className="text-lg sm:text-xl text-red-500"
+                                                            className="text-red-500 text-lg sm:text-xl"
                                                         />
                                                     ),
                                                     key: "delete",
@@ -169,7 +169,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mynaui:edit"
-                                                            className="text-lg sm:text-xl text-[#423CAD]"
+                                                            className="text-[#423CAD] text-lg sm:text-xl"
                                                         />
                                                     ),
                                                     key: "edit",
@@ -180,7 +180,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mdi:bin"
-                                                            className="text-lg sm:text-xl text-red-500"
+                                                            className="text-red-500 text-lg sm:text-xl"
                                                         />
                                                     ),
                                                     key: "delete",
@@ -207,10 +207,10 @@ export default function Addresses() {
                             >
                                 <Icon
                                     icon="mdi:location-plus"
-                                    className="text-lg sm:text-xl text-[#423CAD]"
+                                    className="text-white text-lg sm:text-xl"
                                 />
 
-                                <span className="text-[#423CAD] font-medium">افزودن آدرس جدید</span>
+                                <span className="font-medium text-white">افزودن آدرس جدید</span>
                             </Button>
                         </>
                     ) : (
@@ -240,10 +240,10 @@ export default function Addresses() {
                             >
                                 <Icon
                                     icon="mdi:plus"
-                                    className="text-lg sm:text-xl text-[#423CAD]"
+                                    className="text-lg sm:text-xl"
                                 />
 
-                                <span className="text-[#423CAD] font-medium">افزودن آدرس جدید</span>
+                                <span className="font-medium">افزودن آدرس جدید</span>
                             </Button>
                         </div>
                     )}

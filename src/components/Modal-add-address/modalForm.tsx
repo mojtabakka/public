@@ -194,7 +194,7 @@ export default function ModalForm(props: PropsType) {
         </div>
 
         {/* Building Section */}
-        <div className="p-5 border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50 rounded-2xl">
+        <div className="dark:bg-gray-800/50 p-5 border border-slate-200 dark:border-gray-700 rounded-2xl">
           <div className="flex items-center gap-2 mb-5">
             <Icon
               icon="mdi:home-outline"
@@ -239,7 +239,7 @@ export default function ModalForm(props: PropsType) {
         </div>
 
         {/* Receiver Section */}
-        <div className="p-5 border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50 rounded-2xl">
+        <div className="dark:bg-gray-800/50 p-5 border border-slate-200 dark:border-gray-700 rounded-2xl">
           <div className="flex items-center gap-2 mb-5">
             <Icon
               icon="mdi:account-outline"
@@ -286,7 +286,7 @@ export default function ModalForm(props: PropsType) {
         </div>
       </div>
 
-      <ModalFooter className="hidden md:flex justify-end bg-white dark:bg-gray-800 px-6 py-3.5 border-t border-slate-200 dark:border-gray-700">
+      <ModalFooter className="hidden md:flex justify-end bg-white dark:bg-gray-800 px-6 py-3.5 border-slate-200 dark:border-gray-700 border-t">
         <Button
           variant="contained"
           type="submit"
