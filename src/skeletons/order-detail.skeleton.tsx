@@ -8,10 +8,10 @@ const SkeletonText = ({ width, height }: { width: number | string, height: numbe
 export default function OrderDetailSkeleton() {
     return (
         <>
-            <Card className="mt-5 !p-3">
-                <div className="border rounded p-2">
+            <Card className="mt-5 !p-3 border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
+                <div className="border dark:border-gray-600 rounded p-2">
                     <div className="py-2 flex gap-6">
-                        <span className="px-1 text-gray-400 text-small">
+                        <span className="px-1 text-gray-400 dark:text-gray-500 text-small">
                             <SkeletonText width={100} height={25} />
                         </span>
                         <span className="px-1">
@@ -29,8 +29,8 @@ export default function OrderDetailSkeleton() {
                 </div>
             </Card>
 
-            <Card className="mt-2 p-3">
-                <div className="border p-3 rounded">
+            <Card className="mt-2 p-3 border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
+                <div className="border dark:border-gray-600 p-3 rounded">
                     <div className="py-2 flex gap-6">
                         <SkeletonText width={70} height={25} />
                         <SkeletonText width={70} height={25} />
@@ -42,8 +42,8 @@ export default function OrderDetailSkeleton() {
                 </div>
             </Card>
 
-            <Card className="mt-2 p-3">
-                <div className="border rounded">
+            <Card className="mt-2 p-3 border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
+                <div className="border dark:border-gray-600 rounded">
                     <div className="flex justify-between p-2">
                         <div>
                             {[...Array(3)].map((_, index) => (
@@ -65,7 +65,7 @@ export default function OrderDetailSkeleton() {
 
                     <div className="overflow-x-scroll my-5 rounded-lg">
                         {Array(1).fill(0).map((_, index) => (
-                            <div key={index} className="flex border rounded-lg p-5 mx-2 w-full mt-2">
+                            <div key={index} className="flex border dark:border-gray-600 rounded-lg p-5 mx-2 w-full mt-2">
                                 <div className="w-full">
                                     {[...Array(3)].map((_, idx) => (
                                         <div key={idx} className="mb-5 flex gap-6">
@@ -73,7 +73,7 @@ export default function OrderDetailSkeleton() {
                                             <SkeletonText width={70} height={25} />
                                         </div>
                                     ))}
-                                    <hr />
+                                    <hr className="dark:border-gray-600" />
                                     <div className="flex items-center">
                                         <Skeleton variant="text" width={250} height={250} />
                                         <div className="p-2 text-right w-full flex flex-col gap-2">

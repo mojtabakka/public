@@ -8,12 +8,12 @@ export default function OrderBoxSkeleton() {
     return (
         Array(2).fill(0).map((item, index) =>
             <div
-                className="p-3 border mt-5  rounded-lg  bg-gray-50 "
+                className="p-3 border mt-5 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 "
                 key={index}
             >
                 <div className=" flex justify-between ">
                     <div className=" py-3 flex  justify-between w-full  md:text-base" >
-                        <div className=" lg:w-1/5 md:w-1/3 w-1/2    text-gray-500">
+                        <div className=" lg:w-1/5 md:w-1/3 w-1/2    text-gray-500 dark:text-gray-400">
                             <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={70} height={30} ></Skeleton>
                             <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={70} height={30} ></Skeleton>
                             <Skeleton variant="text" sx={{ fontSize: '2rem' }} width={70} height={30} ></Skeleton>
@@ -25,20 +25,20 @@ export default function OrderBoxSkeleton() {
                         </div>
                     </div>
                     <div className="mt-3">
-                        <Skeleton variant="circular" sx={{ fontSize: '2rem' }} width={20} height={20} ></Skeleton>
+                        <Skeleton variant="circular" sx={{ fontSize: '2rem' }} width={20} height={20} className="dark:bg-gray-600"></Skeleton>
                     </div>
                 </div>
-                <div className="flex overflow-x-scroll bg-white rounded-lg items-center  ">
+                <div className="flex overflow-x-scroll bg-white dark:bg-gray-800 rounded-lg items-center  ">
                     {Array(3).fill(0).map((item, index) => {
                         return (
                             <div className="flex  mx-2 mt-4 " key={index}>
-                                <Skeleton variant='rounded' height={40} width={40} />
+                                <Skeleton variant='rounded' height={40} width={40} className="dark:bg-gray-600" />
                             </div>
                         );
                     })}
                 </div>
                 <div className=" text-left p-3 text-medium mt-2 cursor-pointer flex justify-end">
-                    <Skeleton variant='rounded' height={25} width={70} />
+                    <Skeleton variant='rounded' height={25} width={70} className="dark:bg-gray-600" />
                 </div>
             </div>)
     )
