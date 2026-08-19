@@ -4,7 +4,6 @@ import Progressbar from "@/components/proggress-bar";
 import { ORDER_STATUS } from "@/config/general.config";
 import OrderDetailSkeleton from "@/skeletons/order-detail.skeleton";
 import { Order } from "@/types/order.type";
-import { Product } from "@/types/product.type";
 import { endpoints } from "@/utils/end-points";
 import { fetchInstance } from "@/utils/fetch";
 import {
@@ -18,6 +17,11 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+
+interface PageProps {
+    params: { id: string };
+    searchParams?: Record<string, string | string[] | undefined>;
+}
 
 const STATUS_BG: Record<string, string> = {
     notPayed: "bg-red-100 dark:bg-red-900/20",
@@ -35,7 +39,7 @@ const STATUS_TEXT: Record<string, string> = {
     completed: "text-green-800 dark:text-green-400",
 };
 
-export default function OrderDetails(props: any) {
+export default function OrderDetails(props: PageProps) {
     const [order, setOrder] = useState<Order>();
     const [loading, setLoading] = useState<boolean>(true);
     const [products, setProducts] = useState<{ [key: string]: any }[] | null>([]);
@@ -56,7 +60,7 @@ export default function OrderDetails(props: any) {
                 );
 
                 const products = result?.data?.products
-                    ? groupBy<Product>(result?.data?.products, "model")
+                    ? groupBy(result?.data?.products, "model")
                     : null;
 
                 setProducts(products);
@@ -72,7 +76,16 @@ export default function OrderDetails(props: any) {
     return (
         <>
             {!loading && (
-                <div className="space-y-3">
+                <div className="max-w-4xl mx-auto space-y-3">
+
+                    {/* Page Header */}
+                    <div className="mb-4">
+                        <h1 className="text-lg font-bold text-gray-900 dark:text-white">
+                            جزئیات سفارش #{order?.id}
+                        </h1>
+                    </div>
+
+                    {/* Order Info */}
 
                     {/* Order Info */}
                     <Card className="shadow-sm mt-5 !p-4 rounded-xl text-xs border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
