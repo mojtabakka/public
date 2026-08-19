@@ -31,7 +31,7 @@ export default function Addresses() {
             const result = await getAddresses();
             setAddresses(result.data);
         } catch (error) {
-            console.log(error);
+            console.error("load addresses error:", error);
         } finally {
             setLoading(false);
         }
@@ -47,7 +47,7 @@ export default function Addresses() {
                     await deleteAddress(item.id);
                     loadAddresses();
                 } catch (error) {
-                    console.log(error);
+                    console.error("delete address error:", error);
                 }
                 break;
 
@@ -64,25 +64,24 @@ export default function Addresses() {
         setAddress(undefined);
         setShowAddModal(false);
     };
-
     return (
-        <div className="mt-5">
+        <div className="space-y-4">
             {!loading && (
-                <div className="bg-white shadow-sm p-4 sm:p-5 md:p-6 border border-gray-100 rounded-2xl sm:rounded-xl">
+                <div className="bg-white dark:bg-gray-800 shadow-sm p-4 sm:p-5 md:p-6 border border-slate-200 dark:border-gray-700 rounded-xl">
                     {/* Header */}
                     <div className="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-3 mb-6">
                         <div>
-                            <h2 className="font-bold text-gray-800 text-base sm:text-lg md:text-xl">
+                            <h2 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg md:text-xl">
                                 آدرس‌های من
                             </h2>
 
-                            <p className="mt-1 text-gray-500 text-xs sm:text-sm">
+                            <p className="mt-1 text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                                 آدرس‌های ثبت شده برای ارسال سفارش
                             </p>
                         </div>
 
                         {!isEmpty(addresses) && (
-                            <div className="bg-blue-50 px-3 py-1 rounded-full w-fit font-medium text-blue-600 text-xs sm:text-sm">
+                            <div className="bg-[#423CAD]/10 px-3 py-1 rounded-full w-fit font-medium text-[#423CAD] text-xs sm:text-sm">
                                 {addresses.length} آدرس
                             </div>
                         )}
@@ -94,23 +93,23 @@ export default function Addresses() {
                                 {addresses.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="group flex justify-between gap-3 bg-white shadow-sm hover:shadow-md p-4 sm:p-5 border border-gray-100 rounded-xl sm:rounded-2xl transition-all"
+                                        className="group flex justify-between gap-3 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-sm hover:shadow-md p-4 sm:p-5 border border-slate-200 dark:border-gray-700 rounded-xl transition-all"
                                     >
                                         <div className="flex flex-1 gap-3 sm:gap-4">
-                                            <div className="flex justify-center items-center bg-blue-50 rounded-full w-9 sm:w-11 h-9 sm:h-11 shrink-0">
+                                            <div className="flex justify-center items-center bg-[#423CAD]/10 rounded-full w-9 sm:w-11 h-9 sm:h-11 shrink-0">
                                                 <Icon
                                                     icon="mdi:map-marker-outline"
-                                                    className="text-blue-500 text-lg sm:text-xl md:text-2xl"
+                                                    className="text-[#423CAD] text-lg sm:text-xl md:text-2xl"
                                                 />
                                             </div>
 
                                             <div className="flex-1 min-w-0">
-                                                <div className="font-medium text-gray-800 text-sm sm:text-base break-words leading-6 sm:leading-7">
+                                                <div className="font-medium text-gray-900 dark:text-white text-sm sm:text-base break-words leading-6 sm:leading-7">
                                                     {item.address}
                                                 </div>
 
                                                 <div className="space-y-2 mt-3 sm:mt-4">
-                                                    <div className="flex items-center text-gray-500 text-xs sm:text-sm">
+                                                    <div className="flex items-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                                                         <Icon
                                                             icon="mdi:city"
                                                             className="text-sm sm:text-base"
@@ -121,7 +120,7 @@ export default function Addresses() {
                                                         </span>
                                                     </div>
 
-                                                    <div className="flex items-center text-gray-500 text-xs sm:text-sm">
+                                                    <div className="flex items-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                                                         <Icon
                                                             icon="mdi:postage-stamp-outline"
                                                             className="text-sm sm:text-base"
@@ -145,7 +144,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mynaui:edit"
-                                                            className="text-lg sm:text-xl"
+                                                            className="text-lg sm:text-xl text-[#423CAD]"
                                                         />
                                                     ),
                                                     key: "edit",
@@ -156,7 +155,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mdi:bin"
-                                                            className="text-lg sm:text-xl"
+                                                            className="text-lg sm:text-xl text-red-500"
                                                         />
                                                     ),
                                                     key: "delete",
@@ -170,7 +169,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mynaui:edit"
-                                                            className="text-lg sm:text-xl"
+                                                            className="text-lg sm:text-xl text-[#423CAD]"
                                                         />
                                                     ),
                                                     key: "edit",
@@ -181,7 +180,7 @@ export default function Addresses() {
                                                     icon: (
                                                         <Icon
                                                             icon="mdi:bin"
-                                                            className="text-lg sm:text-xl"
+                                                            className="text-lg sm:text-xl text-red-500"
                                                         />
                                                     ),
                                                     key: "delete",
@@ -204,29 +203,30 @@ export default function Addresses() {
                                     setAddress(undefined);
                                     setShowAddModal(true);
                                 }}
+                                className="w-full sm:w-auto"
                             >
                                 <Icon
                                     icon="mdi:location-plus"
-                                    className="text-lg sm:text-xl"
+                                    className="text-lg sm:text-xl text-[#423CAD]"
                                 />
 
-                                <span>افزودن آدرس جدید</span>
+                                <span className="text-[#423CAD] font-medium">افزودن آدرس جدید</span>
                             </Button>
                         </>
                     ) : (
                         <div className="flex flex-col items-center py-10 sm:py-14 text-center">
-                            <div className="flex justify-center items-center bg-blue-50 rounded-full w-20 sm:w-24 h-20 sm:h-24">
+                            <div className="flex justify-center items-center bg-[#423CAD]/10 rounded-full w-20 sm:w-24 h-20 sm:h-24">
                                 <Icon
                                     icon="mdi:map-marker-off-outline"
-                                    className="text-primary text-4xl sm:text-5xl"
+                                    className="text-[#423CAD] text-4xl sm:text-5xl"
                                 />
                             </div>
 
-                            <h3 className="mt-5 font-bold text-gray-800 text-base sm:text-lg">
+                            <h3 className="mt-5 font-bold text-gray-900 dark:text-white text-base sm:text-lg">
                                 هنوز آدرسی ثبت نشده
                             </h3>
 
-                            <p className="mt-2 max-w-sm text-gray-500 text-xs sm:text-sm leading-6 sm:leading-7">
+                            <p className="mt-2 max-w-sm text-gray-500 dark:text-gray-400 text-xs sm:text-sm leading-6 sm:leading-7">
                                 برای ثبت سفارش و دریافت سریع‌تر محصولات،
                                 اولین آدرس خود را اضافه کنید.
                             </p>
@@ -236,14 +236,14 @@ export default function Addresses() {
                                     setAddress(undefined);
                                     setShowAddModal(true);
                                 }}
-                                
+                                className="mt-4"
                             >
                                 <Icon
                                     icon="mdi:plus"
-                                    className="text-lg sm:text-xl"
+                                    className="text-lg sm:text-xl text-[#423CAD]"
                                 />
 
-                                <span>افزودن آدرس جدید</span>
+                                <span className="text-[#423CAD] font-medium">افزودن آدرس جدید</span>
                             </Button>
                         </div>
                     )}
