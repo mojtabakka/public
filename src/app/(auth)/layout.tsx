@@ -13,15 +13,18 @@ export const viewport = {
     userScalable: false,
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function AuthLayout({ children }: { children: ReactNode }) {
     return (
 
-        <body>
+        <body className="min-h-screen bg-gradient-to-b from-gray-50 via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
             <MuiConfig>
                 <CssBaseline />
                 <Toaster position='bottom-right' />
                 <ReduxProvider>
-                    <div className="bg-gray-100 h-screen" dir="rtl" >
+                    <div
+                        className="min-h-screen flex items-center justify-center px-4 py-8"
+                        dir="rtl"
+                    >
                         {children}
                     </div>
                 </ReduxProvider>
