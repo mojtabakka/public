@@ -28,20 +28,20 @@ export default async function Layout() {
     <div className="bg-gray-50">
       <header className="bg-white shadow-lg px-4">
         <div className="flex flex-col p-1">
-          <div className="flex justify-between items-center text-2xl">
-            <div className="flex items-center gap-2 w-full">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
               <Sidebar categories={categories} />
               <div>
                 <Logo imgClassName="w-[70px] md:w-[105px]" />
               </div>
             </div>
 
-            <div className="hidden md:flex md:justify-center w-full">
+            <div className="hidden md:flex md:flex-1 md:justify-center mt-4 px-16 w-1/2">
               <SearchInput />
             </div>
 
-            <div className="flex w-full">
-              {/* <LoginText /> */}
+            <div className="flex">
+              <LoginText />
             </div>
           </div>
 
@@ -51,7 +51,7 @@ export default async function Layout() {
         </div>
       </header>
 
-      <div className="pt-1">
+      <div className="hidden md:block pt-1">
         <CategoryBox categories={categories} />
       </div>
     </div>
