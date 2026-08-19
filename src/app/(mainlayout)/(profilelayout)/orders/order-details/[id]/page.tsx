@@ -76,7 +76,7 @@ export default function OrderDetails(props: PageProps) {
     return (
         <>
             {!loading && (
-                <div className="max-w-4xl mx-auto space-y-3">
+                <div className="w-full space-y-3">
 
                     {/* Page Header */}
                     <div className="mb-4">
