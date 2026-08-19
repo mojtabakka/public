@@ -1,3 +1,4 @@
+
 import { Card, Skeleton } from '@mui/material';
 import React from 'react';
 
@@ -8,82 +9,82 @@ const SkeletonText = ({ width, height }: { width: number | string, height: numbe
 export default function OrderDetailSkeleton() {
     return (
         <>
-            <Card className="mt-5 !p-3 border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
-                <div className="border dark:border-gray-600 rounded p-2">
-                    <div className="py-2 flex gap-6">
-                        <span className="px-1 text-gray-400 dark:text-gray-500 text-small">
-                            <SkeletonText width={100} height={25} />
-                        </span>
-                        <span className="px-1">
-                            <SkeletonText width={100} height={25} />
-                        </span>
-                    </div>
-                    <div className="py-2 flex gap-6">
-                        <div>
-                            <SkeletonText width={70} height={25} />
-                        </div>
-                        <div>
-                            <SkeletonText width={25} height={25} />
-                        </div>
-                    </div>
+            <Card className="w-full shadow-sm rounded-xl border border-slate-200 dark:border-gray-700 dark:bg-gray-800 overflow-hidden">
+                {/* Header */}
+                <div className="px-4 py-3 border-b border-slate-200 dark:border-gray-700">
+                    <SkeletonText width={180} height={25} />
                 </div>
-            </Card>
 
-            <Card className="mt-2 p-3 border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
-                <div className="border dark:border-gray-600 p-3 rounded">
-                    <div className="py-2 flex gap-6">
-                        <SkeletonText width={70} height={25} />
-                        <SkeletonText width={70} height={25} />
-                    </div>
-                    <div className="py-2 flex gap-6">
-                        <SkeletonText width={70} height={25} />
-                        <SkeletonText width={200} height={25} />
-                    </div>
-                </div>
-            </Card>
+                <div className="p-4 space-y-3">
 
-            <Card className="mt-2 p-3 border border-slate-200 dark:border-gray-700 dark:bg-gray-800">
-                <div className="border dark:border-gray-600 rounded">
-                    <div className="flex justify-between p-2">
-                        <div>
+                    {/* Order Info */}
+                    <Card className="shadow-none !p-4 rounded-lg border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50">
+                        <div className="space-y-3 text-xs md:text-sm">
+                            <div className="py-2 flex gap-6">
+                                <span className="px-1 text-gray-400 dark:text-gray-500 text-small">
+                                    <SkeletonText width={70} height={25} />
+                                    <SkeletonText width={100} height={25} />
+                                </span>
+                                <span className="px-1">
+                                    <SkeletonText width={70} height={25} />
+                                    <SkeletonText width={100} height={25} />
+                                </span>
+                            </div>
+                        </div>
+                    </Card>
+
+                    {/* User Info */}
+                    <Card className="shadow-none !p-4 rounded-lg border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50">
+                        <div className="space-y-3 text-xs md:text-sm">
+                            <div className="py-2 flex gap-6">
+                                <SkeletonText width={70} height={25} />
+                                <SkeletonText width={120} height={25} />
+                            </div>
+                            <div className="py-2 flex gap-6">
+                                <SkeletonText width={70} height={25} />
+                                <SkeletonText width={200} height={25} />
+                            </div>
+                        </div>
+                    </Card>
+
+                    {/* Price Info */}
+                    <Card className="shadow-none !p-5 rounded-lg border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50">
+                        <div className="space-y-3 text-xs md:text-sm">
                             {[...Array(3)].map((_, index) => (
-                                <div key={index} className="py-2 flex gap-6">
+                                <div key={index} className="py-2 flex justify-between gap-6">
                                     <SkeletonText width={70} height={25} />
                                     <SkeletonText width={70} height={25} />
                                 </div>
                             ))}
                         </div>
-                        <SkeletonText width={70} height={25} />
-                    </div>
 
-                    <div className="mt-5 px-3">
-                        <div className="my-2">
-                            <SkeletonText width={70} height={25} />
+                        <div className="mt-5">
+                            <div className="mb-2 inline-block">
+                                <SkeletonText width={100} height={25} />
+                            </div>
+                            <Skeleton variant="rounded" height={10} width="100%" />
                         </div>
-                        <SkeletonText width={70} height={15} />
-                    </div>
+                    </Card>
 
-                    <div className="overflow-x-scroll my-5 rounded-lg">
-                        {Array(1).fill(0).map((_, index) => (
-                            <div key={index} className="flex border dark:border-gray-600 rounded-lg p-5 mx-2 w-full mt-2">
-                                <div className="w-full">
-                                    {[...Array(3)].map((_, idx) => (
-                                        <div key={idx} className="mb-5 flex gap-6">
-                                            <SkeletonText width={70} height={25} />
-                                            <SkeletonText width={70} height={25} />
-                                        </div>
-                                    ))}
-                                    <hr className="dark:border-gray-600" />
-                                    <div className="flex items-center">
-                                        <Skeleton variant="text" width={250} height={250} />
-                                        <div className="p-2 text-right w-full flex flex-col gap-2">
-                                            {[...Array(6)].map((_, idx) => (
-                                                <SkeletonText key={idx} width={70} height={25} />
-                                            ))}
-                                        </div>
+                    {/* Products */}
+                    <div className="space-y-3 text-xs md:text-sm">
+                        {[...Array(2)].map((_, index) => (
+                            <Card key={index} className="shadow-none !p-4 rounded-lg border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50">
+                                <div className="mb-3 flex gap-6">
+                                    <SkeletonText width={70} height={25} />
+                                    <SkeletonText width={70} height={25} />
+                                </div>
+                                <div className="flex border dark:border-gray-600 rounded-lg p-4 gap-4">
+                                    <div className="flex-shrink-0">
+                                        <Skeleton variant="rounded" height={80} width={80} />
+                                    </div>
+                                    <div className="w-full flex flex-col gap-2">
+                                        <SkeletonText width={150} height={25} />
+                                        <SkeletonText width={70} height={25} />
+                                        <SkeletonText width={70} height={25} />
                                     </div>
                                 </div>
-                            </div>
+                            </Card>
                         ))}
                     </div>
                 </div>
