@@ -76,7 +76,7 @@ export default function OrderDetails(props: PageProps) {
     return (
         <>
             {!loading && (
-                <Card className="w-full shadow-sm rounded-xl border border-slate-200 dark:border-gray-700 dark:bg-gray-800 overflow-hidden">
+                <Card className="shadow-sm rounded-xl border border-slate-200 dark:border-gray-700 dark:bg-gray-800 overflow-hidden">
 
                     {/* Page Header */}
                     <div className="px-4 py-3 border-b border-slate-200 dark:border-gray-700">

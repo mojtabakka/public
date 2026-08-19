@@ -78,7 +78,7 @@ export default function OrderDetails() {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-sm mt-5 p-4 lg:p-6 border border-slate-200 dark:border-gray-700 rounded-xl text-sm">
+        <div className="bg-white dark:bg-gray-800 shadow-sm p-4 lg:p-6 border border-slate-200 dark:border-gray-700 rounded-xl text-sm">
             {/* Tabs */}
             <Tab items={TAB_ITEMS} onClick={handleClickTabItem} />
 

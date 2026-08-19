@@ -41,7 +41,7 @@ export default async function Layout() {
             </div>
 
             <div className="flex w-full">
-              <LoginText />
+              {/* <LoginText /> */}
             </div>
           </div>
 

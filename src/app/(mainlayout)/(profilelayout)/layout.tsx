@@ -54,7 +54,7 @@ export default function layout({ children }: { children: ReactNode }) {
                     </Link>
                 </div>
             </div>
-            <div className="col-span-3 rounded">{children}</div>
+            <div className="col-span-3 mt-5 pt-1">{children}</div>
         </div>
     )
 }
