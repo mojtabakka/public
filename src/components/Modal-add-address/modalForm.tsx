@@ -128,7 +128,7 @@ export default function ModalForm(props: PropsType) {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -140,14 +140,14 @@ export default function ModalForm(props: PropsType) {
     >
       <div className="space-y-6 md:px-6 py-0 md:py-5">
         {/* Address Section */}
-        <div className="bg-gray-50/50 p-5 border border-gray-100 rounded-2xl">
+        <div className="bg-gray-50/50 dark:bg-gray-800/50 p-5 border border-slate-200 dark:border-gray-700 rounded-2xl">
           <div className="flex items-center gap-2 mb-5">
             <Icon
               icon="mdi:map-marker-outline"
-              className="text-blue-500 text-xl"
+              className="text-[#423CAD] text-xl"
             />
 
-            <h3 className="font-bold text-gray-800">
+            <h3 className="font-bold text-gray-900 dark:text-white">
               اطلاعات آدرس
             </h3>
           </div>
@@ -194,14 +194,14 @@ export default function ModalForm(props: PropsType) {
         </div>
 
         {/* Building Section */}
-        <div className="p-5 border border-gray-100 rounded-2xl">
+        <div className="p-5 border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50 rounded-2xl">
           <div className="flex items-center gap-2 mb-5">
             <Icon
               icon="mdi:home-outline"
               className="text-orange-500 text-xl"
             />
 
-            <h3 className="font-bold text-gray-800">
+            <h3 className="font-bold text-gray-900 dark:text-white">
               مشخصات ساختمان
             </h3>
           </div>
@@ -239,14 +239,14 @@ export default function ModalForm(props: PropsType) {
         </div>
 
         {/* Receiver Section */}
-        <div className="p-5 border border-gray-100 rounded-2xl">
+        <div className="p-5 border border-slate-200 dark:border-gray-700 dark:bg-gray-800/50 rounded-2xl">
           <div className="flex items-center gap-2 mb-5">
             <Icon
               icon="mdi:account-outline"
               className="text-green-500 text-xl"
             />
 
-            <h3 className="font-bold text-gray-800">
+            <h3 className="font-bold text-gray-900 dark:text-white">
               اطلاعات گیرنده
             </h3>
           </div>
@@ -286,7 +286,7 @@ export default function ModalForm(props: PropsType) {
         </div>
       </div>
 
-      <ModalFooter className="hidden md:flex justify-end bg-white px-6 py-4 border-t">
+      <ModalFooter className="hidden md:flex justify-end bg-white dark:bg-gray-800 px-6 py-4 border-t border-slate-200 dark:border-gray-700">
         <Button
           variant="contained"
           type="submit"
